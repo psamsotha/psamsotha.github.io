@@ -1,0 +1,20 @@
+
+
+//====================
+//  Colors
+//--------------------
+$black: #000;
+$white: #fff;
+$gray: #ccc;
+$gray-lighter: #efefef;
+$gray-lightest: lighten($gray, 20%);
+$gray-darker: darken($gray, 40%);
+$gray-darkest: darken($gray, 60%);
+
+//====================
+//  Base
+//--------------------
+$base-font-family: 'Open Sans Pro', Helvetica, Arial, sans-serif;
+$base-font-size:   16px;
+$base-text-color: $black;
+$base-font-weight: 400;
