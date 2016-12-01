@@ -1,0 +1,17 @@
+{
+  "name": "dev-blog",
+  "version": "1.0.0",
+  "description": "Paul Samsotha's developer blog",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Paul Samsotha <paulsamsotha@gmail.com>",
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "browser-sync": "^2.18.2",
+    "gulp": "^3.9.1",
+    "gulp-shell": "^0.5.2",
+    "lodash": "^4.17.2"
+  }
+}
