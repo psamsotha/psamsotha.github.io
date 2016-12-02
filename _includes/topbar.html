@@ -1,0 +1,25 @@
+<header class="site-header" role="banner" data-page="{{ page.title }}">
+  <div class="topbar">
+    <div class="topbar-container">
+      <a class="topbar-logo" href="{{ site.baseurl }}" title="Home Page">
+        <h2>PEESKILLET.IO</h2>
+      </a>
+      <nav class="topbar-nav-wrapper">
+        <span class="topbar-nav-label" role="button" tabindex="0">Menu</span>
+        <ul class="topbar-nav collapse">
+          {% for site_page in site.pages %}
+            {% if site_page.title %}
+            <li>
+              <a class="topbar-nav-item"
+                 href="{{ site_page.url | prepend: site.baseurl }}"
+                 title="{{ site_page.title }}">
+                {{ site_page.title }}
+              </a>
+            </li>
+            {% endif %}
+          {% endfor %}
+        </ul>
+      </nav>
+    </div>
+  </div>
+</header>

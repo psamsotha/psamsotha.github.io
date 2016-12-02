@@ -14,6 +14,12 @@ dl, dd, ol, ul, figure {
 body {
   font: $base-font-weight #{$base-font-size}/#{$base-line-height} $base-font-family;
   color: $base-text-color;
+  position: relative;
+  min-height: 100%;
+}
+
+* {
+  box-sizing: border-box;
 }
 
 /**
@@ -30,8 +36,13 @@ ul, ol, dl, figure,
  * Headings
  */
 h1, h2, h3, h4, h5, h6 {
-  font-weight: $base-font-weight;
+  font-weight: bold;
 }
+
+/**
+ * Links
+ */
+ a { text-decoration: none; }
 
 
 /**
