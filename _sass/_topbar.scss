@@ -1,3 +1,8 @@
+.site-header {
+  @include clearfix;
+  height: initial;
+  background-color: $black;
+}
 
 .topbar {
   position: absolute;
@@ -74,3 +79,52 @@
     background-color: darken($gray-darkest, 10%);
   }
 }
+
+/**
+ * Larger Screens
+ */
+ @media only screen and (min-width: 768px) {
+   .topbar-nav-label {
+     display: none !important;
+   }
+
+   .topbar {
+     height: initial;
+     padding-top: 10px;
+     padding-bottom: 25px;
+   }
+
+   .topbar-logo {
+     margin-top: 36px;
+   }
+
+   .topbar-nav {
+     position: static;
+     display: flex !important;
+     align-items: stretch;
+     margin-top: 25px;
+     background-color: transparent;
+
+     li {
+       display: flex;
+       margin-left: 1em;
+     }
+   }
+
+   .topbar-container {
+     @include clearfix;
+   }
+
+   .topbar-nav-item {
+     font-size: 22px;
+     line-height: 32px;
+     width: initial;
+     background-color: transparent;
+
+     &:hover, &.active {
+       background-color: transparent;
+       border: 2px solid $white;
+       margin: -2px;
+     }
+   }
+ }
