@@ -2,9 +2,30 @@
 var gulp = require('gulp');
 var shell = require('gulp-shell');
 var browserSync = require('browser-sync').create();
+var svgstore = require('gulp-svgstore');
+var inject = require('gulp-inject');
 
-gulp.task('build', shell.task(['jekyll build']));
-gulp.task('build:watch', shell.task(['jekyll build --watch']));
+/**
+ * Concatenate svg files and inject into svgs.html
+ */
+gulp.task('svgstore', function () {
+  var svgs = gulp
+    .src('./assets/svg/*.svg')
+    .pipe(svgstore({ inlineSvg: true }));
+
+  function fileContents(filepath, file) {
+    return file.contents.toString();
+  }
+
+  return gulp
+    .src('./_includes/svgs.html')
+    .pipe(inject(svgs, { transform: fileContents }))
+    .pipe(gulp.dest('./_includes'));
+});
+
+
+gulp.task('build', ['svgstore'], shell.task(['jekyll build']));
+gulp.task('build:watch', ['svgstore'], shell.task(['jekyll build --watch']));
 
 gulp.task('jekyll-production', function() {
     return process.env.JEKYLL_ENV = 'production';

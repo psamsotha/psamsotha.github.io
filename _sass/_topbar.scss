@@ -41,12 +41,17 @@
 
 .topbar-logo {
   position: absolute;
-  top: 15px;
-  h1 {
-    font-weight: bold;
-  }
-  
-  color: white;
+  top: 22px;
+}
+
+.topbar-logo-svg {
+  height: 24px;
+  width: 100px;
+  fill: white;
+}
+
+#pio-logo {
+  float: left;
 }
 
 .topbar-nav-label {
@@ -95,7 +100,12 @@
    }
 
    .topbar-logo {
-     margin-top: 36px;
+     margin-top: 20px;
+   }
+
+   .topbar-logo-svg {
+     height: 48px;
+     width: 200px;
    }
 
    .topbar-nav {

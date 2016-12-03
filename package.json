@@ -11,7 +11,9 @@
   "devDependencies": {
     "browser-sync": "^2.18.2",
     "gulp": "^3.9.1",
+    "gulp-inject": "^4.1.0",
     "gulp-shell": "^0.5.2",
+    "gulp-svgstore": "^6.1.0",
     "lodash": "^4.17.2"
   }
 }
