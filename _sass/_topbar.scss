@@ -8,14 +8,14 @@
   position: absolute;
   top: 0;
   left: 0;
-  height: 70px;
+  height: $topbar-height;
   width: 100%;
   z-index: 100;
   background-color: $black;
 }
 
 .topbar-container {
-  max-width: 1100px;
+  max-width: $content-lg-max-width;
   margin-left: auto;
   margin-right: auto;
   padding-left: 1em;
@@ -45,8 +45,8 @@
 }
 
 .topbar-logo-svg {
-  height: 24px;
-  width: 100px;
+  height: $logo-height-sm;
+  width: $logo-width-sm;
   fill: white;
 }
 
@@ -88,7 +88,7 @@
 /**
  * Larger Screens
  */
- @media only screen and (min-width: 768px) {
+ @media only screen and (min-width: $breakpoint-sm) {
    .topbar-nav-label {
      display: none !important;
    }
@@ -104,8 +104,8 @@
    }
 
    .topbar-logo-svg {
-     height: 48px;
-     width: 200px;
+     height: $logo-height-lg;
+     width: $logo-width-lg;
    }
 
    .topbar-nav {
