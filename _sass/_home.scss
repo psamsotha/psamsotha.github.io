@@ -1,0 +1,102 @@
+
+.site-home {
+
+  .post-group {
+    margin-top: 4em;
+  }
+
+  .post-group-header {
+    margin-bottom: 1em;
+  }
+  
+  .post-thumb {
+    @include blend-background;
+
+    display: block;    
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+  }
+
+  .post-details {
+    padding: 1em;
+    background-color: $gray-lighter;
+
+    .post-date {
+      font-size: 0.8em;
+      font-style: italic;
+    }
+
+    .post-description {
+      padding-top: 1em;
+    }
+
+    .post-title {
+      a {
+        color: $black;
+
+        &:hover { color: $gray-darker; }
+      }
+    }
+  }
+}
+
+/**
+ * Latest Post
+ */
+.latest-post {
+
+  .latest-post-link {
+    height: 250px;
+    padding: 1em;
+    position: relative;
+  }
+
+  .post-info {
+    position: absolute;
+    bottom: 0;
+  }
+
+  .latest-post-title {
+    @include medium-bold-font;
+    color: $white;
+    
+    h2 {
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
+  }
+
+  .latest-post-date {
+    color: $gray-lightest;
+    font-style: italic;
+    font-size: 14px;
+  }
+}
+
+@media only screen and (min-width: 540px) {
+  .latest-post {
+    .latest-post-link {
+      height: 300px;
+    }
+  }
+}
+
+@media only screen and (min-width: $breakpoint-md) {
+  .latest-post {
+
+    .latest-post-link {
+      height: 480px;
+    }
+
+    .latest-post-title {
+      h2 {
+        font-size: 32px;
+      }
+    }
+
+    .latest-post-date {
+      font-size: 16px;
+    }
+  }
+}

@@ -7,7 +7,7 @@
 }
 
 .footer-logo {
-  padding-left: 1em;
+  @include strip-row-padding;
 
   .footer-logo-icon {
     fill: $gray;
@@ -63,14 +63,10 @@
 }
 
 
-@media only screen and (min-width: $breakpoint-sm) {
+@media only screen and (min-width: $breakpoint-md) {
   .site-footer {
     padding-top: 2em;
     padding-bottom: 2em;
-  }
-
-  .site-footer-container {
-    max-width: $content-lg-max-width;
   }
 
   .footer-social {

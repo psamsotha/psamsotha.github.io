@@ -2,3 +2,11 @@
 .collapse {
   display: none;
 }
+
+.clickable {
+  cursor: pointer;
+}
+
+.site-constraint {
+  @include site-constraint;
+}

@@ -11,3 +11,21 @@
   padding-left: 0;
   padding-right: 0;
 }
+
+@mixin blend-background($color: $gray) {
+  background-color: $color;
+  background-blend-mode: multiply;
+}
+
+@mixin medium-bold-font() {
+  font-size: 1.5em;
+  font-weight: bold;
+}
+
+@mixin site-constraint {
+  max-width: $content-lg-max-width;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1em;
+  padding-right: 1em;  
+}

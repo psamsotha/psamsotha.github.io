@@ -14,14 +14,6 @@
   background-color: $black;
 }
 
-.topbar-container {
-  max-width: $content-lg-max-width;
-  margin-left: auto;
-  margin-right: auto;
-  padding-left: 1em;
-  padding-right: 1em;
-}
-
 .topbar-nav-wrapper {
   float: right;
   margin-left: auto;
@@ -88,7 +80,7 @@
 /**
  * Larger Screens
  */
- @media only screen and (min-width: $breakpoint-sm) {
+ @media only screen and (min-width: $breakpoint-md) {
    .topbar-nav-label {
      display: none !important;
    }

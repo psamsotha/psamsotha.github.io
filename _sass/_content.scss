@@ -3,3 +3,9 @@
   padding-top: $topbar-height;
   padding-bottom: 60px;
 }
+
+@media only screen and (min-width: $breakpoint-md) {
+  .main-content {
+    padding-top: $topbar-height + 75px;
+  }
+}
