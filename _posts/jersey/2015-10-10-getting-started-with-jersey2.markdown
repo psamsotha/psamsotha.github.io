@@ -3,6 +3,7 @@ layout: post
 title:  "Getting Started with Jersey 2"
 categories: jersey
 description: "Quickly create a running Jersey 2 application from scratch"
+featured: true
 tags: jersey jersey-2.0
 ---
 

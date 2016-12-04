@@ -4,6 +4,7 @@ title: "Jersey Configuration Properties"
 description: "A few different ways to work with configuration properties in Jersey"
 categories: jersey
 thumb: "abandoned-chair"
+featured: true
 tags: jersey jersey-2.0
 ---
 

@@ -4,22 +4,43 @@ title: Home
 ---
 
 <div class="site-home">
-  <div class="home-wrapper">
-    <div class="post-groups">
-      <div class="latest-post post-group">
-        <h2 class="post-group-header">LATEST POST</h2>
-        {% assign post = site.posts.first %}
-        <a href="{{ post.url |prepend: site.baseurl }}" class="clickable">
-          <div class="latest-post-link post-thumb"
-               style="background-image: linear-gradient(to bottom, rgba(0,0,0,0) 0%,rgba(0,0,0,0.01) 2%,#29383E 100%), url('{{ site.baseurl }}/assets/images/{{ post.thumb }}-lg.jpg')">
-            <div class="post-info">
-              <div class="latest-post-title">
-                <h2>{{ post.title }}</h2>
-              </div>
-              <p class="latest-post-date">{{ post.date | date: "%B %-d, %Y" }}</p>
+  <div class="post-groups">
+    <div class="latest-post post-group">
+      <h2 class="post-group-header">LATEST POST</h2>
+      {% assign post = site.posts.first %}
+      <a href="{{ post.url |prepend: site.baseurl }}" class="clickable">
+        <div class="latest-post-link"
+              style="background-image: linear-gradient(to bottom, rgba(0,0,0,0) 0%,rgba(0,0,0,0.01) 2%,#29383E 100%), url('{{ site.baseurl }}/assets/images/{{ post.thumb }}-lg.jpg')">
+          <div class="post-info">
+            <div class="latest-post-title">
+              <h2>{{ post.title }}</h2>
             </div>
+            <p class="latest-post-date">{{ post.date | date: "%B %-d, %Y" }}</p>
           </div>
-        </a>
+        </div>
+      </a>
+    </div>
+
+    <div class="featured-posts post-group">
+      <h2 class="post-group-header">FEATURED POSTS</h2>
+      <div class="featured-posts-group row expanded" data-equalizer>
+        {% assign featured_posts = (site.posts | where: "featured","true") %}
+        {% for post in featured_posts | limit: '4' %}
+          <div class="featured-post small-12 medium-6 large-4 columns" data-equalizer-watch> 
+            <a href="{{ post.url | prepend: site.baseurl }}" class="clickable">
+              <div class="post-thumb"
+                 style="background-image: linear-gradient(to bottom, rgba(0,0,0,0) 0%,rgba(0,0,0,0.01) 2%,#29383E 100%), url('{{ site.baseurl }}/assets/images/{{ post.thumb }}-lg.jpg')">
+              </div>
+              <div class="featured-details post-details">      
+                <h2 class="post-title">                
+                  {{ post.title }}
+                </h2>
+                <p class="post-date">{{ post.date | date: "%B %-d, %Y" }}</p>
+                <p class="post-description">{{ post.description | truncatewords: '20' }}</p> 
+              </div>
+            </a>
+          </div>
+        {% endfor %}
       </div>
     </div>
   </div>

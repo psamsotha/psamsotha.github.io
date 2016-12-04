@@ -3,6 +3,8 @@ layout: post
 title: "Request Scoped Injection into a Singleton with and Jersey"
 description: "How we can inject request scoped objects into singleton objects when using Jersey2 and its DI framework HK2"
 categories: jersey
+featured: true
+thumb: "bus-stop"
 tags: jersey jersey-2.0 dependency-injection hk2
 ---
 

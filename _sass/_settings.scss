@@ -6,8 +6,8 @@
 $black: #000;
 $white: #fff;
 $gray: #ccc;
-$gray-lighter: #efefef;
-$gray-lightest: lighten($gray, 20%);
+$gray-lighter: #dbdbdb;
+$gray-lightest: #e7e7e7;
 $gray-darker: darken($gray, 40%);
 $gray-darkest: darken($gray, 60%);
 
@@ -31,7 +31,10 @@ $logo-height-sm: 24px;
 $logo-width-lg: 200px;
 $logo-height-lg: 48px;
 
-$breakpoint-md: 768px;
+$breakpoint-md: 640px;
+$breakpoint-lg: 1024px;
 
 $content-lg-max-width: 1100px;
 $content-top-margin: 3em;
+
+$post-heading-size-sm: 20px;

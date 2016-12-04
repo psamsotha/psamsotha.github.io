@@ -6,21 +6,19 @@
   }
 
   .post-group-header {
+    text-align: center;
     margin-bottom: 1em;
   }
   
   .post-thumb {
     @include blend-background;
+    @include centered-image;
 
-    display: block;    
-    background-size: cover;
-    background-position: center center;
-    background-repeat: no-repeat;
+    display: none;   
+    height: 12rem; 
   }
 
   .post-details {
-    padding: 1em;
-    background-color: $gray-lighter;
 
     .post-date {
       font-size: 0.8em;
@@ -28,15 +26,13 @@
     }
 
     .post-description {
-      padding-top: 1em;
+      margin-bottom: 0;
     }
 
     .post-title {
-      a {
-        color: $black;
-
-        &:hover { color: $gray-darker; }
-      }
+      line-height: 1.2;
+      margin-bottom: 3px;
+      font-size: $post-heading-size-sm;
     }
   }
 }
@@ -47,6 +43,9 @@
 .latest-post {
 
   .latest-post-link {
+    @include blend-background;
+    @include centered-image;
+
     height: 250px;
     padding: 1em;
     position: relative;
@@ -62,8 +61,8 @@
     color: $white;
     
     h2 {
-      font-size: 20px;
-      margin-bottom: 10px;
+      font-size: $post-heading-size-sm;
+      margin-bottom: 2px;
     }
   }
 
@@ -71,6 +70,35 @@
     color: $gray-lightest;
     font-style: italic;
     font-size: 14px;
+  }
+}
+
+/**
+ * Featured Posts
+ */
+.featured-posts {
+  
+  .featured-posts-group {
+    margin-top: -1rem;
+  }
+
+  .featured-post {
+    @include strip-row-padding;
+    color: $black;
+
+    &:last-child {
+      display: none;
+    }
+
+    &:hover {
+      background-color: $gray;
+    }
+
+    a {
+      display: block;
+      color: $black;
+      padding: 1rem;
+    }
   }
 }
 
@@ -82,21 +110,98 @@
   }
 }
 
+@media only screen and (min-width: 768px) {
+  .latest-post {
+    .latest-post-link {
+      height: 375px;
+    }
+  }
+}
+
+@media only screen and (min-width: 960px) {
+  .latest-post {
+    .latest-post-link {
+      height: 425px;
+    }
+  }
+}
+
 @media only screen and (min-width: $breakpoint-md) {
   .latest-post {
 
-    .latest-post-link {
-      height: 480px;
-    }
-
     .latest-post-title {
       h2 {
-        font-size: 32px;
+        font-size: 24px;
       }
     }
 
     .latest-post-date {
       font-size: 16px;
+    }
+  }
+
+  .featured-posts {
+    .featured-post {
+      &:last-child {
+        display: block;
+      }
+    }
+  }
+}
+
+@media only screen and (min-width: $breakpoint-lg) {
+  .site-home {
+    .post-group-header {
+       text-align: start;
+    }
+
+    .latest-post-link {
+      height: 480px;
+    }
+
+    .post-thumb {
+      display: block;
+    }
+
+    .post-details {
+      padding: 1rem;
+      background-color: $gray-lightest;
+    }
+  }
+
+  .latest-post-title {
+    h2 {
+      font-size: 32px;
+    }
+  }
+
+  .featured-posts {
+
+    .featured-posts-group {
+      margin-left: -1rem;
+      margin-right: -1rem;
+    }
+
+    .featured-post {
+
+      &:hover {
+        background-color: $white;
+      }
+
+      &:last-child {
+        display: none;
+      }
+
+      a {
+        display: flex;
+        height: 100%;
+        flex-flow: column;
+        &:hover { background-color: $white; }
+      }
+
+      .featured-details {
+        flex: 1;
+      }
     }
   }
 }
