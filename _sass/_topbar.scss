@@ -1,7 +1,16 @@
+
+.page-topbar {
+  background-color: $black;
+}
+
+.post-topbar {
+  background-color: transparent;
+}
+
 .site-header {
   @include clearfix;
   height: initial;
-  background-color: $black;
+  // background-color: $black;
 }
 
 .topbar {
@@ -11,7 +20,7 @@
   height: $topbar-height;
   width: 100%;
   z-index: 100;
-  background-color: $black;
+  // background-color: $black;
 }
 
 .topbar-nav-wrapper {

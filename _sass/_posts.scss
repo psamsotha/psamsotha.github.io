@@ -1,0 +1,36 @@
+
+.post-banner {
+  @include blend-background;
+  @include centered-image;
+
+  margin-top: -$topbar-height;
+  margin-left: -$common-main-padding;
+  margin-right: -$common-main-padding;
+  padding-top: $topbar-height;
+
+  text-align: center;
+  color: $white;
+
+  .post-title {
+    @include site-constraint;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    line-height: 38px;
+
+    .post-title-text {
+      text-transform: uppercase;
+      font-weight: bold;
+      font-size: 36px;
+    }
+  }
+
+  .post-subtitle {
+    font-size: 14px;
+    font-style: italic;
+  }
+
+  .post-banner-container {
+    padding: 4rem 0.5rem 4rem;
+  }
+}
+

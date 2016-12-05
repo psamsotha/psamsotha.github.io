@@ -6,12 +6,14 @@
   <body>
     {% include svgs.html %}
 
-    {% include topbar.html %}
+    {% if page.header_type == 'page' %}
+      {% include topbar.html bg_class="page-topbar" %}
+    {% else %}
+      {% include topbar.html bg_class="post-topbar" %}
+    {% endif %}
 
     <div class="main-content site-constraint">
-      <div class="wrapper">
-        {{ content }}
-      </div>
+      {{ content }}
     </div>
 
     {% include footer.html %}
