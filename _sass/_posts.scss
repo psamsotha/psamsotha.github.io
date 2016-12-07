@@ -97,6 +97,11 @@
   }
 }
 
+.disqus-comments {
+  margin-top: 3em;
+}
+
+
 @media only screen and (min-width: 768px) {
   .post-content {
     padding-left: 6rem;
@@ -117,7 +122,6 @@
     padding-right: 10rem;
   }
 }
-
 
 @media only screen and (min-width: $breakpoint-lg) {
   .post-content {

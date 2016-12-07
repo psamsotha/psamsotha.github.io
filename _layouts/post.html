@@ -23,6 +23,15 @@ layout: default
 
   <article class="post-content">
     {{ content }}
+
+    <div class="disqus-comments">
+      {% if jekyll.environment == "production" %}
+        {% include disqus.html %}
+      {% endif %}
+    </div>
+
+    <script id="dsq-count-scr" src="//peeskillet-io.disqus.com/count.js" async></script>
+
   </article>
 
 
