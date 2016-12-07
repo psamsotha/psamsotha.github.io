@@ -102,7 +102,7 @@
   }
 }
 
-@media only screen and (min-width: 540px) {
+@media only screen and (min-width: $breakpoint-xs) {
   .latest-post {
     .latest-post-link {
       height: 300px;
@@ -110,7 +110,7 @@
   }
 }
 
-@media only screen and (min-width: 768px) {
+@media only screen and (min-width: $breakpoint-md) {
   .latest-post {
     .latest-post-link {
       height: 375px;
@@ -118,7 +118,7 @@
   }
 }
 
-@media only screen and (min-width: 960px) {
+@media only screen and (min-width: $breakpoint-lg) {
   .latest-post {
     .latest-post-link {
       height: 425px;
@@ -126,7 +126,7 @@
   }
 }
 
-@media only screen and (min-width: $breakpoint-md) {
+@media only screen and (min-width: $breakpoint-sm) {
   .latest-post {
 
     .latest-post-title {
@@ -148,6 +148,7 @@
     }
   }
 }
+
 
 @media only screen and (min-width: $breakpoint-lg) {
   .site-home {

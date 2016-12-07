@@ -25,6 +25,7 @@
   }
 
   .post-subtitle {
+    margin-top: 0.5em;
     font-size: 14px;
     font-style: italic;
   }
@@ -75,14 +76,48 @@
   }
 }
 
+.disqus-comments {
+  margin-top: 3em;
+}
+
 @media only screen and (min-width: $breakpoint-md) {
   .post {
     margin-top: -$header-clear-size;
+  }
+
+  .post-content {
+    padding-left: 5rem;
+    padding-right: 5rem;
   }
   
   .post-banner {
     padding-top: $header-clear-size;
 
+    .post-title {
+      .post-title-text {
+        font-size: 48px;
+        line-height: 52px;
+      }
+    }
+
+    .post-subtitle {
+      margin-top: 2em;
+      font-size: 16px;
+    }
+  }
+}
+
+@media only screen and (min-width: $breakpoint-md + 80px) {
+  .post-content {
+    padding-left: 8rem;
+    padding-right: 8rem;
+  }
+}
+
+
+
+@media only screen and (min-width: $breakpoint-lg) {
+  .post-banner {
     .post-title {
       .post-title-text {
         font-size: 64px;
@@ -92,42 +127,13 @@
 
     .post-subtitle {
       margin-top: 4em;
-      font-size: 16px;
     }
   }
-}
 
-.disqus-comments {
-  margin-top: 3em;
-}
-
-
-@media only screen and (min-width: 768px) {
-  .post-content {
-    padding-left: 6rem;
-    padding-right: 6rem;
-  }
-}
-
-@media only screen and (min-width: 840px) {
-  .post-content {
-    padding-left: 8rem;
-    padding-right: 8rem;
-  }
-}
-
-@media only screen and (min-width: 960px) {
-  .post-content {
-    padding-left: 10rem;
-    padding-right: 10rem;
-  }
-}
-
-@media only screen and (min-width: $breakpoint-lg) {
   .post-content {
     font-size: 18px;
-
-    pre { font-size: 16px; }
+    padding-left: 10rem;
+    padding-right: 10rem;
   }
 }
 
