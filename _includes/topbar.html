@@ -9,17 +9,27 @@
       <nav class="topbar-nav-wrapper">
         <span class="topbar-nav-label" role="button" tabindex="0">Menu</span>
         <ul class="topbar-nav collapse">
-          {% for site_page in site.pages %}
-            {% if site_page.title %}
-            <li>
-              <a class="topbar-nav-item"
-                 href="{{ site_page.url | prepend: site.baseurl }}"
-                 title="{{ site_page.title }}">
-                {{ site_page.title }}
-              </a>
-            </li>
-            {% endif %}
-          {% endfor %}
+          <li>
+            <a class="topbar-nav-item"
+                href="{{ site.baseurl }}{% link index.html %}"
+                title="Home">
+              Home
+            </a>
+          </li>
+          <li>
+            <a class="topbar-nav-item"
+                href="{{ site.baseurl }}{% link archive/index.html %}"
+                title="Archive">
+              Archive
+            </a>
+          </li>
+          <li>
+            <a class="topbar-nav-item"
+                href="{{ site.baseurl }}{% link contact/index.html %}"
+                title="Contact">
+              Contact
+            </a>
+          </li>
         </ul>
       </nav>
     </div>
