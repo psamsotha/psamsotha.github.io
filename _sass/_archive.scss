@@ -1,0 +1,35 @@
+
+.archive-container {
+  margin-top: 3em;
+}
+
+.archive-title {
+  text-align: center;
+}
+
+.archive-heading {
+  text-transform: uppercase;
+}
+
+.archive-post {
+  @include strip-row-padding;
+
+  padding: 1em;
+  display: block;
+  color: black;
+
+  &:hover {
+    background-color: $gray;
+  }
+}
+
+@media only screen and (min-width: $breakpoint-lg) {
+  .archive-title {
+    text-align: start;
+  }
+
+  .archive-posts {
+    margin-left: -1em;
+    margin-right: -1em;
+  }
+}
