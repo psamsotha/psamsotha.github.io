@@ -23,6 +23,49 @@
   }
 }
 
+.pagination {
+  @include clearfix;
+  margin-top: 2rem;
+
+  .page-action {
+    font-size: 20px;
+    padding: 1rem;
+    display: inline-block;
+  }
+
+  .pagination-icon {
+    fill: black;
+    width: 20px;
+    height: 20px;
+
+    position: relative;
+    top: 4px;
+  }
+
+  .previous {
+    margin-left: -5px;
+  }
+
+  .next {
+    float: right;
+  }
+
+  .pagination-disabled {
+    color: $gray;
+
+    .pagination-icon {
+      fill: $gray;
+    }
+  }
+
+  a {
+    color: black;
+    &:hover {
+      background-color: $gray;
+    }
+  }
+}
+
 @media only screen and (min-width: $breakpoint-lg) {
   .archive-title {
     text-align: start;
@@ -31,5 +74,15 @@
   .archive-posts {
     margin-left: -1em;
     margin-right: -1em;
+  }
+
+  .pagination {
+    margin-left: -1em;
+    margin-right: -1em;
+    text-align: center;
+
+    .next {
+      float: none;
+    }
   }
 }

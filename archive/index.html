@@ -1,0 +1,27 @@
+---
+title: Archive
+layout: default
+header_type: page
+---
+
+<main class="archive">
+  <div class="archive-container site-constraint">
+    <div class="archive-title">
+      <h2 class="archive-heading">All Posts</h2>
+    </div>
+    <div class="archive-posts row expanded" data-equalizer>
+      {% for post in paginator.posts %}
+        <a class="archive-post post-details columns small-12 medium-6 large-4" data-equalizer-watch
+            href="{{ post.url | prepend: site.baseurl }}">
+          <h2 class="post-title">                
+            {{ post.title }}
+          </h2>
+          <p class="post-date">{{ post.date | date: "%B %-d, %Y" }}</p>
+          <p class="post-description">{{ post.description | truncatewords: '20' }}</p> 
+        </a>
+      {% endfor %}
+    </div>
+
+    {% include pagination.html %}
+  </div>
+</main>

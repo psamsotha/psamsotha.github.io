@@ -1,0 +1,33 @@
+<div class="pagination">
+  {% if paginator.previous_page %}
+    <a href="{{ paginator.previous_page_path | prepend: site.baseurl }}" class="previous page-action">
+      <svg class="pagination-icon">
+        <use xlink:href="#back-arrow"></use>
+      </svg>
+      Previous
+    </a>
+  {% else %}
+    <span class="previous pagination-disabled page-action">
+      <svg class="pagination-icon">
+        <use xlink:href="#back-arrow"></use>
+      </svg>
+      Previous
+    </span>
+  {% endif %}
+  
+  {% if paginator.next_page %}
+    <a href="{{ paginator.next_page_path | prepend: site.baseurl }}" class="next page-action">
+      Next
+      <svg class="pagination-icon">
+        <use xlink:href="#forward-arrow"></use>
+      </svg>
+    </a>
+  {% else %}
+    <span class="next pagination-disabled page-action">
+      Next
+      <svg class="pagination-icon">
+        <use xlink:href="#forward-arrow"></use>
+      </svg>
+    </span>
+  {% endif %}
+</div>
