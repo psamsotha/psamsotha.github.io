@@ -1,0 +1,54 @@
+
+.contact-container {
+  margin-top: 3em;
+}
+
+.contact-title {
+  text-align: center;
+}
+
+.contact-heading {
+  text-transform: uppercase;
+}
+
+.contact-item {
+  @include strip-row-padding;
+  padding: 1em;
+  margin-bottom: 1em;
+  text-align: center;
+}
+
+.contact-icon {
+  height: 16px;
+  width: 16px;
+  position: relative;
+  top: 4px;
+}
+
+.contact-text {
+  font-size: 16px;
+  padding-left: 5px;
+}
+
+@media only screen and (min-width: $breakpoint-sm) {
+  .contact-icon {
+    height: 20px;
+    width: 20px;
+  }
+
+  .contact-text {
+    font-size: 20px;
+    padding-left: 5px;
+  }
+}
+
+@media only screen and (min-width: $breakpoint-lg) {
+  .contact-title {
+    text-align: center;
+  }
+
+  .contact-items {
+    margin-left: -1em;
+    margin-right: -1em;
+  }
+}
