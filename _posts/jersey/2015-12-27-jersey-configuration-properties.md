@@ -133,7 +133,7 @@ One limitation of the above implementation is that it doesn't allow for method p
 
 [3]: https://hk2.java.net/apidocs/org/glassfish/hk2/api/InjectionResolver.html
 [4]: https://gist.github.com/psamsotha/981796428ed736977eed
-[5]: http://paulsamsotha.blogspot.com/2015/11/custom-method-parameter-injection-in.html
+[5]: {{ site.baseurl }}{% link _posts/jersey/2015-11-01-jersey-method-parameter-injection.md %}
 
 <a name="jerseyProps"></a>
 

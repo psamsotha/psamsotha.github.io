@@ -119,6 +119,6 @@ On start up, Jersey will try to inject the resource, and will fail as expected, 
 
 [1]: https://docs.oracle.com/javaee/7/api/javax/inject/Provider.html
 
-[2]: http://paulsamsotha.blogspot.com/2015/12/dynamic-proxies-and-dependency-injection.html
+[2]: {{ site.baseurl }}{% link _posts/jersey/2015-12-16-dynamic-proxies-dependency-injection.md %}
 
 [3]: https://gist.github.com/psamsotha/fd77d9bf9f5362453ac0f8bad9fdd751
