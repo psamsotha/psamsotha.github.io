@@ -1,5 +1,8 @@
 
 .site-footer {
+  height: $footer-height;
+  position: relative;
+
   padding-top: 2em;
   padding-bottom: 2em;
   color: $gray;
@@ -64,4 +67,9 @@
   p {
     margin-bottom: 0;
   }
+}
+
+.clearfooter {
+  height: $footer-height;
+  clear: both;
 }

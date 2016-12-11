@@ -1,7 +1,14 @@
 
 .main-content {
+  min-height: 100%;
+  margin-bottom: -$footer-height;
+  position: relative;
+
   padding-top: $topbar-height;
   padding-bottom: 60px;
+}
+.main-content {
+
 }
 
 @media only screen and (min-width: $breakpoint-md) {
