@@ -3,6 +3,7 @@ layout: post
 title: "Using Spring With Jersey?"
 description: "Some benefits of why I use Spring with Jersey, with some examples"
 categories: jersey
+thumb: walkway-bridge
 tags: spring jersey
 ---
 
