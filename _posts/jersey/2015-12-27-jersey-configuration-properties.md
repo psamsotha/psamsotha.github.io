@@ -1,7 +1,7 @@
 ---
 layout: post
-title: "Jersey Configuration Properties"
-description: "A few different ways to work with configuration properties in Jersey"
+title: "Working with Jersey Configuration Properties"
+description: "A few different ways of how we can use configuration properties in a Jersey application."
 categories: jersey
 thumb: "abandoned-chair"
 featured: true

@@ -1,8 +1,8 @@
 ---
 layout: post
-title:  "Getting Started with Jersey 2"
+title:  "Getting Started with Jersey 2 using Maven"
 categories: jersey
-description: "Quickly create a running Jersey 2 application from scratch"
+description: "Quickly create a running Jersey 2 application from scratch using a Maven archetype."
 featured: true
 thumb: train-station
 tags: jersey jersey-2.0

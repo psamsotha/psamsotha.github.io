@@ -1,7 +1,7 @@
 ---
 layout: post
-title: "Using Spring With Jersey?"
-description: "Some benefits of why I use Spring with Jersey, with some examples"
+title: "Why and How to Use Spring With Jersey?"
+description: "Some benefits of why we should use Spring with Jersey, along with some examples."
 categories: jersey
 thumb: walkway-bridge
 tags: spring jersey

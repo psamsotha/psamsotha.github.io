@@ -2,7 +2,7 @@
 layout: post
 categories: jersey
 title: "HTTP Caching with Jersey (and JAX-RS)"
-description: "How we can use HTTP caching semantics with Jersey and JAX-RS"
+description: "Learn about HTTP caching semantics and how we can implement it in Jersey (and JAX-RS)."
 thumb: chains
 tags: jersey jersey-2.0 jax-rs
 ---

@@ -1,7 +1,7 @@
 ---
 layout: post
-title: "Creating Reusable Jersey Extensions"
-description: "How we can create reusable extension when working with Jersey"
+title: "Creating Reusable Jersey Extensions (Features)"
+description: "How we can implement reusable extensions (features) when working with Jersey 2."
 categories: jersey
 thumb: underground-tunnel
 tags: jersey jersey-2.0

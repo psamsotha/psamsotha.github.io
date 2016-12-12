@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Dynamic Proxies and Dependency Injection"
-description: "How dynamic proxies work in Java and how they can be used with dependency injection"
+description: "How dynamic proxies work in Java and how they can be used with dependency injection."
 categories: jersey
 featured: true
 thumb: "donald-duck"
