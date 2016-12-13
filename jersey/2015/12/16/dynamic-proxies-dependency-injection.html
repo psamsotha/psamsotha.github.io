@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- favicon stuff -->
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32">
+  <link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="apple-mobile-web-app-title" content="Peeskillet">
+  <meta name="application-name" content="Peeskillet">
+  <meta name="theme-color" content="#ffffff">
+  <!-- end favicon -->
+
+  <title>Dynamic Proxies and Dependency Injection</title>
+  <meta name="description" content="In this article, I will discuss how dynamic proxies work in the Java platform and how dependency injection takes advantage of this Java feature. This writing...">
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="canonical" href="http://yourdomain.com/jersey/2015/12/16/dynamic-proxies-dependency-injection.html">
+  <link rel="alternate" type="application/rss+xml" title="Paul Samsotha Blog" href="http://yourdomain.com/feed.xml">
+</head>
+
+
+  <body>
+    <div style="height: 0; width: 0; position: absolute; visibility: hidden">
+  <!-- inject:svg --><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><symbol id="back-arrow" viewBox="0 0 512 512"><polygon points="352,128.4 319.7,96 160,256 160,256 160,256 319.7,416 352,383.6 224.7,256 "/></symbol><symbol id="email" viewBox="0 0 512 512"><path d="M484.748,96.359H27.439h-3.966h-9.625h-6.63v318.585H505V96.359h-17.218H484.748z M464.837,116.271  L272.529,308.578c-8.769,8.769-24.073,8.769-32.842,0L47.35,116.271H464.837z M27.128,124.203l129.287,129.268L27.128,382.759  V124.203z M43.014,395.029l127.489-127.47l55.106,55.097c8.138,8.148,18.978,12.64,30.499,12.64c11.521,0,22.361-4.492,30.499-12.64  l55.106-55.106l127.479,127.479H43.014z M485.089,382.769L355.801,253.472l129.287-129.297V382.769z" fill="#37404D"/></symbol><symbol id="forward-arrow" viewBox="0 0 512 512"><polygon points="160,128.4 192.3,96 352,256 352,256 352,256 192.3,416 160,383.6 287.3,256 "/></symbol><symbol id="github-plain" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></symbol><symbol id="pio-logo" viewBox="0 0 145.87 34.95">
+  <g>
+    <path d="M33.28,38.85a3.29,3.29,0,0,0-.11-1,1.73,1.73,0,0,1-.11-0.56,0.68,0.68,0,0,1,.38-0.59,1.65,1.65,0,0,1,.89-0.23,2.9,2.9,0,0,1,1.93.62A1.91,1.91,0,0,1,37,38.62V54.3a8.43,8.43,0,0,0,1.86-.47,12,12,0,0,0,2.14-1,12.82,12.82,0,0,0,2.14-1.65A11.56,11.56,0,0,0,45,48.84a12.38,12.38,0,0,0,1.32-3,12.54,12.54,0,0,0,.5-3.67,9.82,9.82,0,0,0-.43-2.81A7.93,7.93,0,0,0,45,36.74a7.31,7.31,0,0,0-2.43-2A7.72,7.72,0,0,0,39,34a12.43,12.43,0,0,0-4.94.89,9.18,9.18,0,0,0-3.36,2.39,9.52,9.52,0,0,0-1.91,3.48,14.15,14.15,0,0,0-.61,4.18,11.37,11.37,0,0,0,.27,2.68,9.62,9.62,0,0,0,.6,1.78,4.75,4.75,0,0,0,.61,1L30,50.8a0.49,0.49,0,0,1,.56.09,0.89,0.89,0,0,1,.16.56,3.42,3.42,0,0,1-.22,1,5.43,5.43,0,0,1-.6,1.23,2.7,2.7,0,0,1-.87.87,0.83,0.83,0,0,1-1-.11,12.46,12.46,0,0,1-.87-0.94A9,9,0,0,1,26,51.68a15,15,0,0,1-1-2.74,14,14,0,0,1-.45-3.71,16.83,16.83,0,0,1,1.05-6.11,13.55,13.55,0,0,1,3-4.68,13.09,13.09,0,0,1,4.56-3A15.7,15.7,0,0,1,39,30.39a12.62,12.62,0,0,1,4.77.87,10.51,10.51,0,0,1,3.66,2.43,10.76,10.76,0,0,1,2.33,3.71,13.14,13.14,0,0,1,.82,4.71,14.74,14.74,0,0,1-1.12,5.8,16.53,16.53,0,0,1-3,4.72A17.11,17.11,0,0,1,37,57.91v6.33a0.92,0.92,0,0,1-.4.86,1.75,1.75,0,0,1-.94.25,3.14,3.14,0,0,1-.84-0.12,3.52,3.52,0,0,1-.76-0.3,2.15,2.15,0,0,1-.56-0.43A0.77,0.77,0,0,1,33.28,64V38.85Z" transform="translate(-24.53 -30.39)"/>
+    <path d="M63.13,50a8.85,8.85,0,0,1-.46,2.74,9.64,9.64,0,0,1-1.36,2.66,10.47,10.47,0,0,1-2.23,2.25A9.57,9.57,0,0,1,56,59.2a5.37,5.37,0,0,0,.62,1.16,4.11,4.11,0,0,0,.93.95,4.4,4.4,0,0,0,1.25.63,5.3,5.3,0,0,0,1.65.23,5.15,5.15,0,0,0,2.41-.53,5.27,5.27,0,0,0,1.7-1.39,7.46,7.46,0,0,0,1.11-1.95,12.34,12.34,0,0,0,.63-2.18A1.45,1.45,0,0,1,67,55.06a1.37,1.37,0,0,1,1-.13,1.79,1.79,0,0,1,.91.6,1.38,1.38,0,0,1,.32,1.09A16.38,16.38,0,0,1,69,58.28a10,10,0,0,1-.67,1.9,10.62,10.62,0,0,1-1.14,1.89,7.77,7.77,0,0,1-1.7,1.65,8.59,8.59,0,0,1-2.37,1.17,10,10,0,0,1-3.12.45,8.13,8.13,0,0,1-3.18-.64,8.24,8.24,0,0,1-2.72-1.85,9,9,0,0,1-1.9-3,10.66,10.66,0,0,1-.71-4,13.68,13.68,0,0,1,.63-4.23,12.12,12.12,0,0,1,1.66-3.39A8.23,8.23,0,0,1,56.1,46a5.08,5.08,0,0,1,2.7-.81,4.51,4.51,0,0,1,1.82.35,3.81,3.81,0,0,1,1.37,1,4.39,4.39,0,0,1,.86,1.54A6.27,6.27,0,0,1,63.13,50ZM55.4,55.7a3.82,3.82,0,0,0,0,.42,4,4,0,0,1,0,.45,6.64,6.64,0,0,0,1.62-1.08A6.76,6.76,0,0,0,58.31,54a7.33,7.33,0,0,0,.8-1.84,7.6,7.6,0,0,0,.28-2.07,2.4,2.4,0,0,0-.27-1.24,0.83,0.83,0,0,0-.74-0.45,1.54,1.54,0,0,0-1,.4,3.57,3.57,0,0,0-.8,1A7.22,7.22,0,0,0,56,51.29q-0.22.81-.36,1.63a14.79,14.79,0,0,0-.19,1.56A11.43,11.43,0,0,0,55.4,55.7Z" transform="translate(-24.53 -30.39)"/>
+    <path d="M77.38,50a8.85,8.85,0,0,1-.46,2.74,9.64,9.64,0,0,1-1.36,2.66,10.47,10.47,0,0,1-2.23,2.25,9.57,9.57,0,0,1-3.06,1.51,5.37,5.37,0,0,0,.62,1.16,4.11,4.11,0,0,0,.93.95,4.4,4.4,0,0,0,1.25.63,5.3,5.3,0,0,0,1.65.23,5.15,5.15,0,0,0,2.41-.53,5.27,5.27,0,0,0,1.7-1.39A7.46,7.46,0,0,0,80,58.3a12.34,12.34,0,0,0,.63-2.18,1.45,1.45,0,0,1,.67-1.07,1.37,1.37,0,0,1,1-.13,1.79,1.79,0,0,1,.91.6,1.38,1.38,0,0,1,.32,1.09,16.38,16.38,0,0,1-.32,1.66,10,10,0,0,1-.67,1.9,10.62,10.62,0,0,1-1.14,1.89,7.77,7.77,0,0,1-1.7,1.65,8.59,8.59,0,0,1-2.37,1.17,10,10,0,0,1-3.12.45A8.13,8.13,0,0,1,71,64.69a8.24,8.24,0,0,1-2.72-1.85,9,9,0,0,1-1.9-3,10.66,10.66,0,0,1-.71-4,13.68,13.68,0,0,1,.63-4.23A12.12,12.12,0,0,1,68,48.23,8.23,8.23,0,0,1,70.35,46a5.08,5.08,0,0,1,2.7-.81,4.51,4.51,0,0,1,1.82.35,3.81,3.81,0,0,1,1.37,1,4.39,4.39,0,0,1,.86,1.54A6.27,6.27,0,0,1,77.38,50ZM69.65,55.7a3.82,3.82,0,0,0,0,.42,4,4,0,0,1,0,.45,6.64,6.64,0,0,0,1.62-1.08A6.76,6.76,0,0,0,72.56,54a7.33,7.33,0,0,0,.8-1.84,7.6,7.6,0,0,0,.28-2.07,2.4,2.4,0,0,0-.27-1.24,0.83,0.83,0,0,0-.74-0.45,1.54,1.54,0,0,0-1,.4,3.57,3.57,0,0,0-.8,1,7.22,7.22,0,0,0-.56,1.45q-0.22.81-.36,1.63a14.79,14.79,0,0,0-.19,1.56A11.43,11.43,0,0,0,69.65,55.7Z" transform="translate(-24.53 -30.39)"/>
+    <path d="M83.31,57.41a1.17,1.17,0,0,1-.7.93,1.39,1.39,0,0,1-1,0,1.87,1.87,0,0,1-.84-0.73,1.39,1.39,0,0,1-.2-1.12,32.08,32.08,0,0,1,1-3.53l1.32-3.86A5.78,5.78,0,0,1,82.33,48a3.22,3.22,0,0,1-.21-1.16,2.28,2.28,0,0,1,.46-1.28,6.52,6.52,0,0,1,1.1-1.23A7,7,0,0,1,85,43.39,2.65,2.65,0,0,1,86.2,43a1.51,1.51,0,0,1,1.3.59,2.58,2.58,0,0,1,.43,1.57,3.35,3.35,0,0,1-.18,1.07,9.57,9.57,0,0,1-.39,1Q87.16,47.69,87,48a2.64,2.64,0,0,0-.2.42,20,20,0,0,0,1.76,2.65q0.91,1.15,1.68,2.27a12,12,0,0,1,1.25,2.39,8.19,8.19,0,0,1,.49,3,6.65,6.65,0,0,1-.06.87,5.56,5.56,0,0,1-.18.84,5.14,5.14,0,0,0,1.49-.52,5.31,5.31,0,0,0,1.13-.81,4.56,4.56,0,0,0,.8-1A6.7,6.7,0,0,0,95.67,57a3.49,3.49,0,0,1,.52-1,0.76,0.76,0,0,1,.59-0.3,1.16,1.16,0,0,1,.62.2,2.29,2.29,0,0,1,.56.5,3.06,3.06,0,0,1,.4.63,1.42,1.42,0,0,1,.15.59,2.44,2.44,0,0,1-.19.84,6.06,6.06,0,0,1-.5,1,8.64,8.64,0,0,1-.71,1,6.37,6.37,0,0,1-.82.83,10.38,10.38,0,0,1-2.65,1.54,12.47,12.47,0,0,1-3.77.79,7.3,7.3,0,0,1-2.05,1.23,7,7,0,0,1-2.66.48,6.6,6.6,0,0,1-1.54-.19,10.19,10.19,0,0,1-1.5-.48,9.61,9.61,0,0,1-1.3-.64,4.87,4.87,0,0,1-.94-0.7,4,4,0,0,1-1.15-1.7,3.23,3.23,0,0,1-.13-1.54A2.33,2.33,0,0,1,79.1,59a1,1,0,0,1,.77-0.43,2.31,2.31,0,0,1,.74.2q0.5,0.2,1.16.52l1.43,0.67q0.77,0.35,1.55.67a12.82,12.82,0,0,0,1.51.52,5.21,5.21,0,0,0,1.35.2,4.82,4.82,0,0,0,.73-1.24,4.28,4.28,0,0,0,.33-1.69,6.87,6.87,0,0,0-.3-2.09,8.36,8.36,0,0,0-.8-1.78A10.83,10.83,0,0,0,86.44,53q-0.62-.71-1.25-1.35-0.56,1.38-1,2.73T83.31,57.41Z" transform="translate(-24.53 -30.39)"/>
+    <path d="M95.9,34.42a3.28,3.28,0,0,0-.08-0.82,3.05,3.05,0,0,0-.16-0.48,1.49,1.49,0,0,0-.16-0.28,0.36,0.36,0,0,1-.08-0.22,0.28,0.28,0,0,1,.14-0.23,1.41,1.41,0,0,1,.38-0.16,3.19,3.19,0,0,1,.5-0.11,4.08,4.08,0,0,1,.53,0,2.72,2.72,0,0,1,1.89.62,1.93,1.93,0,0,1,.69,1.49v15q0.59-.8,1.23-1.51a10.75,10.75,0,0,1,1.35-1.27,6.63,6.63,0,0,1,1.46-.88,3.92,3.92,0,0,1,4.83,1.27,5,5,0,0,1,.77,1.65,7.74,7.74,0,0,1-.2,4.52,9.82,9.82,0,0,1-1.12,2.19,11.33,11.33,0,0,1-1.49,1.76,13.86,13.86,0,0,1-1.54,1.29,8.65,8.65,0,0,0,.46,1.49A5.75,5.75,0,0,0,106,61a3.38,3.38,0,0,0,1,.89,2.4,2.4,0,0,0,1.25.33,2.61,2.61,0,0,0,1.54-.5A5.41,5.41,0,0,0,111,60.4a8.19,8.19,0,0,0,.93-1.66,9.39,9.39,0,0,0,.54-1.7,2.22,2.22,0,0,1,.43-1.05,1,1,0,0,1,.63-0.36,1.11,1.11,0,0,1,.69.18,2.15,2.15,0,0,1,.61.55,2.42,2.42,0,0,1,.39.76,1.47,1.47,0,0,1,0,.8,22.13,22.13,0,0,1-.94,2.25,11.87,11.87,0,0,1-1.55,2.44,9,9,0,0,1-2.2,1.95,5.34,5.34,0,0,1-2.91.8,4.74,4.74,0,0,1-2.57-.73,7.4,7.4,0,0,1-2-1.83,8.52,8.52,0,0,1-1.28-2.41,7.8,7.8,0,0,1-.45-2.51,1.19,1.19,0,0,1,.33-0.76,9.22,9.22,0,0,1,.83-0.84q0.5-.46,1.08-1A9.57,9.57,0,0,0,104.72,54a6.76,6.76,0,0,0,.83-1.58,5.63,5.63,0,0,0,.33-2,2.31,2.31,0,0,0-.43-1.45,1.35,1.35,0,0,0-1.11-.56,2.28,2.28,0,0,0-1,.32,4.49,4.49,0,0,0-1.25,1.09,10.89,10.89,0,0,0-1.31,2.05A18.58,18.58,0,0,0,99.53,55v8.25q0,0.35,0,.71a1.76,1.76,0,0,1-.14.66,1.21,1.21,0,0,1-.4.49,1.31,1.31,0,0,1-.79.2,3.9,3.9,0,0,1-.76-0.08,2.11,2.11,0,0,1-.75-0.3,1.71,1.71,0,0,1-.56-0.63,2.29,2.29,0,0,1-.22-1.09V34.42Z" transform="translate(-24.53 -30.39)"/>
+    <path d="M115.24,40.91a2.71,2.71,0,0,1-1.11-.23,2.9,2.9,0,0,1-.91-0.63,3.16,3.16,0,0,1-.62-0.93,2.77,2.77,0,0,1-.23-1.14,2.91,2.91,0,0,1,.23-1.17,3,3,0,0,1,.62-0.93,2.88,2.88,0,0,1,2-.83,3,3,0,0,1,1.17.22,2.75,2.75,0,0,1,1.54,1.54,3,3,0,0,1,.22,1.17,2.89,2.89,0,0,1-.22,1.14,3,3,0,0,1-.61.93,2.87,2.87,0,0,1-.93.63A2.91,2.91,0,0,1,115.24,40.91ZM116.34,60q0,0.16,0,.53a3.15,3.15,0,0,0,.14.74,1.72,1.72,0,0,0,.38.66,0.94,0.94,0,0,0,.73.28,1.71,1.71,0,0,0,1.23-.52,4.76,4.76,0,0,0,.91-1.29,9.69,9.69,0,0,0,.64-1.68q0.26-.9.42-1.7a2.22,2.22,0,0,1,.43-1.05,1,1,0,0,1,.63-0.36,1.06,1.06,0,0,1,.68.18,2.38,2.38,0,0,1,.61.55,2.29,2.29,0,0,1,.4.76,1.47,1.47,0,0,1,0,.8,23.29,23.29,0,0,1-.86,2.51,10.7,10.7,0,0,1-1.35,2.41,7.31,7.31,0,0,1-2,1.83,4.93,4.93,0,0,1-2.7.73A3.88,3.88,0,0,1,115,65a3.81,3.81,0,0,1-1.27-1,4.23,4.23,0,0,1-.79-1.43,5.52,5.52,0,0,1-.27-1.73V48a3.29,3.29,0,0,0-.11-1,1.73,1.73,0,0,1-.11-0.56,0.66,0.66,0,0,1,.38-0.57,1.71,1.71,0,0,1,.89-0.22,2.72,2.72,0,0,1,1.89.62,1.93,1.93,0,0,1,.69,1.49V60Z" transform="translate(-24.53 -30.39)"/>
+    <path d="M131.46,57a2.11,2.11,0,0,1,.43-1,1,1,0,0,1,.63-0.35,1.15,1.15,0,0,1,.69.16,2.06,2.06,0,0,1,.61.53,2.3,2.3,0,0,1,.39.74,1.5,1.5,0,0,1,0,.81,22.13,22.13,0,0,1-.94,2.25,11.87,11.87,0,0,1-1.55,2.44,9,9,0,0,1-2.2,1.95,5.34,5.34,0,0,1-2.91.8,6.08,6.08,0,0,1-2.44-.46,4.82,4.82,0,0,1-1.77-1.29,5.57,5.57,0,0,1-1.08-2A8.64,8.64,0,0,1,121,59V37.16a8.6,8.6,0,0,1,.34-2.47,6.26,6.26,0,0,1,.94-1.95,4.55,4.55,0,0,1,1.39-1.27,3.34,3.34,0,0,1,1.69-.46,3.75,3.75,0,0,1,1.78.39,3.52,3.52,0,0,1,1.2,1,5.09,5.09,0,0,1,.74,1.45,9.48,9.48,0,0,1,.39,1.68,15.68,15.68,0,0,1,.14,1.69q0,0.83,0,1.51a22.08,22.08,0,0,1-.33,3.69q-0.33,1.93-.83,3.81t-1.1,3.6q-0.6,1.72-1.15,3.06t-1,2.18a4.44,4.44,0,0,1-.6,1v2.79a4.25,4.25,0,0,0,.61,2.38,2.16,2.16,0,0,0,1.95.93,2.61,2.61,0,0,0,1.54-.5A5.41,5.41,0,0,0,130,60.4a8.19,8.19,0,0,0,.93-1.66A9.39,9.39,0,0,0,131.46,57Zm-6.82-7.24a7.54,7.54,0,0,0,.5-1.32q0.25-.83.47-1.84T126,44.52q0.19-1.1.33-2.16t0.22-2q0.08-.93.08-1.58a12.65,12.65,0,0,0-.35-3.5,1.24,1.24,0,0,0-.94-1.11,0.41,0.41,0,0,0-.33.19,1.62,1.62,0,0,0-.23.48,3.13,3.13,0,0,0-.13.63,6.08,6.08,0,0,0,0,.62V49.8Z" transform="translate(-24.53 -30.39)"/>
+    <path d="M142,57a2.11,2.11,0,0,1,.43-1,1,1,0,0,1,.63-0.35,1.15,1.15,0,0,1,.69.16,2.06,2.06,0,0,1,.61.53,2.3,2.3,0,0,1,.39.74,1.5,1.5,0,0,1,0,.81,22.13,22.13,0,0,1-.94,2.25,11.87,11.87,0,0,1-1.55,2.44,9,9,0,0,1-2.2,1.95,5.34,5.34,0,0,1-2.91.8,6.08,6.08,0,0,1-2.44-.46A4.82,4.82,0,0,1,133,63.59a5.57,5.57,0,0,1-1.08-2,8.64,8.64,0,0,1-.36-2.59V37.16a8.6,8.6,0,0,1,.34-2.47,6.26,6.26,0,0,1,.94-1.95,4.55,4.55,0,0,1,1.39-1.27,3.34,3.34,0,0,1,1.69-.46,3.75,3.75,0,0,1,1.78.39,3.52,3.52,0,0,1,1.2,1,5.09,5.09,0,0,1,.74,1.45,9.48,9.48,0,0,1,.39,1.68,15.68,15.68,0,0,1,.14,1.69q0,0.83,0,1.51a22.08,22.08,0,0,1-.33,3.69q-0.33,1.93-.83,3.81t-1.1,3.6q-0.6,1.72-1.15,3.06t-1,2.18a4.44,4.44,0,0,1-.6,1v2.79a4.25,4.25,0,0,0,.61,2.38,2.16,2.16,0,0,0,1.95.93,2.61,2.61,0,0,0,1.54-.5,5.41,5.41,0,0,0,1.27-1.27,8.19,8.19,0,0,0,.93-1.66A9.39,9.39,0,0,0,142,57Zm-6.82-7.24a7.54,7.54,0,0,0,.5-1.32q0.25-.83.47-1.84t0.41-2.11q0.19-1.1.33-2.16t0.22-2q0.08-.93.08-1.58a12.65,12.65,0,0,0-.35-3.5,1.24,1.24,0,0,0-.94-1.11,0.41,0.41,0,0,0-.33.19,1.62,1.62,0,0,0-.23.48,3.13,3.13,0,0,0-.13.63,6.08,6.08,0,0,0,0,.62V49.8Z" transform="translate(-24.53 -30.39)"/>
+    <path d="M153.18,50a8.85,8.85,0,0,1-.46,2.74,9.64,9.64,0,0,1-1.36,2.66,10.47,10.47,0,0,1-2.23,2.25,9.57,9.57,0,0,1-3.06,1.51,5.37,5.37,0,0,0,.62,1.16,4.11,4.11,0,0,0,.93.95,4.4,4.4,0,0,0,1.25.63,5.3,5.3,0,0,0,1.65.23,5.15,5.15,0,0,0,2.41-.53,5.27,5.27,0,0,0,1.7-1.39,7.46,7.46,0,0,0,1.11-1.95,12.34,12.34,0,0,0,.63-2.18,1.45,1.45,0,0,1,.67-1.07,1.37,1.37,0,0,1,1-.13,1.79,1.79,0,0,1,.91.6,1.38,1.38,0,0,1,.32,1.09,16.38,16.38,0,0,1-.32,1.66,10,10,0,0,1-.67,1.9,10.62,10.62,0,0,1-1.14,1.89,7.77,7.77,0,0,1-1.7,1.65,8.59,8.59,0,0,1-2.37,1.17,10,10,0,0,1-3.12.45,8.13,8.13,0,0,1-3.18-.64,8.24,8.24,0,0,1-2.72-1.85,9,9,0,0,1-1.9-3,10.66,10.66,0,0,1-.71-4,13.68,13.68,0,0,1,.63-4.23,12.12,12.12,0,0,1,1.66-3.39A8.23,8.23,0,0,1,146.15,46a5.08,5.08,0,0,1,2.7-.81,4.51,4.51,0,0,1,1.82.35,3.81,3.81,0,0,1,1.37,1,4.39,4.39,0,0,1,.86,1.54A6.27,6.27,0,0,1,153.18,50Zm-7.73,5.67a3.82,3.82,0,0,0,0,.42,4,4,0,0,1,0,.45,6.64,6.64,0,0,0,1.62-1.08,6.76,6.76,0,0,0,1.24-1.5,7.33,7.33,0,0,0,.8-1.84,7.6,7.6,0,0,0,.28-2.07,2.4,2.4,0,0,0-.27-1.24,0.83,0.83,0,0,0-.74-0.45,1.54,1.54,0,0,0-1,.4,3.57,3.57,0,0,0-.8,1,7.22,7.22,0,0,0-.56,1.45q-0.22.81-.36,1.63a14.79,14.79,0,0,0-.19,1.56A11.43,11.43,0,0,0,145.45,55.7Z" transform="translate(-24.53 -30.39)"/>
+    <path d="M152.06,41.43q0.54,0,1.2.07t1.36,0.06l1.78,0V33.46a3.28,3.28,0,0,0-.08-0.82,3.05,3.05,0,0,0-.16-0.48,1.49,1.49,0,0,0-.16-0.28,0.36,0.36,0,0,1-.08-0.22,0.28,0.28,0,0,1,.14-0.23,1.41,1.41,0,0,1,.38-0.16,3.19,3.19,0,0,1,.5-0.11,4.08,4.08,0,0,1,.53,0,2.72,2.72,0,0,1,1.89.62,1.93,1.93,0,0,1,.69,1.49v8.41q2.2,0,4.65,0t4.91-.16a0.52,0.52,0,0,1,.53-0.26,0.55,0.55,0,0,1,.26.45,3.48,3.48,0,0,1,0,.87,5.22,5.22,0,0,1-.19,1,2.82,2.82,0,0,1-.39.83,0.69,0.69,0,0,1-.55.35q-2.88.07-5.1,0.08H160V60a2.57,2.57,0,0,0,.45,1.69,1.5,1.5,0,0,0,1.2.52,1.73,1.73,0,0,0,1.25-.52,4.76,4.76,0,0,0,.91-1.29,9.08,9.08,0,0,0,.63-1.68q0.25-.9.41-1.7a2.11,2.11,0,0,1,.47-1.09,1,1,0,0,1,.68-0.34,1.17,1.17,0,0,1,.59.18,2.17,2.17,0,0,1,.55.46,2.41,2.41,0,0,1,.4.63,1.76,1.76,0,0,1,.15.7v0.12a0.74,0.74,0,0,1,0,.21,20,20,0,0,1-.83,2.51,10.45,10.45,0,0,1-1.36,2.41,7.47,7.47,0,0,1-2,1.83,4.93,4.93,0,0,1-2.7.73A5.16,5.16,0,0,1,159,65a3.45,3.45,0,0,1-1.39-.94,4.48,4.48,0,0,1-.91-1.65,7.93,7.93,0,0,1-.33-2.44V44.76H155l-1,0-0.87,0a1.29,1.29,0,0,1-1-.5,2.94,2.94,0,0,1-.61-1.11,2.1,2.1,0,0,1,0-1.11A0.61,0.61,0,0,1,152.06,41.43Z" transform="translate(-24.53 -30.39)"/>
+  </g>
+</symbol><symbol id="rss-plain" viewBox="0 0 24 24"><path d="M6.503 20.752c0 1.794-1.456 3.248-3.251 3.248-1.796 0-3.252-1.454-3.252-3.248 0-1.794 1.456-3.248 3.252-3.248 1.795.001 3.251 1.454 3.251 3.248zm-6.503-12.572v4.811c6.05.062 10.96 4.966 11.022 11.009h4.817c-.062-8.71-7.118-15.758-15.839-15.82zm0-3.368c10.58.046 19.152 8.594 19.183 19.188h4.817c-.03-13.231-10.755-23.954-24-24v4.812z"/></symbol><symbol id="so-plain" viewBox="0 0 24 24"><path d="M15 21h-10v-2h10v2zm6-11.665l-1.621-9.335-1.993.346 1.62 9.335 1.994-.346zm-5.964 6.937l-9.746-.975-.186 2.016 9.755.879.177-1.92zm.538-2.587l-9.276-2.608-.526 1.954 9.306 2.5.496-1.846zm1.204-2.413l-8.297-4.864-1.029 1.743 8.298 4.865 1.028-1.744zm1.866-1.467l-5.339-7.829-1.672 1.14 5.339 7.829 1.672-1.14zm-2.644 4.195v8h-12v-8h-2v10h16v-10h-2z"/></symbol></svg><!-- endinject -->
+</div>
+
+    
+      <header class="site-header" role="banner" data-page="Dynamic Proxies and Dependency Injection">
+  <div class="topbar post-topbar">
+    <div class="site-constraint">
+      <a class="topbar-logo" href="/" title="Home Page">
+        <svg class="topbar-logo-svg">
+          <use xlink:href="#pio-logo"></use>
+        </svg>
+      </a>
+      <nav class="topbar-nav-wrapper">
+        <span class="topbar-nav-label" role="button" tabindex="0">Menu</span>
+        <ul class="topbar-nav collapse">
+          <li>
+            <a class="topbar-nav-item"
+                href="/"
+                title="Home">
+              Home
+            </a>
+          </li>
+          <li>
+            <a class="topbar-nav-item"
+                href="/archive/"
+                title="Archive">
+              Archive
+            </a>
+          </li>
+          <li>
+            <a class="topbar-nav-item"
+                href="/contact/"
+                title="Contact">
+              Contact
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+</header>
+
+    
+
+    <div class="main-content">
+      <section class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <div class="post-banner"
+       style="background-image: linear-gradient(to bottom, rgba(0,0,0,0) 0%,rgba(0,0,0,0.01) 2%,#29383E 100%), url('/assets/images/donald-duck-lg.jpg')">
+  
+    <div class="post-banner-container">
+      <div class="post-title">
+        <h2 class="post-title-text">Dynamic Proxies and Dependency Injection</h2>
+      </div>
+      <div class="post-subtitle">
+        by<span class="post-author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <span itemprop="name"><b>Paul Samsotha</b></span> on
+        </span>
+        <time class="post-date" datetime="2015-12-16T00:00:00+07:00" itemprop="datePublished">
+          Dec 16, 2015
+        </time> 
+      </div>
+    </div>
+  </div>
+
+  <article class="post-content">
+    <p>In this article, I will discuss how dynamic proxies work in the Java platform and how dependency injection takes advantage of this Java feature. This writing is derived from my search to try and inject request scope objects into singleton objects, within the HK2 framework (or more precisely, HK2 within a Jersey application). I was going to include my findings all into one blog, but I felt this topic is too broad for a problem that is solved in two lines of code.</p>
+
+<p>First, I will go through a quick discussion about the Proxy Pattern, then show how to use dynamic proxies with the Java language, then finally go through an example using dynamic proxies and custom dependency injection.</p>
+
+<h4 id="sections">Sections:</h4>
+
+<ul>
+  <li><strong><a href="#proxyPattern">Proxy Pattern</a></strong></li>
+  <li><strong><a href="#dynamicProxies">Java Dynamic Proxies</a></strong></li>
+  <li><strong><a href="#example">Dynamic Proxy and Custom Injection Example</a></strong></li>
+</ul>
+
+<p><a name="proxyPattern"></a></p>
+
+<h3 id="proxy-pattern">Proxy Pattern</h3>
+
+<p>I won’t get into too much detail about the proxy pattern. There is good reading all over the internet. I will just give a brief analogy, along with some brief code example of the pattern.</p>
+
+<p>I’m sure most of you have heard the phrase “vote by proxy”. It’s when someone places a vote for someone else. For example say there is some arbitrary vote among board members of a corporation. Member B is sick in the hospital, so can’t attend the board meeting. So member B signs over a proxy vote to member A. So during the vote meeting, member A places member B’s vote for them. Member A is just acting as a delegate for member B.</p>
+
+<p>The proxy pattern works the same. Here is a class diagram (<a href="https://en.wikipedia.org/wiki/Proxy_pattern">from wikipedia</a>).</p>
+
+<p><img src="https://www.dropbox.com/s/oe4g600n80rsb05/proxy-pattern-diagram.png?dl=1" alt="Proxy Pattern Diagram" /></p>
+
+<p>Say <code class="highlighter-rouge">Member</code> is the interface</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">Member</span> <span class="o">{</span>
+   <span class="kt">void</span> <span class="nf">vote</span><span class="o">();</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<p>Then you have <code class="highlighter-rouge">MemberA</code> and <code class="highlighter-rouge">MemberB</code></p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">MemberA</span> <span class="kd">implements</span> <span class="n">Member</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">vote</span><span class="o">()</span> <span class="o">{}</span>
+<span class="o">}</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">MemberB</span> <span class="kd">implements</span> <span class="n">Member</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">vote</span><span class="o">()</span> <span class="o">{}</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<p>Since member B will not be present, we need a proxy for it. The proxy should also implement the <code class="highlighter-rouge">Member</code> interface and it should hold a reference to <code class="highlighter-rouge">MemberB</code>.</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">MemberBProxy</span> <span class="kd">implements</span> <span class="n">Member</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="n">MemberB</span> <span class="n">memberB</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="n">vote</span> <span class="o">{</span>
+        <span class="n">memberB</span><span class="o">.</span><span class="na">vote</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<p>So now <code class="highlighter-rouge">MemberA</code> can get a the member B proxy and make the proxy vote for member B.</p>
+
+<p>This might not be the greatest example, as the proxy does nothing but call the vote on member B. But with real proxies, there is usually something else going on under the hood. For example in the case of remote proxies, the <code class="highlighter-rouge">vote()</code> method might actually make a network call to a remote <code class="highlighter-rouge">MemberB</code>. An example of this in the Java platform, would be RMI (remote method invocation). The example later will describe another use case, that is usually handled transparently for the developer.</p>
+
+<p><a name="dynamicProxies"></a></p>
+
+<h3 id="dynamic-proxies">Dynamic Proxies</h3>
+
+<p>With the example above, we had to manually write the proxy class. In Java though, this is not required, with the introduction of dynamic proxies in 1.3. The core interface to dynamic proxies is <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Proxy.html"><code class="highlighter-rouge">java.lang.reflect.Proxy</code></a>. To use it, we require to components, our interface to proxy, and an <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/InvocationHandler.html"><code class="highlighter-rouge">InvocationHandler</code></a>. Let’s look at a quick example, using the same above analogy.</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="n">Member</span> <span class="n">memberBProxy</span> <span class="o">=</span> <span class="o">(</span><span class="n">Memeber</span><span class="o">)</span> <span class="n">Proxy</span><span class="o">.</span><span class="na">newProxyInstance</span><span class="o">(</span>
+        <span class="n">Memeber</span><span class="o">.</span><span class="na">class</span><span class="o">.</span><span class="na">getClassLoader</span><span class="o">(),</span>
+        <span class="k">new</span> <span class="n">Class</span><span class="o">[]</span> <span class="o">{</span> <span class="n">Member</span><span class="o">.</span><span class="na">class</span> <span class="o">},</span>
+        <span class="k">new</span> <span class="nf">InvocationHandler</span><span class="o">()</span> <span class="o">{</span>
+            <span class="nd">@Override</span>
+            <span class="kd">public</span> <span class="n">Object</span> <span class="nf">invoke</span><span class="o">(</span><span class="n">Object</span> <span class="n">proxy</span><span class="o">,</span> <span class="n">Method</span> <span class="n">method</span><span class="o">,</span> <span class="n">Object</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+                <span class="k">return</span> <span class="n">method</span><span class="o">.</span><span class="na">invoke</span><span class="o">(</span><span class="k">new</span> <span class="n">MemberB</span><span class="o">(),</span> <span class="n">args</span><span class="o">);</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+<span class="o">);</span>
+</code></pre>
+</div>
+
+<p>That’s it. Now <code class="highlighter-rouge">memberBProxy</code> is a <code class="highlighter-rouge">Proxy</code> instance, not a <code class="highlighter-rouge">MemberB</code> instance. If you print out the class name of the <code class="highlighter-rouge">Member</code> object, you will actually see that the class name is <code class="highlighter-rouge">com.sun.proxy.ProxyX</code>, and not <code class="highlighter-rouge">MemberB</code>.</p>
+
+<p>Let’s walk through it real quick. Here’s is the signature for <code class="highlighter-rouge">Proxy#newProxyInstance</code></p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="n">newProxyInstance</span><span class="o">(</span><span class="n">ClassLoader</span> <span class="n">loader</span><span class="o">,</span> <span class="n">Class</span><span class="o">&lt;?&gt;[]</span> <span class="n">interfaces</span><span class="o">,</span> <span class="n">InvocationHandler</span> <span class="n">h</span><span class="o">)</span>
+</code></pre>
+</div>
+
+<p>It first requires the <code class="highlighter-rouge">ClassLoader</code> for which to define proxy. Second it requires to interfaces to implements, then finally the <code class="highlighter-rouge">InvocationHandler</code>. The <code class="highlighter-rouge">InvocationHandler</code> has only a single <em>callback</em> method we need to implement</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="n">Object</span> <span class="nf">invoke</span><span class="o">(</span><span class="n">Object</span> <span class="n">proxy</span><span class="o">,</span> <span class="n">Method</span> <span class="n">method</span><span class="o">,</span> <span class="n">Object</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span>
+</code></pre>
+</div>
+
+<p>The first argument is the actual proxy object. You should rarely have use for this. The second argument is the <code class="highlighter-rouge">java.lang.reflect.Method</code>. If you’ve had any experience with Java reflection, you should be familiar with the interface. With the <code class="highlighter-rouge">Method</code>, we can invoke a method call by passing the object for which to invoke the method on, along with any arguments, hence the last line</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="k">return</span> <span class="n">method</span><span class="o">.</span><span class="na">invoke</span><span class="o">(</span><span class="k">new</span> <span class="n">MemberB</span><span class="o">(),</span> <span class="n">args</span><span class="o">);</span>
+</code></pre>
+</div>
+
+<p>Here the proxy hands the <code class="highlighter-rouge">Method</code> and the arguments passed to the method call on the proxy. We as the <code class="highlighter-rouge">InvocationHandler</code> implementer, can do whatever we want with the <code class="highlighter-rouge">Method</code> and method arguments. Here we are simply say that the called method should be invoked in the <code class="highlighter-rouge">new MemberB()</code> object, passing in the arguments.</p>
+
+<p>To get a clearer picture, just look at it like the <code class="highlighter-rouge">Proxy</code> instance has all the methods the <code class="highlighter-rouge">Member</code> interface has. So when we call <code class="highlighter-rouge">Proxy#vote()</code>, it calls the <code class="highlighter-rouge">InvocationHandler#invoke</code> passing in itself, the <code class="highlighter-rouge">Method</code>, and the arguments passed to <code class="highlighter-rouge">vote()</code> (if any). And out <code class="highlighter-rouge">InvocationHandler</code> implementation simply <em>call</em> the method, by calling <code class="highlighter-rouge">inovoke</code> on the <code class="highlighter-rouge">Method</code> object. the <code class="highlighter-rouge">Method</code> object then invokes the <code class="highlighter-rouge">vote()</code> on the actual <code class="highlighter-rouge">MemberB</code> object.</p>
+
+<p>And that’s it. As you can see, dynamic proxies are fairly simple to implements.</p>
+
+<p><a name="example"></a></p>
+
+<h3 id="dynamic-proxy-and-custom-injection-example">Dynamic Proxy and Custom Injection Example</h3>
+
+<ul>
+  <li>Get the <a href="https://github.com/psamsotha/dynamic-proxies-example">GitHub project</a></li>
+</ul>
+
+<p>What I will attempt to do here is try to explain how dynamic proxies are used in a dependency injection framework. One of the main use cases for dynamic proxies within DI, is when dealing with scopes. For instance you have a service or a controller that is in a singleton scope, meaning that there is only one create per application. That singleton service is dependent on a server this is in a request scope, meaning that one should be created for each request. The classes might look something like (it’s all imaginary - no specific framework).</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="nd">@Controller</span><span class="o">(</span><span class="n">scope</span> <span class="o">=</span> <span class="s">"singleton"</span><span class="o">)</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">AppController</span> <span class="o">{</span>
+    <span class="nd">@Inject</span>
+    <span class="n">SingletonService</span> <span class="n">service</span><span class="o">;</span>
+<span class="o">}</span>
+
+<span class="nd">@Singleton</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">SingletonService</span> <span class="o">{</span>
+    <span class="nd">@Inject</span>
+    <span class="n">RequestScopedService</span> <span class="n">service</span><span class="o">;</span>
+<span class="o">}</span>
+
+<span class="nd">@RequestScoped</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">RequestScopedService</span> <span class="o">{}</span>
+</code></pre>
+</div>
+
+<p>The problem here is that when the <code class="highlighter-rouge">SingletonService</code> is created on start-up, all the injections need to be performed. But there is no request on start-up, so there should be no <code class="highlighter-rouge">RequestScopedService</code> currently tied to a request. Another problem is how do we managed which request gets which <code class="highlighter-rouge">RequestScopedService</code>. Maybe we can add a setter in the <code class="highlighter-rouge">SingletonService</code> where we can set a new <code class="highlighter-rouge">RequestScopedService</code> for each request. But that doesn’t work, because the <code class="highlighter-rouge">SingletonService</code> will be accessed concurrently, as is how some servers work (a thread per request).</p>
+
+<p>This is where dynamic proxies come to the rescue. When the <code class="highlighter-rouge">SingletonService</code> is created on start up, instead of injection an actual <code class="highlighter-rouge">RequestScopedService</code>, we will inject a <code class="highlighter-rouge">Proxy</code> of the service. When calls are made on the <code class="highlighter-rouge">RequestScopedService</code> from inside the <code class="highlighter-rouge">SingletonService</code>, the call will actually be made on the <code class="highlighter-rouge">Proxy</code>, which will delegate the call to the <code class="highlighter-rouge">InvocationHandler#invoke</code> method, which we will implement to call a <code class="highlighter-rouge">RequestScopedService</code> that we obtain from a <code class="highlighter-rouge">ThreadLocal</code>. A new <code class="highlighter-rouge">RequestScopedService</code> will be set in the <code class="highlighter-rouge">ThreadLocal</code> every time a request is processed, which will be handled in a separate thread. If you have ever heard the term “thread local proxy”, this is pretty much the gist of how it works.</p>
+
+<p>So let’s try and implement all this. We will even implement our own dependency injection. We will implement a simple server framework, that allows a user to implement a custom <code class="highlighter-rouge">RequestHandler</code> that can inject our <code class="highlighter-rouge">SingletonService</code> which will in turn be dependent on a <code class="highlighter-rouge">RequestScopedService</code>. Here is the class diagram. (To follow along, it’s best to grab the GitHub project from the above link).</p>
+
+<p><img src="https://www.dropbox.com/s/hq6honttl0ibf64/server-class-diagram.jpg?dl=1" alt="Server Class Diagram" /></p>
+
+<p>As stated earlier, the user will be able to implement a custom <code class="highlighter-rouge">RequestHandler</code> and inject our <code class="highlighter-rouge">SingletonService</code>. In the project, there is default implementation that just returns the message from the <code class="highlighter-rouge">SingletonService</code>, as a <code class="highlighter-rouge">Response</code></p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">DefaultRequestHandler</span> <span class="kd">implements</span> <span class="n">RequestHandler</span> <span class="o">{</span>
+    
+    <span class="nd">@Inject</span>
+    <span class="kd">private</span> <span class="n">SingletonService</span> <span class="n">singletonService</span><span class="o">;</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="n">Response</span> <span class="nf">handleRequest</span><span class="o">(</span><span class="n">Request</span> <span class="n">request</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nf">Response</span><span class="o">(</span><span class="n">singletonService</span><span class="o">.</span><span class="na">getMessage</span><span class="o">());</span>
+    <span class="o">}</span>  
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<p>Then the user creates the <code class="highlighter-rouge">Server</code> passing the implementation class to the constructor</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="n">Server</span> <span class="n">server</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Server</span><span class="o">(</span><span class="n">DefaultRequestHandler</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+</code></pre>
+</div>
+
+<p>In the server constructor, you will see a couple things, the validation of the user defined <code class="highlighter-rouge">RequestHandler</code> class, and the creation of the <code class="highlighter-rouge">SingletonService</code>. Validation is not important here, and here is the creation of the <code class="highlighter-rouge">SingletonService</code>.</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kd">private</span> <span class="kd">static</span> <span class="n">SingletonService</span> <span class="nf">initSingletonService</span><span class="o">()</span> <span class="o">{</span>
+    <span class="n">Service</span> <span class="n">proxyService</span> <span class="o">=</span> <span class="o">(</span><span class="n">Service</span><span class="o">)</span> <span class="n">Proxy</span><span class="o">.</span><span class="na">newProxyInstance</span><span class="o">(</span>
+            <span class="n">Service</span><span class="o">.</span><span class="na">class</span><span class="o">.</span><span class="na">getClassLoader</span><span class="o">(),</span> <span class="k">new</span> <span class="n">Class</span><span class="o">[]{</span><span class="n">Service</span><span class="o">.</span><span class="na">class</span><span class="o">},</span>
+            <span class="k">new</span> <span class="nf">ServiceInvocationHandler</span><span class="o">());</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="nf">SingletonService</span><span class="o">(</span><span class="n">proxyService</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<p>The first thing we do is create the proxy of the <code class="highlighter-rouge">Service</code> class. Here is the <code class="highlighter-rouge">ServiceInvocationHandler</code></p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">ServiceInvocationHandler</span> <span class="kd">implements</span> <span class="n">InvocationHandler</span> <span class="o">{</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="n">Object</span> <span class="nf">invoke</span><span class="o">(</span><span class="n">Object</span> <span class="n">proxy</span><span class="o">,</span> <span class="n">Method</span> <span class="n">method</span><span class="o">,</span> <span class="n">Object</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">..</span> <span class="o">{</span>
+        <span class="n">Service</span> <span class="n">service</span> <span class="o">=</span> <span class="n">ThreadLocalService</span><span class="o">.</span><span class="na">get</span><span class="o">();</span>
+        <span class="k">return</span> <span class="n">method</span><span class="o">.</span><span class="na">invoke</span><span class="o">(</span><span class="n">service</span><span class="o">,</span> <span class="n">args</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<p>It doesn’t do much. It just retrieves the <code class="highlighter-rouge">Service</code> from the <code class="highlighter-rouge">ThreadLocalService</code>, and invokes the proxied method on the service. We will see a bit later when the instance of the <code class="highlighter-rouge">RequestScopedService</code> is set into the <code class="highlighter-rouge">ThreadLocal</code>.</p>
+
+<p>Then the <code class="highlighter-rouge">SingletonService</code> is created with the proxy <code class="highlighter-rouge">Service</code>. So now, when <code class="highlighter-rouge">SingletonService</code> calls a method on the <code class="highlighter-rouge">Service</code>, the proxy will lookup the thread local <code class="highlighter-rouge">Service</code> and delegate the call to <em>its</em> methods.</p>
+
+<p>That’s it for the server bootstrap. Now we can get into the runtime and request processing. Here is the sequence diagram from the request processing flow.</p>
+
+<p><img src="https://www.dropbox.com/s/oohqrhj05r6u8ch/server-sequence.jpg?dl=1" alt="Server Sequence Diagram" /></p>
+
+<p>First the <code class="highlighter-rouge">Main</code> program calls <code class="highlighter-rouge">Server#sendRequest(Request)</code> passing in a new <code class="highlighter-rouge">Request</code> object. A <code class="highlighter-rouge">Request</code> object has nothing more than the name of the client.</p>
+
+<p>when we call <code class="highlighter-rouge">sendRequest</code> on the <code class="highlighter-rouge">Server</code>, all it does it add the <code class="highlighter-rouge">Request</code> to the <code class="highlighter-rouge">BlockingQueue</code>.</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kd">public</span> <span class="kt">void</span> <span class="nf">sendRequest</span><span class="o">(</span><span class="n">Request</span> <span class="n">request</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">try</span> <span class="o">{</span>
+        <span class="n">requests</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">request</span><span class="o">);</span>
+    <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">InterruptedException</span> <span class="n">ex</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">throw</span> <span class="k">new</span> <span class="nf">RuntimeException</span><span class="o">(</span><span class="n">ex</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<p>When the server is started, it constantly polls the <code class="highlighter-rouge">BlockingQueue</code>, waiting for a new <code class="highlighter-rouge">Request</code></p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kd">public</span> <span class="kt">void</span> <span class="nf">startServer</span><span class="o">()</span> <span class="o">{</span>
+    <span class="n">executors</span><span class="o">.</span><span class="na">submit</span><span class="o">(</span><span class="k">new</span> <span class="n">Runnable</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nd">@Override</span>
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">()</span> <span class="o">{</span>
+            <span class="k">while</span> <span class="o">(</span><span class="kc">true</span><span class="o">)</span> <span class="o">{</span>
+                <span class="k">try</span> <span class="o">{</span>
+                    <span class="n">Request</span> <span class="n">request</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="na">take</span><span class="o">();</span>
+                    <span class="k">if</span> <span class="o">(</span><span class="n">request</span><span class="o">.</span><span class="na">isShutdownTrigger</span><span class="o">())</span> <span class="o">{</span>
+                        <span class="k">break</span><span class="o">;</span>
+                    <span class="o">}</span>
+                    <span class="n">executors</span><span class="o">.</span><span class="na">submit</span><span class="o">(</span><span class="k">new</span> <span class="n">RequestProcessor</span><span class="o">(</span><span class="n">userDefineHandler</span><span class="o">,</span>
+                                                          <span class="n">singletonService</span><span class="o">,</span>
+                                                          <span class="n">request</span><span class="o">));</span>
+                <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">InterruptedException</span> <span class="n">ex</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="k">throw</span> <span class="k">new</span> <span class="nf">RuntimeException</span><span class="o">(</span><span class="n">ex</span><span class="o">);</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Server shutdown!"</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">});</span>  
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<p>When a <code class="highlighter-rouge">Request</code> is received, the <code class="highlighter-rouge">Server</code> creates a new <code class="highlighter-rouge">RequestProcessor</code>, passing in the <code class="highlighter-rouge">Request</code> object, the <code class="highlighter-rouge">SingletonService</code> object, and the use defined <code class="highlighter-rouge">RequestHandler</code> class. If you look at the <code class="highlighter-rouge">run()</code> method of the <code class="highlighter-rouge">RequestProcessor</code>, you will see the following</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kd">private</span> <span class="kt">void</span> <span class="nf">setThreadLocalService</span><span class="o">()</span> <span class="o">{</span>
+    <span class="n">ThreadLocalService</span><span class="o">.</span><span class="na">set</span><span class="o">(</span><span class="k">new</span> <span class="n">RequestScopedService</span><span class="o">(</span><span class="n">request</span><span class="o">));</span>
+<span class="o">}</span>
+
+<span class="nd">@Override</span>
+<span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">()</span> <span class="o">{</span>
+    <span class="n">setThreadLocalService</span><span class="o">();</span>
+    <span class="n">RequestHandler</span> <span class="n">handler</span> <span class="o">=</span> <span class="n">initInjections</span><span class="o">();</span>
+    <span class="n">Response</span> <span class="n">response</span> <span class="o">=</span> <span class="n">handler</span><span class="o">.</span><span class="na">handleRequest</span><span class="o">(</span><span class="n">request</span><span class="o">);</span>
+    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">response</span><span class="o">.</span><span class="na">getMessage</span><span class="o">());</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<p>So the first thing the processor does is set the <code class="highlighter-rouge">RequestScopedService</code> into the <code class="highlighter-rouge">ThreadLocalService</code>. Then the <code class="highlighter-rouge">RequestHandler</code> is instantiated, using some reflection, as seen in the <code class="highlighter-rouge">initInjections()</code> method</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="n">RequestHandler</span> <span class="nf">initInjections</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">try</span> <span class="o">{</span>
+        <span class="k">for</span> <span class="o">(</span><span class="n">Field</span> <span class="n">field</span> <span class="o">:</span> <span class="n">handlerCls</span><span class="o">.</span><span class="na">getDeclaredFields</span><span class="o">())</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">field</span><span class="o">.</span><span class="na">isAnnotationPresent</span><span class="o">(</span><span class="n">Inject</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+                    <span class="o">&amp;&amp;</span> <span class="n">field</span><span class="o">.</span><span class="na">getType</span><span class="o">()</span> <span class="o">==</span> <span class="n">SingletonService</span><span class="o">.</span><span class="na">class</span><span class="o">)</span> <span class="o">{</span>
+                <span class="k">return</span> <span class="nf">createHandler</span><span class="o">(</span><span class="n">field</span><span class="o">,</span> <span class="n">handlerCls</span><span class="o">);</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+
+        <span class="n">Constructor</span><span class="o">[]</span> <span class="n">cons</span> <span class="o">=</span> <span class="n">handlerCls</span><span class="o">.</span><span class="na">getConstructors</span><span class="o">();</span>
+        <span class="k">for</span> <span class="o">(</span><span class="n">Constructor</span> <span class="n">con</span> <span class="o">:</span> <span class="n">cons</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">con</span><span class="o">.</span><span class="na">isAnnotationPresent</span><span class="o">(</span><span class="n">Inject</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+                    <span class="o">&amp;&amp;</span> <span class="n">con</span><span class="o">.</span><span class="na">getParameterCount</span><span class="o">()</span> <span class="o">==</span> <span class="mi">1</span>
+                    <span class="o">&amp;&amp;</span> <span class="n">con</span><span class="o">.</span><span class="na">getParameterTypes</span><span class="o">()[</span><span class="mi">0</span><span class="o">]</span> <span class="o">==</span> <span class="n">SingletonService</span><span class="o">.</span><span class="na">class</span><span class="o">)</span> <span class="o">{</span>
+                <span class="k">return</span> <span class="o">(</span><span class="n">RequestHandler</span><span class="o">)</span> <span class="n">con</span><span class="o">.</span><span class="na">newInstance</span><span class="o">(</span><span class="n">singletonService</span><span class="o">);</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+    <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">Exception</span> <span class="n">ex</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">throw</span> <span class="k">new</span> <span class="nf">RuntimeException</span><span class="o">(</span><span class="n">ex</span><span class="o">);</span>
+    <span class="o">}</span>
+    <span class="k">throw</span> <span class="k">new</span> <span class="nf">RuntimeException</span><span class="o">(</span><span class="s">"RequestHandler could not be created."</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<p>The method simply checks to see if we should be doing field injection or constructor injection. It makes sure the field or constructor in annotated with <code class="highlighter-rouge">@Inject</code>. If the field is annotated, and the field type is <code class="highlighter-rouge">SingletonService</code>, we will set the field with the <code class="highlighter-rouge">SingletonService</code>, using reflection. Similar events occur to process constructor injection.</p>
+
+<p>The last thing the <code class="highlighter-rouge">RequestHander</code> does is simply call the <code class="highlighter-rouge">handleRequest</code>of the <code class="highlighter-rouge">RequestHandler</code>, which returns a <code class="highlighter-rouge">Response</code>, then the processor prints the <code class="highlighter-rouge">Response</code> message. And that’s it for the processing of a single request.</p>
+
+<p>If you run the <code class="highlighter-rouge">Main</code> class, you should see something similar to the following</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>Message: Hello Kobe
+  meta-info:
+    service class: com.sun.proxy.$Proxy2
+    service id: 1
+    thread name: pool-1-thread-2
+
+Message: Hello Lebron
+  meta-info:
+    service class: com.sun.proxy.$Proxy2
+    service id: 2
+    thread name: pool-1-thread-3
+
+... three more
+</code></pre>
+</div>
+
+<p>The first thing that you should notice is that the service class is indeed the <code class="highlighter-rouge">Proxy</code> instance, and not the <code class="highlighter-rouge">RequestScopedService</code>. The underlying will <code class="highlighter-rouge">RequestScopedService</code> will remain the same as long as the request is being processed. So all made on the <code class="highlighter-rouge">Service</code> inside the <code class="highlighter-rouge">SingletonService</code> will always be delegated to actual <code class="highlighter-rouge">RequestScopedService</code> associated with a particular thread.</p>
+
+<p>And that’s it.</p>
+
+<h3 id="summary">Summary</h3>
+
+<p>We covered some basics on the Proxy Pattern, and saw how it uses a wrapper or delegation model to make calls to an underlying object. Then we covered dynamic proxies, and how it is implemented in the Java language. The finally we went through an example of how dynamic proxies work with scoped dependency injection. If an object in a lesser scope needs to be injected in to an object in a wider scope, the lesser scope object needs to be proxied, so that different thread have access to their own lesser scoped object instance.</p>
+
+<p>The example is far from some thing you’d use in real life, but I hope it gives you a better understanding of what goes on under the hood with regards to the combination of the two subject matters we discussed, dynamic proxies and dependency injection.</p>
+
+
+
+    <div class="disqus-comments">
+      
+        <div id="disqus_thread"></div>
+<script>
+    /**
+     *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+     *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables
+     */
+   
+    var disqus_config = function () {
+        
+    };
+
+    (function() {  // DON'T EDIT BELOW THIS LINE
+        var d = document, s = d.createElement('script');
+        
+        s.src = '//peeskillet-io.disqus.com/embed.js';
+        
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+      
+    </div>
+
+    <script id="dsq-count-scr" src="//peeskillet-io.disqus.com/count.js" async></script>
+
+  </article>
+
+
+</section>
+
+
+      <div class="clearfooter"></div>
+    </div>
+
+    
+
+    <footer class="site-footer">
+  <div class="site-constraint row">
+    <div class="footer-logo small-6 columns">
+      <svg class="footer-logo-icon">
+        <use xlink:href="#pio-logo"></use>
+      </svg>
+    </div>
+    <div class="footer-social small-6 columns">
+      <div class="social-links">
+        <ul>
+          <li><a href="http://stackoverflow.com/users/2587435/peeskillet">
+            <svg class="social-icon">
+              <use xlink:href="#so-plain"></use>
+            </svg>
+          </a></li>
+          <li><a href="https://github.com/psamsotha">
+            <svg class="social-icon">
+              <use xlink:href="#github-plain"></use>
+            </svg>
+          </a></li>
+          <li><a href="/feed.xml">
+            <svg class="social-icon">
+              <use xlink:href="#rss-plain"></use>
+            </svg>
+          </a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="footer-license">
+    <p class="license-message">
+      This site is open source, licensed under Apache 2.0.<br>
+      The source code is avaible at <a href="#">GitHub</a>.
+    </p>
+  </div>
+</footer>
+
+
+    
+      <script src="/js/vendor/jquery.js"></script>
+      <script src="/js/vendor/what-input.js"></script>
+      <script src="/js/vendor/foundation.min.js"></script>
+      <script src="/js/app.js"></script>
+    
+
+    <script id="dsq-count-scr" src="//peeskillet-io.disqus.com/count.js" async></script>
+  </body>
+
+</html>

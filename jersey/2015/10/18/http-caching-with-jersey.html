@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- favicon stuff -->
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32">
+  <link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="apple-mobile-web-app-title" content="Peeskillet">
+  <meta name="application-name" content="Peeskillet">
+  <meta name="theme-color" content="#ffffff">
+  <!-- end favicon -->
+
+  <title>HTTP Caching with Jersey (and JAX-RS)</title>
+  <meta name="description" content="In this article I will be talking about caching in the context of the HTTP specs and REST (which is heavily linked with HTTP semantics). First I will cover t...">
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="canonical" href="http://yourdomain.com/jersey/2015/10/18/http-caching-with-jersey.html">
+  <link rel="alternate" type="application/rss+xml" title="Paul Samsotha Blog" href="http://yourdomain.com/feed.xml">
+</head>
+
+
+  <body>
+    <div style="height: 0; width: 0; position: absolute; visibility: hidden">
+  <!-- inject:svg --><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><symbol id="back-arrow" viewBox="0 0 512 512"><polygon points="352,128.4 319.7,96 160,256 160,256 160,256 319.7,416 352,383.6 224.7,256 "/></symbol><symbol id="email" viewBox="0 0 512 512"><path d="M484.748,96.359H27.439h-3.966h-9.625h-6.63v318.585H505V96.359h-17.218H484.748z M464.837,116.271  L272.529,308.578c-8.769,8.769-24.073,8.769-32.842,0L47.35,116.271H464.837z M27.128,124.203l129.287,129.268L27.128,382.759  V124.203z M43.014,395.029l127.489-127.47l55.106,55.097c8.138,8.148,18.978,12.64,30.499,12.64c11.521,0,22.361-4.492,30.499-12.64  l55.106-55.106l127.479,127.479H43.014z M485.089,382.769L355.801,253.472l129.287-129.297V382.769z" fill="#37404D"/></symbol><symbol id="forward-arrow" viewBox="0 0 512 512"><polygon points="160,128.4 192.3,96 352,256 352,256 352,256 192.3,416 160,383.6 287.3,256 "/></symbol><symbol id="github-plain" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></symbol><symbol id="pio-logo" viewBox="0 0 145.87 34.95">
+  <g>
+    <path d="M33.28,38.85a3.29,3.29,0,0,0-.11-1,1.73,1.73,0,0,1-.11-0.56,0.68,0.68,0,0,1,.38-0.59,1.65,1.65,0,0,1,.89-0.23,2.9,2.9,0,0,1,1.93.62A1.91,1.91,0,0,1,37,38.62V54.3a8.43,8.43,0,0,0,1.86-.47,12,12,0,0,0,2.14-1,12.82,12.82,0,0,0,2.14-1.65A11.56,11.56,0,0,0,45,48.84a12.38,12.38,0,0,0,1.32-3,12.54,12.54,0,0,0,.5-3.67,9.82,9.82,0,0,0-.43-2.81A7.93,7.93,0,0,0,45,36.74a7.31,7.31,0,0,0-2.43-2A7.72,7.72,0,0,0,39,34a12.43,12.43,0,0,0-4.94.89,9.18,9.18,0,0,0-3.36,2.39,9.52,9.52,0,0,0-1.91,3.48,14.15,14.15,0,0,0-.61,4.18,11.37,11.37,0,0,0,.27,2.68,9.62,9.62,0,0,0,.6,1.78,4.75,4.75,0,0,0,.61,1L30,50.8a0.49,0.49,0,0,1,.56.09,0.89,0.89,0,0,1,.16.56,3.42,3.42,0,0,1-.22,1,5.43,5.43,0,0,1-.6,1.23,2.7,2.7,0,0,1-.87.87,0.83,0.83,0,0,1-1-.11,12.46,12.46,0,0,1-.87-0.94A9,9,0,0,1,26,51.68a15,15,0,0,1-1-2.74,14,14,0,0,1-.45-3.71,16.83,16.83,0,0,1,1.05-6.11,13.55,13.55,0,0,1,3-4.68,13.09,13.09,0,0,1,4.56-3A15.7,15.7,0,0,1,39,30.39a12.62,12.62,0,0,1,4.77.87,10.51,10.51,0,0,1,3.66,2.43,10.76,10.76,0,0,1,2.33,3.71,13.14,13.14,0,0,1,.82,4.71,14.74,14.74,0,0,1-1.12,5.8,16.53,16.53,0,0,1-3,4.72A17.11,17.11,0,0,1,37,57.91v6.33a0.92,0.92,0,0,1-.4.86,1.75,1.75,0,0,1-.94.25,3.14,3.14,0,0,1-.84-0.12,3.52,3.52,0,0,1-.76-0.3,2.15,2.15,0,0,1-.56-0.43A0.77,0.77,0,0,1,33.28,64V38.85Z" transform="translate(-24.53 -30.39)"/>
+    <path d="M63.13,50a8.85,8.85,0,0,1-.46,2.74,9.64,9.64,0,0,1-1.36,2.66,10.47,10.47,0,0,1-2.23,2.25A9.57,9.57,0,0,1,56,59.2a5.37,5.37,0,0,0,.62,1.16,4.11,4.11,0,0,0,.93.95,4.4,4.4,0,0,0,1.25.63,5.3,5.3,0,0,0,1.65.23,5.15,5.15,0,0,0,2.41-.53,5.27,5.27,0,0,0,1.7-1.39,7.46,7.46,0,0,0,1.11-1.95,12.34,12.34,0,0,0,.63-2.18A1.45,1.45,0,0,1,67,55.06a1.37,1.37,0,0,1,1-.13,1.79,1.79,0,0,1,.91.6,1.38,1.38,0,0,1,.32,1.09A16.38,16.38,0,0,1,69,58.28a10,10,0,0,1-.67,1.9,10.62,10.62,0,0,1-1.14,1.89,7.77,7.77,0,0,1-1.7,1.65,8.59,8.59,0,0,1-2.37,1.17,10,10,0,0,1-3.12.45,8.13,8.13,0,0,1-3.18-.64,8.24,8.24,0,0,1-2.72-1.85,9,9,0,0,1-1.9-3,10.66,10.66,0,0,1-.71-4,13.68,13.68,0,0,1,.63-4.23,12.12,12.12,0,0,1,1.66-3.39A8.23,8.23,0,0,1,56.1,46a5.08,5.08,0,0,1,2.7-.81,4.51,4.51,0,0,1,1.82.35,3.81,3.81,0,0,1,1.37,1,4.39,4.39,0,0,1,.86,1.54A6.27,6.27,0,0,1,63.13,50ZM55.4,55.7a3.82,3.82,0,0,0,0,.42,4,4,0,0,1,0,.45,6.64,6.64,0,0,0,1.62-1.08A6.76,6.76,0,0,0,58.31,54a7.33,7.33,0,0,0,.8-1.84,7.6,7.6,0,0,0,.28-2.07,2.4,2.4,0,0,0-.27-1.24,0.83,0.83,0,0,0-.74-0.45,1.54,1.54,0,0,0-1,.4,3.57,3.57,0,0,0-.8,1A7.22,7.22,0,0,0,56,51.29q-0.22.81-.36,1.63a14.79,14.79,0,0,0-.19,1.56A11.43,11.43,0,0,0,55.4,55.7Z" transform="translate(-24.53 -30.39)"/>
+    <path d="M77.38,50a8.85,8.85,0,0,1-.46,2.74,9.64,9.64,0,0,1-1.36,2.66,10.47,10.47,0,0,1-2.23,2.25,9.57,9.57,0,0,1-3.06,1.51,5.37,5.37,0,0,0,.62,1.16,4.11,4.11,0,0,0,.93.95,4.4,4.4,0,0,0,1.25.63,5.3,5.3,0,0,0,1.65.23,5.15,5.15,0,0,0,2.41-.53,5.27,5.27,0,0,0,1.7-1.39A7.46,7.46,0,0,0,80,58.3a12.34,12.34,0,0,0,.63-2.18,1.45,1.45,0,0,1,.67-1.07,1.37,1.37,0,0,1,1-.13,1.79,1.79,0,0,1,.91.6,1.38,1.38,0,0,1,.32,1.09,16.38,16.38,0,0,1-.32,1.66,10,10,0,0,1-.67,1.9,10.62,10.62,0,0,1-1.14,1.89,7.77,7.77,0,0,1-1.7,1.65,8.59,8.59,0,0,1-2.37,1.17,10,10,0,0,1-3.12.45A8.13,8.13,0,0,1,71,64.69a8.24,8.24,0,0,1-2.72-1.85,9,9,0,0,1-1.9-3,10.66,10.66,0,0,1-.71-4,13.68,13.68,0,0,1,.63-4.23A12.12,12.12,0,0,1,68,48.23,8.23,8.23,0,0,1,70.35,46a5.08,5.08,0,0,1,2.7-.81,4.51,4.51,0,0,1,1.82.35,3.81,3.81,0,0,1,1.37,1,4.39,4.39,0,0,1,.86,1.54A6.27,6.27,0,0,1,77.38,50ZM69.65,55.7a3.82,3.82,0,0,0,0,.42,4,4,0,0,1,0,.45,6.64,6.64,0,0,0,1.62-1.08A6.76,6.76,0,0,0,72.56,54a7.33,7.33,0,0,0,.8-1.84,7.6,7.6,0,0,0,.28-2.07,2.4,2.4,0,0,0-.27-1.24,0.83,0.83,0,0,0-.74-0.45,1.54,1.54,0,0,0-1,.4,3.57,3.57,0,0,0-.8,1,7.22,7.22,0,0,0-.56,1.45q-0.22.81-.36,1.63a14.79,14.79,0,0,0-.19,1.56A11.43,11.43,0,0,0,69.65,55.7Z" transform="translate(-24.53 -30.39)"/>
+    <path d="M83.31,57.41a1.17,1.17,0,0,1-.7.93,1.39,1.39,0,0,1-1,0,1.87,1.87,0,0,1-.84-0.73,1.39,1.39,0,0,1-.2-1.12,32.08,32.08,0,0,1,1-3.53l1.32-3.86A5.78,5.78,0,0,1,82.33,48a3.22,3.22,0,0,1-.21-1.16,2.28,2.28,0,0,1,.46-1.28,6.52,6.52,0,0,1,1.1-1.23A7,7,0,0,1,85,43.39,2.65,2.65,0,0,1,86.2,43a1.51,1.51,0,0,1,1.3.59,2.58,2.58,0,0,1,.43,1.57,3.35,3.35,0,0,1-.18,1.07,9.57,9.57,0,0,1-.39,1Q87.16,47.69,87,48a2.64,2.64,0,0,0-.2.42,20,20,0,0,0,1.76,2.65q0.91,1.15,1.68,2.27a12,12,0,0,1,1.25,2.39,8.19,8.19,0,0,1,.49,3,6.65,6.65,0,0,1-.06.87,5.56,5.56,0,0,1-.18.84,5.14,5.14,0,0,0,1.49-.52,5.31,5.31,0,0,0,1.13-.81,4.56,4.56,0,0,0,.8-1A6.7,6.7,0,0,0,95.67,57a3.49,3.49,0,0,1,.52-1,0.76,0.76,0,0,1,.59-0.3,1.16,1.16,0,0,1,.62.2,2.29,2.29,0,0,1,.56.5,3.06,3.06,0,0,1,.4.63,1.42,1.42,0,0,1,.15.59,2.44,2.44,0,0,1-.19.84,6.06,6.06,0,0,1-.5,1,8.64,8.64,0,0,1-.71,1,6.37,6.37,0,0,1-.82.83,10.38,10.38,0,0,1-2.65,1.54,12.47,12.47,0,0,1-3.77.79,7.3,7.3,0,0,1-2.05,1.23,7,7,0,0,1-2.66.48,6.6,6.6,0,0,1-1.54-.19,10.19,10.19,0,0,1-1.5-.48,9.61,9.61,0,0,1-1.3-.64,4.87,4.87,0,0,1-.94-0.7,4,4,0,0,1-1.15-1.7,3.23,3.23,0,0,1-.13-1.54A2.33,2.33,0,0,1,79.1,59a1,1,0,0,1,.77-0.43,2.31,2.31,0,0,1,.74.2q0.5,0.2,1.16.52l1.43,0.67q0.77,0.35,1.55.67a12.82,12.82,0,0,0,1.51.52,5.21,5.21,0,0,0,1.35.2,4.82,4.82,0,0,0,.73-1.24,4.28,4.28,0,0,0,.33-1.69,6.87,6.87,0,0,0-.3-2.09,8.36,8.36,0,0,0-.8-1.78A10.83,10.83,0,0,0,86.44,53q-0.62-.71-1.25-1.35-0.56,1.38-1,2.73T83.31,57.41Z" transform="translate(-24.53 -30.39)"/>
+    <path d="M95.9,34.42a3.28,3.28,0,0,0-.08-0.82,3.05,3.05,0,0,0-.16-0.48,1.49,1.49,0,0,0-.16-0.28,0.36,0.36,0,0,1-.08-0.22,0.28,0.28,0,0,1,.14-0.23,1.41,1.41,0,0,1,.38-0.16,3.19,3.19,0,0,1,.5-0.11,4.08,4.08,0,0,1,.53,0,2.72,2.72,0,0,1,1.89.62,1.93,1.93,0,0,1,.69,1.49v15q0.59-.8,1.23-1.51a10.75,10.75,0,0,1,1.35-1.27,6.63,6.63,0,0,1,1.46-.88,3.92,3.92,0,0,1,4.83,1.27,5,5,0,0,1,.77,1.65,7.74,7.74,0,0,1-.2,4.52,9.82,9.82,0,0,1-1.12,2.19,11.33,11.33,0,0,1-1.49,1.76,13.86,13.86,0,0,1-1.54,1.29,8.65,8.65,0,0,0,.46,1.49A5.75,5.75,0,0,0,106,61a3.38,3.38,0,0,0,1,.89,2.4,2.4,0,0,0,1.25.33,2.61,2.61,0,0,0,1.54-.5A5.41,5.41,0,0,0,111,60.4a8.19,8.19,0,0,0,.93-1.66,9.39,9.39,0,0,0,.54-1.7,2.22,2.22,0,0,1,.43-1.05,1,1,0,0,1,.63-0.36,1.11,1.11,0,0,1,.69.18,2.15,2.15,0,0,1,.61.55,2.42,2.42,0,0,1,.39.76,1.47,1.47,0,0,1,0,.8,22.13,22.13,0,0,1-.94,2.25,11.87,11.87,0,0,1-1.55,2.44,9,9,0,0,1-2.2,1.95,5.34,5.34,0,0,1-2.91.8,4.74,4.74,0,0,1-2.57-.73,7.4,7.4,0,0,1-2-1.83,8.52,8.52,0,0,1-1.28-2.41,7.8,7.8,0,0,1-.45-2.51,1.19,1.19,0,0,1,.33-0.76,9.22,9.22,0,0,1,.83-0.84q0.5-.46,1.08-1A9.57,9.57,0,0,0,104.72,54a6.76,6.76,0,0,0,.83-1.58,5.63,5.63,0,0,0,.33-2,2.31,2.31,0,0,0-.43-1.45,1.35,1.35,0,0,0-1.11-.56,2.28,2.28,0,0,0-1,.32,4.49,4.49,0,0,0-1.25,1.09,10.89,10.89,0,0,0-1.31,2.05A18.58,18.58,0,0,0,99.53,55v8.25q0,0.35,0,.71a1.76,1.76,0,0,1-.14.66,1.21,1.21,0,0,1-.4.49,1.31,1.31,0,0,1-.79.2,3.9,3.9,0,0,1-.76-0.08,2.11,2.11,0,0,1-.75-0.3,1.71,1.71,0,0,1-.56-0.63,2.29,2.29,0,0,1-.22-1.09V34.42Z" transform="translate(-24.53 -30.39)"/>
+    <path d="M115.24,40.91a2.71,2.71,0,0,1-1.11-.23,2.9,2.9,0,0,1-.91-0.63,3.16,3.16,0,0,1-.62-0.93,2.77,2.77,0,0,1-.23-1.14,2.91,2.91,0,0,1,.23-1.17,3,3,0,0,1,.62-0.93,2.88,2.88,0,0,1,2-.83,3,3,0,0,1,1.17.22,2.75,2.75,0,0,1,1.54,1.54,3,3,0,0,1,.22,1.17,2.89,2.89,0,0,1-.22,1.14,3,3,0,0,1-.61.93,2.87,2.87,0,0,1-.93.63A2.91,2.91,0,0,1,115.24,40.91ZM116.34,60q0,0.16,0,.53a3.15,3.15,0,0,0,.14.74,1.72,1.72,0,0,0,.38.66,0.94,0.94,0,0,0,.73.28,1.71,1.71,0,0,0,1.23-.52,4.76,4.76,0,0,0,.91-1.29,9.69,9.69,0,0,0,.64-1.68q0.26-.9.42-1.7a2.22,2.22,0,0,1,.43-1.05,1,1,0,0,1,.63-0.36,1.06,1.06,0,0,1,.68.18,2.38,2.38,0,0,1,.61.55,2.29,2.29,0,0,1,.4.76,1.47,1.47,0,0,1,0,.8,23.29,23.29,0,0,1-.86,2.51,10.7,10.7,0,0,1-1.35,2.41,7.31,7.31,0,0,1-2,1.83,4.93,4.93,0,0,1-2.7.73A3.88,3.88,0,0,1,115,65a3.81,3.81,0,0,1-1.27-1,4.23,4.23,0,0,1-.79-1.43,5.52,5.52,0,0,1-.27-1.73V48a3.29,3.29,0,0,0-.11-1,1.73,1.73,0,0,1-.11-0.56,0.66,0.66,0,0,1,.38-0.57,1.71,1.71,0,0,1,.89-0.22,2.72,2.72,0,0,1,1.89.62,1.93,1.93,0,0,1,.69,1.49V60Z" transform="translate(-24.53 -30.39)"/>
+    <path d="M131.46,57a2.11,2.11,0,0,1,.43-1,1,1,0,0,1,.63-0.35,1.15,1.15,0,0,1,.69.16,2.06,2.06,0,0,1,.61.53,2.3,2.3,0,0,1,.39.74,1.5,1.5,0,0,1,0,.81,22.13,22.13,0,0,1-.94,2.25,11.87,11.87,0,0,1-1.55,2.44,9,9,0,0,1-2.2,1.95,5.34,5.34,0,0,1-2.91.8,6.08,6.08,0,0,1-2.44-.46,4.82,4.82,0,0,1-1.77-1.29,5.57,5.57,0,0,1-1.08-2A8.64,8.64,0,0,1,121,59V37.16a8.6,8.6,0,0,1,.34-2.47,6.26,6.26,0,0,1,.94-1.95,4.55,4.55,0,0,1,1.39-1.27,3.34,3.34,0,0,1,1.69-.46,3.75,3.75,0,0,1,1.78.39,3.52,3.52,0,0,1,1.2,1,5.09,5.09,0,0,1,.74,1.45,9.48,9.48,0,0,1,.39,1.68,15.68,15.68,0,0,1,.14,1.69q0,0.83,0,1.51a22.08,22.08,0,0,1-.33,3.69q-0.33,1.93-.83,3.81t-1.1,3.6q-0.6,1.72-1.15,3.06t-1,2.18a4.44,4.44,0,0,1-.6,1v2.79a4.25,4.25,0,0,0,.61,2.38,2.16,2.16,0,0,0,1.95.93,2.61,2.61,0,0,0,1.54-.5A5.41,5.41,0,0,0,130,60.4a8.19,8.19,0,0,0,.93-1.66A9.39,9.39,0,0,0,131.46,57Zm-6.82-7.24a7.54,7.54,0,0,0,.5-1.32q0.25-.83.47-1.84T126,44.52q0.19-1.1.33-2.16t0.22-2q0.08-.93.08-1.58a12.65,12.65,0,0,0-.35-3.5,1.24,1.24,0,0,0-.94-1.11,0.41,0.41,0,0,0-.33.19,1.62,1.62,0,0,0-.23.48,3.13,3.13,0,0,0-.13.63,6.08,6.08,0,0,0,0,.62V49.8Z" transform="translate(-24.53 -30.39)"/>
+    <path d="M142,57a2.11,2.11,0,0,1,.43-1,1,1,0,0,1,.63-0.35,1.15,1.15,0,0,1,.69.16,2.06,2.06,0,0,1,.61.53,2.3,2.3,0,0,1,.39.74,1.5,1.5,0,0,1,0,.81,22.13,22.13,0,0,1-.94,2.25,11.87,11.87,0,0,1-1.55,2.44,9,9,0,0,1-2.2,1.95,5.34,5.34,0,0,1-2.91.8,6.08,6.08,0,0,1-2.44-.46A4.82,4.82,0,0,1,133,63.59a5.57,5.57,0,0,1-1.08-2,8.64,8.64,0,0,1-.36-2.59V37.16a8.6,8.6,0,0,1,.34-2.47,6.26,6.26,0,0,1,.94-1.95,4.55,4.55,0,0,1,1.39-1.27,3.34,3.34,0,0,1,1.69-.46,3.75,3.75,0,0,1,1.78.39,3.52,3.52,0,0,1,1.2,1,5.09,5.09,0,0,1,.74,1.45,9.48,9.48,0,0,1,.39,1.68,15.68,15.68,0,0,1,.14,1.69q0,0.83,0,1.51a22.08,22.08,0,0,1-.33,3.69q-0.33,1.93-.83,3.81t-1.1,3.6q-0.6,1.72-1.15,3.06t-1,2.18a4.44,4.44,0,0,1-.6,1v2.79a4.25,4.25,0,0,0,.61,2.38,2.16,2.16,0,0,0,1.95.93,2.61,2.61,0,0,0,1.54-.5,5.41,5.41,0,0,0,1.27-1.27,8.19,8.19,0,0,0,.93-1.66A9.39,9.39,0,0,0,142,57Zm-6.82-7.24a7.54,7.54,0,0,0,.5-1.32q0.25-.83.47-1.84t0.41-2.11q0.19-1.1.33-2.16t0.22-2q0.08-.93.08-1.58a12.65,12.65,0,0,0-.35-3.5,1.24,1.24,0,0,0-.94-1.11,0.41,0.41,0,0,0-.33.19,1.62,1.62,0,0,0-.23.48,3.13,3.13,0,0,0-.13.63,6.08,6.08,0,0,0,0,.62V49.8Z" transform="translate(-24.53 -30.39)"/>
+    <path d="M153.18,50a8.85,8.85,0,0,1-.46,2.74,9.64,9.64,0,0,1-1.36,2.66,10.47,10.47,0,0,1-2.23,2.25,9.57,9.57,0,0,1-3.06,1.51,5.37,5.37,0,0,0,.62,1.16,4.11,4.11,0,0,0,.93.95,4.4,4.4,0,0,0,1.25.63,5.3,5.3,0,0,0,1.65.23,5.15,5.15,0,0,0,2.41-.53,5.27,5.27,0,0,0,1.7-1.39,7.46,7.46,0,0,0,1.11-1.95,12.34,12.34,0,0,0,.63-2.18,1.45,1.45,0,0,1,.67-1.07,1.37,1.37,0,0,1,1-.13,1.79,1.79,0,0,1,.91.6,1.38,1.38,0,0,1,.32,1.09,16.38,16.38,0,0,1-.32,1.66,10,10,0,0,1-.67,1.9,10.62,10.62,0,0,1-1.14,1.89,7.77,7.77,0,0,1-1.7,1.65,8.59,8.59,0,0,1-2.37,1.17,10,10,0,0,1-3.12.45,8.13,8.13,0,0,1-3.18-.64,8.24,8.24,0,0,1-2.72-1.85,9,9,0,0,1-1.9-3,10.66,10.66,0,0,1-.71-4,13.68,13.68,0,0,1,.63-4.23,12.12,12.12,0,0,1,1.66-3.39A8.23,8.23,0,0,1,146.15,46a5.08,5.08,0,0,1,2.7-.81,4.51,4.51,0,0,1,1.82.35,3.81,3.81,0,0,1,1.37,1,4.39,4.39,0,0,1,.86,1.54A6.27,6.27,0,0,1,153.18,50Zm-7.73,5.67a3.82,3.82,0,0,0,0,.42,4,4,0,0,1,0,.45,6.64,6.64,0,0,0,1.62-1.08,6.76,6.76,0,0,0,1.24-1.5,7.33,7.33,0,0,0,.8-1.84,7.6,7.6,0,0,0,.28-2.07,2.4,2.4,0,0,0-.27-1.24,0.83,0.83,0,0,0-.74-0.45,1.54,1.54,0,0,0-1,.4,3.57,3.57,0,0,0-.8,1,7.22,7.22,0,0,0-.56,1.45q-0.22.81-.36,1.63a14.79,14.79,0,0,0-.19,1.56A11.43,11.43,0,0,0,145.45,55.7Z" transform="translate(-24.53 -30.39)"/>
+    <path d="M152.06,41.43q0.54,0,1.2.07t1.36,0.06l1.78,0V33.46a3.28,3.28,0,0,0-.08-0.82,3.05,3.05,0,0,0-.16-0.48,1.49,1.49,0,0,0-.16-0.28,0.36,0.36,0,0,1-.08-0.22,0.28,0.28,0,0,1,.14-0.23,1.41,1.41,0,0,1,.38-0.16,3.19,3.19,0,0,1,.5-0.11,4.08,4.08,0,0,1,.53,0,2.72,2.72,0,0,1,1.89.62,1.93,1.93,0,0,1,.69,1.49v8.41q2.2,0,4.65,0t4.91-.16a0.52,0.52,0,0,1,.53-0.26,0.55,0.55,0,0,1,.26.45,3.48,3.48,0,0,1,0,.87,5.22,5.22,0,0,1-.19,1,2.82,2.82,0,0,1-.39.83,0.69,0.69,0,0,1-.55.35q-2.88.07-5.1,0.08H160V60a2.57,2.57,0,0,0,.45,1.69,1.5,1.5,0,0,0,1.2.52,1.73,1.73,0,0,0,1.25-.52,4.76,4.76,0,0,0,.91-1.29,9.08,9.08,0,0,0,.63-1.68q0.25-.9.41-1.7a2.11,2.11,0,0,1,.47-1.09,1,1,0,0,1,.68-0.34,1.17,1.17,0,0,1,.59.18,2.17,2.17,0,0,1,.55.46,2.41,2.41,0,0,1,.4.63,1.76,1.76,0,0,1,.15.7v0.12a0.74,0.74,0,0,1,0,.21,20,20,0,0,1-.83,2.51,10.45,10.45,0,0,1-1.36,2.41,7.47,7.47,0,0,1-2,1.83,4.93,4.93,0,0,1-2.7.73A5.16,5.16,0,0,1,159,65a3.45,3.45,0,0,1-1.39-.94,4.48,4.48,0,0,1-.91-1.65,7.93,7.93,0,0,1-.33-2.44V44.76H155l-1,0-0.87,0a1.29,1.29,0,0,1-1-.5,2.94,2.94,0,0,1-.61-1.11,2.1,2.1,0,0,1,0-1.11A0.61,0.61,0,0,1,152.06,41.43Z" transform="translate(-24.53 -30.39)"/>
+  </g>
+</symbol><symbol id="rss-plain" viewBox="0 0 24 24"><path d="M6.503 20.752c0 1.794-1.456 3.248-3.251 3.248-1.796 0-3.252-1.454-3.252-3.248 0-1.794 1.456-3.248 3.252-3.248 1.795.001 3.251 1.454 3.251 3.248zm-6.503-12.572v4.811c6.05.062 10.96 4.966 11.022 11.009h4.817c-.062-8.71-7.118-15.758-15.839-15.82zm0-3.368c10.58.046 19.152 8.594 19.183 19.188h4.817c-.03-13.231-10.755-23.954-24-24v4.812z"/></symbol><symbol id="so-plain" viewBox="0 0 24 24"><path d="M15 21h-10v-2h10v2zm6-11.665l-1.621-9.335-1.993.346 1.62 9.335 1.994-.346zm-5.964 6.937l-9.746-.975-.186 2.016 9.755.879.177-1.92zm.538-2.587l-9.276-2.608-.526 1.954 9.306 2.5.496-1.846zm1.204-2.413l-8.297-4.864-1.029 1.743 8.298 4.865 1.028-1.744zm1.866-1.467l-5.339-7.829-1.672 1.14 5.339 7.829 1.672-1.14zm-2.644 4.195v8h-12v-8h-2v10h16v-10h-2z"/></symbol></svg><!-- endinject -->
+</div>
+
+    
+      <header class="site-header" role="banner" data-page="HTTP Caching with Jersey (and JAX-RS)">
+  <div class="topbar post-topbar">
+    <div class="site-constraint">
+      <a class="topbar-logo" href="/" title="Home Page">
+        <svg class="topbar-logo-svg">
+          <use xlink:href="#pio-logo"></use>
+        </svg>
+      </a>
+      <nav class="topbar-nav-wrapper">
+        <span class="topbar-nav-label" role="button" tabindex="0">Menu</span>
+        <ul class="topbar-nav collapse">
+          <li>
+            <a class="topbar-nav-item"
+                href="/"
+                title="Home">
+              Home
+            </a>
+          </li>
+          <li>
+            <a class="topbar-nav-item"
+                href="/archive/"
+                title="Archive">
+              Archive
+            </a>
+          </li>
+          <li>
+            <a class="topbar-nav-item"
+                href="/contact/"
+                title="Contact">
+              Contact
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+</header>
+
+    
+
+    <div class="main-content">
+      <section class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <div class="post-banner"
+       style="background-image: linear-gradient(to bottom, rgba(0,0,0,0) 0%,rgba(0,0,0,0.01) 2%,#29383E 100%), url('/assets/images/chains-lg.jpg')">
+  
+    <div class="post-banner-container">
+      <div class="post-title">
+        <h2 class="post-title-text">HTTP Caching with Jersey (and JAX-RS)</h2>
+      </div>
+      <div class="post-subtitle">
+        by<span class="post-author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <span itemprop="name"><b>Paul Samsotha</b></span> on
+        </span>
+        <time class="post-date" datetime="2015-10-18T00:00:00+07:00" itemprop="datePublished">
+          Oct 18, 2015
+        </time> 
+      </div>
+    </div>
+  </div>
+
+  <article class="post-content">
+    <p>In this article I will be talking about caching in the context of the HTTP specs and REST (which is heavily linked with HTTP semantics). First I will cover the specifics covered in HTTP 1.0, then the changes made in HTTP 1.1, then conclude with how we can clean up some of the examples from the previous sections.</p>
+
+<p>Tools you will need to follow along.</p>
+
+<ul>
+  <li><a href="http://curl.haxx.se/">cURL</a> - A command line tool that I use as a REST client. You may use a different client, but any other tools usages will be outside the scope of this article.</li>
+  <li><a href="https://maven.apache.org/">Maven</a> - To build and run the app with the <a href="http://www.eclipse.org/jetty/documentation/current/jetty-maven-plugin.html">jetty-maven-plugin</a></li>
+</ul>
+
+<p>You download or clone the app from Github</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>git clone https://github.com/psamsotha/jersey-cache-example.git
+</code></pre>
+</div>
+
+<p>Or download it from the <a href="https://github.com/psamsotha/jersey-cache-example">Github project site</a></p>
+
+<h4 id="sections">Sections</h4>
+
+<ul>
+  <li><strong><a href="#http10">Caching in HTTP 1.0</a></strong>
+    <ul>
+      <li><a href="#http10example">Expires Example</a></li>
+    </ul>
+  </li>
+  <li><strong><a href="#http11">Caching in HTTP 1.0</a></strong>
+    <ul>
+      <li><a href="#temporal">Temporal Semantics</a>
+        <ul>
+          <li><a href="#temporalExample">Cache-Control example</a></li>
+        </ul>
+      </li>
+      <li><a href="#revalidation">Revalidation Semantics</a>
+        <ul>
+          <li><a href="#temporalRevalidation">Temporal Revalidation</a>
+            <ul>
+              <li><a href="#temporalRevalidationExample">Temporal Revalidation Example</a></li>
+            </ul>
+          </li>
+          <li><a href="#etagRevalidation">Etag Revalidation</a>
+            <ul>
+              <li><a href="#etagRevalidationExample">Etag Realidation Example</a></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><strong><a href="#dry">Keeping it DRY (don’t repeat yourself)</a></strong></li>
+</ul>
+
+<p><a name="http10"></a></p>
+
+<h3 id="caching-in-http-10">Caching in HTTP 1.0</h3>
+
+<p>In HTTP 1.0 the server sends an <code class="highlighter-rouge">Expires: &lt;expiration-data&gt;</code> header with the response. So a response might look something like</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>HTTP/1.0 200 OK
+Date: Sun, 18 Oct 2015, 09:15:25 GMT
+Content-Type: text/plain
+Content-Length: 100
+Expires: Sun, 18 Oct 2015, 10:15:25 GMT
+
+  &lt;body content&gt;
+</code></pre>
+</div>
+
+<p>Here the expiration data has been set to one hour from the time the response was sent out.</p>
+
+<p><a name="http10example"></a></p>
+
+<h5 id="expires-example">Expires example</h5>
+
+<p>In JAX-RS, we would simply to something like</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="nd">@GET</span>
+<span class="nd">@Produces</span><span class="o">(</span><span class="s">"text/plain"</span><span class="o">)</span>
+<span class="kd">public</span> <span class="n">Response</span> <span class="nf">get</span><span class="o">()</span> <span class="o">{</span>
+    <span class="kt">long</span> <span class="n">current</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Date</span><span class="o">().</span><span class="na">getTime</span><span class="o">();</span>
+    <span class="n">Date</span> <span class="n">expires</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Date</span><span class="o">(</span><span class="n">current</span> <span class="o">+</span> <span class="o">(</span><span class="mi">10</span> <span class="o">*</span> <span class="mi">1</span><span class="n">_000</span><span class="o">));</span>
+    <span class="k">return</span> <span class="n">Response</span><span class="o">.</span><span class="na">ok</span><span class="o">(</span><span class="s">"Some Data"</span><span class="o">).</span><span class="na">expires</span><span class="o">(</span><span class="n">expires</span><span class="o">).</span><span class="na">build</span><span class="o">();</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<p>There’s nothing really interesting goind on here. We are calling <code class="highlighter-rouge">expires</code> on the <a href="http://docs.oracle.com/javaee/7/api/javax/ws/rs/core/Response.ResponseBuilder.html"><code class="highlighter-rouge">ResponseBuilder</code></a> which sets the <code class="highlighter-rouge">Exires</code> to ten seconds from the time of request. If we make the cURL request, we can see the header.</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>C:<span class="se">\&gt;</span>curl -v http://localhost:8080/api/expires
+<span class="gp">&gt; </span>GET /api/expires HTTP/1.1
+<span class="gp">&gt; </span>User-Agent: curl/7.40.0
+<span class="gp">&gt; </span>Host: localhost:8080
+<span class="gp">&gt; </span>Accept: <span class="k">*</span>/<span class="k">*</span>
+&gt;
+&lt; HTTP/1.1 200 OK
+&lt; Date: Sun, 18 Oct 2015 03:34:50 GMT
+&lt; Expires: Sun, 18 Oct 2015 03:35:00 GMT
+&lt; Content-Type: text/plain
+&lt; Content-Length: 9
+&lt; Server: Jetty<span class="o">(</span>9.2.6.v20141205<span class="o">)</span>
+&lt;
+Some Data
+</code></pre>
+</div>
+
+<p>cURL doesn’t support any caching features, so trying to make another call won’t respect the <code class="highlighter-rouge">Expires</code> header, and another request will be made.</p>
+
+<p><a name="http11"></a></p>
+
+<h3 id="caching-in-http-11">Caching in HTTP 1.1</h3>
+
+<p>Then came HTTP 1.1, which not only create new temporal semantics, but also added revalidation semantics to caching. Take for example the caching the <code class="highlighter-rouge">Expires</code> example above. Say the expiration time is 10 seconds. A request made after that ten seconds will <em>always</em> get back new data from the server. With revalidation the server sends a <em>condition</em> request, saying <em>“if the data has not been modified since [date]”</em> and/or <em>“if data still matches the data in my cache”</em>, don’t send back the data. This helps in bandwidth usage, as the data is not always sent back, as would be the case with the old Expires semantics. Here’s a flow chart of basics of the process</p>
+
+<p><img src="https://www.dropbox.com/s/vxuzxwthzg2cj5s/cache-flow.png?dl=1" alt="cache-flow" /></p>
+
+<p><a name="temporal"></a></p>
+
+<h4 id="temporal-caching">Temporal caching</h4>
+
+<p>When I say “temporal”, I am talking about time. As discussed, the old spec used the <code class="highlighter-rouge">Expires</code> header to set the expiration date on the data. The problem with this is that it is an absolute time that is dependent on system clock being set correctly. To fix this problem, the <code class="highlighter-rouge">Cache-Control</code> header was introduced. Instead of an absolute date, it uses a relative time in the form of <code class="highlighter-rouge">max-age</code>. For example a response might look like</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>HTTP/1.1 200 OK
+Date: Sun, 18 Oct 2015 03:47:18 GMT
+Cache-Control: max-age<span class="o">=</span>10
+Content-Type: text/plain
+Content-Length: 9
+Server: Jetty<span class="o">(</span>9.2.6.v20141205<span class="o">)</span>
+
+Some Data
+</code></pre>
+</div>
+
+<p>Here the <code class="highlighter-rouge">Cache-Control</code> header is saying that the data is only good in the cache for 10 second, after which a supporting client should get new data.</p>
+
+<p><a name="temporalExmple"></a></p>
+
+<h5 id="cache-control-example">Cache-Control Example</h5>
+
+<p>Here’s how we could code it in JAX-RS</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="nd">@GET</span>
+<span class="nd">@Produces</span><span class="o">(</span><span class="s">"text/plain"</span><span class="o">)</span>
+<span class="kd">public</span> <span class="n">Response</span> <span class="nf">get</span><span class="o">()</span> <span class="o">{</span>
+    <span class="n">CacheControl</span> <span class="n">cc</span> <span class="o">=</span> <span class="k">new</span> <span class="n">CacheControl</span><span class="o">();</span>
+    <span class="n">cc</span><span class="o">.</span><span class="na">setMaxAge</span><span class="o">(</span><span class="mi">10</span><span class="o">);</span>
+    <span class="k">return</span> <span class="n">Response</span><span class="o">.</span><span class="na">ok</span><span class="o">(</span><span class="s">"Some Data"</span><span class="o">).</span><span class="na">cacheControl</span><span class="o">(</span><span class="n">cc</span><span class="o">).</span><span class="na">build</span><span class="o">();</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<p>This example is from <code class="highlighter-rouge">CacheControlResource</code> in the Github project. We are setting the <code class="highlighter-rouge">max-age</code> to 10 seconds. So let’s test it out. From the command line, <code class="highlighter-rouge">cd</code> to the project root, then run the project with the Maven Jetty plugin (You will need to have Maven installed, or you can deploy the project to any servlet container).</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="nb">cd</span> &lt;to&gt; jersey-cache-example
+mvn jetty:run
+</code></pre>
+</div>
+
+<p>You should see the embedded Jetty server start. Wait until you see <code class="highlighter-rouge">[INFO] Started Jetty Server</code>. That’s when you know the server startup is complete.</p>
+
+<p>Instead of testing with cURL, we will use the browser. As I mentioned above cURL doesn’t offer any caching support. For testing with the browser, I often make use of some developer tool. In Firefox, there should be able to go to <code class="highlighter-rouge">Tools</code>→<code class="highlighter-rouge">Web Developer</code>→<code class="highlighter-rouge">Web Console</code> to see the below console, or with Chrome there is also a dev tool installed. Just hit F12 to open it.</p>
+
+<p>This what we are going to do. First make a request, and see the request being sent to the server. Then make another immediate request, and see that the browser doesn’t make a request, but give’s use the cache value. And lastly, wait 10 seconds and make another request, and see the request being sent to the server.</p>
+
+<p>When you first start up Firefox Web Console, you will see a window like below. Hit the <kbd>Network</kbd> tab. Which will show networks calls.</p>
+
+<p><img src="https://www.dropbox.com/s/z97efh9z2ee8l2a/firefox1.png?dl=1" alt="firefox1" /></p>
+
+<p>Now in the URL bar, type in the URL <code class="highlighter-rouge">http://localhost:8080/api/cc</code> and hit Enter. You will can tell that a request is made, from the green dot on the left, as well as the request time in milliseconds on the right</p>
+
+<p><img src="https://www.dropbox.com/s/1grasb6h3gpyiw4/firefox2.png?dl=1" alt="firefox2" /></p>
+
+<p>Most likely 10 seconds has passed. So highlight the URL bar then make a request again by hitting Enter, but make a second request but highlighting and hitting enter again. This time what you should have seen if first the same screen as above, as a request <em>is</em> made, but the second time you hit enter to make a request, you should see</p>
+
+<p><img src="https://www.dropbox.com/s/8xxof4v6j4i2mo3/firefox3.png?dl=1" alt="firefox3" /></p>
+
+<p>This time there is no green dot, and no time elapsed for the request. This is because the browser respects the <code class="highlighter-rouge">Cache-Control</code> and knows the data is only good for the <code class="highlighter-rouge">max-age</code> of 10 seconds. At any time you can select the request table row to see all the request and response headers. You should see the header for the cache control.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>Cache-Control: no-transform, max-age=10 
+</code></pre>
+</div>
+
+<p><a name="revalidation"></a></p>
+
+<h4 id="revalidation-caching">Revalidation caching</h4>
+
+<p>As previously mentioned, HTTP 1.1 also added the concept of revalidation. If there is a <code class="highlighter-rouge">Cache-Control</code> header, then after the time expires, the supporting client should revalidate the date and check to see if it has not changed.</p>
+
+<p><a name="temporalRevalidation"></a></p>
+
+<h5 id="temporal-revalidation">Temporal Revalidation</h5>
+
+<p>There are two client request headers that could be involved in the revalidation process. The first is the <code class="highlighter-rouge">If-Modified-Since: [date]</code> header. How it works is that the server should send a <code class="highlighter-rouge">Last-Modified: [date]</code> response header along with the data. The server should have some way to maintaining this “last modified” date, for example a database field, that changes whenever the data is modified.</p>
+
+<p>One subsequent requests, the client should send the <code class="highlighter-rouge">If-Modified-Since: [date]</code>, with the <code class="highlighter-rouge">[date]</code> being the same date in the <code class="highlighter-rouge">Last-Modified</code> response header from the server. The server should check if the data has been modified since that date. If it hasn’t then the sever simply send back a <code class="highlighter-rouge">304 Not Modified</code>, other wise send the new data with a <code class="highlighter-rouge">200 OK</code></p>
+
+<p><a name="temporalRevalidationExample"></a></p>
+
+<h6 id="temporal-revalidation-example">Temporal Revalidation Example</h6>
+
+<p>Let go through an example of using the <code class="highlighter-rouge">If-Modified-Since</code> and <code class="highlighter-rouge">Last-Modified</code> example. The code can be found in the <code class="highlighter-rouge">LastModifiedResource</code> in the Github project.</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="nd">@Singleton</span>
+<span class="nd">@Path</span><span class="o">(</span><span class="s">"last-modified"</span><span class="o">)</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">LastModifiedResource</span> <span class="o">{</span>
+    
+    <span class="kd">private</span> <span class="n">String</span> <span class="n">data</span> <span class="o">=</span> <span class="s">"Some Data"</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="n">Date</span> <span class="n">lastModified</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Date</span><span class="o">();</span>
+    
+    <span class="nd">@GET</span>
+    <span class="nd">@Produces</span><span class="o">(</span><span class="s">"text/plain"</span><span class="o">)</span>
+    <span class="kd">public</span> <span class="n">Response</span> <span class="nf">get</span><span class="o">(</span><span class="nd">@Context</span> <span class="n">Request</span> <span class="n">request</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">ResponseBuilder</span> <span class="n">builder</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="na">evaluatePreconditions</span><span class="o">(</span><span class="n">lastModified</span><span class="o">);</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">builder</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="n">builder</span><span class="o">.</span><span class="na">build</span><span class="o">();</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">Response</span><span class="o">.</span><span class="na">ok</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="na">lastModified</span><span class="o">(</span><span class="n">lastModified</span><span class="o">).</span><span class="na">build</span><span class="o">();</span>
+    <span class="o">}</span>
+    
+    <span class="nd">@POST</span>
+    <span class="nd">@Consumes</span><span class="o">(</span><span class="s">"text/plain"</span><span class="o">)</span>
+    <span class="kd">public</span> <span class="n">Response</span> <span class="nf">post</span><span class="o">(</span><span class="n">String</span> <span class="n">data</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">;</span>
+        <span class="n">lastModified</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Date</span><span class="o">();</span>
+        <span class="k">return</span> <span class="n">Response</span><span class="o">.</span><span class="na">noContent</span><span class="o">().</span><span class="na">build</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<p>Here we are creating a singleton resource (which <em>is not</em> thread safe in this example; bare with me). Here is what we want to accomplish in this example.</p>
+
+<ol>
+  <li>The client sends a GET that will produce the <code class="highlighter-rouge">data</code>, and send with it a <code class="highlighter-rouge">Last-Modified</code> date being the <code class="highlighter-rouge">lastModfied</code> field.</li>
+  <li>We will make a GET request to the same endpoint, but this time adding the <code class="highlighter-rouge">If-Modified-Since</code> header, with the date value being the one the server sent us in the <code class="highlighter-rouge">Last-Modified</code> header. When we send this request, we will get back a <code class="highlighter-rouge">304 Not Modified</code> response, with no data</li>
+  <li>Then we will make a POST request, changing the data, which will also cause the <code class="highlighter-rouge">lastModfied</code> field to change.</li>
+  <li>Finally we will make the same request as in step two. But this time the revalidation will fail, as the dates are different. This time we will get the data back with a <code class="highlighter-rouge">200 OK</code> along with a new date in the <code class="highlighter-rouge">Last-Modified</code> response header.</li>
+</ol>
+
+<p>In the example you will notice the uses of the <a href="http://docs.oracle.com/javaee/7/api/javax/ws/rs/core/Request.html"><code class="highlighter-rouge">javax.ws.rs.core.Request</code></a> context object. How it works is that it already has reference to the <code class="highlighter-rouge">If-Modified-Since</code> header sent by the client. The <code class="highlighter-rouge">evaluatePreconditions</code> check to see if they are the same dates. If they are, the method will return a <code class="highlighter-rouge">ResponseBuilder</code> set up to return a <code class="highlighter-rouge">304 Not Modified</code>, so we don’t need to do anything but build and return it. If the dates are different, then it fail the revalidation and return null.</p>
+
+<p>Here is the request sequence in cURL (listed as in the steps above)</p>
+
+<p>Step 1 (initial GET)</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>C:<span class="se">\&gt;</span>curl -v http://localhost:8080/api/last-modified
+<span class="gp">&gt; </span>GET /api/last-modified HTTP/1.1
+<span class="gp">&gt; </span>...
+&lt; HTTP/1.1 200 OK
+&lt; Date: Sun, 18 Oct 2015 05:44:48 GMT
+&lt; Last-Modified: Sun, 18 Oct 2015 05:44:48 GMT
+&lt; Content-Type: text/plain
+&lt;
+Some Data
+</code></pre>
+</div>
+
+<p>Step 2 (GET with If-Modified-Since)</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>C:<span class="se">\&gt;</span>curl -v http://localhost:8080/api/last-modified <span class="se">\</span>
+         -H <span class="s2">"If-Modified-Since: Sun, 18 Oct 2015 05:44:48 GMT"</span>
+<span class="gp">&gt; </span>GET /api/last-modified HTTP/1.1
+<span class="gp">&gt; </span>If-Modified-Since: Sun, 18 Oct 2015 05:44:48 GMT
+<span class="gp">&gt; </span>...
+&lt; HTTP/1.1 304 Not Modified
+&lt; Date: Sun, 18 Oct 2015 05:45:28 GMT
+</code></pre>
+</div>
+
+<p>Step 3 (POST to change data)</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>C:<span class="se">\&gt;</span>curl -v -X POST -d <span class="s2">"new data"</span> <span class="se">\</span>
+         -H <span class="s2">"Content-Type:text/plain"</span> <span class="se">\</span>
+         http://localhost:8080/api/last-modified
+<span class="gp">&gt; </span>POST /api/last-modified HTTP/1.1
+<span class="gp">&gt; </span>Content-Type:text/plain
+<span class="gp">&gt; </span>Content-Length: 8
+<span class="gp">&gt; </span>...
+&lt; HTTP/1.1 204 No Content
+&lt; Date: Sun, 18 Oct 2015 05:45:45 GMT
+</code></pre>
+</div>
+
+<p>Step 4 (Same GET as in Step 2)</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>C:<span class="se">\&gt;</span>curl -v http://localhost:8080/api/last-modified 
+         -H <span class="s2">"If-Modified-Since: Sun, 18 Oct 2015 05:44:48 GMT"</span>
+<span class="gp">&gt; </span>GET /api/last-modified HTTP/1.1
+<span class="gp">&gt; </span>If-Modified-Since: Sun, 18 Oct 2015 05:44:48 GMT
+<span class="gp">&gt; </span>...
+&lt; HTTP/1.1 200 OK
+&lt; Date: Sun, 18 Oct 2015 05:46:01 GMT
+&lt; Last-Modified: Sun, 18 Oct 2015 05:45:45 GMT
+&lt; Content-Type: text/plain
+&lt; Content-Length: 8
+&lt;
+new data
+</code></pre>
+</div>
+
+<p>Hope you can easily follow along. The important point to notice is that in step two, we are getting no content back and a 304 as the date is the same as on the server. But in the last request, the date change because of the previous POST, so now we get back new data with a different date.</p>
+
+<p><a name="etagRevalidation"></a></p>
+
+<h5 id="etag-revalidation">Etag Revalidation</h5>
+
+<p>The second form of validation is validating the content has not changed. To do that the server should send something to the client the represents the current state of the content being sent in the request. This is handled with the <code class="highlighter-rouge">Etag</code> header. In most cases, this will be a hash of the data. The server sends the <code class="highlighter-rouge">Etag: &lt;hash&gt;</code> header with the response. When the client makes a request for the same resource, it should send a <code class="highlighter-rouge">If-None-Match: &lt;hash&gt;</code> to the server. If the value does not match that of the server’s, then the resource has been changed since the client last received it, and the server should send the new data with the new <code class="highlighter-rouge">Etag</code>. Otherwise if the data is the same, the server should send a <code class="highlighter-rouge">304 Not Modified</code>.</p>
+
+<p><a name="etagRevalidationExample"></a></p>
+
+<h6 id="etag-revalidation-example">Etag Revalidation Example</h6>
+
+<p>Below is an example implementation. It is very similar to the one above, except we are not checking the time the resource was last modified, but <em>if</em> is was actually modified</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="nd">@Singleton</span>
+<span class="nd">@Path</span><span class="o">(</span><span class="s">"etag"</span><span class="o">)</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">EtagResource</span> <span class="o">{</span>
+    
+    <span class="kd">private</span> <span class="n">String</span> <span class="n">data</span> <span class="o">=</span> <span class="s">"Some Data"</span><span class="o">;</span>
+    
+    <span class="nd">@GET</span>
+    <span class="nd">@Produces</span><span class="o">(</span><span class="s">"text/plain"</span><span class="o">)</span>
+    <span class="kd">public</span> <span class="n">Response</span> <span class="nf">get</span><span class="o">(</span><span class="nd">@Context</span> <span class="n">Request</span> <span class="n">request</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+        <span class="n">MessageDigest</span> <span class="n">digest</span> <span class="o">=</span> <span class="n">MessageDigest</span><span class="o">.</span><span class="na">getInstance</span><span class="o">(</span><span class="s">"MD5"</span><span class="o">);</span>
+        <span class="kt">byte</span><span class="o">[]</span> <span class="n">hash</span> <span class="o">=</span> <span class="n">digest</span><span class="o">.</span><span class="na">digest</span><span class="o">(</span><span class="n">data</span><span class="o">.</span><span class="na">getBytes</span><span class="o">(</span><span class="n">StandardCharsets</span><span class="o">.</span><span class="na">UTF_8</span><span class="o">));</span>
+        <span class="n">String</span> <span class="n">hex</span> <span class="o">=</span> <span class="n">DatatypeConverter</span><span class="o">.</span><span class="na">printHexBinary</span><span class="o">(</span><span class="n">hash</span><span class="o">);</span>
+        <span class="n">EntityTag</span> <span class="n">etag</span> <span class="o">=</span> <span class="k">new</span> <span class="n">EntityTag</span><span class="o">(</span><span class="n">hex</span><span class="o">);</span>
+        
+        <span class="n">ResponseBuilder</span> <span class="n">builder</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="na">evaluatePreconditions</span><span class="o">(</span><span class="n">etag</span><span class="o">);</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">builder</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="n">builder</span><span class="o">.</span><span class="na">build</span><span class="o">();</span>
+        <span class="o">}</span>
+        
+        <span class="k">return</span> <span class="n">Response</span><span class="o">.</span><span class="na">ok</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="na">tag</span><span class="o">(</span><span class="n">etag</span><span class="o">).</span><span class="na">build</span><span class="o">();</span>
+    <span class="o">}</span>
+    
+    <span class="nd">@POST</span>
+    <span class="nd">@Consumes</span><span class="o">(</span><span class="s">"text/plain"</span><span class="o">)</span>
+    <span class="kd">public</span> <span class="n">Response</span> <span class="nf">post</span><span class="o">(</span><span class="n">String</span> <span class="n">data</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">;</span>
+        <span class="k">return</span> <span class="n">Response</span><span class="o">.</span><span class="na">noContent</span><span class="o">().</span><span class="na">build</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<p>You can see the same use of the <code class="highlighter-rouge">Request</code> context object, and a similar usage of the <code class="highlighter-rouge">evaluatePreconditions</code>. Only this time we are using the overloaded method that accepts and <code class="highlighter-rouge">EntityTag</code>. We construct the <code class="highlighter-rouge">EntityTag</code> from the hash of the <code class="highlighter-rouge">data</code>. In the initial request, the revalidation will not pass as there is no header from the client, so we just return the normal response, setting the <code class="highlighter-rouge">Etag</code> response header, by calling <code class="highlighter-rouge">tag(EntityTag)</code> on the <code class="highlighter-rouge">ResponseBuilder</code>. In subsequent requests, if the <code class="highlighter-rouge">EntityTag</code> matches, the the <code class="highlighter-rouge">ResponseBuilder</code> will not be null, and we create the pre-configured <code class="highlighter-rouge">ResponseBuilder</code> that is set to send a <code class="highlighter-rouge">304 Not Modified</code>.</p>
+
+<p>Below I’ll post the same steps as I did with the above example and you will see similar results</p>
+
+<ol>
+  <li>Send initial GET to get the data for the first time. We will get a response with the hash in the <code class="highlighter-rouge">Etag</code> header.</li>
+  <li>We will make the same request, except this time we will add the <code class="highlighter-rouge">If-None-Match</code> header, with the etag value. We should get back a <code class="highlighter-rouge">304 Not Modified</code> with no data.</li>
+  <li>We will send a POST request to change the data.</li>
+  <li>We will make the exact same request as in step 2, but this time we will get the new data, with the new <code class="highlighter-rouge">Etag</code>.</li>
+</ol>
+
+<p>Step 1 (initial GET)</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>C:<span class="se">\&gt;</span>curl -v http://localhost:8080/api/etag
+<span class="gp">&gt; </span>GET /api/etag HTTP/1.1
+<span class="gp">&gt; </span>...
+&lt; HTTP/1.1 200 OK
+&lt; Date: Sun, 18 Oct 2015 07:57:29 GMT
+&lt; ETag: <span class="s2">"30057E5031BCF44D47B005A1F1700F7B"</span>
+&lt; Content-Type: text/plain
+&lt; Content-Length: 9
+&lt;
+Some Data
+</code></pre>
+</div>
+
+<p>Step 2 (GET with If-None-Match))</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>C:<span class="se">\&gt;</span>curl -v http://localhost:8080/api/etag <span class="se">\</span>
+         -H <span class="s2">"If-None-Match: </span><span class="se">\"</span><span class="s2">30057E5031BCF44D47B005A1F1700F7B</span><span class="se">\"</span><span class="s2">"</span>
+<span class="gp">&gt; </span>GET /api/etag HTTP/1.1
+<span class="gp">&gt; </span>If-None-Match: <span class="s2">"30057E5031BCF44D47B005A1F1700F7B"</span>
+<span class="gp">&gt; </span>...
+&lt; HTTP/1.1 304 Not Modified
+&lt; Date: Sun, 18 Oct 2015 07:58:22 GMT
+&lt; ETag: <span class="s2">"30057E5031BCF44D47B005A1F1700F7B"</span>
+</code></pre>
+</div>
+
+<p>Step 3 (change data with POST)</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>C:<span class="se">\&gt;</span>curl -v -X POST -d <span class="s2">"new data"</span> <span class="se">\</span>
+         -H <span class="s2">"Content-Type: text/plain"</span> <span class="se">\</span>
+         http://localhost:8080/api/etag
+<span class="gp">&gt; </span>POST /api/etag HTTP/1.1
+<span class="gp">&gt; </span>Content-Type: text/plain
+<span class="gp">&gt; </span>Content-Length: 8
+<span class="gp">&gt; </span>...
+&lt; HTTP/1.1 204 No Content
+&lt; Date: Sun, 18 Oct 2015 07:58:57 GMT
+&lt; Server: Jetty<span class="o">(</span>9.2.6.v20141205<span class="o">)</span>
+</code></pre>
+</div>
+
+<p>Step 4 (set GET from step 2)</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>C:<span class="se">\&gt;</span>curl -v http://localhost:8080/api/etag 
+         -H <span class="s2">"If-None-Match: </span><span class="se">\"</span><span class="s2">30057E5031BCF44D47B005A1F1700F7B</span><span class="se">\"</span><span class="s2">"</span>
+<span class="gp">&gt; </span>GET /api/etag HTTP/1.1
+<span class="gp">&gt; </span>If-None-Match: <span class="s2">"30057E5031BCF44D47B005A1F1700F7B"</span>
+<span class="gp">&gt; </span>...
+&lt; HTTP/1.1 200 OK
+&lt; Date: Sun, 18 Oct 2015 07:59:01 GMT
+&lt; ETag: <span class="s2">"E83CA39A795E57283EC1D12EDA0FECD3"</span>
+&lt; Content-Type: text/plain
+&lt; Content-Length: 8
+&lt;
+new data
+</code></pre>
+</div>
+
+<p>You can see that in the 2nd step, we are not getting content back with a 304, but in the 4th request, we are getting the new data with a 200 and the new etag.</p>
+
+<p><a name="dry"></a></p>
+
+<h3 id="staying-dry-using-filters-and-interceptors">Staying DRY Using Filters and Interceptors</h3>
+
+<p>If you’ve been following along up to this point, you will have noticed that there is a lot of boilerplate that goes into producing the functionality for handling HTTP caching. With more resource methods, we will need to repeat similar code over and over. With Jersey (and JAX-RS), when we are faced with this, it is often an opportunity to handle this repetition inside of a filter or interceptor. If you are unfamiliar with these, I suggest taking some time to review <a href="https://jersey.java.net/documentation/latest/filters-and-interceptors.html">Filters and Interceptors</a> from the Jersey user guide.</p>
+
+<p>What I will do here is not try to implement this functionality myself, but I will direct your attention to RESTeasy’s implementation. For those that don’t know, RESTeasy is another implementation of JAX-RS. From this implementation you can get an idea of what it takes to implement this.</p>
+
+<p>What I did was port the functionality over to Jersey for my example. Some of the classes used in the implementation were RESTeasy specific, so I had to change some of it.</p>
+
+<p>You will find all classes in the <code class="highlighter-rouge">com.underdog.jersey.cache.example.dry</code> in my Github example project. All of the classes in the package are either complete duplicates or just altered a bit to port to Jersey. Below is a list of the classes, with a link to the original source code from the RESTeasy project. I will then describe them.</p>
+
+<ul>
+  <li><a href="https://github.com/resteasy/Resteasy/blob/master/jaxrs/resteasy-jaxrs/src/main/java/org/jboss/resteasy/annotations/cache/Cache.java"><code class="highlighter-rouge">@Cache</code></a></li>
+  <li><a href="https://github.com/resteasy/Resteasy/blob/master/jaxrs/resteasy-jaxrs/src/main/java/org/jboss/resteasy/plugins/interceptors/CacheControlFilter.java"><code class="highlighter-rouge">CacheControlFilter</code></a></li>
+  <li><a href="https://github.com/resteasy/Resteasy/blob/master/jaxrs/resteasy-jaxrs/src/main/java/org/jboss/resteasy/plugins/interceptors/CacheControlFeature.java"><code class="highlighter-rouge">CacheControlFeature</code></a></li>
+  <li><a href="https://github.com/resteasy/Resteasy/blob/master/jaxrs/resteasy-cache/resteasy-cache-core/src/main/java/org/jboss/resteasy/plugins/cache/server/ServerCache.java"><code class="highlighter-rouge">ServerCache</code></a></li>
+  <li><a href="https://github.com/resteasy/Resteasy/blob/master/jaxrs/resteasy-cache/resteasy-cache-core/src/main/java/org/jboss/resteasy/plugins/cache/server/SimpleServerCache.java"><code class="highlighter-rouge">SimpleServerCache</code></a></li>
+  <li><a href="https://github.com/resteasy/Resteasy/blob/master/jaxrs/resteasy-cache/resteasy-cache-core/src/main/java/org/jboss/resteasy/plugins/cache/server/ServerCacheHitFilter.java"><code class="highlighter-rouge">ServerCacheHitFilter</code></a></li>
+  <li><a href="https://github.com/resteasy/Resteasy/blob/master/jaxrs/resteasy-cache/resteasy-cache-core/src/main/java/org/jboss/resteasy/plugins/cache/server/ServerCacheHitFilter.java"><code class="highlighter-rouge">ServerCacheInterceptor</code></a></li>
+  <li><a href="https://github.com/resteasy/Resteasy/blob/master/jaxrs/resteasy-cache/resteasy-cache-core/src/main/java/org/jboss/resteasy/plugins/cache/server/ServerCacheFeature.java"><code class="highlighter-rouge">ServerCacheFeature</code></a></li>
+</ul>
+
+<p><strong><code class="highlighter-rouge">@Cache</code></strong> - Is used as metadata for resource method or resource class. For example</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="nd">@GET</span>
+<span class="nd">@Cache</span><span class="o">(</span><span class="n">maxAge</span><span class="o">=</span><span class="mi">10</span><span class="o">)</span>
+<span class="kd">public</span> <span class="n">Responge</span> <span class="nf">get</span><span class="o">(){}</span>
+</code></pre>
+</div>
+
+<p>The <code class="highlighter-rouge">CacheControlFilter</code> uses this meta data to send the <code class="highlighter-rouge">Cache-Control</code> header to the client</p>
+
+<p><strong><code class="highlighter-rouge">CacheControlFilter</code></strong> - It uses the <code class="highlighter-rouge">@Cache</code> metadata to create a <code class="highlighter-rouge">CacheControl</code> object to send with the response header.</p>
+
+<p><strong><code class="highlighter-rouge">CacheControlFeature</code></strong> is a <a href="https://docs.oracle.com/javaee/7/api/javax/ws/rs/container/DynamicFeature.html"><code class="highlighter-rouge">DynamicFeature</code></a> that is registered with the application. This is what registers the <code class="highlighter-rouge">CacheControlFilter</code> for each endpoint.</p>
+
+<p><strong><code class="highlighter-rouge">ServerCache</code></strong> - This is an interface for the internal caching operations. Implementation will have an internal cache and the contract has methods to save to the cache, get from the cache, and remove from the cache</p>
+
+<p><strong><code class="highlighter-rouge">SimpleServerCache</code></strong> - This is deprecated implementation of the <code class="highlighter-rouge">ServerCache</code>. I only use it for this example so I don’t have to introduce other dependencies. The preferred implementation is the <a href="https://github.com/resteasy/Resteasy/blob/master/jaxrs/resteasy-cache/resteasy-cache-core/src/main/java/org/jboss/resteasy/plugins/cache/server/InfinispanCache.java"><code class="highlighter-rouge">InfinispanCache</code></a>, which uses <a href="https://github.com/resteasy/Resteasy/blob/master/jaxrs/resteasy-cache/resteasy-cache-core/src/main/java/org/jboss/resteasy/plugins/cache/server/InfinispanCache.java">Infinispan</a> as the underlying cache, as opposed to the <code class="highlighter-rouge">SimpleServerCache</code> which simply uses a <code class="highlighter-rouge">ConcurrentHashMap</code></p>
+
+<p>Now get to where all the action lies.</p>
+
+<p><strong><code class="highlighter-rouge">ServerCacheHitFilter</code></strong> The basic algorithm goes like this</p>
+
+<ol>
+  <li>If it is not a GET request (e.g. PUT or POST), then remove the URI from the cache. (Note that cache keys are the URI and MediaTypes)</li>
+  <li>If it is a GET request then <code class="highlighter-rouge">handleGET</code>
+    <ol>
+      <li>Lookup cache from URI and MediaType key</li>
+      <li>If entry is null, end filter, go to resource method</li>
+      <li>If the entry is expired, remove from cache and end filter, go to resource method.</li>
+      <li>Else if entry not null
+        <ol>
+          <li>Create <code class="highlighter-rouge">EntityTag</code> and <code class="highlighter-rouge">Request.evaluatePreconditions()</code></li>
+          <li>If <code class="highlighter-rouge">ResponseBuilder</code> is returned, then etag from client matches. Return <code class="highlighter-rouge">304 Not Modified</code></li>
+          <li>If <code class="highlighter-rouge">ResponseBuilder</code> is null, that means that the etag from the client is different from the one in the cache. So we just send an OK response with the entity in the cache.</li>
+        </ol>
+      </li>
+    </ol>
+  </li>
+</ol>
+
+<p><strong><code class="highlighter-rouge">ServerCacheInterceptor</code></strong> - This is the component that adds to the cache.</p>
+
+<ol>
+  <li>If not GET, proceed and return.</li>
+  <li>If there is no <code class="highlighter-rouge">Cache-Control</code> header set (from the <code class="highlighter-rouge">CacheControlFilter</code>), proceed. The component will only handle caching for endpoints that send out <code class="highlighter-rouge">Cache-Control</code></li>
+  <li>If all is well, the interceptor sets the <code class="highlighter-rouge">OutputStream</code> for the writer to a <code class="highlighter-rouge">ByteArrayOutputStream</code>. The reason for this is that the interceptor works in an AOP “around-invoke” style. It handles some “before” stuff, calls <code class="highlighter-rouge">proceed</code> so the <code class="highlighter-rouge">MessageBodyWriter</code> can do its serialization, then it handle the “after” stuff. So what happens is the after <code class="highlighter-rouge">proceed</code> is called, the <code class="highlighter-rouge">MessageBodyWriter</code> has written the data to the <code class="highlighter-rouge">ByteArrayOutputStream</code>. Not the interceptor can get the <code class="highlighter-rouge">byte[]</code> and use it to create the hash for the etag.</li>
+  <li>With the etag created, the interceptor saves the <code class="highlighter-rouge">byte[]</code> entity data along with the etag into the cache.</li>
+</ol>
+
+<p>Now the process is complete. To register this functionality, we use the last component</p>
+
+<p><strong><code class="highlighter-rouge">ServerCacheFeature</code></strong> - The original <code class="highlighter-rouge">ServerCacheFeature</code> (linked above) registers the <code class="highlighter-rouge">InfinispanCache</code> as the default cache, so I change it up to register the <code class="highlighter-rouge">SimpleServerCache</code> instead. The feature also registers the <code class="highlighter-rouge">ServerCacheHitFilter</code>, the <code class="highlighter-rouge">ServerCacheInterceptor</code>, and the <code class="highlighter-rouge">CacheControlFilter</code>.</p>
+
+<p>All that’s needed to make everything work, is to annotate a method with <code class="highlighter-rouge">@Cache</code>, and to register the <code class="highlighter-rouge">ServerCacheFeature</code>. You can see in the <code class="highlighter-rouge">DryResource</code> from the example project, where the <code class="highlighter-rouge">@Cache</code> annotation is used, and see the <code class="highlighter-rouge">AppConfig</code> where the <code class="highlighter-rouge">ServerCacheInterceptor</code> is registered.</p>
+
+<p>To test this functionality out just start the server <code class="highlighter-rouge">mvn jetty:run</code>, then follow the four cURL steps above in the Etag section. So will see the same results. The URL will be different though. Use <code class="highlighter-rouge">http://localhost:8080/api/dry</code></p>
+
+
+
+    <div class="disqus-comments">
+      
+        <div id="disqus_thread"></div>
+<script>
+    /**
+     *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+     *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables
+     */
+   
+    var disqus_config = function () {
+        
+    };
+
+    (function() {  // DON'T EDIT BELOW THIS LINE
+        var d = document, s = d.createElement('script');
+        
+        s.src = '//peeskillet-io.disqus.com/embed.js';
+        
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+      
+    </div>
+
+    <script id="dsq-count-scr" src="//peeskillet-io.disqus.com/count.js" async></script>
+
+  </article>
+
+
+</section>
+
+
+      <div class="clearfooter"></div>
+    </div>
+
+    
+
+    <footer class="site-footer">
+  <div class="site-constraint row">
+    <div class="footer-logo small-6 columns">
+      <svg class="footer-logo-icon">
+        <use xlink:href="#pio-logo"></use>
+      </svg>
+    </div>
+    <div class="footer-social small-6 columns">
+      <div class="social-links">
+        <ul>
+          <li><a href="http://stackoverflow.com/users/2587435/peeskillet">
+            <svg class="social-icon">
+              <use xlink:href="#so-plain"></use>
+            </svg>
+          </a></li>
+          <li><a href="https://github.com/psamsotha">
+            <svg class="social-icon">
+              <use xlink:href="#github-plain"></use>
+            </svg>
+          </a></li>
+          <li><a href="/feed.xml">
+            <svg class="social-icon">
+              <use xlink:href="#rss-plain"></use>
+            </svg>
+          </a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="footer-license">
+    <p class="license-message">
+      This site is open source, licensed under Apache 2.0.<br>
+      The source code is avaible at <a href="#">GitHub</a>.
+    </p>
+  </div>
+</footer>
+
+
+    
+      <script src="/js/vendor/jquery.js"></script>
+      <script src="/js/vendor/what-input.js"></script>
+      <script src="/js/vendor/foundation.min.js"></script>
+      <script src="/js/app.js"></script>
+    
+
+    <script id="dsq-count-scr" src="//peeskillet-io.disqus.com/count.js" async></script>
+  </body>
+
+</html>

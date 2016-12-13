@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- favicon stuff -->
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32">
+  <link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="apple-mobile-web-app-title" content="Peeskillet">
+  <meta name="application-name" content="Peeskillet">
+  <meta name="theme-color" content="#ffffff">
+  <!-- end favicon -->
+
+  <title>Why and How to Use Spring With Jersey?</title>
+  <meta name="description" content="I’ve seen a few question on Stack Overflow where people are confused about the difference between Jersey and Spring MVC, and I thought it would be a good opp...">
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="canonical" href="http://yourdomain.com/jersey/2015/10/19/why-use-spring-with-jersey.html">
+  <link rel="alternate" type="application/rss+xml" title="Paul Samsotha Blog" href="http://yourdomain.com/feed.xml">
+</head>
+
+
+  <body>
+    <div style="height: 0; width: 0; position: absolute; visibility: hidden">
+  <!-- inject:svg --><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><symbol id="back-arrow" viewBox="0 0 512 512"><polygon points="352,128.4 319.7,96 160,256 160,256 160,256 319.7,416 352,383.6 224.7,256 "/></symbol><symbol id="email" viewBox="0 0 512 512"><path d="M484.748,96.359H27.439h-3.966h-9.625h-6.63v318.585H505V96.359h-17.218H484.748z M464.837,116.271  L272.529,308.578c-8.769,8.769-24.073,8.769-32.842,0L47.35,116.271H464.837z M27.128,124.203l129.287,129.268L27.128,382.759  V124.203z M43.014,395.029l127.489-127.47l55.106,55.097c8.138,8.148,18.978,12.64,30.499,12.64c11.521,0,22.361-4.492,30.499-12.64  l55.106-55.106l127.479,127.479H43.014z M485.089,382.769L355.801,253.472l129.287-129.297V382.769z" fill="#37404D"/></symbol><symbol id="forward-arrow" viewBox="0 0 512 512"><polygon points="160,128.4 192.3,96 352,256 352,256 352,256 192.3,416 160,383.6 287.3,256 "/></symbol><symbol id="github-plain" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></symbol><symbol id="pio-logo" viewBox="0 0 145.87 34.95">
+  <g>
+    <path d="M33.28,38.85a3.29,3.29,0,0,0-.11-1,1.73,1.73,0,0,1-.11-0.56,0.68,0.68,0,0,1,.38-0.59,1.65,1.65,0,0,1,.89-0.23,2.9,2.9,0,0,1,1.93.62A1.91,1.91,0,0,1,37,38.62V54.3a8.43,8.43,0,0,0,1.86-.47,12,12,0,0,0,2.14-1,12.82,12.82,0,0,0,2.14-1.65A11.56,11.56,0,0,0,45,48.84a12.38,12.38,0,0,0,1.32-3,12.54,12.54,0,0,0,.5-3.67,9.82,9.82,0,0,0-.43-2.81A7.93,7.93,0,0,0,45,36.74a7.31,7.31,0,0,0-2.43-2A7.72,7.72,0,0,0,39,34a12.43,12.43,0,0,0-4.94.89,9.18,9.18,0,0,0-3.36,2.39,9.52,9.52,0,0,0-1.91,3.48,14.15,14.15,0,0,0-.61,4.18,11.37,11.37,0,0,0,.27,2.68,9.62,9.62,0,0,0,.6,1.78,4.75,4.75,0,0,0,.61,1L30,50.8a0.49,0.49,0,0,1,.56.09,0.89,0.89,0,0,1,.16.56,3.42,3.42,0,0,1-.22,1,5.43,5.43,0,0,1-.6,1.23,2.7,2.7,0,0,1-.87.87,0.83,0.83,0,0,1-1-.11,12.46,12.46,0,0,1-.87-0.94A9,9,0,0,1,26,51.68a15,15,0,0,1-1-2.74,14,14,0,0,1-.45-3.71,16.83,16.83,0,0,1,1.05-6.11,13.55,13.55,0,0,1,3-4.68,13.09,13.09,0,0,1,4.56-3A15.7,15.7,0,0,1,39,30.39a12.62,12.62,0,0,1,4.77.87,10.51,10.51,0,0,1,3.66,2.43,10.76,10.76,0,0,1,2.33,3.71,13.14,13.14,0,0,1,.82,4.71,14.74,14.74,0,0,1-1.12,5.8,16.53,16.53,0,0,1-3,4.72A17.11,17.11,0,0,1,37,57.91v6.33a0.92,0.92,0,0,1-.4.86,1.75,1.75,0,0,1-.94.25,3.14,3.14,0,0,1-.84-0.12,3.52,3.52,0,0,1-.76-0.3,2.15,2.15,0,0,1-.56-0.43A0.77,0.77,0,0,1,33.28,64V38.85Z" transform="translate(-24.53 -30.39)"/>
+    <path d="M63.13,50a8.85,8.85,0,0,1-.46,2.74,9.64,9.64,0,0,1-1.36,2.66,10.47,10.47,0,0,1-2.23,2.25A9.57,9.57,0,0,1,56,59.2a5.37,5.37,0,0,0,.62,1.16,4.11,4.11,0,0,0,.93.95,4.4,4.4,0,0,0,1.25.63,5.3,5.3,0,0,0,1.65.23,5.15,5.15,0,0,0,2.41-.53,5.27,5.27,0,0,0,1.7-1.39,7.46,7.46,0,0,0,1.11-1.95,12.34,12.34,0,0,0,.63-2.18A1.45,1.45,0,0,1,67,55.06a1.37,1.37,0,0,1,1-.13,1.79,1.79,0,0,1,.91.6,1.38,1.38,0,0,1,.32,1.09A16.38,16.38,0,0,1,69,58.28a10,10,0,0,1-.67,1.9,10.62,10.62,0,0,1-1.14,1.89,7.77,7.77,0,0,1-1.7,1.65,8.59,8.59,0,0,1-2.37,1.17,10,10,0,0,1-3.12.45,8.13,8.13,0,0,1-3.18-.64,8.24,8.24,0,0,1-2.72-1.85,9,9,0,0,1-1.9-3,10.66,10.66,0,0,1-.71-4,13.68,13.68,0,0,1,.63-4.23,12.12,12.12,0,0,1,1.66-3.39A8.23,8.23,0,0,1,56.1,46a5.08,5.08,0,0,1,2.7-.81,4.51,4.51,0,0,1,1.82.35,3.81,3.81,0,0,1,1.37,1,4.39,4.39,0,0,1,.86,1.54A6.27,6.27,0,0,1,63.13,50ZM55.4,55.7a3.82,3.82,0,0,0,0,.42,4,4,0,0,1,0,.45,6.64,6.64,0,0,0,1.62-1.08A6.76,6.76,0,0,0,58.31,54a7.33,7.33,0,0,0,.8-1.84,7.6,7.6,0,0,0,.28-2.07,2.4,2.4,0,0,0-.27-1.24,0.83,0.83,0,0,0-.74-0.45,1.54,1.54,0,0,0-1,.4,3.57,3.57,0,0,0-.8,1A7.22,7.22,0,0,0,56,51.29q-0.22.81-.36,1.63a14.79,14.79,0,0,0-.19,1.56A11.43,11.43,0,0,0,55.4,55.7Z" transform="translate(-24.53 -30.39)"/>
+    <path d="M77.38,50a8.85,8.85,0,0,1-.46,2.74,9.64,9.64,0,0,1-1.36,2.66,10.47,10.47,0,0,1-2.23,2.25,9.57,9.57,0,0,1-3.06,1.51,5.37,5.37,0,0,0,.62,1.16,4.11,4.11,0,0,0,.93.95,4.4,4.4,0,0,0,1.25.63,5.3,5.3,0,0,0,1.65.23,5.15,5.15,0,0,0,2.41-.53,5.27,5.27,0,0,0,1.7-1.39A7.46,7.46,0,0,0,80,58.3a12.34,12.34,0,0,0,.63-2.18,1.45,1.45,0,0,1,.67-1.07,1.37,1.37,0,0,1,1-.13,1.79,1.79,0,0,1,.91.6,1.38,1.38,0,0,1,.32,1.09,16.38,16.38,0,0,1-.32,1.66,10,10,0,0,1-.67,1.9,10.62,10.62,0,0,1-1.14,1.89,7.77,7.77,0,0,1-1.7,1.65,8.59,8.59,0,0,1-2.37,1.17,10,10,0,0,1-3.12.45A8.13,8.13,0,0,1,71,64.69a8.24,8.24,0,0,1-2.72-1.85,9,9,0,0,1-1.9-3,10.66,10.66,0,0,1-.71-4,13.68,13.68,0,0,1,.63-4.23A12.12,12.12,0,0,1,68,48.23,8.23,8.23,0,0,1,70.35,46a5.08,5.08,0,0,1,2.7-.81,4.51,4.51,0,0,1,1.82.35,3.81,3.81,0,0,1,1.37,1,4.39,4.39,0,0,1,.86,1.54A6.27,6.27,0,0,1,77.38,50ZM69.65,55.7a3.82,3.82,0,0,0,0,.42,4,4,0,0,1,0,.45,6.64,6.64,0,0,0,1.62-1.08A6.76,6.76,0,0,0,72.56,54a7.33,7.33,0,0,0,.8-1.84,7.6,7.6,0,0,0,.28-2.07,2.4,2.4,0,0,0-.27-1.24,0.83,0.83,0,0,0-.74-0.45,1.54,1.54,0,0,0-1,.4,3.57,3.57,0,0,0-.8,1,7.22,7.22,0,0,0-.56,1.45q-0.22.81-.36,1.63a14.79,14.79,0,0,0-.19,1.56A11.43,11.43,0,0,0,69.65,55.7Z" transform="translate(-24.53 -30.39)"/>
+    <path d="M83.31,57.41a1.17,1.17,0,0,1-.7.93,1.39,1.39,0,0,1-1,0,1.87,1.87,0,0,1-.84-0.73,1.39,1.39,0,0,1-.2-1.12,32.08,32.08,0,0,1,1-3.53l1.32-3.86A5.78,5.78,0,0,1,82.33,48a3.22,3.22,0,0,1-.21-1.16,2.28,2.28,0,0,1,.46-1.28,6.52,6.52,0,0,1,1.1-1.23A7,7,0,0,1,85,43.39,2.65,2.65,0,0,1,86.2,43a1.51,1.51,0,0,1,1.3.59,2.58,2.58,0,0,1,.43,1.57,3.35,3.35,0,0,1-.18,1.07,9.57,9.57,0,0,1-.39,1Q87.16,47.69,87,48a2.64,2.64,0,0,0-.2.42,20,20,0,0,0,1.76,2.65q0.91,1.15,1.68,2.27a12,12,0,0,1,1.25,2.39,8.19,8.19,0,0,1,.49,3,6.65,6.65,0,0,1-.06.87,5.56,5.56,0,0,1-.18.84,5.14,5.14,0,0,0,1.49-.52,5.31,5.31,0,0,0,1.13-.81,4.56,4.56,0,0,0,.8-1A6.7,6.7,0,0,0,95.67,57a3.49,3.49,0,0,1,.52-1,0.76,0.76,0,0,1,.59-0.3,1.16,1.16,0,0,1,.62.2,2.29,2.29,0,0,1,.56.5,3.06,3.06,0,0,1,.4.63,1.42,1.42,0,0,1,.15.59,2.44,2.44,0,0,1-.19.84,6.06,6.06,0,0,1-.5,1,8.64,8.64,0,0,1-.71,1,6.37,6.37,0,0,1-.82.83,10.38,10.38,0,0,1-2.65,1.54,12.47,12.47,0,0,1-3.77.79,7.3,7.3,0,0,1-2.05,1.23,7,7,0,0,1-2.66.48,6.6,6.6,0,0,1-1.54-.19,10.19,10.19,0,0,1-1.5-.48,9.61,9.61,0,0,1-1.3-.64,4.87,4.87,0,0,1-.94-0.7,4,4,0,0,1-1.15-1.7,3.23,3.23,0,0,1-.13-1.54A2.33,2.33,0,0,1,79.1,59a1,1,0,0,1,.77-0.43,2.31,2.31,0,0,1,.74.2q0.5,0.2,1.16.52l1.43,0.67q0.77,0.35,1.55.67a12.82,12.82,0,0,0,1.51.52,5.21,5.21,0,0,0,1.35.2,4.82,4.82,0,0,0,.73-1.24,4.28,4.28,0,0,0,.33-1.69,6.87,6.87,0,0,0-.3-2.09,8.36,8.36,0,0,0-.8-1.78A10.83,10.83,0,0,0,86.44,53q-0.62-.71-1.25-1.35-0.56,1.38-1,2.73T83.31,57.41Z" transform="translate(-24.53 -30.39)"/>
+    <path d="M95.9,34.42a3.28,3.28,0,0,0-.08-0.82,3.05,3.05,0,0,0-.16-0.48,1.49,1.49,0,0,0-.16-0.28,0.36,0.36,0,0,1-.08-0.22,0.28,0.28,0,0,1,.14-0.23,1.41,1.41,0,0,1,.38-0.16,3.19,3.19,0,0,1,.5-0.11,4.08,4.08,0,0,1,.53,0,2.72,2.72,0,0,1,1.89.62,1.93,1.93,0,0,1,.69,1.49v15q0.59-.8,1.23-1.51a10.75,10.75,0,0,1,1.35-1.27,6.63,6.63,0,0,1,1.46-.88,3.92,3.92,0,0,1,4.83,1.27,5,5,0,0,1,.77,1.65,7.74,7.74,0,0,1-.2,4.52,9.82,9.82,0,0,1-1.12,2.19,11.33,11.33,0,0,1-1.49,1.76,13.86,13.86,0,0,1-1.54,1.29,8.65,8.65,0,0,0,.46,1.49A5.75,5.75,0,0,0,106,61a3.38,3.38,0,0,0,1,.89,2.4,2.4,0,0,0,1.25.33,2.61,2.61,0,0,0,1.54-.5A5.41,5.41,0,0,0,111,60.4a8.19,8.19,0,0,0,.93-1.66,9.39,9.39,0,0,0,.54-1.7,2.22,2.22,0,0,1,.43-1.05,1,1,0,0,1,.63-0.36,1.11,1.11,0,0,1,.69.18,2.15,2.15,0,0,1,.61.55,2.42,2.42,0,0,1,.39.76,1.47,1.47,0,0,1,0,.8,22.13,22.13,0,0,1-.94,2.25,11.87,11.87,0,0,1-1.55,2.44,9,9,0,0,1-2.2,1.95,5.34,5.34,0,0,1-2.91.8,4.74,4.74,0,0,1-2.57-.73,7.4,7.4,0,0,1-2-1.83,8.52,8.52,0,0,1-1.28-2.41,7.8,7.8,0,0,1-.45-2.51,1.19,1.19,0,0,1,.33-0.76,9.22,9.22,0,0,1,.83-0.84q0.5-.46,1.08-1A9.57,9.57,0,0,0,104.72,54a6.76,6.76,0,0,0,.83-1.58,5.63,5.63,0,0,0,.33-2,2.31,2.31,0,0,0-.43-1.45,1.35,1.35,0,0,0-1.11-.56,2.28,2.28,0,0,0-1,.32,4.49,4.49,0,0,0-1.25,1.09,10.89,10.89,0,0,0-1.31,2.05A18.58,18.58,0,0,0,99.53,55v8.25q0,0.35,0,.71a1.76,1.76,0,0,1-.14.66,1.21,1.21,0,0,1-.4.49,1.31,1.31,0,0,1-.79.2,3.9,3.9,0,0,1-.76-0.08,2.11,2.11,0,0,1-.75-0.3,1.71,1.71,0,0,1-.56-0.63,2.29,2.29,0,0,1-.22-1.09V34.42Z" transform="translate(-24.53 -30.39)"/>
+    <path d="M115.24,40.91a2.71,2.71,0,0,1-1.11-.23,2.9,2.9,0,0,1-.91-0.63,3.16,3.16,0,0,1-.62-0.93,2.77,2.77,0,0,1-.23-1.14,2.91,2.91,0,0,1,.23-1.17,3,3,0,0,1,.62-0.93,2.88,2.88,0,0,1,2-.83,3,3,0,0,1,1.17.22,2.75,2.75,0,0,1,1.54,1.54,3,3,0,0,1,.22,1.17,2.89,2.89,0,0,1-.22,1.14,3,3,0,0,1-.61.93,2.87,2.87,0,0,1-.93.63A2.91,2.91,0,0,1,115.24,40.91ZM116.34,60q0,0.16,0,.53a3.15,3.15,0,0,0,.14.74,1.72,1.72,0,0,0,.38.66,0.94,0.94,0,0,0,.73.28,1.71,1.71,0,0,0,1.23-.52,4.76,4.76,0,0,0,.91-1.29,9.69,9.69,0,0,0,.64-1.68q0.26-.9.42-1.7a2.22,2.22,0,0,1,.43-1.05,1,1,0,0,1,.63-0.36,1.06,1.06,0,0,1,.68.18,2.38,2.38,0,0,1,.61.55,2.29,2.29,0,0,1,.4.76,1.47,1.47,0,0,1,0,.8,23.29,23.29,0,0,1-.86,2.51,10.7,10.7,0,0,1-1.35,2.41,7.31,7.31,0,0,1-2,1.83,4.93,4.93,0,0,1-2.7.73A3.88,3.88,0,0,1,115,65a3.81,3.81,0,0,1-1.27-1,4.23,4.23,0,0,1-.79-1.43,5.52,5.52,0,0,1-.27-1.73V48a3.29,3.29,0,0,0-.11-1,1.73,1.73,0,0,1-.11-0.56,0.66,0.66,0,0,1,.38-0.57,1.71,1.71,0,0,1,.89-0.22,2.72,2.72,0,0,1,1.89.62,1.93,1.93,0,0,1,.69,1.49V60Z" transform="translate(-24.53 -30.39)"/>
+    <path d="M131.46,57a2.11,2.11,0,0,1,.43-1,1,1,0,0,1,.63-0.35,1.15,1.15,0,0,1,.69.16,2.06,2.06,0,0,1,.61.53,2.3,2.3,0,0,1,.39.74,1.5,1.5,0,0,1,0,.81,22.13,22.13,0,0,1-.94,2.25,11.87,11.87,0,0,1-1.55,2.44,9,9,0,0,1-2.2,1.95,5.34,5.34,0,0,1-2.91.8,6.08,6.08,0,0,1-2.44-.46,4.82,4.82,0,0,1-1.77-1.29,5.57,5.57,0,0,1-1.08-2A8.64,8.64,0,0,1,121,59V37.16a8.6,8.6,0,0,1,.34-2.47,6.26,6.26,0,0,1,.94-1.95,4.55,4.55,0,0,1,1.39-1.27,3.34,3.34,0,0,1,1.69-.46,3.75,3.75,0,0,1,1.78.39,3.52,3.52,0,0,1,1.2,1,5.09,5.09,0,0,1,.74,1.45,9.48,9.48,0,0,1,.39,1.68,15.68,15.68,0,0,1,.14,1.69q0,0.83,0,1.51a22.08,22.08,0,0,1-.33,3.69q-0.33,1.93-.83,3.81t-1.1,3.6q-0.6,1.72-1.15,3.06t-1,2.18a4.44,4.44,0,0,1-.6,1v2.79a4.25,4.25,0,0,0,.61,2.38,2.16,2.16,0,0,0,1.95.93,2.61,2.61,0,0,0,1.54-.5A5.41,5.41,0,0,0,130,60.4a8.19,8.19,0,0,0,.93-1.66A9.39,9.39,0,0,0,131.46,57Zm-6.82-7.24a7.54,7.54,0,0,0,.5-1.32q0.25-.83.47-1.84T126,44.52q0.19-1.1.33-2.16t0.22-2q0.08-.93.08-1.58a12.65,12.65,0,0,0-.35-3.5,1.24,1.24,0,0,0-.94-1.11,0.41,0.41,0,0,0-.33.19,1.62,1.62,0,0,0-.23.48,3.13,3.13,0,0,0-.13.63,6.08,6.08,0,0,0,0,.62V49.8Z" transform="translate(-24.53 -30.39)"/>
+    <path d="M142,57a2.11,2.11,0,0,1,.43-1,1,1,0,0,1,.63-0.35,1.15,1.15,0,0,1,.69.16,2.06,2.06,0,0,1,.61.53,2.3,2.3,0,0,1,.39.74,1.5,1.5,0,0,1,0,.81,22.13,22.13,0,0,1-.94,2.25,11.87,11.87,0,0,1-1.55,2.44,9,9,0,0,1-2.2,1.95,5.34,5.34,0,0,1-2.91.8,6.08,6.08,0,0,1-2.44-.46A4.82,4.82,0,0,1,133,63.59a5.57,5.57,0,0,1-1.08-2,8.64,8.64,0,0,1-.36-2.59V37.16a8.6,8.6,0,0,1,.34-2.47,6.26,6.26,0,0,1,.94-1.95,4.55,4.55,0,0,1,1.39-1.27,3.34,3.34,0,0,1,1.69-.46,3.75,3.75,0,0,1,1.78.39,3.52,3.52,0,0,1,1.2,1,5.09,5.09,0,0,1,.74,1.45,9.48,9.48,0,0,1,.39,1.68,15.68,15.68,0,0,1,.14,1.69q0,0.83,0,1.51a22.08,22.08,0,0,1-.33,3.69q-0.33,1.93-.83,3.81t-1.1,3.6q-0.6,1.72-1.15,3.06t-1,2.18a4.44,4.44,0,0,1-.6,1v2.79a4.25,4.25,0,0,0,.61,2.38,2.16,2.16,0,0,0,1.95.93,2.61,2.61,0,0,0,1.54-.5,5.41,5.41,0,0,0,1.27-1.27,8.19,8.19,0,0,0,.93-1.66A9.39,9.39,0,0,0,142,57Zm-6.82-7.24a7.54,7.54,0,0,0,.5-1.32q0.25-.83.47-1.84t0.41-2.11q0.19-1.1.33-2.16t0.22-2q0.08-.93.08-1.58a12.65,12.65,0,0,0-.35-3.5,1.24,1.24,0,0,0-.94-1.11,0.41,0.41,0,0,0-.33.19,1.62,1.62,0,0,0-.23.48,3.13,3.13,0,0,0-.13.63,6.08,6.08,0,0,0,0,.62V49.8Z" transform="translate(-24.53 -30.39)"/>
+    <path d="M153.18,50a8.85,8.85,0,0,1-.46,2.74,9.64,9.64,0,0,1-1.36,2.66,10.47,10.47,0,0,1-2.23,2.25,9.57,9.57,0,0,1-3.06,1.51,5.37,5.37,0,0,0,.62,1.16,4.11,4.11,0,0,0,.93.95,4.4,4.4,0,0,0,1.25.63,5.3,5.3,0,0,0,1.65.23,5.15,5.15,0,0,0,2.41-.53,5.27,5.27,0,0,0,1.7-1.39,7.46,7.46,0,0,0,1.11-1.95,12.34,12.34,0,0,0,.63-2.18,1.45,1.45,0,0,1,.67-1.07,1.37,1.37,0,0,1,1-.13,1.79,1.79,0,0,1,.91.6,1.38,1.38,0,0,1,.32,1.09,16.38,16.38,0,0,1-.32,1.66,10,10,0,0,1-.67,1.9,10.62,10.62,0,0,1-1.14,1.89,7.77,7.77,0,0,1-1.7,1.65,8.59,8.59,0,0,1-2.37,1.17,10,10,0,0,1-3.12.45,8.13,8.13,0,0,1-3.18-.64,8.24,8.24,0,0,1-2.72-1.85,9,9,0,0,1-1.9-3,10.66,10.66,0,0,1-.71-4,13.68,13.68,0,0,1,.63-4.23,12.12,12.12,0,0,1,1.66-3.39A8.23,8.23,0,0,1,146.15,46a5.08,5.08,0,0,1,2.7-.81,4.51,4.51,0,0,1,1.82.35,3.81,3.81,0,0,1,1.37,1,4.39,4.39,0,0,1,.86,1.54A6.27,6.27,0,0,1,153.18,50Zm-7.73,5.67a3.82,3.82,0,0,0,0,.42,4,4,0,0,1,0,.45,6.64,6.64,0,0,0,1.62-1.08,6.76,6.76,0,0,0,1.24-1.5,7.33,7.33,0,0,0,.8-1.84,7.6,7.6,0,0,0,.28-2.07,2.4,2.4,0,0,0-.27-1.24,0.83,0.83,0,0,0-.74-0.45,1.54,1.54,0,0,0-1,.4,3.57,3.57,0,0,0-.8,1,7.22,7.22,0,0,0-.56,1.45q-0.22.81-.36,1.63a14.79,14.79,0,0,0-.19,1.56A11.43,11.43,0,0,0,145.45,55.7Z" transform="translate(-24.53 -30.39)"/>
+    <path d="M152.06,41.43q0.54,0,1.2.07t1.36,0.06l1.78,0V33.46a3.28,3.28,0,0,0-.08-0.82,3.05,3.05,0,0,0-.16-0.48,1.49,1.49,0,0,0-.16-0.28,0.36,0.36,0,0,1-.08-0.22,0.28,0.28,0,0,1,.14-0.23,1.41,1.41,0,0,1,.38-0.16,3.19,3.19,0,0,1,.5-0.11,4.08,4.08,0,0,1,.53,0,2.72,2.72,0,0,1,1.89.62,1.93,1.93,0,0,1,.69,1.49v8.41q2.2,0,4.65,0t4.91-.16a0.52,0.52,0,0,1,.53-0.26,0.55,0.55,0,0,1,.26.45,3.48,3.48,0,0,1,0,.87,5.22,5.22,0,0,1-.19,1,2.82,2.82,0,0,1-.39.83,0.69,0.69,0,0,1-.55.35q-2.88.07-5.1,0.08H160V60a2.57,2.57,0,0,0,.45,1.69,1.5,1.5,0,0,0,1.2.52,1.73,1.73,0,0,0,1.25-.52,4.76,4.76,0,0,0,.91-1.29,9.08,9.08,0,0,0,.63-1.68q0.25-.9.41-1.7a2.11,2.11,0,0,1,.47-1.09,1,1,0,0,1,.68-0.34,1.17,1.17,0,0,1,.59.18,2.17,2.17,0,0,1,.55.46,2.41,2.41,0,0,1,.4.63,1.76,1.76,0,0,1,.15.7v0.12a0.74,0.74,0,0,1,0,.21,20,20,0,0,1-.83,2.51,10.45,10.45,0,0,1-1.36,2.41,7.47,7.47,0,0,1-2,1.83,4.93,4.93,0,0,1-2.7.73A5.16,5.16,0,0,1,159,65a3.45,3.45,0,0,1-1.39-.94,4.48,4.48,0,0,1-.91-1.65,7.93,7.93,0,0,1-.33-2.44V44.76H155l-1,0-0.87,0a1.29,1.29,0,0,1-1-.5,2.94,2.94,0,0,1-.61-1.11,2.1,2.1,0,0,1,0-1.11A0.61,0.61,0,0,1,152.06,41.43Z" transform="translate(-24.53 -30.39)"/>
+  </g>
+</symbol><symbol id="rss-plain" viewBox="0 0 24 24"><path d="M6.503 20.752c0 1.794-1.456 3.248-3.251 3.248-1.796 0-3.252-1.454-3.252-3.248 0-1.794 1.456-3.248 3.252-3.248 1.795.001 3.251 1.454 3.251 3.248zm-6.503-12.572v4.811c6.05.062 10.96 4.966 11.022 11.009h4.817c-.062-8.71-7.118-15.758-15.839-15.82zm0-3.368c10.58.046 19.152 8.594 19.183 19.188h4.817c-.03-13.231-10.755-23.954-24-24v4.812z"/></symbol><symbol id="so-plain" viewBox="0 0 24 24"><path d="M15 21h-10v-2h10v2zm6-11.665l-1.621-9.335-1.993.346 1.62 9.335 1.994-.346zm-5.964 6.937l-9.746-.975-.186 2.016 9.755.879.177-1.92zm.538-2.587l-9.276-2.608-.526 1.954 9.306 2.5.496-1.846zm1.204-2.413l-8.297-4.864-1.029 1.743 8.298 4.865 1.028-1.744zm1.866-1.467l-5.339-7.829-1.672 1.14 5.339 7.829 1.672-1.14zm-2.644 4.195v8h-12v-8h-2v10h16v-10h-2z"/></symbol></svg><!-- endinject -->
+</div>
+
+    
+      <header class="site-header" role="banner" data-page="Why and How to Use Spring With Jersey?">
+  <div class="topbar post-topbar">
+    <div class="site-constraint">
+      <a class="topbar-logo" href="/" title="Home Page">
+        <svg class="topbar-logo-svg">
+          <use xlink:href="#pio-logo"></use>
+        </svg>
+      </a>
+      <nav class="topbar-nav-wrapper">
+        <span class="topbar-nav-label" role="button" tabindex="0">Menu</span>
+        <ul class="topbar-nav collapse">
+          <li>
+            <a class="topbar-nav-item"
+                href="/"
+                title="Home">
+              Home
+            </a>
+          </li>
+          <li>
+            <a class="topbar-nav-item"
+                href="/archive/"
+                title="Archive">
+              Archive
+            </a>
+          </li>
+          <li>
+            <a class="topbar-nav-item"
+                href="/contact/"
+                title="Contact">
+              Contact
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+</header>
+
+    
+
+    <div class="main-content">
+      <section class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <div class="post-banner"
+       style="background-image: linear-gradient(to bottom, rgba(0,0,0,0) 0%,rgba(0,0,0,0.01) 2%,#29383E 100%), url('/assets/images/walkway-bridge-lg.jpg')">
+  
+    <div class="post-banner-container">
+      <div class="post-title">
+        <h2 class="post-title-text">Why and How to Use Spring With Jersey?</h2>
+      </div>
+      <div class="post-subtitle">
+        by<span class="post-author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <span itemprop="name"><b>Paul Samsotha</b></span> on
+        </span>
+        <time class="post-date" datetime="2015-10-19T00:00:00+07:00" itemprop="datePublished">
+          Oct 19, 2015
+        </time> 
+      </div>
+    </div>
+  </div>
+
+  <article class="post-content">
+    <p>I’ve seen a few question on Stack Overflow where people are confused about the difference between Jersey and Spring MVC, and I thought it would be a good opportunity to try and demystify some of the confusion. In this article I will first go through some analysis on why we should (or shouldn’t) mix the two frameworks, then I will get into some example implementation.</p>
+
+<h4 id="sections">Sections:</h4>
+
+<ul>
+  <li><strong><a href="#why">WHY?</a></strong></li>
+  <li><strong><a href="#impl">Implementation</a></strong>
+    <ul>
+      <li><a href="#mavenDeps">Maven Dependencies</a></li>
+      <li><a href="#config">Basic Configuration</a></li>
+      <li><a href="#compImpl">Component Implementation</a></li>
+      <li><a href="#runTest">Running and Testing with cURL</a></li>
+    </ul>
+  </li>
+</ul>
+
+<p><a name="why"></a></p>
+
+<h3 id="why">WHY?</h3>
+
+<p>So why use Spring with Jersey? First notice the careful naming of the title. It’s not “Using Jersey with Spring”. That title would imply a Spring application integrating Jersey, while the current title implies integrating Spring into a Jersey application. It’s a subtle difference as far as the title is concerned, but a difference that should be acknowledged for this discussion. An article on “integrating Jersey into Spring” might be more aimed at Spring users that would like to learn Jersey, and may give some tutorial on beginning Jersey stuff. This article is not that. This article assumes you know Jersey, and are thinking about integrating Spring into your Jersey application.</p>
+
+<p>Now to answer the question of “why integrate?”, it helps to look at an application architecture from the three-tier view. Anyone who’s had any experience creating an enterprise web application should be familiar with this architecture. It is basically modeled as shown below</p>
+
+<p><img src="https://www.dropbox.com/s/cwmgq0oex7p3ldl/three-tier.png?dl=1" alt="three-tier" /></p>
+
+<p>In a web application, the Presentation Layer would normally consist of the view/controller layer in an MVC framework. The Business Layer would consist of the business services and the Persistence Layer would consist of the repositories (or DAOs) that interact with the Database. No layer can interact with the above layer, and each layer only interacts with the layer below it. In code form, it might translate to something like</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Controller</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="n">CusotomerService</span> <span class="n">customerService</span><span class="o">;</span>
+<span class="o">}</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">CustomerService</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="n">CustomerRepositoty</span> <span class="n">customerRepository</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="n">Customer</span> <span class="nf">findCustomer</span><span class="o">(</span><span class="kt">long</span> <span class="n">id</span><span class="o">)</span> <span class="o">{</span>
+          <span class="k">return</span> <span class="n">customerRepository</span><span class="o">.</span><span class="na">findById</span><span class="o">(</span><span class="n">id</span><span class="o">);</span>
+      <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">CustomerRepository</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="n">EntityManager</span> <span class="n">em</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="n">Customer</span> <span class="nf">findById</span><span class="o">(</span><span class="kt">long</span> <span class="n">id</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">em</span><span class="o">.</span><span class="na">find</span><span class="o">(</span><span class="n">Customer</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="n">id</span><span class="o">):</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<p>The <code class="highlighter-rouge">Controller</code> is part of the presentation layer, the <code class="highlighter-rouge">CustomerService</code> is in the business layer, and the <code class="highlighter-rouge">CustomerRepository</code> is in the persistence layer. As you can see, the constraints I described above are maintained in this example. The presentation layer only interacts with the business layer, the business layer only interacts with the persistence layer, and the persistence layer only interacts with the database.</p>
+
+<p>In this example, the business layer and persistence layer may seem redundant, but in a real application, the service layer also handles the business logic of the domain, not just a simple “find data”, but  also “do manipulate data”. The persistence layer should only be concerned with database interactions, and not with any business logic.</p>
+
+<p>So back to the topic at hand. In a REST application, there <em>is</em> no presentation layer. But does that mean that this architecture doesn’t apply to REST applications? Absolutely not. We should still adhere to this separation of concerns in REST applications. It is just good design.</p>
+
+<p>So with that being said, we can say that instead of a presentation layer, the presentation layer is replaced with a “REST interface layer” or “REST layer”. AFAIK there is no such term widely used, it’s just something I made up for the sake of this discussion.</p>
+
+<p>With Spring, its REST layer is implemented in its MVC framework. The MVC framework is widely know for its MVC capabilities with the use of controllers. But with a little tweaking of the controllers and the annotations used, the controllers can easily become a REST controller, where instead of return models and views, you are return RESTful representation objects.</p>
+
+<p>So Spring already comes with REST support. What my time on Stack Overflow has shown me, is that there is not a lot of enthusiasm from established Spring users to learn and/or switch over to using Jersey as the REST layer, even though you can use Spring components (business, persistence) with a Jersey application. And it makes sense. Why learn a different framework, when the one I am using and am comfortable with using, works just fine? So that is part of the reasoning behind why I specifically made this article about integrating Spring with Jersey and not the other way around.</p>
+
+<p>Really there is no difference in implementation. Integrating Spring with Jersey and integrating Jersey with Spring mean the same thing as far as code is concerned. I am pretty much just giving an analysis to answer the question (which I’ve seen a few times on Stack Overflow), “As a Spring user, why should I learn Jersey?” Answer - If you don’t want to… Don’t. If you’re comfortable with implementing REST controllers with Spring, then more power to you. Stick with what you know. The only answer I could give that makes any sense to “why” is “it doesn’t hurt to learn new things.”</p>
+
+<p>So now let’s try and answer the question “Why integrate Spring into Jersey?”. The core features of Spring are Dependency Injection and AOP. But Jersey already has a Dependency Injection framework in <a href="https://hk2.java.net/2.4.0-b07/">HK2</a>. And HK2 has support for AOP. So the core of Spring wouldn’t be the reason we would want to integrate. But then we get to the persistence layer. Spring has great persistence support. For example with Spring Data, we get free support for common CRUD operations, without having to implements a single method. For example all we need is this</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">CustomerRepository</span> <span class="kd">implements</span> <span class="n">JpaRepository</span><span class="o">&lt;</span><span class="n">Customer</span><span class="o">,</span> <span class="n">Long</span><span class="o">&gt;</span> <span class="o">{}</span>
+</code></pre>
+</div>
+
+<p>Notice that it’s just an <code class="highlighter-rouge">interface</code>. We don’t need to create a concrete class. That’s it, and we get nearly 20 free methods that handle normal CRUD operations. Here are some to name a few</p>
+
+<ul>
+  <li><code class="highlighter-rouge">List&lt;Customer&gt; findAll()</code></li>
+  <li><code class="highlighter-rouge">Customer findOne(Long id)</code></li>
+  <li><code class="highlighter-rouge">Customer save(Customer c)</code></li>
+  <li><code class="highlighter-rouge">void delete(Customer c)</code></li>
+</ul>
+
+<p>And there are more. You can view all of the in <a href="http://docs.spring.io/spring-data/jpa/docs/current/api/org/springframework/data/jpa/repository/JpaRepository.html">the javadocs</a>. Let’s say we want to find <code class="highlighter-rouge">Customer</code>s by <code class="highlighter-rouge">firstName</code>. All we do is declare a method in the interface</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">CustomerRepository</span> <span class="kd">implements</span> <span class="n">JpaRepository</span><span class="o">&lt;</span><span class="n">Customer</span><span class="o">,</span> <span class="n">Long</span><span class="o">&gt;</span> <span class="o">{</span>
+    <span class="n">List</span><span class="o">&lt;</span><span class="n">Customer</span><span class="o">&gt;</span> <span class="nf">findByFirstName</span><span class="o">(</span><span class="n">String</span> <span class="n">firstName</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<p>Spring Data uses a domain specific language that parses the method signature. As long as we follow the rules, there are unlimited possibilities with the method signatures. And we never have to implement anything. Spring data handles all of it under the hood.</p>
+
+<p>Also we get transaction support in a declarative way. If you were to try an implement your own DAO layer in Jersey, you might find alot of this all over the place</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kd">public</span> <span class="n">Customer</span> <span class="nf">save</span><span class="o">(</span><span class="n">Customer</span> <span class="n">c</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">entityManager</span><span class="o">.</span><span class="na">getTransaction</span><span class="o">().</span><span class="na">begin</span><span class="o">();</span>
+    <span class="n">entityManager</span><span class="o">.</span><span class="na">perist</span><span class="o">(</span><span class="n">c</span><span class="o">);</span>
+    <span class="n">entityManager</span><span class="o">.</span><span class="na">getTransaction</span><span class="o">().</span><span class="na">commit</span><span class="o">();</span>
+    <span class="k">return</span> <span class="n">c</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<p>We are explicitly handling the transaction ourselves, where with Spring transaction support, we can just declare our <em>service</em> method as <code class="highlighter-rouge">@Transactional</code></p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">CustomerService</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="n">CustomerRepository</span> <span class="n">customerRepository</span><span class="o">;</span>
+
+    <span class="nd">@Transactional</span>
+    <span class="kd">public</span> <span class="n">Customer</span> <span class="nf">save</span><span class="o">(</span><span class="n">Customer</span> <span class="n">c</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">customerRepository</span><span class="o">.</span><span class="na">save</span><span class="o">(</span><span class="n">c</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<p>Spring will transparently handle the transactions in an AOP way.</p>
+
+<p>The example above is for JPA (hence <code class="highlighter-rouge">JpaRepository</code>), but Spring data has a wide range of other types databases other than relational ones. For instance MongoDB, or Neo4j. Spring Data offer similar repository support. To learn more about the different Spring Data project, you should check out the reference guides in the <a href="http://spring.io/docs/reference">Spring Reference Documentations</a>.</p>
+
+<p>Going through the previous link, you will see that Spring has a rich ecosystem. In a Jersey project, we could bind our service layer to Spring, and from there all those services have access to a wide range of other Spring projects.</p>
+
+<p>So I hope that gives you an idea of why you should consider integrating. If not for the ecosystem, I’d say it’s a good argument that simply taking into account the persistence support, that is a good enough reason to consider integrating.</p>
+
+<p><a name="impl"></a></p>
+
+<h3 id="implementation">Implementation</h3>
+
+<p>So let’s get into some implementation. You can find the complete project as <a href="https://github.com/psamsotha/jersey-spring-example">Github</a>.</p>
+
+<p>What you will need to make the most of this guide are:</p>
+
+<ul>
+  <li><a href="http://curl.haxx.se/">cURL</a> - A command line tool that I use as a REST client. You may use a different client, but any other tools usages will be outside the scope of this article.</li>
+  <li><a href="https://maven.apache.org/">Maven</a> - To build and run the app with the <a href="http://www.eclipse.org/jetty/documentation/current/jetty-maven-plugin.html">jetty-maven-plugin</a></li>
+</ul>
+
+<p>You can clone the project</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="n">git</span> <span class="n">clone</span> <span class="nl">https:</span><span class="c1">//github.com/psamsotha/jersey-spring-example.git</span>
+</code></pre>
+</div>
+
+<p>Or download it from</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>https://github.com/psamsotha/jersey-spring-example
+</code></pre>
+</div>
+
+<p>What I will cover will be as follows</p>
+
+<ul>
+  <li><a href="#mavenDeps">Dependencies</a></li>
+  <li><a href="#config">Basic Configuration</a></li>
+  <li><a href="#compImpl">Component Implementation</a></li>
+  <li><a href="#runTest">Running and Testing with cURL</a></li>
+</ul>
+
+<p><a name="mavenDeps"></a></p>
+
+<h4 id="maven-dependencies">Maven Dependencies</h4>
+
+<p>So we are creating a new Maven web project. The following dependencies are ones we going to use. Note that there are exclusions in the <code class="highlighter-rouge">jersey-spring3</code> dependency. We want to replace the Spring 3 dependencies with Spring 4, and also exclude some conflicting bean validation transitive dependencies. The exclusion are  not shown in the following list. Please the pom in the Github project</p>
+
+<div class="language-xml highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;dependencies&gt;</span>
+    <span class="nt">&lt;dependency&gt;</span>
+        <span class="nt">&lt;groupId&gt;</span>org.glassfish.jersey.containers<span class="nt">&lt;/groupId&gt;</span>
+        <span class="nt">&lt;artifactId&gt;</span>jersey-container-servlet<span class="nt">&lt;/artifactId&gt;</span>
+        <span class="nt">&lt;version&gt;</span>${jersey.version}<span class="nt">&lt;/version&gt;</span>
+    <span class="nt">&lt;/dependency&gt;</span>
+    <span class="nt">&lt;dependency&gt;</span>
+        <span class="nt">&lt;groupId&gt;</span>org.glassfish.jersey.media<span class="nt">&lt;/groupId&gt;</span>
+        <span class="nt">&lt;artifactId&gt;</span>jersey-media-json-jackson<span class="nt">&lt;/artifactId&gt;</span>
+        <span class="nt">&lt;version&gt;</span>${jersey.version}<span class="nt">&lt;/version&gt;</span>
+    <span class="nt">&lt;/dependency&gt;</span>
+    <span class="nt">&lt;dependency&gt;</span>
+        <span class="nt">&lt;groupId&gt;</span>org.glassfish.jersey.ext<span class="nt">&lt;/groupId&gt;</span>
+        <span class="nt">&lt;artifactId&gt;</span>jersey-spring3<span class="nt">&lt;/artifactId&gt;</span>
+        <span class="nt">&lt;version&gt;</span>${jersey.version}<span class="nt">&lt;/version&gt;</span>
+        <span class="nt">&lt;exclusions&gt;</span>
+          ...
+        <span class="nt">&lt;/exclusions&gt;</span>
+    <span class="nt">&lt;/dependency&gt;</span>
+    <span class="nt">&lt;dependency&gt;</span>
+        <span class="nt">&lt;groupId&gt;</span>org.springframework.data<span class="nt">&lt;/groupId&gt;</span>
+        <span class="nt">&lt;artifactId&gt;</span>spring-data-jpa<span class="nt">&lt;/artifactId&gt;</span>
+        <span class="nt">&lt;version&gt;</span>1.9.0.RELEASE<span class="nt">&lt;/version&gt;</span>
+    <span class="nt">&lt;/dependency&gt;</span>
+    <span class="nt">&lt;dependency&gt;</span>
+        <span class="nt">&lt;groupId&gt;</span>org.hibernate<span class="nt">&lt;/groupId&gt;</span>
+        <span class="nt">&lt;artifactId&gt;</span>hibernate-entitymanager<span class="nt">&lt;/artifactId&gt;</span>
+        <span class="nt">&lt;version&gt;</span>5.0.1.Final<span class="nt">&lt;/version&gt;</span>
+    <span class="nt">&lt;/dependency&gt;</span>
+    <span class="nt">&lt;dependency&gt;</span>
+        <span class="nt">&lt;groupId&gt;</span>com.h2database<span class="nt">&lt;/groupId&gt;</span>
+        <span class="nt">&lt;artifactId&gt;</span>h2<span class="nt">&lt;/artifactId&gt;</span>
+        <span class="nt">&lt;version&gt;</span>1.4.182<span class="nt">&lt;/version&gt;</span>
+    <span class="nt">&lt;/dependency&gt;</span>
+    <span class="nt">&lt;dependency&gt;</span>
+        <span class="nt">&lt;groupId&gt;</span>org.springframework<span class="nt">&lt;/groupId&gt;</span>
+        <span class="nt">&lt;artifactId&gt;</span>spring-web<span class="nt">&lt;/artifactId&gt;</span>
+        <span class="nt">&lt;version&gt;</span>4.1.7.RELEASE<span class="nt">&lt;/version&gt;</span>
+    <span class="nt">&lt;/dependency&gt;</span>
+    <span class="nt">&lt;dependency&gt;</span>
+        <span class="nt">&lt;groupId&gt;</span>javax.servlet<span class="nt">&lt;/groupId&gt;</span>
+        <span class="nt">&lt;artifactId&gt;</span>javax.servlet-api<span class="nt">&lt;/artifactId&gt;</span>
+        <span class="nt">&lt;version&gt;</span>3.1.0<span class="nt">&lt;/version&gt;</span>
+    <span class="nt">&lt;/dependency&gt;</span>
+<span class="nt">&lt;/dependencies&gt;</span>
+</code></pre>
+</div>
+
+<p><code class="highlighter-rouge">jersey-spring3</code> is the dependency that has the Spring integration components. One thing to note about the <code class="highlighter-rouge">jersey-spring3</code> dependency is that as of this writing, <code class="highlighter-rouge">jersey-spring4</code> is in the master branch of the Jersey project. So it appears that in the next release Spring 4 will be supported, so we won’t need to use <code class="highlighter-rouge">jersey-spring3</code> with exclusions (unless of course the Spring 4 version is older than the one we want to use). The <code class="highlighter-rouge">jersey-media-json-jackson</code> is for JSON/POJO support.</p>
+
+<p>For Spring Data JPA, we added the <code class="highlighter-rouge">spring-data-jpa</code> dependency. This will pull in a bunch of other Spring 4.1.7.RELEASE jars. Then we have <code class="highlighter-rouge">hibernate-entitymanager</code>, which will be our JPA implementation. <code class="highlighter-rouge">h2</code> will be out in-memory database we will use for testing.</p>
+
+<p><a name="config"></a></p>
+
+<h4 id="basic-configuration">Basic Configuration</h4>
+
+<p>Here we will cover both Jersey and Spring. The way we will implement this application is web.xml-less. For Jersey, this will be made possible with the <code class="highlighter-rouge">jersey-container-servlet</code> dependency. Note that for this to work, the application must be run an Servlet 3.x container. For example Tomcat 7, will work, but Tomcat 6 will not work as it is a Servlet 2.5 container. We will simply be running with the Jetty Maven plugin, which will be a Servlet 3.1 container.</p>
+
+<p>The following is all that we need for Jersey configuration (see the actual project for import statements)</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="nd">@ApplicationPath</span><span class="o">(</span><span class="s">"/api"</span><span class="o">)</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">AppConfig</span> <span class="kd">extends</span> <span class="n">ResourceConfig</span> <span class="o">{</span>
+    
+    <span class="kd">public</span> <span class="nf">AppConfig</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">packages</span><span class="o">(</span><span class="s">"com.underdog.jersey.spring.example.resource"</span><span class="o">);</span>
+          <span class="n">register</span><span class="o">(</span><span class="n">RequestContextFilter</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+          <span class="n">property</span><span class="o">(</span><span class="n">ServerProperties</span><span class="o">.</span><span class="na">RESPONSE_SET_STATUS_OVER_SEND_ERROR</span><span class="o">,</span> <span class="kc">true</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<p>The <code class="highlighter-rouge">@ApplicationPath</code> annotation works similar to the <code class="highlighter-rouge">&lt;servlet-mapping&gt;</code> in a web.xml. The <code class="highlighter-rouge">/api</code> value will the root path of our application. The <code class="highlighter-rouge">packages</code> method tells Jersey to scan the <code class="highlighter-rouge">com.underdog.jersey.spring.example.resource</code> package for our resources (classes annotated with <code class="highlighter-rouge">@Path</code>). The <code class="highlighter-rouge">RequestContextFilter</code> is provide a bridge between Jersey and the Spring request attributes. The property we set is so that instead of the server sending a server error page on error statuses, it just sends the status code.</p>
+
+<p>For the Spring configuration, we have two different components. The first is the Spring application configuration. For this app this will mostly consist of persistence configuration. (Again see project for import statements)</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="nd">@Configuration</span>
+<span class="nd">@EnableTransactionManagement</span>
+<span class="nd">@ComponentScan</span><span class="o">(</span><span class="s">"com.underdog.jersey.spring.example.service"</span><span class="o">)</span>
+<span class="nd">@EnableJpaRepositories</span><span class="o">(</span><span class="s">"com.underdog.jersey.spring.example.repository"</span><span class="o">)</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">SpringConfig</span> <span class="o">{</span>
+
+    <span class="nd">@Bean</span>
+    <span class="kd">public</span> <span class="n">DataSource</span> <span class="nf">dataSource</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nf">EmbeddedDatabaseBuilder</span><span class="o">()</span>
+                <span class="o">.</span><span class="na">setType</span><span class="o">(</span><span class="n">EmbeddedDatabaseType</span><span class="o">.</span><span class="na">H2</span><span class="o">)</span>
+                <span class="o">.</span><span class="na">addScript</span><span class="o">(</span><span class="s">"classpath:schema.sql"</span><span class="o">)</span>
+                <span class="o">.</span><span class="na">addScript</span><span class="o">(</span><span class="s">"classpath:data.sql"</span><span class="o">)</span>
+                <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Bean</span>
+    <span class="kd">public</span> <span class="n">JpaTransactionManager</span> <span class="nf">transactionManager</span><span class="o">(</span><span class="n">EntityManagerFactory</span> <span class="n">emf</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nf">JpaTransactionManager</span><span class="o">(</span><span class="n">emf</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Bean</span>
+    <span class="kd">public</span> <span class="n">JpaVendorAdapter</span> <span class="nf">jpaVendorAdapter</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">HibernateJpaVendorAdapter</span> <span class="n">jpaVendorAdapter</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HibernateJpaVendorAdapter</span><span class="o">();</span>
+        <span class="n">jpaVendorAdapter</span><span class="o">.</span><span class="na">setDatabase</span><span class="o">(</span><span class="n">Database</span><span class="o">.</span><span class="na">H2</span><span class="o">);</span>
+        <span class="n">jpaVendorAdapter</span><span class="o">.</span><span class="na">setShowSql</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>
+        <span class="n">jpaVendorAdapter</span><span class="o">.</span><span class="na">setGenerateDdl</span><span class="o">(</span><span class="kc">false</span><span class="o">);</span>
+        <span class="k">return</span> <span class="n">jpaVendorAdapter</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Bean</span>
+    <span class="kd">public</span> <span class="n">LocalContainerEntityManagerFactoryBean</span> <span class="nf">entityManagerFactory</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">LocalContainerEntityManagerFactoryBean</span> <span class="n">lemfb</span> 
+                <span class="o">=</span> <span class="k">new</span> <span class="n">LocalContainerEntityManagerFactoryBean</span><span class="o">();</span>
+        <span class="n">lemfb</span><span class="o">.</span><span class="na">setDataSource</span><span class="o">(</span><span class="n">dataSource</span><span class="o">());</span>
+        <span class="n">lemfb</span><span class="o">.</span><span class="na">setJpaVendorAdapter</span><span class="o">(</span><span class="n">jpaVendorAdapter</span><span class="o">());</span>
+        <span class="n">lemfb</span><span class="o">.</span><span class="na">setPackagesToScan</span><span class="o">(</span><span class="s">"com.underdog.jersey.spring.example.domain"</span><span class="o">);</span>
+        <span class="k">return</span> <span class="n">lemfb</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<p>The <code class="highlighter-rouge">@EnableTransactionManagement</code> is so that we can use annotation driven transaction management, meaning we can just add <code class="highlighter-rouge">@Transactional</code> onto our service classes/methods.</p>
+
+<p>The <code class="highlighter-rouge">@Component</code> scan tells Spring to scan the declared package for our Spring service components.</p>
+
+<p>The <code class="highlighter-rouge">@EnableJpaRepositories</code> tell Spring to scan the declared package for Spring repository extension, i.e. our <code class="highlighter-rouge">CustomerRepository</code>.</p>
+
+<p>All the <code class="highlighter-rouge">@Bean</code> implementations are the basic beans that need to be configured to bootstrap JPA persistence support. In order of declaration, we have configured the in-memory database, the transaction manager, the JPA implementation (Hibernate) and the <code class="highlighter-rouge">EntityManagerFactory</code> for JPA. One thing to note about the in-memory database configuration is that we are using a couple sql scripts to create the table and insert the initial data. You can look in the <code class="highlighter-rouge">src/main/resources</code> for those files.</p>
+
+<p>The next Spring configuration component we will use is a <code class="highlighter-rouge">WebApplicationInitializer</code> to bootstrap the Spring components in a xml-less way. The odd looking init-param <code class="highlighter-rouge">("contextConfigLocation", "noop")</code> is needed to avoid <a href="https://java.net/jira/browse/JERSEY-2038">this bug</a>. To get some explanation about how the <code class="highlighter-rouge">WebApplicationInitializer</code> works, you can see <a href="http://stackoverflow.com/q/32550131/2587435">this Stack Overflow question</a>.</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="nd">@Order</span><span class="o">(</span><span class="mi">1</span><span class="o">)</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">SpringInitializer</span> <span class="kd">implements</span> <span class="n">WebApplicationInitializer</span> <span class="o">{</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onStartup</span><span class="o">(</span><span class="n">ServletContext</span> <span class="n">sc</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">ServletException</span> <span class="o">{</span>
+        <span class="n">sc</span><span class="o">.</span><span class="na">setInitParameter</span><span class="o">(</span><span class="s">"contextConfigLocation"</span><span class="o">,</span> <span class="s">"noop"</span><span class="o">);</span>
+        
+        <span class="n">AnnotationConfigWebApplicationContext</span> <span class="n">context</span>
+                <span class="o">=</span> <span class="k">new</span> <span class="n">AnnotationConfigWebApplicationContext</span><span class="o">();</span>
+        <span class="n">context</span><span class="o">.</span><span class="na">register</span><span class="o">(</span><span class="n">SpringConfig</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+        <span class="n">sc</span><span class="o">.</span><span class="na">addListener</span><span class="o">(</span><span class="k">new</span> <span class="n">ContextLoaderListener</span><span class="o">(</span><span class="n">context</span><span class="o">));</span>
+          <span class="n">sc</span><span class="o">.</span><span class="na">addListener</span><span class="o">(</span><span class="k">new</span> <span class="n">RequestContextListener</span><span class="o">());</span>
+    <span class="o">}</span> 
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<p>The important thing to note about this components is the <code class="highlighter-rouge">@Order(1)</code>. We want to make sure this initializer occurs before Jersey tries to create the app context. If we fail to do this, Jersey will look for a <code class="highlighter-rouge">applicationContext.xml</code> Spring configuration file. When it doesn’t find it we will get a <code class="highlighter-rouge">FileNotFoundException</code>. Since we don’t want to use xml configuration, we need to include the initializer.</p>
+
+<p><a name="compImpl"></a></p>
+
+<h4 id="component-implementation">Component Implementation</h4>
+
+<p>The JPA entity we will use a simple <code class="highlighter-rouge">Customer</code> class with an <code class="highlighter-rouge">id</code>, <code class="highlighter-rouge">firstName</code>, and <code class="highlighter-rouge">lastName</code></p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="nd">@Entity</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Customer</span> <span class="o">{</span>
+    
+    <span class="nd">@Id</span>
+    <span class="nd">@GeneratedValue</span><span class="o">(</span><span class="n">strategy</span> <span class="o">=</span> <span class="n">GenerationType</span><span class="o">.</span><span class="na">IDENTITY</span><span class="o">)</span>
+    <span class="kd">private</span> <span class="kt">long</span> <span class="n">id</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="n">String</span> <span class="n">firstName</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="n">String</span> <span class="n">lastName</span><span class="o">;</span>
+    <span class="c1">// Getters and Setters</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<p>Then we have our Spring Data JPA repository.</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">CustomerRepository</span> <span class="kd">extends</span> <span class="n">JpaRepository</span><span class="o">&lt;</span><span class="n">Customer</span><span class="o">,</span> <span class="n">Long</span><span class="o">&gt;</span> <span class="o">{</span>
+    <span class="n">List</span><span class="o">&lt;</span><span class="n">Customer</span><span class="o">&gt;</span> <span class="nf">findByFirstNameAndLastName</span><span class="o">(</span><span class="n">String</span> <span class="n">firstName</span><span class="o">,</span> <span class="n">String</span> <span class="n">lastName</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<p>As discussed earlier, this is nothing more than an interface. We never have to implement this, but with this we get a bunch of free implementations. The only extra method we added, is one to search for <code class="highlighter-rouge">Customer</code> by their first and last name. This method name follows the Spring Data DSL for method naming convention. We return a <code class="highlighter-rouge">List&lt;Customer&gt;</code> instead of just a single <code class="highlighter-rouge">Customer</code>, as it is possible for more than one customer to have the same name.</p>
+
+<p>In the next component, the service layer component, you can actually see the usage of the repository’s “free” methods. I will not show all the method, just for brevity, but you can see the project code for the entire implementation.</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="nd">@Service</span>
+<span class="nd">@Transactional</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">CustomerServiceImpl</span> <span class="kd">implements</span> <span class="n">CustomerService</span> <span class="o">{</span>
+    
+    <span class="nd">@Autowired</span>
+    <span class="kd">private</span> <span class="n">CustomerRepository</span> <span class="n">customerRepository</span><span class="o">;</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">Customer</span><span class="o">&gt;</span> <span class="nf">findAll</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">customerRepository</span><span class="o">.</span><span class="na">findAll</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="n">Customer</span> <span class="nf">findOne</span><span class="o">(</span><span class="n">Long</span> <span class="n">id</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">customerRepository</span><span class="o">.</span><span class="na">findOne</span><span class="o">(</span><span class="n">id</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="n">Customer</span> <span class="nf">save</span><span class="o">(</span><span class="n">Customer</span> <span class="n">customer</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">customerRepository</span><span class="o">.</span><span class="na">save</span><span class="o">(</span><span class="n">customer</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">Customer</span><span class="o">&gt;</span> <span class="nf">findByFirstAndLastName</span><span class="o">(</span><span class="n">String</span> <span class="n">fname</span><span class="o">,</span> <span class="n">String</span> <span class="n">lname</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">customerRepository</span><span class="o">.</span><span class="na">findByFirstNameAndLastName</span><span class="o">(</span><span class="n">fname</span><span class="o">,</span> <span class="n">lname</span><span class="o">);</span>
+    <span class="o">}</span> 
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<p>As you can see the only method we added to the interface was the <code class="highlighter-rouge">findByFirstNameAndLastName</code>, which we use here in the service class, but also we make use of the free repository methods in out other service methods.</p>
+
+<p>The last application component is the Jersey resource class. I will only show a couple methods. You can find the rest in the project source code.</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="nd">@Path</span><span class="o">(</span><span class="s">"customers"</span><span class="o">)</span>
+<span class="nd">@Produces</span><span class="o">(</span><span class="n">MediaType</span><span class="o">.</span><span class="na">APPLICATION_JSON</span><span class="o">)</span>
+<span class="nd">@Consumes</span><span class="o">(</span><span class="n">MediaType</span><span class="o">.</span><span class="na">APPLICATION_JSON</span><span class="o">)</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">CustomerResource</span> <span class="o">{</span>
+    
+    <span class="nd">@Autowired</span>
+    <span class="kd">private</span> <span class="n">CustomerService</span> <span class="n">customerService</span><span class="o">;</span>
+    
+    <span class="nd">@GET</span>
+    <span class="kd">public</span> <span class="n">Response</span> <span class="nf">getAllCustomers</span><span class="o">(</span><span class="nd">@QueryParam</span><span class="o">(</span><span class="s">"firstName"</span><span class="o">)</span> <span class="n">String</span> <span class="n">firstName</span><span class="o">,</span>
+                                    <span class="nd">@QueryParam</span><span class="o">(</span><span class="s">"lastName"</span><span class="o">)</span> <span class="n">String</span> <span class="n">lastName</span><span class="o">)</span> <span class="o">{</span>
+        
+        <span class="n">List</span><span class="o">&lt;</span><span class="n">Customer</span><span class="o">&gt;</span> <span class="n">customers</span><span class="o">;</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">firstName</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="n">lastName</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">customers</span> <span class="o">=</span> <span class="n">customerService</span><span class="o">.</span><span class="na">findByFirstAndLastName</span><span class="o">(</span><span class="n">firstName</span><span class="o">,</span> <span class="n">lastName</span><span class="o">);</span>
+        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+            <span class="n">customers</span> <span class="o">=</span> <span class="n">customerService</span><span class="o">.</span><span class="na">findAll</span><span class="o">();</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">Response</span><span class="o">.</span><span class="na">ok</span><span class="o">(</span><span class="k">new</span> <span class="n">GenericEntity</span><span class="o">&lt;</span><span class="n">List</span><span class="o">&lt;</span><span class="n">Customer</span><span class="o">&gt;&gt;(</span><span class="n">customers</span><span class="o">){}).</span><span class="na">build</span><span class="o">();</span>
+    <span class="o">}</span>
+    
+    <span class="nd">@POST</span>
+    <span class="kd">public</span> <span class="n">Response</span> <span class="nf">createCustomer</span><span class="o">(</span><span class="n">Customer</span> <span class="n">customer</span><span class="o">,</span> <span class="nd">@Context</span> <span class="n">UriInfo</span> <span class="n">uriInfo</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">customer</span> <span class="o">=</span> <span class="n">customerService</span><span class="o">.</span><span class="na">save</span><span class="o">(</span><span class="n">customer</span><span class="o">);</span>
+        <span class="kt">long</span> <span class="n">id</span> <span class="o">=</span> <span class="n">customer</span><span class="o">.</span><span class="na">getId</span><span class="o">();</span>
+        
+        <span class="n">URI</span> <span class="n">createdUri</span> <span class="o">=</span> <span class="n">uriInfo</span><span class="o">.</span><span class="na">getAbsolutePathBuilder</span><span class="o">().</span><span class="na">path</span><span class="o">(</span><span class="n">Long</span><span class="o">.</span><span class="na">toString</span><span class="o">(</span><span class="n">id</span><span class="o">)).</span><span class="na">build</span><span class="o">();</span>
+        <span class="k">return</span> <span class="n">Response</span><span class="o">.</span><span class="na">created</span><span class="o">(</span><span class="n">createdUri</span><span class="o">).</span><span class="na">build</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<p>We inject the <code class="highlighter-rouge">CustomerService</code> into our resource class with the <code class="highlighter-rouge">@Autowired</code> annotation. The interesting thing about the <code class="highlighter-rouge">getAllCustomers</code> endpoint is that we include an optional search by first name and last name. If these filter parameters are included, we will call the custom repository’s method. If these parameters are missing, we just return all the customers.</p>
+
+<p>In the other resource method, we implement a <code class="highlighter-rouge">POST</code> to create a customer resource. When customer is created, it gets an id. From that id, we create the new resource URI, and pass it to the <code class="highlighter-rouge">created</code> method, which will send a <code class="highlighter-rouge">201 Created</code> status along with a <code class="highlighter-rouge">Location</code> header with the new resource URI.</p>
+
+<p><a name="runTest"></a></p>
+
+<h3 id="running-and-testing-with-curl">Running and Testing with cURL</h3>
+
+<p>In testing our application will will use cURL. For a real application, you will probably also want to include automated JUnit tests, but I consider myself to be a pretty thorough tester, so for me to implement the JUnit tests in this example application would pretty much double the work. And this article is not really about testing. In future articles I may cover testing with Jersey.</p>
+
+<p>What we will do is the following</p>
+
+<ol>
+  <li>Make a GET to get all the customers</li>
+  <li>Make a GET to get customers by first and last name</li>
+  <li>Create a customer through a POST</li>
+  <li>Make a GET request for the customer we previously created</li>
+  <li>Make a PUT request to  update a customer</li>
+  <li>And finally delete a customer.</li>
+</ol>
+
+<p>First thing you will want to do is start the server. <code class="highlighter-rouge">cd</code> to the project root, and use the <code class="highlighter-rouge">jetty-maven-plugin</code> to start the server.</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="nb">cd </span>jersey-spring-example
+mvn jetty:run
+</code></pre>
+</div>
+
+<p><strong>1. Get all Customers</strong></p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>C:<span class="se">\&gt;</span>curl -i http://localhost:8080/api/customers
+HTTP/1.1 200 OK
+Date: Tue, 20 Oct 2015 03:45:15 GMT
+Content-Type: application/json
+Content-Length: 251
+
+<span class="o">[</span>
+  <span class="o">{</span><span class="s2">"id"</span>:1,<span class="s2">"firstName"</span>:<span class="s2">"Michael"</span>,<span class="s2">"lastName"</span>:<span class="s2">"Jordan"</span><span class="o">}</span>,
+  <span class="o">{</span><span class="s2">"id"</span>:2,<span class="s2">"firstName"</span>:<span class="s2">"Kobe"</span>,<span class="s2">"lastName"</span>:<span class="s2">"Bryant"</span><span class="o">}</span>,
+  <span class="o">{</span><span class="s2">"id"</span>:3,<span class="s2">"firstName"</span>:<span class="s2">"Lebron"</span>,<span class="s2">"lastName"</span>:<span class="s2">"James"</span><span class="o">}</span>,
+  <span class="o">{</span><span class="s2">"id"</span>:4,<span class="s2">"firstName"</span>:<span class="s2">"Stephan"</span>,<span class="s2">"lastName"</span>:<span class="s2">"Curry"</span><span class="o">}</span>,
+  <span class="o">{</span><span class="s2">"id"</span>:5,<span class="s2">"firstName"</span>:<span class="s2">"Carmelo"</span>,<span class="s2">"lastName"</span>:<span class="s2">"Anthony"</span><span class="o">}</span>
+<span class="o">]</span>
+</code></pre>
+</div>
+
+<p>In our <code class="highlighter-rouge">data.sql</code> file you can see that we inserted five customers. So hitting to root <code class="highlighter-rouge">/customers</code> resource, we get back all five.</p>
+
+<p><strong>2. Get Customers by First and Last Name</strong></p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>C:<span class="se">\&gt;</span>curl -i <span class="s2">"http://localhost:8080/api/customers?firstName=Michael&amp;lastName=Jordan"</span>
+HTTP/1.1 200 OK
+Date: Tue, 20 Oct 2015 03:47:49 GMT
+Content-Type: application/json
+Content-Length: 52
+
+<span class="o">[</span>
+  <span class="o">{</span><span class="s2">"id"</span>:1,<span class="s2">"firstName"</span>:<span class="s2">"Michael"</span>,<span class="s2">"lastName"</span>:<span class="s2">"Jordan"</span><span class="o">}</span>
+<span class="o">]</span>
+</code></pre>
+</div>
+
+<p>As noted earlier, there may be more than one customer that has the same first name and last name. That’s why we return a <code class="highlighter-rouge">List</code>. You can see that instead of a single JSON object, we get a JSON array, even though it is only one customer.</p>
+
+<p><strong>3. Create a Customer</strong></p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>C:<span class="se">\&gt;</span>curl -i -X POST -H <span class="s2">"Content-Type:application/json"</span> 
+         -d <span class="s2">"{</span><span class="se">\"</span><span class="s2">firstName</span><span class="se">\"</span><span class="s2">:</span><span class="se">\"</span><span class="s2">Charles</span><span class="se">\"</span><span class="s2">, </span><span class="se">\"</span><span class="s2">lastName</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">Barkley</span><span class="se">\"</span><span class="s2">}"</span>
+         http://localhost:8080/api/customers
+HTTP/1.1 201 Created
+Date: Tue, 20 Oct 2015 03:53:47 GMT
+Location: http://localhost:8080/api/customers/6
+Content-Length: 0
+</code></pre>
+</div>
+
+<p>A couple things to note. I am on Windows, so escaping the double quotes is necessary. On Unix machines, you should be able to use single quotes, so you don’t have to escape the double quotes. For example <code class="highlighter-rouge">'{"firstName":"Charles"}'</code></p>
+
+<p>Next you can see that instead of return the any data, a <code class="highlighter-rouge">Location</code> header is returned. That is the URI for the newly created Charles Barley customer resource.</p>
+
+<p><strong>4. Get Customer by Id</strong></p>
+
+<p>In the previous step, we created a new customer, and got back a newly created URI, we can now access this URI.</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>C:<span class="se">\&gt;</span>curl -i http://localhost:8080/api/customers/6
+HTTP/1.1 200 OK
+Date: Tue, 20 Oct 2015 03:57:57 GMT
+Content-Type: application/json
+Content-Length: 51
+
+<span class="o">{</span><span class="s2">"id"</span>:6,<span class="s2">"firstName"</span>:<span class="s2">"Charles"</span>,<span class="s2">"lastName"</span>:<span class="s2">"Barkley"</span><span class="o">}</span>
+</code></pre>
+</div>
+
+<p>If you look at the <code class="highlighter-rouge">data.sql</code> you will see that I inserted the initial data with ids <code class="highlighter-rouge">1, 2, 3, 4, 5</code>. Since the ids are auto incremented, Charles is created with the new db id of <code class="highlighter-rouge">6</code>. So just like you can access Charles with the <code class="highlighter-rouge">/5</code> path, you can access the others with their appropriate ids in the URI.</p>
+
+<p><strong>5. Update a Customer</strong></p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>C:<span class="se">\&gt;</span>curl -i -X PUT -H <span class="s2">"Content-Type:application/json"</span> 
+         -d <span class="s2">"{</span><span class="se">\"</span><span class="s2">firstName</span><span class="se">\"</span><span class="s2">:</span><span class="se">\"</span><span class="s2">Michael</span><span class="se">\"</span><span class="s2">, </span><span class="se">\"</span><span class="s2">lastName</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">Jackson</span><span class="se">\"</span><span class="s2">}"</span>
+         http://localhost:8080/api/customers/1
+HTTP/1.1 204 No Content
+Date: Tue, 20 Oct 2015 04:04:53 GMT
+
+C:<span class="se">\&gt;</span>curl -i http://localhost:8080/api/customers/1
+HTTP/1.1 200 OK
+Date: Tue, 20 Oct 2015 04:05:02 GMT
+Content-Type: application/json
+Content-Length: 51
+
+<span class="o">{</span><span class="s2">"id"</span>:1,<span class="s2">"firstName"</span>:<span class="s2">"Michael"</span>,<span class="s2">"lastName"</span>:<span class="s2">"Jackson"</span><span class="o">}</span>
+</code></pre>
+</div>
+
+<p>Here we are making two separate requests. The first to update the customer at the URI <code class="highlighter-rouge">/1</code>. Then we GET the same resource to see that it has been updated.</p>
+
+<p><strong>6. Delete a Customer</strong></p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>C:<span class="se">\&gt;</span>curl -i -X DELETE http://localhost:8080/api/customers/1
+HTTP/1.1 200 OK
+Date: Tue, 20 Oct 2015 04:10:45 GMT
+Content-Length: 0
+
+C:<span class="se">\&gt;</span>curl -i http://localhost:8080/api/customers/1
+HTTP/1.1 404 Not Found
+Date: Tue, 20 Oct 2015 04:10:56 GMT
+Content-Length: 0
+</code></pre>
+</div>
+
+<p>Here we made two separate requests. One to delete the customer, and the next try and GET it. We will see in the second request, that the resource is no longer available, so we get a 404.</p>
+
+<p>And that wraps up this article. I hope you all found it informative.</p>
+
+
+
+    <div class="disqus-comments">
+      
+        <div id="disqus_thread"></div>
+<script>
+    /**
+     *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+     *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables
+     */
+   
+    var disqus_config = function () {
+        
+    };
+
+    (function() {  // DON'T EDIT BELOW THIS LINE
+        var d = document, s = d.createElement('script');
+        
+        s.src = '//peeskillet-io.disqus.com/embed.js';
+        
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+      
+    </div>
+
+    <script id="dsq-count-scr" src="//peeskillet-io.disqus.com/count.js" async></script>
+
+  </article>
+
+
+</section>
+
+
+      <div class="clearfooter"></div>
+    </div>
+
+    
+
+    <footer class="site-footer">
+  <div class="site-constraint row">
+    <div class="footer-logo small-6 columns">
+      <svg class="footer-logo-icon">
+        <use xlink:href="#pio-logo"></use>
+      </svg>
+    </div>
+    <div class="footer-social small-6 columns">
+      <div class="social-links">
+        <ul>
+          <li><a href="http://stackoverflow.com/users/2587435/peeskillet">
+            <svg class="social-icon">
+              <use xlink:href="#so-plain"></use>
+            </svg>
+          </a></li>
+          <li><a href="https://github.com/psamsotha">
+            <svg class="social-icon">
+              <use xlink:href="#github-plain"></use>
+            </svg>
+          </a></li>
+          <li><a href="/feed.xml">
+            <svg class="social-icon">
+              <use xlink:href="#rss-plain"></use>
+            </svg>
+          </a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="footer-license">
+    <p class="license-message">
+      This site is open source, licensed under Apache 2.0.<br>
+      The source code is avaible at <a href="#">GitHub</a>.
+    </p>
+  </div>
+</footer>
+
+
+    
+      <script src="/js/vendor/jquery.js"></script>
+      <script src="/js/vendor/what-input.js"></script>
+      <script src="/js/vendor/foundation.min.js"></script>
+      <script src="/js/app.js"></script>
+    
+
+    <script id="dsq-count-scr" src="//peeskillet-io.disqus.com/count.js" async></script>
+  </body>
+
+</html>
