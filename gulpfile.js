@@ -52,7 +52,7 @@ gulp.task('default', ['build:watch', 'serve']);
  * Deploy built _site files to master branch. This is the branch
  * used for hosting the site using the user (psamsotha.github.io) project name
  */
-gulp.task('deploy', ['build:prod'] function() {
+gulp.task('deploy', ['build:prod'], function() {
   return gulp.src('./_site/**/*')
     .pipe(ghPages({ branch: 'master' }));
 });
