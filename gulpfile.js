@@ -4,6 +4,7 @@ var shell = require('gulp-shell');
 var browserSync = require('browser-sync').create();
 var svgstore = require('gulp-svgstore');
 var inject = require('gulp-inject');
+var ghPages = require('gulp-gh-pages');
 
 /**
  * Concatenate svg files and inject into svgs.html
@@ -46,4 +47,13 @@ gulp.task('build:prod:watch', ['jekyll-production', 'build:watch']);
 gulp.task('serve:prod', ['build:prod:watch', 'serve']);
 
 gulp.task('default', ['build:watch', 'serve']);
+
+/**
+ * Deploy built _site files to master branch. This is the branch
+ * used for hosting the site using the user (psamsotha.github.io) project name
+ */
+gulp.task('deploy', ['build:prod'] function() {
+  return gulp.src('./_site/**/*')
+    .pipe(ghPages({ branch: 'master' }));
+});
 
