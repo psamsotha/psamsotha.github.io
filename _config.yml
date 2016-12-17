@@ -20,6 +20,7 @@ defaults:
 
 # Build settings
 markdown: kramdown
+highlighter: rouge
 exclude: [node_modules, package.json, gulpfile.js]
 gems: [jekyll-paginate]
 
