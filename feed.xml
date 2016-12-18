@@ -4,10 +4,10 @@
     <title>Paul Samsotha Blog</title>
     <description>Paul Samsotha's developer blog.
 </description>
-    <link>http://yourdomain.com/</link>
-    <atom:link href="http://yourdomain.com/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sun, 18 Dec 2016 16:27:45 +0700</pubDate>
-    <lastBuildDate>Sun, 18 Dec 2016 16:27:45 +0700</lastBuildDate>
+    <link>https://psamsotha.github.io/</link>
+    <atom:link href="https://psamsotha.github.io/feed.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>Sun, 18 Dec 2016 19:13:41 +0700</pubDate>
+    <lastBuildDate>Sun, 18 Dec 2016 19:13:41 +0700</lastBuildDate>
     <generator>Jekyll v3.3.1</generator>
     
       <item>
@@ -1211,8 +1211,8 @@ http://localhost:3000/rxjs/BehaviorSubject(…)
 
 </description>
         <pubDate>Fri, 16 Dec 2016 00:00:00 +0700</pubDate>
-        <link>http://yourdomain.com/angular/2016/12/16/angular2-testing-karma-systemjs.html</link>
-        <guid isPermaLink="true">http://yourdomain.com/angular/2016/12/16/angular2-testing-karma-systemjs.html</guid>
+        <link>https://psamsotha.github.io/angular/2016/12/16/angular2-testing-karma-systemjs.html</link>
+        <guid isPermaLink="true">https://psamsotha.github.io/angular/2016/12/16/angular2-testing-karma-systemjs.html</guid>
         
         <category>angular2</category>
         
@@ -1436,8 +1436,8 @@ http://localhost:3000/rxjs/BehaviorSubject(…)
 
 </description>
         <pubDate>Sun, 27 Dec 2015 00:00:00 +0700</pubDate>
-        <link>http://yourdomain.com/jersey/2015/12/27/jersey-configuration-properties.html</link>
-        <guid isPermaLink="true">http://yourdomain.com/jersey/2015/12/27/jersey-configuration-properties.html</guid>
+        <link>https://psamsotha.github.io/jersey/2015/12/27/jersey-configuration-properties.html</link>
+        <guid isPermaLink="true">https://psamsotha.github.io/jersey/2015/12/27/jersey-configuration-properties.html</guid>
         
         <category>jersey</category>
         
@@ -1562,8 +1562,8 @@ http://localhost:3000/rxjs/BehaviorSubject(…)
 
 </description>
         <pubDate>Wed, 16 Dec 2015 00:00:00 +0700</pubDate>
-        <link>http://yourdomain.com/jersey/2015/12/16/request-scope-into-singleton-scope.html</link>
-        <guid isPermaLink="true">http://yourdomain.com/jersey/2015/12/16/request-scope-into-singleton-scope.html</guid>
+        <link>https://psamsotha.github.io/jersey/2015/12/16/request-scope-into-singleton-scope.html</link>
+        <guid isPermaLink="true">https://psamsotha.github.io/jersey/2015/12/16/request-scope-into-singleton-scope.html</guid>
         
         <category>jersey</category>
         
@@ -1890,8 +1890,8 @@ Message: Hello Lebron
 
 </description>
         <pubDate>Wed, 16 Dec 2015 00:00:00 +0700</pubDate>
-        <link>http://yourdomain.com/jersey/2015/12/16/dynamic-proxies-dependency-injection.html</link>
-        <guid isPermaLink="true">http://yourdomain.com/jersey/2015/12/16/dynamic-proxies-dependency-injection.html</guid>
+        <link>https://psamsotha.github.io/jersey/2015/12/16/dynamic-proxies-dependency-injection.html</link>
+        <guid isPermaLink="true">https://psamsotha.github.io/jersey/2015/12/16/dynamic-proxies-dependency-injection.html</guid>
         
         <category>java</category>
         
@@ -2244,8 +2244,8 @@ public String post(@TenantParam Tenant tenant, String body) {
 
 </description>
         <pubDate>Sun, 01 Nov 2015 00:00:00 +0700</pubDate>
-        <link>http://yourdomain.com/jersey/2015/11/01/jersey-method-parameter-injection.html</link>
-        <guid isPermaLink="true">http://yourdomain.com/jersey/2015/11/01/jersey-method-parameter-injection.html</guid>
+        <link>https://psamsotha.github.io/jersey/2015/11/01/jersey-method-parameter-injection.html</link>
+        <guid isPermaLink="true">https://psamsotha.github.io/jersey/2015/11/01/jersey-method-parameter-injection.html</guid>
         
         <category>jersey</category>
         
@@ -2520,8 +2520,8 @@ public String post(@TenantParam Tenant tenant, String body) {
 
 </description>
         <pubDate>Fri, 23 Oct 2015 00:00:00 +0700</pubDate>
-        <link>http://yourdomain.com/jersey/2015/10/23/creating-reusable-jersey-extension.html</link>
-        <guid isPermaLink="true">http://yourdomain.com/jersey/2015/10/23/creating-reusable-jersey-extension.html</guid>
+        <link>https://psamsotha.github.io/jersey/2015/10/23/creating-reusable-jersey-extension.html</link>
+        <guid isPermaLink="true">https://psamsotha.github.io/jersey/2015/10/23/creating-reusable-jersey-extension.html</guid>
         
         <category>jersey</category>
         
@@ -3076,8 +3076,8 @@ Content-Length: 0
 
 </description>
         <pubDate>Mon, 19 Oct 2015 00:00:00 +0700</pubDate>
-        <link>http://yourdomain.com/jersey/2015/10/19/why-use-spring-with-jersey.html</link>
-        <guid isPermaLink="true">http://yourdomain.com/jersey/2015/10/19/why-use-spring-with-jersey.html</guid>
+        <link>https://psamsotha.github.io/jersey/2015/10/19/why-use-spring-with-jersey.html</link>
+        <guid isPermaLink="true">https://psamsotha.github.io/jersey/2015/10/19/why-use-spring-with-jersey.html</guid>
         
         <category>spring</category>
         
@@ -3589,8 +3589,8 @@ new data
 
 </description>
         <pubDate>Sun, 18 Oct 2015 00:00:00 +0700</pubDate>
-        <link>http://yourdomain.com/jersey/2015/10/18/http-caching-with-jersey.html</link>
-        <guid isPermaLink="true">http://yourdomain.com/jersey/2015/10/18/http-caching-with-jersey.html</guid>
+        <link>https://psamsotha.github.io/jersey/2015/10/18/http-caching-with-jersey.html</link>
+        <guid isPermaLink="true">https://psamsotha.github.io/jersey/2015/10/18/http-caching-with-jersey.html</guid>
         
         <category>jersey</category>
         
@@ -4218,8 +4218,8 @@ new data
 
 </description>
         <pubDate>Sat, 10 Oct 2015 00:00:00 +0700</pubDate>
-        <link>http://yourdomain.com/jersey/2015/10/10/getting-started-with-jersey2.html</link>
-        <guid isPermaLink="true">http://yourdomain.com/jersey/2015/10/10/getting-started-with-jersey2.html</guid>
+        <link>https://psamsotha.github.io/jersey/2015/10/10/getting-started-with-jersey2.html</link>
+        <guid isPermaLink="true">https://psamsotha.github.io/jersey/2015/10/10/getting-started-with-jersey2.html</guid>
         
         <category>jersey</category>
         
