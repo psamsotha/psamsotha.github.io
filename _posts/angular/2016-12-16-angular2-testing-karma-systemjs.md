@@ -6,10 +6,6 @@ description: "The Angular 2 Quickstart testing (Karma and SystemJS) configuratio
 thumb: chains
 tags: angular2 karma systemjs
 ---
-
-Angular 2 Testing with Karma and SystemJS
-=========================================
-
 ### Table of Contents
 
 * [Introduction](#intro)
