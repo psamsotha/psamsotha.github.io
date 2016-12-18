@@ -1,0 +1,1396 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- favicon stuff -->
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32">
+  <link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="apple-mobile-web-app-title" content="Peeskillet">
+  <meta name="application-name" content="Peeskillet">
+  <meta name="theme-color" content="#ffffff">
+  <!-- end favicon -->
+
+  <title>Angular 2 Testing with Karma and SystemJS</title>
+  <meta name="description" content="Table of Contents">
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="canonical" href="http://yourdomain.com/angular/2016/12/16/angular2-testing-karma-systemjs.html">
+  <link rel="alternate" type="application/rss+xml" title="Paul Samsotha Blog" href="http://yourdomain.com/feed.xml">
+</head>
+
+
+  <body>
+    <div style="height: 0; width: 0; position: absolute; visibility: hidden">
+  <!-- inject:svg --><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><symbol id="back-arrow" viewBox="0 0 512 512"><polygon points="352,128.4 319.7,96 160,256 160,256 160,256 319.7,416 352,383.6 224.7,256 "/></symbol><symbol id="email" viewBox="0 0 512 512"><path d="M484.748,96.359H27.439h-3.966h-9.625h-6.63v318.585H505V96.359h-17.218H484.748z M464.837,116.271  L272.529,308.578c-8.769,8.769-24.073,8.769-32.842,0L47.35,116.271H464.837z M27.128,124.203l129.287,129.268L27.128,382.759  V124.203z M43.014,395.029l127.489-127.47l55.106,55.097c8.138,8.148,18.978,12.64,30.499,12.64c11.521,0,22.361-4.492,30.499-12.64  l55.106-55.106l127.479,127.479H43.014z M485.089,382.769L355.801,253.472l129.287-129.297V382.769z" fill="#37404D"/></symbol><symbol id="forward-arrow" viewBox="0 0 512 512"><polygon points="160,128.4 192.3,96 352,256 352,256 352,256 192.3,416 160,383.6 287.3,256 "/></symbol><symbol id="github-plain" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></symbol><symbol id="pio-logo" viewBox="0 0 145.87 34.95">
+  <g>
+    <path d="M33.28,38.85a3.29,3.29,0,0,0-.11-1,1.73,1.73,0,0,1-.11-0.56,0.68,0.68,0,0,1,.38-0.59,1.65,1.65,0,0,1,.89-0.23,2.9,2.9,0,0,1,1.93.62A1.91,1.91,0,0,1,37,38.62V54.3a8.43,8.43,0,0,0,1.86-.47,12,12,0,0,0,2.14-1,12.82,12.82,0,0,0,2.14-1.65A11.56,11.56,0,0,0,45,48.84a12.38,12.38,0,0,0,1.32-3,12.54,12.54,0,0,0,.5-3.67,9.82,9.82,0,0,0-.43-2.81A7.93,7.93,0,0,0,45,36.74a7.31,7.31,0,0,0-2.43-2A7.72,7.72,0,0,0,39,34a12.43,12.43,0,0,0-4.94.89,9.18,9.18,0,0,0-3.36,2.39,9.52,9.52,0,0,0-1.91,3.48,14.15,14.15,0,0,0-.61,4.18,11.37,11.37,0,0,0,.27,2.68,9.62,9.62,0,0,0,.6,1.78,4.75,4.75,0,0,0,.61,1L30,50.8a0.49,0.49,0,0,1,.56.09,0.89,0.89,0,0,1,.16.56,3.42,3.42,0,0,1-.22,1,5.43,5.43,0,0,1-.6,1.23,2.7,2.7,0,0,1-.87.87,0.83,0.83,0,0,1-1-.11,12.46,12.46,0,0,1-.87-0.94A9,9,0,0,1,26,51.68a15,15,0,0,1-1-2.74,14,14,0,0,1-.45-3.71,16.83,16.83,0,0,1,1.05-6.11,13.55,13.55,0,0,1,3-4.68,13.09,13.09,0,0,1,4.56-3A15.7,15.7,0,0,1,39,30.39a12.62,12.62,0,0,1,4.77.87,10.51,10.51,0,0,1,3.66,2.43,10.76,10.76,0,0,1,2.33,3.71,13.14,13.14,0,0,1,.82,4.71,14.74,14.74,0,0,1-1.12,5.8,16.53,16.53,0,0,1-3,4.72A17.11,17.11,0,0,1,37,57.91v6.33a0.92,0.92,0,0,1-.4.86,1.75,1.75,0,0,1-.94.25,3.14,3.14,0,0,1-.84-0.12,3.52,3.52,0,0,1-.76-0.3,2.15,2.15,0,0,1-.56-0.43A0.77,0.77,0,0,1,33.28,64V38.85Z" transform="translate(-24.53 -30.39)"/>
+    <path d="M63.13,50a8.85,8.85,0,0,1-.46,2.74,9.64,9.64,0,0,1-1.36,2.66,10.47,10.47,0,0,1-2.23,2.25A9.57,9.57,0,0,1,56,59.2a5.37,5.37,0,0,0,.62,1.16,4.11,4.11,0,0,0,.93.95,4.4,4.4,0,0,0,1.25.63,5.3,5.3,0,0,0,1.65.23,5.15,5.15,0,0,0,2.41-.53,5.27,5.27,0,0,0,1.7-1.39,7.46,7.46,0,0,0,1.11-1.95,12.34,12.34,0,0,0,.63-2.18A1.45,1.45,0,0,1,67,55.06a1.37,1.37,0,0,1,1-.13,1.79,1.79,0,0,1,.91.6,1.38,1.38,0,0,1,.32,1.09A16.38,16.38,0,0,1,69,58.28a10,10,0,0,1-.67,1.9,10.62,10.62,0,0,1-1.14,1.89,7.77,7.77,0,0,1-1.7,1.65,8.59,8.59,0,0,1-2.37,1.17,10,10,0,0,1-3.12.45,8.13,8.13,0,0,1-3.18-.64,8.24,8.24,0,0,1-2.72-1.85,9,9,0,0,1-1.9-3,10.66,10.66,0,0,1-.71-4,13.68,13.68,0,0,1,.63-4.23,12.12,12.12,0,0,1,1.66-3.39A8.23,8.23,0,0,1,56.1,46a5.08,5.08,0,0,1,2.7-.81,4.51,4.51,0,0,1,1.82.35,3.81,3.81,0,0,1,1.37,1,4.39,4.39,0,0,1,.86,1.54A6.27,6.27,0,0,1,63.13,50ZM55.4,55.7a3.82,3.82,0,0,0,0,.42,4,4,0,0,1,0,.45,6.64,6.64,0,0,0,1.62-1.08A6.76,6.76,0,0,0,58.31,54a7.33,7.33,0,0,0,.8-1.84,7.6,7.6,0,0,0,.28-2.07,2.4,2.4,0,0,0-.27-1.24,0.83,0.83,0,0,0-.74-0.45,1.54,1.54,0,0,0-1,.4,3.57,3.57,0,0,0-.8,1A7.22,7.22,0,0,0,56,51.29q-0.22.81-.36,1.63a14.79,14.79,0,0,0-.19,1.56A11.43,11.43,0,0,0,55.4,55.7Z" transform="translate(-24.53 -30.39)"/>
+    <path d="M77.38,50a8.85,8.85,0,0,1-.46,2.74,9.64,9.64,0,0,1-1.36,2.66,10.47,10.47,0,0,1-2.23,2.25,9.57,9.57,0,0,1-3.06,1.51,5.37,5.37,0,0,0,.62,1.16,4.11,4.11,0,0,0,.93.95,4.4,4.4,0,0,0,1.25.63,5.3,5.3,0,0,0,1.65.23,5.15,5.15,0,0,0,2.41-.53,5.27,5.27,0,0,0,1.7-1.39A7.46,7.46,0,0,0,80,58.3a12.34,12.34,0,0,0,.63-2.18,1.45,1.45,0,0,1,.67-1.07,1.37,1.37,0,0,1,1-.13,1.79,1.79,0,0,1,.91.6,1.38,1.38,0,0,1,.32,1.09,16.38,16.38,0,0,1-.32,1.66,10,10,0,0,1-.67,1.9,10.62,10.62,0,0,1-1.14,1.89,7.77,7.77,0,0,1-1.7,1.65,8.59,8.59,0,0,1-2.37,1.17,10,10,0,0,1-3.12.45A8.13,8.13,0,0,1,71,64.69a8.24,8.24,0,0,1-2.72-1.85,9,9,0,0,1-1.9-3,10.66,10.66,0,0,1-.71-4,13.68,13.68,0,0,1,.63-4.23A12.12,12.12,0,0,1,68,48.23,8.23,8.23,0,0,1,70.35,46a5.08,5.08,0,0,1,2.7-.81,4.51,4.51,0,0,1,1.82.35,3.81,3.81,0,0,1,1.37,1,4.39,4.39,0,0,1,.86,1.54A6.27,6.27,0,0,1,77.38,50ZM69.65,55.7a3.82,3.82,0,0,0,0,.42,4,4,0,0,1,0,.45,6.64,6.64,0,0,0,1.62-1.08A6.76,6.76,0,0,0,72.56,54a7.33,7.33,0,0,0,.8-1.84,7.6,7.6,0,0,0,.28-2.07,2.4,2.4,0,0,0-.27-1.24,0.83,0.83,0,0,0-.74-0.45,1.54,1.54,0,0,0-1,.4,3.57,3.57,0,0,0-.8,1,7.22,7.22,0,0,0-.56,1.45q-0.22.81-.36,1.63a14.79,14.79,0,0,0-.19,1.56A11.43,11.43,0,0,0,69.65,55.7Z" transform="translate(-24.53 -30.39)"/>
+    <path d="M83.31,57.41a1.17,1.17,0,0,1-.7.93,1.39,1.39,0,0,1-1,0,1.87,1.87,0,0,1-.84-0.73,1.39,1.39,0,0,1-.2-1.12,32.08,32.08,0,0,1,1-3.53l1.32-3.86A5.78,5.78,0,0,1,82.33,48a3.22,3.22,0,0,1-.21-1.16,2.28,2.28,0,0,1,.46-1.28,6.52,6.52,0,0,1,1.1-1.23A7,7,0,0,1,85,43.39,2.65,2.65,0,0,1,86.2,43a1.51,1.51,0,0,1,1.3.59,2.58,2.58,0,0,1,.43,1.57,3.35,3.35,0,0,1-.18,1.07,9.57,9.57,0,0,1-.39,1Q87.16,47.69,87,48a2.64,2.64,0,0,0-.2.42,20,20,0,0,0,1.76,2.65q0.91,1.15,1.68,2.27a12,12,0,0,1,1.25,2.39,8.19,8.19,0,0,1,.49,3,6.65,6.65,0,0,1-.06.87,5.56,5.56,0,0,1-.18.84,5.14,5.14,0,0,0,1.49-.52,5.31,5.31,0,0,0,1.13-.81,4.56,4.56,0,0,0,.8-1A6.7,6.7,0,0,0,95.67,57a3.49,3.49,0,0,1,.52-1,0.76,0.76,0,0,1,.59-0.3,1.16,1.16,0,0,1,.62.2,2.29,2.29,0,0,1,.56.5,3.06,3.06,0,0,1,.4.63,1.42,1.42,0,0,1,.15.59,2.44,2.44,0,0,1-.19.84,6.06,6.06,0,0,1-.5,1,8.64,8.64,0,0,1-.71,1,6.37,6.37,0,0,1-.82.83,10.38,10.38,0,0,1-2.65,1.54,12.47,12.47,0,0,1-3.77.79,7.3,7.3,0,0,1-2.05,1.23,7,7,0,0,1-2.66.48,6.6,6.6,0,0,1-1.54-.19,10.19,10.19,0,0,1-1.5-.48,9.61,9.61,0,0,1-1.3-.64,4.87,4.87,0,0,1-.94-0.7,4,4,0,0,1-1.15-1.7,3.23,3.23,0,0,1-.13-1.54A2.33,2.33,0,0,1,79.1,59a1,1,0,0,1,.77-0.43,2.31,2.31,0,0,1,.74.2q0.5,0.2,1.16.52l1.43,0.67q0.77,0.35,1.55.67a12.82,12.82,0,0,0,1.51.52,5.21,5.21,0,0,0,1.35.2,4.82,4.82,0,0,0,.73-1.24,4.28,4.28,0,0,0,.33-1.69,6.87,6.87,0,0,0-.3-2.09,8.36,8.36,0,0,0-.8-1.78A10.83,10.83,0,0,0,86.44,53q-0.62-.71-1.25-1.35-0.56,1.38-1,2.73T83.31,57.41Z" transform="translate(-24.53 -30.39)"/>
+    <path d="M95.9,34.42a3.28,3.28,0,0,0-.08-0.82,3.05,3.05,0,0,0-.16-0.48,1.49,1.49,0,0,0-.16-0.28,0.36,0.36,0,0,1-.08-0.22,0.28,0.28,0,0,1,.14-0.23,1.41,1.41,0,0,1,.38-0.16,3.19,3.19,0,0,1,.5-0.11,4.08,4.08,0,0,1,.53,0,2.72,2.72,0,0,1,1.89.62,1.93,1.93,0,0,1,.69,1.49v15q0.59-.8,1.23-1.51a10.75,10.75,0,0,1,1.35-1.27,6.63,6.63,0,0,1,1.46-.88,3.92,3.92,0,0,1,4.83,1.27,5,5,0,0,1,.77,1.65,7.74,7.74,0,0,1-.2,4.52,9.82,9.82,0,0,1-1.12,2.19,11.33,11.33,0,0,1-1.49,1.76,13.86,13.86,0,0,1-1.54,1.29,8.65,8.65,0,0,0,.46,1.49A5.75,5.75,0,0,0,106,61a3.38,3.38,0,0,0,1,.89,2.4,2.4,0,0,0,1.25.33,2.61,2.61,0,0,0,1.54-.5A5.41,5.41,0,0,0,111,60.4a8.19,8.19,0,0,0,.93-1.66,9.39,9.39,0,0,0,.54-1.7,2.22,2.22,0,0,1,.43-1.05,1,1,0,0,1,.63-0.36,1.11,1.11,0,0,1,.69.18,2.15,2.15,0,0,1,.61.55,2.42,2.42,0,0,1,.39.76,1.47,1.47,0,0,1,0,.8,22.13,22.13,0,0,1-.94,2.25,11.87,11.87,0,0,1-1.55,2.44,9,9,0,0,1-2.2,1.95,5.34,5.34,0,0,1-2.91.8,4.74,4.74,0,0,1-2.57-.73,7.4,7.4,0,0,1-2-1.83,8.52,8.52,0,0,1-1.28-2.41,7.8,7.8,0,0,1-.45-2.51,1.19,1.19,0,0,1,.33-0.76,9.22,9.22,0,0,1,.83-0.84q0.5-.46,1.08-1A9.57,9.57,0,0,0,104.72,54a6.76,6.76,0,0,0,.83-1.58,5.63,5.63,0,0,0,.33-2,2.31,2.31,0,0,0-.43-1.45,1.35,1.35,0,0,0-1.11-.56,2.28,2.28,0,0,0-1,.32,4.49,4.49,0,0,0-1.25,1.09,10.89,10.89,0,0,0-1.31,2.05A18.58,18.58,0,0,0,99.53,55v8.25q0,0.35,0,.71a1.76,1.76,0,0,1-.14.66,1.21,1.21,0,0,1-.4.49,1.31,1.31,0,0,1-.79.2,3.9,3.9,0,0,1-.76-0.08,2.11,2.11,0,0,1-.75-0.3,1.71,1.71,0,0,1-.56-0.63,2.29,2.29,0,0,1-.22-1.09V34.42Z" transform="translate(-24.53 -30.39)"/>
+    <path d="M115.24,40.91a2.71,2.71,0,0,1-1.11-.23,2.9,2.9,0,0,1-.91-0.63,3.16,3.16,0,0,1-.62-0.93,2.77,2.77,0,0,1-.23-1.14,2.91,2.91,0,0,1,.23-1.17,3,3,0,0,1,.62-0.93,2.88,2.88,0,0,1,2-.83,3,3,0,0,1,1.17.22,2.75,2.75,0,0,1,1.54,1.54,3,3,0,0,1,.22,1.17,2.89,2.89,0,0,1-.22,1.14,3,3,0,0,1-.61.93,2.87,2.87,0,0,1-.93.63A2.91,2.91,0,0,1,115.24,40.91ZM116.34,60q0,0.16,0,.53a3.15,3.15,0,0,0,.14.74,1.72,1.72,0,0,0,.38.66,0.94,0.94,0,0,0,.73.28,1.71,1.71,0,0,0,1.23-.52,4.76,4.76,0,0,0,.91-1.29,9.69,9.69,0,0,0,.64-1.68q0.26-.9.42-1.7a2.22,2.22,0,0,1,.43-1.05,1,1,0,0,1,.63-0.36,1.06,1.06,0,0,1,.68.18,2.38,2.38,0,0,1,.61.55,2.29,2.29,0,0,1,.4.76,1.47,1.47,0,0,1,0,.8,23.29,23.29,0,0,1-.86,2.51,10.7,10.7,0,0,1-1.35,2.41,7.31,7.31,0,0,1-2,1.83,4.93,4.93,0,0,1-2.7.73A3.88,3.88,0,0,1,115,65a3.81,3.81,0,0,1-1.27-1,4.23,4.23,0,0,1-.79-1.43,5.52,5.52,0,0,1-.27-1.73V48a3.29,3.29,0,0,0-.11-1,1.73,1.73,0,0,1-.11-0.56,0.66,0.66,0,0,1,.38-0.57,1.71,1.71,0,0,1,.89-0.22,2.72,2.72,0,0,1,1.89.62,1.93,1.93,0,0,1,.69,1.49V60Z" transform="translate(-24.53 -30.39)"/>
+    <path d="M131.46,57a2.11,2.11,0,0,1,.43-1,1,1,0,0,1,.63-0.35,1.15,1.15,0,0,1,.69.16,2.06,2.06,0,0,1,.61.53,2.3,2.3,0,0,1,.39.74,1.5,1.5,0,0,1,0,.81,22.13,22.13,0,0,1-.94,2.25,11.87,11.87,0,0,1-1.55,2.44,9,9,0,0,1-2.2,1.95,5.34,5.34,0,0,1-2.91.8,6.08,6.08,0,0,1-2.44-.46,4.82,4.82,0,0,1-1.77-1.29,5.57,5.57,0,0,1-1.08-2A8.64,8.64,0,0,1,121,59V37.16a8.6,8.6,0,0,1,.34-2.47,6.26,6.26,0,0,1,.94-1.95,4.55,4.55,0,0,1,1.39-1.27,3.34,3.34,0,0,1,1.69-.46,3.75,3.75,0,0,1,1.78.39,3.52,3.52,0,0,1,1.2,1,5.09,5.09,0,0,1,.74,1.45,9.48,9.48,0,0,1,.39,1.68,15.68,15.68,0,0,1,.14,1.69q0,0.83,0,1.51a22.08,22.08,0,0,1-.33,3.69q-0.33,1.93-.83,3.81t-1.1,3.6q-0.6,1.72-1.15,3.06t-1,2.18a4.44,4.44,0,0,1-.6,1v2.79a4.25,4.25,0,0,0,.61,2.38,2.16,2.16,0,0,0,1.95.93,2.61,2.61,0,0,0,1.54-.5A5.41,5.41,0,0,0,130,60.4a8.19,8.19,0,0,0,.93-1.66A9.39,9.39,0,0,0,131.46,57Zm-6.82-7.24a7.54,7.54,0,0,0,.5-1.32q0.25-.83.47-1.84T126,44.52q0.19-1.1.33-2.16t0.22-2q0.08-.93.08-1.58a12.65,12.65,0,0,0-.35-3.5,1.24,1.24,0,0,0-.94-1.11,0.41,0.41,0,0,0-.33.19,1.62,1.62,0,0,0-.23.48,3.13,3.13,0,0,0-.13.63,6.08,6.08,0,0,0,0,.62V49.8Z" transform="translate(-24.53 -30.39)"/>
+    <path d="M142,57a2.11,2.11,0,0,1,.43-1,1,1,0,0,1,.63-0.35,1.15,1.15,0,0,1,.69.16,2.06,2.06,0,0,1,.61.53,2.3,2.3,0,0,1,.39.74,1.5,1.5,0,0,1,0,.81,22.13,22.13,0,0,1-.94,2.25,11.87,11.87,0,0,1-1.55,2.44,9,9,0,0,1-2.2,1.95,5.34,5.34,0,0,1-2.91.8,6.08,6.08,0,0,1-2.44-.46A4.82,4.82,0,0,1,133,63.59a5.57,5.57,0,0,1-1.08-2,8.64,8.64,0,0,1-.36-2.59V37.16a8.6,8.6,0,0,1,.34-2.47,6.26,6.26,0,0,1,.94-1.95,4.55,4.55,0,0,1,1.39-1.27,3.34,3.34,0,0,1,1.69-.46,3.75,3.75,0,0,1,1.78.39,3.52,3.52,0,0,1,1.2,1,5.09,5.09,0,0,1,.74,1.45,9.48,9.48,0,0,1,.39,1.68,15.68,15.68,0,0,1,.14,1.69q0,0.83,0,1.51a22.08,22.08,0,0,1-.33,3.69q-0.33,1.93-.83,3.81t-1.1,3.6q-0.6,1.72-1.15,3.06t-1,2.18a4.44,4.44,0,0,1-.6,1v2.79a4.25,4.25,0,0,0,.61,2.38,2.16,2.16,0,0,0,1.95.93,2.61,2.61,0,0,0,1.54-.5,5.41,5.41,0,0,0,1.27-1.27,8.19,8.19,0,0,0,.93-1.66A9.39,9.39,0,0,0,142,57Zm-6.82-7.24a7.54,7.54,0,0,0,.5-1.32q0.25-.83.47-1.84t0.41-2.11q0.19-1.1.33-2.16t0.22-2q0.08-.93.08-1.58a12.65,12.65,0,0,0-.35-3.5,1.24,1.24,0,0,0-.94-1.11,0.41,0.41,0,0,0-.33.19,1.62,1.62,0,0,0-.23.48,3.13,3.13,0,0,0-.13.63,6.08,6.08,0,0,0,0,.62V49.8Z" transform="translate(-24.53 -30.39)"/>
+    <path d="M153.18,50a8.85,8.85,0,0,1-.46,2.74,9.64,9.64,0,0,1-1.36,2.66,10.47,10.47,0,0,1-2.23,2.25,9.57,9.57,0,0,1-3.06,1.51,5.37,5.37,0,0,0,.62,1.16,4.11,4.11,0,0,0,.93.95,4.4,4.4,0,0,0,1.25.63,5.3,5.3,0,0,0,1.65.23,5.15,5.15,0,0,0,2.41-.53,5.27,5.27,0,0,0,1.7-1.39,7.46,7.46,0,0,0,1.11-1.95,12.34,12.34,0,0,0,.63-2.18,1.45,1.45,0,0,1,.67-1.07,1.37,1.37,0,0,1,1-.13,1.79,1.79,0,0,1,.91.6,1.38,1.38,0,0,1,.32,1.09,16.38,16.38,0,0,1-.32,1.66,10,10,0,0,1-.67,1.9,10.62,10.62,0,0,1-1.14,1.89,7.77,7.77,0,0,1-1.7,1.65,8.59,8.59,0,0,1-2.37,1.17,10,10,0,0,1-3.12.45,8.13,8.13,0,0,1-3.18-.64,8.24,8.24,0,0,1-2.72-1.85,9,9,0,0,1-1.9-3,10.66,10.66,0,0,1-.71-4,13.68,13.68,0,0,1,.63-4.23,12.12,12.12,0,0,1,1.66-3.39A8.23,8.23,0,0,1,146.15,46a5.08,5.08,0,0,1,2.7-.81,4.51,4.51,0,0,1,1.82.35,3.81,3.81,0,0,1,1.37,1,4.39,4.39,0,0,1,.86,1.54A6.27,6.27,0,0,1,153.18,50Zm-7.73,5.67a3.82,3.82,0,0,0,0,.42,4,4,0,0,1,0,.45,6.64,6.64,0,0,0,1.62-1.08,6.76,6.76,0,0,0,1.24-1.5,7.33,7.33,0,0,0,.8-1.84,7.6,7.6,0,0,0,.28-2.07,2.4,2.4,0,0,0-.27-1.24,0.83,0.83,0,0,0-.74-0.45,1.54,1.54,0,0,0-1,.4,3.57,3.57,0,0,0-.8,1,7.22,7.22,0,0,0-.56,1.45q-0.22.81-.36,1.63a14.79,14.79,0,0,0-.19,1.56A11.43,11.43,0,0,0,145.45,55.7Z" transform="translate(-24.53 -30.39)"/>
+    <path d="M152.06,41.43q0.54,0,1.2.07t1.36,0.06l1.78,0V33.46a3.28,3.28,0,0,0-.08-0.82,3.05,3.05,0,0,0-.16-0.48,1.49,1.49,0,0,0-.16-0.28,0.36,0.36,0,0,1-.08-0.22,0.28,0.28,0,0,1,.14-0.23,1.41,1.41,0,0,1,.38-0.16,3.19,3.19,0,0,1,.5-0.11,4.08,4.08,0,0,1,.53,0,2.72,2.72,0,0,1,1.89.62,1.93,1.93,0,0,1,.69,1.49v8.41q2.2,0,4.65,0t4.91-.16a0.52,0.52,0,0,1,.53-0.26,0.55,0.55,0,0,1,.26.45,3.48,3.48,0,0,1,0,.87,5.22,5.22,0,0,1-.19,1,2.82,2.82,0,0,1-.39.83,0.69,0.69,0,0,1-.55.35q-2.88.07-5.1,0.08H160V60a2.57,2.57,0,0,0,.45,1.69,1.5,1.5,0,0,0,1.2.52,1.73,1.73,0,0,0,1.25-.52,4.76,4.76,0,0,0,.91-1.29,9.08,9.08,0,0,0,.63-1.68q0.25-.9.41-1.7a2.11,2.11,0,0,1,.47-1.09,1,1,0,0,1,.68-0.34,1.17,1.17,0,0,1,.59.18,2.17,2.17,0,0,1,.55.46,2.41,2.41,0,0,1,.4.63,1.76,1.76,0,0,1,.15.7v0.12a0.74,0.74,0,0,1,0,.21,20,20,0,0,1-.83,2.51,10.45,10.45,0,0,1-1.36,2.41,7.47,7.47,0,0,1-2,1.83,4.93,4.93,0,0,1-2.7.73A5.16,5.16,0,0,1,159,65a3.45,3.45,0,0,1-1.39-.94,4.48,4.48,0,0,1-.91-1.65,7.93,7.93,0,0,1-.33-2.44V44.76H155l-1,0-0.87,0a1.29,1.29,0,0,1-1-.5,2.94,2.94,0,0,1-.61-1.11,2.1,2.1,0,0,1,0-1.11A0.61,0.61,0,0,1,152.06,41.43Z" transform="translate(-24.53 -30.39)"/>
+  </g>
+</symbol><symbol id="rss-plain" viewBox="0 0 24 24"><path d="M6.503 20.752c0 1.794-1.456 3.248-3.251 3.248-1.796 0-3.252-1.454-3.252-3.248 0-1.794 1.456-3.248 3.252-3.248 1.795.001 3.251 1.454 3.251 3.248zm-6.503-12.572v4.811c6.05.062 10.96 4.966 11.022 11.009h4.817c-.062-8.71-7.118-15.758-15.839-15.82zm0-3.368c10.58.046 19.152 8.594 19.183 19.188h4.817c-.03-13.231-10.755-23.954-24-24v4.812z"/></symbol><symbol id="so-plain" viewBox="0 0 24 24"><path d="M15 21h-10v-2h10v2zm6-11.665l-1.621-9.335-1.993.346 1.62 9.335 1.994-.346zm-5.964 6.937l-9.746-.975-.186 2.016 9.755.879.177-1.92zm.538-2.587l-9.276-2.608-.526 1.954 9.306 2.5.496-1.846zm1.204-2.413l-8.297-4.864-1.029 1.743 8.298 4.865 1.028-1.744zm1.866-1.467l-5.339-7.829-1.672 1.14 5.339 7.829 1.672-1.14zm-2.644 4.195v8h-12v-8h-2v10h16v-10h-2z"/></symbol></svg><!-- endinject -->
+</div>
+
+    
+      <header class="site-header" role="banner" data-page="Angular 2 Testing with Karma and SystemJS">
+  <div class="topbar post-topbar">
+    <div class="site-constraint">
+      <a class="topbar-logo" href="/" title="Home Page">
+        <svg class="topbar-logo-svg">
+          <use xlink:href="#pio-logo"></use>
+        </svg>
+      </a>
+      <nav class="topbar-nav-wrapper">
+        <span class="topbar-nav-label" role="button" tabindex="0">Menu</span>
+        <ul class="topbar-nav collapse">
+          <li>
+            <a class="topbar-nav-item"
+                href="/"
+                title="Home">
+              Home
+            </a>
+          </li>
+          <li>
+            <a class="topbar-nav-item"
+                href="/archive/"
+                title="Archive">
+              Archive
+            </a>
+          </li>
+          <li>
+            <a class="topbar-nav-item"
+                href="/contact/"
+                title="Contact">
+              Contact
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+</header>
+
+    
+
+    <div class="main-content">
+      <section class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <div class="post-banner"
+       style="background-image: linear-gradient(to bottom, rgba(0,0,0,0) 0%,rgba(0,0,0,0.01) 2%,#29383E 100%), url('/assets/images/sideways-building-lg.jpg')">
+  
+    <div class="post-banner-container">
+      <div class="post-title">
+        <h2 class="post-title-text">Angular 2 Testing with Karma and SystemJS</h2>
+      </div>
+      <div class="post-subtitle">
+        by<span class="post-author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <span itemprop="name"><b>Paul Samsotha</b></span> on
+        </span>
+        <time class="post-date" datetime="2016-12-16T00:00:00+07:00" itemprop="datePublished">
+          Dec 16, 2016
+        </time> 
+      </div>
+    </div>
+  </div>
+
+  <article class="post-content">
+    <h3 id="table-of-contents">Table of Contents</h3>
+
+<ul>
+  <li><a href="#intro">Introduction</a></li>
+  <li><a href="#karma">Getting Started with Karma</a>
+    <ul>
+      <li><a href="#jasmine">Jasmine Introduction</a></li>
+      <li><a href="#karma-jasmine">Setting up Karma and Running Jasmine Tests</a>
+        <ul>
+          <li><a href="#karma-deps">Karma dependencies</a></li>
+          <li><a href="#karma-config">Karma Configuration</a></li>
+          <li><a href="#test-results">Test Results</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><a href="#systemjs">Getting Started with SystemJS</a>
+    <ul>
+      <li><a href="#modules">Intro to Modules</a></li>
+      <li><a href="#systemjs-quickstart">SystemJS Quickstart</a></li>
+      <li><a href="#import-modules">Importing Modules</a></li>
+      <li><a href="#systemjs-testing">Testing with SystemJS</a>
+        <ul>
+          <li><a href="#karma-test-shim">karma-test-shim.js</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><a href="#angular">Adding Angular</a>
+    <ul>
+      <li><a href="#angular-app">Application Setup</a></li>
+      <li><a href="#angular-test">Testing Setup</a></li>
+    </ul>
+  </li>
+  <li><a href="#summary">Summary</a></li>
+</ul>
+
+<p><a name="intro"></a></p>
+
+<h2 id="introduction">Introduction</h2>
+
+<p>Unit testing is a critical part of any piece of software. Writing tests give us confidence that our individual software components act reliably in accordance to specification. An Angular 2 application is no different. We should write unit tests for our components, services, pipes, directives, etc.</p>
+
+<p>The <a href="https://angular.io/docs/ts/latest/guide/testing.html">Angular 2 documentation</a> may be the best source out there for examples (and explanation) of how to write tests for Angular 2 code. There are many examples for many use cases. The one thing that the documentation lacks is an explanation of the configuration of the tests. It only links to a <a href="https://github.com/angular/quickstart">quickstart</a> project, and briefly explains what some of the files are used for. This is great to get started, but if you’re like me, you are curious and want to know how things work.</p>
+
+<p>In this article I will walk through the basics of working with the different technologies used to run the Angular tests (from the linked quickstart), and then go through how they all fit together. There are many different ways we can configure testing with different technologies. The aim of this article is to simply try to demystify the configuration in the Angular 2 Quickstart, by explaining the project’s configuration, step by step.</p>
+
+<p>This is a hands on guide, and to get the most out of it, you should follow along and write the code and understand it, as I explain it. After reading this article, you should be able to create an Angular project from scratch, using SystemJS as the module loader, and Karma as the test runner for your Angular 2 tests.</p>
+
+<p>I will begin by walking through the basics of Karma, then go through the basics of SystemJS. Afterwards, we will add Angular to the project and then configure the test infrastructure to be able to use Angular in the tests. To follow along, you will need to have <a href="https://nodejs.org/en/">Node</a> installed and have a text editor ready.</p>
+
+<blockquote>
+  <p><strong>NOTE:</strong> The complete source code for this article can be found at <a href="https://github.com/psamsotha/angular2-testing"><strong>GitHub</strong></a>. This project is not meant to be a starter project of any kind. So please do not try to use it as such. Use the <a href="https://github.com/angular/quickstart">quickstart</a> instead. For the best learning experience, this project should only be used as a reference for if you get stuck at any point. It is recommended to write everything yourself.</p>
+</blockquote>
+
+<p><a name="karma"></a></p>
+
+<h2 id="getting-started-with-karma">Getting Started with Karma</h2>
+
+<p><a href="https://karma-runner.github.io/1.0/index.html">Karma</a> is test runner. What does this mean? Well if you have ever tested  any Javascript projects before, you may have used a <em>framework</em> like <a href="https://mochajs.org/">Mocha</a> or <a href="https://jasmine.github.io/">Jasmine</a>. The difference between these two and Karma, is that the frameworks provide the APIs we use in our code to execute tests, while Karma is the one that runs the tests. We could skip Karma and just execute Jasmine or Mocha code in the browser (as it’s just plain Javascript), but Karma allows us to run the test from the command line, allowing us to configure different types of test environments.</p>
+
+<p>Let’s first walk through an example using Jasmine by itself, then we will use Karma to run the Jasmine tests.</p>
+
+<p><a name="jasmine"></a></p>
+
+<h3 id="jasmine-introduction">Jasmine Introduction</h3>
+
+<p>To get started, just create an empty folder, initialize the project with npm and then add the Jasmine dependency.</p>
+
+<ol>
+  <li>
+    <p><code class="highlighter-rouge">mkdir angular2-testing</code></p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">cd angular2-testing</code></p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">npm init</code> (accept all defaults)</p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">npm install --save-dev jasmine-core lite-server concurrently</code></p>
+  </li>
+</ol>
+
+<p><code class="highlighter-rouge">lite-server</code> is a just an HTTP server allowing us to run our project on a server (as opposed to just <em>opening</em> the HTML file in the browser). <code class="highlighter-rouge">concurrently</code> is just a tool allowing us to run multiple npm commands, as you will see in the scripts we write later.</p>
+
+<p>Let’s also set up TypeScript right now, as our Angular code will be written in TypeScript. So we’ll just get that out of the way right now. All of the code written from here on out, will be written in TypeScript and transpiled to Javascript.</p>
+
+<p>First we need to install TypeScript, and then set up the TypeScript configuration in the <code class="highlighter-rouge">tsconfig.json</code> file.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>npm install --save-dev typescript core-js @types/node @types/jasmine
+</code></pre>
+</div>
+
+<p>We’re also installing the TypeScript typings for jasmine and node as we’ll need them to compile our TypeScript tests.</p>
+
+<p>Then create a <code class="highlighter-rouge">tsconfig.json</code> file at the root of the project, and add the following contents</p>
+
+<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"compilerOptions"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"target"</span><span class="p">:</span><span class="w"> </span><span class="s2">"es5"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"module"</span><span class="p">:</span><span class="w"> </span><span class="s2">"commonjs"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"moduleResolution"</span><span class="p">:</span><span class="w"> </span><span class="s2">"node"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"sourceMap"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"emitDecoratorMetadata"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"experimentalDecorators"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"lib"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"es2015"</span><span class="p">,</span><span class="w"> </span><span class="s2">"dom"</span><span class="w"> </span><span class="p">],</span><span class="w">
+    </span><span class="nt">"noImplicitAny"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"suppressImplicitAnyIndexErrors"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+</div>
+
+<p>I won’t go into anything about this file. You should read the <a href="http://www.typescriptlang.org/docs/tutorial.html">TypeScript documentation</a> for a quickstart guide on getting started with TypeScript, if you are unfamiliar with this.</p>
+
+<p>Let’s now add some scripts to the <code class="highlighter-rouge">package.json</code> file, which will allow us to run some basic tasks for our project. Replace the <code class="highlighter-rouge">"scripts"</code> property in the <code class="highlighter-rouge">package.json</code> with the following:</p>
+
+<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="s2">"scripts"</span><span class="err">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="nt">"start"</span><span class="p">:</span><span class="w"> </span><span class="s2">"tsc &amp;&amp; concurrently \"tsc -w\" \"lite-server\" "</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"test"</span><span class="p">:</span><span class="w"> </span><span class="s2">"npm start"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"tsc"</span><span class="p">:</span><span class="w"> </span><span class="s2">"tsc"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+</div>
+
+<p>The <code class="highlighter-rouge">tsc</code> command will simply do a one-time compilation of our TypeScript code. The <code class="highlighter-rouge">start</code> command will compile the TypeScript, watch for any changes, and also run the lite-server to serve up our project artifacts. Since we are just using Jasmine by itself for these initial tests, the <code class="highlighter-rouge">test</code> command will simply do the same thing as the <code class="highlighter-rouge">start</code> command, and will run our tests when we open the <code class="highlighter-rouge">index.html</code> page (that we will create in a moment).</p>
+
+<p>Ok, now the set up is complete, we can get to start writing some code.</p>
+
+<p>Create an <code class="highlighter-rouge">app</code> folder and inside the <code class="highlighter-rouge">app</code> folder, create a <code class="highlighter-rouge">counter</code> folder. Now create a <code class="highlighter-rouge">counter.spec.ts</code> in the <code class="highlighter-rouge">counter</code> folder. In the <code class="highlighter-rouge">counter.sepc.ts</code> file, add the following contents:</p>
+
+<div class="language-typescript highlighter-rouge"><pre class="highlight"><code><span class="kr">class</span> <span class="nx">Counter</span> <span class="p">{</span>
+  <span class="nx">_count</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+  <span class="nx">increment</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">_count</span><span class="o">++</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="nx">decrement</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">_count</span><span class="o">--</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="nx">get</span> <span class="nx">value</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">_count</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>You can see this is just a simple class that increments and decrements the state of the counter. Now directly below that class, add the following</p>
+
+<div class="language-typescript highlighter-rouge"><pre class="highlight"><code><span class="nx">describe</span><span class="p">(</span><span class="s1">'Counter'</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="kd">let</span> <span class="na">counter</span><span class="p">:</span> <span class="nx">Counter</span><span class="p">;</span>
+
+  <span class="nx">beforeEach</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">counter</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Counter</span><span class="p">();</span>
+  <span class="p">});</span>
+
+  <span class="nx">it</span><span class="p">(</span><span class="s1">'should increase value of counter when incremented'</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">expect</span><span class="p">(</span><span class="nx">counter</span><span class="p">.</span><span class="nx">value</span><span class="p">).</span><span class="nx">toEqual</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+    <span class="nx">counter</span><span class="p">.</span><span class="nx">increment</span><span class="p">();</span>
+    <span class="nx">expect</span><span class="p">(</span><span class="nx">counter</span><span class="p">.</span><span class="nx">value</span><span class="p">).</span><span class="nx">toEqual</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+  <span class="p">});</span>
+
+  <span class="nx">it</span><span class="p">(</span><span class="s1">'should decrease value of counter when decremented'</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">expect</span><span class="p">(</span><span class="nx">counter</span><span class="p">.</span><span class="nx">value</span><span class="p">).</span><span class="nx">toEqual</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+    <span class="nx">counter</span><span class="p">.</span><span class="nx">decrement</span><span class="p">();</span>
+    <span class="nx">expect</span><span class="p">(</span><span class="nx">counter</span><span class="p">.</span><span class="nx">value</span><span class="p">).</span><span class="nx">toEqual</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">);</span>
+  <span class="p">});</span>
+<span class="p">});</span>
+</code></pre>
+</div>
+
+<p>These are just a couple simple tests to make sure the <code class="highlighter-rouge">decrement</code> and <code class="highlighter-rouge">increment</code> function work correctly. I won’t get into what the code does. If you have never used Jasmine, please read <a href="https://jasmine.github.io/">the documentation</a>.</p>
+
+<p>Also notice that both the <code class="highlighter-rouge">Counter</code> class and the tests are in the same file. Normally you would have the <code class="highlighter-rouge">Counter</code> class in a separate <code class="highlighter-rouge">counter.ts</code> file, and then <code class="highlighter-rouge">import</code> it into the test file. But that requires module loading, and we are not there yet in our adventure. This will be explored more in the <a href="#systemjs">Getting Started with SystemJS</a> section.</p>
+
+<p>Now let’s compile just to make sure there are no compilation errors. Run</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>npm run tsc
+</code></pre>
+</div>
+
+<p>There should be no errors. You can now see the transpiled <code class="highlighter-rouge">.js</code> files right next to the TypeScript <code class="highlighter-rouge">.ts</code> file, along with the source map.</p>
+
+<p>Now let’s set up the Jasmine tests. Add an <code class="highlighter-rouge">index.html</code> page to the root of the project and add the following contents.</p>
+
+<div class="language-html highlighter-rouge"><pre class="highlight"><code><span class="cp">&lt;!doctype html&gt;</span>
+<span class="nt">&lt;head&gt;</span>
+  <span class="nt">&lt;meta</span> <span class="na">charset=</span><span class="s">"utf-8"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;title&gt;</span>Angular 2 Testing<span class="nt">&lt;/title&gt;</span>
+
+  <span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">"shortcut icon"</span> <span class="na">type=</span><span class="s">"image/png"</span> <span class="na">href=</span><span class="s">"node_modules/jasmine-core/images/jasmine_favicon.png"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">"stylesheet"</span> <span class="na">href=</span><span class="s">"node_modules/jasmine-core/lib/jasmine-core/jasmine.css"</span><span class="nt">&gt;</span>
+
+  <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"node_modules/jasmine-core/lib/jasmine-core/jasmine.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+  <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"node_modules/jasmine-core/lib/jasmine-core/jasmine-html.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+  <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"node_modules/jasmine-core/lib/jasmine-core/boot.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+
+  <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"app/counter/counter.spec.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+<span class="nt">&lt;body&gt;</span>
+<span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</code></pre>
+</div>
+
+<p>Here, we are adding all the required Jasmine files from the node package we installed earlier. We also add the single spec file we created. I won’t get too much into explaining these files, because using Jasmine this way, is not the point of this article. This is more for those that are coming from a straight Jasmine background. I thought that seeing this would make for an easier transition to Karma.</p>
+
+<p>Now let’s run the test. Simply run <code class="highlighter-rouge">npm run test</code>, and the files should compile again. Then the server should start, serving up the <code class="highlighter-rouge">index.html</code> page. If all goes well, you should see the Jasmine test results telling you that everything went well. Two tests passed!</p>
+
+<p><img src="https://www.dropbox.com/s/v635h5k4woashno/jasmine-success.png?dl=1" alt="jasmine-success" /></p>
+
+<p>Awesome! Now that we’ve seen how to run Jasmine in the browser, let’s set up Karma, and use Karma to run the Jasmine tests.</p>
+
+<p><a name="karma-jasmine"></a></p>
+
+<h3 id="setting-up-karma-and-running-jasmine-tests">Setting up Karma and Running Jasmine Tests</h3>
+
+<p><a name="karma-deps"></a></p>
+
+<h4 id="karma-dependencies">Karma Dependencies</h4>
+
+<p>First lets install all the required modules to run Karma</p>
+
+<ul>
+  <li><code class="highlighter-rouge">karma</code></li>
+  <li><code class="highlighter-rouge">karma-cli</code></li>
+  <li><code class="highlighter-rouge">karma-jasmine</code></li>
+  <li><code class="highlighter-rouge">karma-chrome-launcher</code></li>
+  <li><code class="highlighter-rouge">karma-jasmine-html-reporter</code></li>
+</ul>
+
+<p>Add all of the above to the install command to install them</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>npm install --save-dev &lt;all-of-the-above&gt;
+</code></pre>
+</div>
+
+<p>You should also install the Karma CLI globally.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>npm install -g karma-cli
+</code></pre>
+</div>
+
+<p><code class="highlighter-rouge">karma</code> and <code class="highlighter-rouge">karma-cli</code> are the core Karma module to run Karma. <code class="highlighter-rouge">karma-jasmine</code> is the Karma plugin that allows us to run Jasmine tests. Remember that Karma is not dependent on any one testing framework. But most of the time (for Angular projects), you will see the testing framework used is Jasmine.</p>
+
+<p>The <code class="highlighter-rouge">xxx-launcher</code>s are plugins that correspond to the different browsers you can launch the tests in. For now, we will just use the Chrome launcher, which will start up a Chrome browser to run the tests. But keep in mind that there are also launchers for headless browsers like Chrome.</p>
+
+<p>And finally, the <code class="highlighter-rouge">karma-jasmine-html-reporter</code> is the Karma plugin that will allow us to produce jasmine HTML reports, like the one in the previous image.</p>
+
+<p>Now we have the dependencies installed, we need to configure Karma. This is done in a <code class="highlighter-rouge">karma.conf.js</code> file.</p>
+
+<p><a name="karma-config"></a></p>
+
+<h4 id="karma-configuration">Karma Configuration</h4>
+
+<p>At the root of the project, create a <code class="highlighter-rouge">karma.conf.js</code> file and add the following contents into the file.</p>
+
+<div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">config</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">config</span><span class="p">.</span><span class="nx">set</span><span class="p">({</span>
+    <span class="na">basePath</span><span class="p">:</span> <span class="s1">''</span><span class="p">,</span>
+    <span class="na">frameworks</span><span class="p">:</span> <span class="p">[</span><span class="s1">'jasmine'</span><span class="p">],</span>
+
+    <span class="na">plugins</span><span class="p">:</span> <span class="p">[</span>
+      <span class="nx">require</span><span class="p">(</span><span class="s1">'karma-jasmine'</span><span class="p">),</span>
+      <span class="nx">require</span><span class="p">(</span><span class="s1">'karma-chrome-launcher'</span><span class="p">),</span>
+      <span class="nx">require</span><span class="p">(</span><span class="s1">'karma-jasmine-html-reporter'</span><span class="p">)</span>
+    <span class="p">],</span>
+
+    <span class="na">files</span><span class="p">:</span> <span class="p">[</span>
+      <span class="s1">'app/counter/counter.spec.js'</span>
+    <span class="p">],</span>
+
+      <span class="na">reporters</span><span class="p">:</span> <span class="p">[</span><span class="s1">'progress'</span><span class="p">,</span> <span class="s1">'kjhtml'</span><span class="p">],</span>
+
+    <span class="na">port</span><span class="p">:</span> <span class="mi">9876</span><span class="p">,</span>
+    <span class="na">colors</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="na">logLevel</span><span class="p">:</span> <span class="nx">config</span><span class="p">.</span><span class="nx">LOG_INFO</span><span class="p">,</span>
+    <span class="na">autoWatch</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="na">browsers</span><span class="p">:</span> <span class="p">[</span><span class="s1">'Chrome'</span><span class="p">],</span>
+    <span class="na">singleRun</span><span class="p">:</span> <span class="kc">false</span>
+  <span class="p">});</span>
+<span class="p">};</span>
+</code></pre>
+</div>
+
+<p>The <code class="highlighter-rouge">karma.conf.js</code> is a Node module, and when Karma loads it, it will pass a configuration object. We can use this object to configure Karma by calling the <code class="highlighter-rouge">config.set</code>, passing in a configuration object. All of the available configuration properties are listed in <a href="https://karma-runner.github.io/1.0/config/configuration-file.html">the karma documentation</a>. I will quickly go through the ones used above.</p>
+
+<ul>
+  <li>
+    <p><code class="highlighter-rouge">basePath</code> - This is the path that Karma will use to resolve files/patterns listed in the <code class="highlighter-rouge">files</code> (seen above) array and <code class="highlighter-rouge">excludes</code> (not used here) array. In this case we just use <code class="highlighter-rouge">''</code>, as we want everything resolved from the root of the project, as seen in the one file listed <code class="highlighter-rouge">app/counter/counter.spec.js</code>.</p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">frameworks</code> - As mentioned previously, Karma is not tied to any framework, so here, we are listing Jasmine as the testing framework.</p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">plugins</code> - Here we list the plugins that we installed earlier.</p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">files</code> - Explained in following text.</p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">reporters</code> - the <code class="highlighter-rouge">'kjhtml'</code> reporter uses the <code class="highlighter-rouge">karma-jasmine-html-reporter</code> we installed earlier. It allows us to see the Karma HTML result when we run the browser.</p>
+  </li>
+  <li>
+    <p>The rest should be self explanatory, by the property name. If it is not obvious, please see <a href="https://karma-runner.github.io/1.0/config/configuration-file.html">the documentation</a>.</p>
+  </li>
+</ul>
+
+<p>I wanted to save the <code class="highlighter-rouge">files</code> property explanation because it requires a bit of explanation and exploration.</p>
+
+<p>When Karma executes, it starts a web server. All the files include in the <code class="highlighter-rouge">files</code> array are the files included in the server. If the file is not listed, then it isn’t added to the server.  Let’s give this a test run, for now ignoring any results (which we will get to later). Let’s first add a couple new scripts to the <code class="highlighter-rouge">package.json</code> file. In the <code class="highlighter-rouge">"scripts"</code> replace the <code class="highlighter-rouge">"test"</code> property with the following two</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>"test": "tsc &amp;&amp; concurrently \"tsc -w\" \"karma start karma.conf.js\"",
+"test-once": "tsc &amp;&amp; karma start karma.conf.js --single-run",
+</code></pre>
+</div>
+
+<p>The first one will start the Karma server, and stay running while watching files. The second one will just do a single run. We will use the first one for now. Run the following</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>npm run test
+</code></pre>
+</div>
+
+<p>You should see a Chrome browser launch with something like the following</p>
+
+<p><img src="https://www.dropbox.com/s/b5cpcf04e4kiwhf/karma-connected.png?dl=1" alt="karma-connected" /></p>
+
+<p>Now as I mentioned, Karma starts a server and adds the files we listed in the <code class="highlighter-rouge">files</code> array. Let’s check it out. Open up a different browser window, and just type into the URL bar</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>http://localhost:9876/base/app/counter/counter.spec.js
+</code></pre>
+</div>
+
+<p>You should see the source code the <code class="highlighter-rouge">counter.spec.js</code> file. You may also notice that we used <code class="highlighter-rouge">base</code> in the URL. The is important to remember for later, as by default, Karma adds <code class="highlighter-rouge">base</code> as the base path. Now try to type in the URL bar</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>http://localhost:9876/base/app/counter/counter.spec.js.map
+</code></pre>
+</div>
+
+<p>The file isn’t found. You should see NOT FOUND in the browser.. Now try to stop the server, add the <code class="highlighter-rouge">.map</code> file to the <code class="highlighter-rouge">files</code> array, and restart the server. Now try to go to the URL. You should see now see the contents of the <code class="highlighter-rouge">.map</code> file. When you’re done, just remove the <code class="highlighter-rouge">.map</code> file from the <code class="highlighter-rouge">files</code> array.</p>
+
+<p>Let’s now look at another way to add files to <code class="highlighter-rouge">files</code> array. Beside from just listing the file as a string, we can also use an object. See <a href="https://karma-runner.github.io/1.0/config/files.html">the files documentation</a> for all the properties. I will just list three</p>
+
+<ul>
+  <li>
+    <p><code class="highlighter-rouge">pattern</code> - This can be a file, or a pattern (using <a href="https://github.com/isaacs/node-glob">glob pattern matching</a>).</p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">included</code> - Explained below.</p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">watched</code> - Whether Karma should watch this file for changes (and restart if any change is detected).</p>
+  </li>
+</ul>
+
+<p>Lets change the configuration of the <code class="highlighter-rouge">files</code> array to:</p>
+
+<div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="nx">files</span><span class="err">:</span> <span class="p">[</span>
+  <span class="p">{</span> <span class="na">pattern</span><span class="p">:</span> <span class="s1">'app/counter/counter.spec.js'</span><span class="p">,</span> <span class="na">included</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span> <span class="na">watched</span><span class="p">:</span> <span class="kc">true</span> <span class="p">}</span>
+<span class="p">]</span>
+</code></pre>
+</div>
+
+<p>This will have the exact same effect as if we were to just use the single string file name. The default for <code class="highlighter-rouge">includeed</code> is true, and the default for <code class="highlighter-rouge">watched</code> is true. Let’s check out what the <code class="highlighter-rouge">included</code> really means. Start Karma again (stop first if needed - configuration changes requires a restart).</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>npm run test
+</code></pre>
+</div>
+
+<p>In the Chrome window, after you see that Karma is connection, open the Chrome developer tools with <kbd>f12</kbd>. Now open the “Network” tab and refresh the browser. On the left, in the list of all the files retrieved on the refresh, you should see a <code class="highlighter-rouge">context.html</code> page. Click on it to open the contents.</p>
+
+<p><img src="https://www.dropbox.com/s/qp9m5libzvkt67l/karma-include.png?dl=1" alt="karma-include" /></p>
+
+<p>If you look at the right hand side, you will also notice that the <code class="highlighter-rouge">counter.spec.js</code> file is added as a <code class="highlighter-rouge">&lt;script&gt;</code>. This is what the <code class="highlighter-rouge">included</code> means. To run the tests, Karma uses an HTML page to load the scripts into the browser so that the scripts can run.</p>
+
+<p>So why <em>wouldn’t</em> we want the file added as a <code class="highlighter-rouge">&lt;script&gt;</code>? Well, when using SystemJS (as we’ll see later) in an application, we don’t add the files as <code class="highlighter-rouge">&lt;script&gt;</code>s in the <code class="highlighter-rouge">index.html</code> page. SystemJS loads the files dynamically at runtime when the files are needed. So when using SystemJS and Karma, we do the same.</p>
+
+<p><a name="test-results"></a></p>
+
+<h4 id="test-results">Test Results</h4>
+
+<p>So most of the discussion so far has been about configuration. As for the results, there’s really not much to discuss. If you start Karma again, and you look in the terminal, you should see the results at the bottom.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>Chrome 54.0.2840 (Windows 10 0.0.0): Executed 2 of 2 SUCCESS (0.295 secs / 0.016 secs)
+</code></pre>
+</div>
+
+<p>If you want to view the Jasmine HTML report, click on the <kbd>Debug</kbd> button in the Chrome Browser. You should see a similar result as the one earlier.</p>
+
+<p>So that was your introduction to Karma. Next we will explore SystemJS, and then see how we would use it with Karma.</p>
+
+<p><a name="systemjs"></a></p>
+
+<h2 id="getting-started-with-systemjs">Getting Started with SystemJS</h2>
+
+<p>SystemJS is a module loader. So what is a module? From the <a href="https://github.com/systemjs/systemjs/blob/master/docs/es6-modules-overview.md">SystemJS docs</a>:</p>
+
+<blockquote>
+  <p>A module is simply a JavaScript file written with module syntax. Modules <em>export</em> values, which can then be <em>imported</em> by other modules.</p>
+</blockquote>
+
+<p>Let briefly see what this means in code.</p>
+
+<p><a name="modules"></a></p>
+
+<h3 id="intro-to-modules">Intro to Modules</h3>
+
+<p>Remember our good friend the <code class="highlighter-rouge">Counter</code> class, that we just had in the same file as the spec file? Let’s put it into it’s own file, and and the import it into the spec file. Create a <code class="highlighter-rouge">counter.ts</code> file in the <code class="highlighter-rouge">counter</code> folder, and copy and paste the <code class="highlighter-rouge">Counter</code> class (from the spec) into it, also adding the <code class="highlighter-rouge">export</code> keyword</p>
+
+<div class="language-typescript highlighter-rouge"><pre class="highlight"><code><span class="k">export</span> <span class="kr">class</span> <span class="nx">Counter</span> <span class="p">{</span>
+  <span class="p">...</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>Then in the <code class="highlighter-rouge">counter.spec.ts</code> file, remove the <code class="highlighter-rouge">Counter</code> class, and instead import it, using the following syntax</p>
+
+<div class="language-typescript highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">Counter</span> <span class="p">}</span> <span class="k">from</span> <span class="s1">'./counter'</span><span class="p">;</span>
+</code></pre>
+</div>
+
+<p>Everything else in the spec file should be the same. Now let’s compile both files.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>npm run tsc
+</code></pre>
+</div>
+
+<p>If you look at the contents of the compiled <code class="highlighter-rouge">counter.js</code> file, you should see</p>
+
+<div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">Counter</span> <span class="o">=</span> <span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="p">...</span>
+<span class="p">}());</span>
+<span class="nx">exports</span><span class="p">.</span><span class="nx">Counter</span> <span class="o">=</span> <span class="nx">Counter</span><span class="p">;</span>
+</code></pre>
+</div>
+
+<p>Here, <code class="highlighter-rouge">Counter</code> is being exported with the module. Now look at the <code class="highlighter-rouge">counter.spec.js</code> file</p>
+
+<div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">counter_1</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"./counter"</span><span class="p">);</span>
+<span class="nx">describe</span><span class="p">(</span><span class="s1">'Counter'</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">counter</span><span class="p">;</span>
+    <span class="nx">beforeEach</span><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+        <span class="nx">counter</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">counter_1</span><span class="p">.</span><span class="nx">Counter</span><span class="p">();</span>
+    <span class="p">});</span>
+<span class="p">});</span>
+</code></pre>
+</div>
+
+<p>Using <code class="highlighter-rouge">require</code> is how to load the module in Javascript. You can see that the <code class="highlighter-rouge">Counter</code> class is actually a <em>member</em> of imported module. That’s why we do <code class="highlighter-rouge">new counter_1.Counter()</code> instead of <code class="highlighter-rouge">new counter_1()</code>.</p>
+
+<p>So how does this fit it with SystemJS. Let’s find out.</p>
+
+<p><a name="systemjs-quickstart"></a></p>
+
+<h3 id="systemjs-quickstart">SystemJS Quickstart</h3>
+
+<p>First, let’s install SystemJS</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>npm install --save systemjs
+</code></pre>
+</div>
+
+<p>Once that’s finished installing, let’s add it to our <code class="highlighter-rouge">index.html</code>. If you haven’t already, you can remove all the Jasmine related stuff from the file. (Just a note, in case there is any confusion, none of that Jasmine stuff in the index.html file was actually used in the Karma testing). Replace the contents of the <code class="highlighter-rouge">index.html</code> page with the following (removing the <code class="highlighter-rouge">(#)</code>s)</p>
+
+<div class="language-html highlighter-rouge"><pre class="highlight"><code><span class="cp">&lt;!doctype html&gt;</span>
+<span class="nt">&lt;head&gt;</span>
+  <span class="nt">&lt;meta</span> <span class="na">charset=</span><span class="s">"utf-8"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;title&gt;</span>Angular 2 Testing<span class="nt">&lt;/title&gt;</span>
+  <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"node_modules/systemjs/dist/system.src.js"</span><span class="nt">&gt;&lt;/script&gt;</span>  (1)
+<span class="nt">&lt;/head&gt;</span>
+<span class="nt">&lt;body&gt;</span>
+  <span class="nt">&lt;h2&gt;</span>Count: <span class="nt">&lt;span</span> <span class="na">id=</span><span class="s">"count"</span><span class="nt">&gt;</span>0<span class="nt">&lt;/span&gt;&lt;/h2&gt;</span>
+
+  <span class="nt">&lt;script&gt;</span>
+    <span class="nx">System</span><span class="p">.</span><span class="kr">import</span><span class="p">(</span><span class="s1">'app/counter/counter.js'</span><span class="p">).</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">module</span><span class="p">)</span> <span class="p">{</span>  <span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+      <span class="kd">var</span> <span class="nx">counter</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">module</span><span class="p">.</span><span class="nx">Counter</span><span class="p">();</span>  <span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+      <span class="kd">var</span> <span class="nx">count</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">'count'</span><span class="p">);</span>
+      <span class="nx">setInterval</span><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+        <span class="nx">counter</span><span class="p">.</span><span class="nx">increment</span><span class="p">();</span>
+        <span class="nx">count</span><span class="p">.</span><span class="nx">innerHTML</span> <span class="o">=</span> <span class="nx">counter</span><span class="p">.</span><span class="nx">value</span><span class="p">;</span>  <span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+      <span class="p">},</span> <span class="mi">1000</span><span class="p">);</span>
+    <span class="p">});</span>
+  <span class="nt">&lt;/script&gt;</span>
+<span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</code></pre>
+</div>
+
+<p>There are a few things going on here:</p>
+
+<ol>
+  <li>
+    <p>We add the SystemJS script to the application.</p>
+  </li>
+  <li>
+    <p>We import the <code class="highlighter-rouge">counter.js</code> module, using the <code class="highlighter-rouge">System.import</code> method. In the promise callback, we get passed an instance of the <em>module</em>.</p>
+  </li>
+  <li>
+    <p>With the module, we can create an instance of the <code class="highlighter-rouge">Counter</code> class.</p>
+  </li>
+  <li>
+    <p>We change the value of the <code class="highlighter-rouge">h2</code> count every second, with the incremented value of the counter.</p>
+  </li>
+</ol>
+
+<p>Let’s run the code.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>npm start
+</code></pre>
+</div>
+
+<p>If all went well, you should see the count increment every second. Now let’s take this example to next level.</p>
+
+<p><a name="import-modules"></a></p>
+
+<h3 id="importing-modules">Importing Modules</h3>
+
+<p>Let’s import something from another module into the <code class="highlighter-rouge">counter</code> module. I will use RxJS just so we can also see how to use the <code class="highlighter-rouge">SystemJS.config</code>. First install <code class="highlighter-rouge">RxJS</code></p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>npm install --save rxjs
+</code></pre>
+</div>
+
+<p>Now change the contents of the <code class="highlighter-rouge">counter.ts</code> file to</p>
+
+<div class="language-typescript highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">BehaviorSubject</span> <span class="p">}</span> <span class="k">from</span> <span class="s1">'rxjs/BehaviorSubject'</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">Observable</span> <span class="p">}</span> <span class="k">from</span> <span class="s1">'rxjs/Observable'</span><span class="p">;</span>
+
+<span class="k">export</span> <span class="kr">class</span> <span class="nx">Counter</span> <span class="p">{</span>
+  
+  <span class="k">private</span> <span class="nx">_count</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="k">private</span> <span class="nx">_value</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">BehaviorSubject</span><span class="o">&lt;</span><span class="kr">number</span><span class="o">&gt;</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">_count</span><span class="p">);</span>
+
+  <span class="nx">increment</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">_value</span><span class="p">.</span><span class="nx">next</span><span class="p">(</span><span class="o">++</span><span class="k">this</span><span class="p">.</span><span class="nx">_count</span><span class="p">);</span>
+  <span class="p">}</span>
+
+  <span class="nx">decrement</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">_value</span><span class="p">.</span><span class="nx">next</span><span class="p">(</span><span class="o">--</span><span class="k">this</span><span class="p">.</span><span class="nx">_count</span><span class="p">);</span>
+  <span class="p">}</span>
+
+  <span class="nx">get</span> <span class="nx">value</span><span class="p">()</span><span class="err">:</span> <span class="nx">Observable</span><span class="o">&lt;</span><span class="kr">number</span><span class="o">&gt;</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">_value</span><span class="p">.</span><span class="nx">asObservable</span><span class="p">();</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>Here, we are using RxJS to publish the new value to subscribers. In the <code class="highlighter-rouge">index.thml</code> page, change the contents of the <code class="highlighter-rouge">&lt;script&gt;</code> accordingly, to adjust to this new change</p>
+
+<div class="language-html highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;script&gt;</span>
+  <span class="nx">System</span><span class="p">.</span><span class="kr">import</span><span class="p">(</span><span class="s1">'app/counter/counter.js'</span><span class="p">).</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">module</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">count</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">'count'</span><span class="p">);</span>
+    <span class="kd">var</span> <span class="nx">counter</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">module</span><span class="p">.</span><span class="nx">Counter</span><span class="p">();</span>
+    <span class="nx">counter</span><span class="p">.</span><span class="nx">value</span><span class="p">.</span><span class="nx">subscribe</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">value</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">count</span><span class="p">.</span><span class="nx">innerHTML</span> <span class="o">=</span> <span class="nx">value</span><span class="p">;</span>
+    <span class="p">});</span>
+    <span class="nx">setInterval</span><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+      <span class="nx">counter</span><span class="p">.</span><span class="nx">increment</span><span class="p">();</span>
+    <span class="p">},</span> <span class="mi">1000</span><span class="p">);</span>
+  <span class="p">});</span>
+<span class="nt">&lt;/script&gt;</span>
+</code></pre>
+</div>
+
+<p>Now lets try to run the app.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>npm start
+</code></pre>
+</div>
+
+<p>If you look at both the terminal and Browser console, you will see 404 errors. In  the browser console, you will see</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>Uncaught (in promise) Error: (SystemJS) XHR error (404 Not Found) loading
+http://localhost:3000/rxjs/BehaviorSubject(…)
+</code></pre>
+</div>
+
+<p>What this means is that when the <code class="highlighter-rouge">counter</code> module is loaded, it is trying to import the <code class="highlighter-rouge">BehaviorSubject</code>. And the error is telling you the path it is trying to load it from. It is using this path, because that is the path we use in our import statement</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+</code></pre>
+</div>
+
+<p>So how can we fix this? This is were the <code class="highlighter-rouge">SystemJS.config</code> comes to the rescue. We can configure how different paths are resolved.</p>
+
+<p>Add a <code class="highlighter-rouge">systemjs.config.js</code> file to the root of the project, and add the following contents to that file</p>
+
+<div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">global</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">SystemJS</span><span class="p">.</span><span class="nx">config</span><span class="p">({</span>
+    <span class="na">paths</span><span class="p">:</span> <span class="p">{</span>
+      <span class="s1">'npm:'</span><span class="p">:</span> <span class="s1">'node_modules/'</span>
+    <span class="p">},</span>
+    <span class="na">map</span><span class="p">:</span> <span class="p">{</span>
+      <span class="s1">'app'</span><span class="p">:</span> <span class="s1">'app'</span><span class="p">,</span>
+      <span class="s1">'rxjs'</span><span class="p">:</span> <span class="s1">'npm:rxjs'</span>
+    <span class="p">},</span>
+    <span class="na">packages</span><span class="p">:</span> <span class="p">{</span>
+      <span class="na">app</span><span class="p">:</span> <span class="p">{</span>
+        <span class="na">defaultExtension</span><span class="p">:</span> <span class="s1">'js'</span>
+      <span class="p">},</span>
+      <span class="na">rxjs</span><span class="p">:</span> <span class="p">{</span>
+        <span class="na">defaultExtension</span><span class="p">:</span> <span class="s1">'js'</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">})</span>
+<span class="p">})(</span><span class="k">this</span><span class="p">);</span>
+</code></pre>
+</div>
+
+<p>This is how we can configure SystemJS. The following is a description of the properties used above:</p>
+
+<ul>
+  <li>
+    <p><code class="highlighter-rouge">paths</code> - Here we are making an alias so that we can use <code class="highlighter-rouge">npm:</code> as an alias for the path <code class="highlighter-rouge">node_modules/</code>. This will save us some typing in the <code class="highlighter-rouge">map</code> section.</p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">map</code> - Here we are creating mappings, which is also a type of alias. Above, we are saying that when you see <code class="highlighter-rouge">rxjs</code>, replace it with the path <code class="highlighter-rouge">node_modules/rxjs</code> when resolving the module path.</p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">packages</code> - Here we are saying that for the package <code class="highlighter-rouge">rxjs</code> (listed in the <code class="highlighter-rouge">map</code>. The default file extension is <code class="highlighter-rouge">js</code>. This allows us to exclude the <code class="highlighter-rouge">.js</code> from the import.</p>
+  </li>
+</ul>
+
+<p>With this configuration and the following import statement</p>
+
+<div class="language-typescript highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">BehaviorSubject</span> <span class="p">}</span> <span class="k">from</span> <span class="s1">'rxjs/BehaviorSubject'</span>
+</code></pre>
+</div>
+
+<p>when SystemJS tries to load <code class="highlighter-rouge">rxjs/BehaviorSubject</code>, it will now prefix it with <code class="highlighter-rouge">node_modules/</code> and add the default extension <code class="highlighter-rouge">.js</code>. Now the path is absolute, and the module can be resolved.</p>
+
+<p>We also add a mapping for <code class="highlighter-rouge">app</code>, as this is part of the path for the project files. For this package, we also add the <code class="highlighter-rouge">defaultExtension: js</code>. For the code we are using right now in the <code class="highlighter-rouge">index.html</code>, this is not really required at this point, as we are importing using the <code class="highlighter-rouge">.js</code> extension already. But in the real application, we will not be using extensions with our import statements. And the above mapping will allow for that. So let’s just adjust the <code class="highlighter-rouge">index.html</code> page to accommodate for this adjustments. Just change</p>
+
+<div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="nx">System</span><span class="p">.</span><span class="kr">import</span><span class="p">(</span><span class="s1">'app/counter/counter.js'</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<p>to</p>
+
+<div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="nx">System</span><span class="p">.</span><span class="kr">import</span><span class="p">(</span><span class="s1">'app/counter/counter'</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<p>See how we removed the <code class="highlighter-rouge">.js</code> extension.</p>
+
+<p>Now we just need to add the configuration file the <code class="highlighter-rouge">index.html</code> page. Now this is what the <code class="highlighter-rouge">&lt;head&gt;</code> should look like</p>
+
+<div class="language-html highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;head&gt;</span>
+  <span class="nt">&lt;meta</span> <span class="na">charset=</span><span class="s">"utf-8"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;title&gt;</span>Angular 2 Testing<span class="nt">&lt;/title&gt;</span>
+  <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"node_modules/systemjs/dist/system.src.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+  <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"systemjs.config.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+</code></pre>
+</div>
+
+<p>Now we can run the app.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>npm start
+</code></pre>
+</div>
+
+<p>Voila! Everything now works. You should be feeling like a champ right now! But we still need to test it :-)</p>
+
+<p><a name="systemjs-testing"></a></p>
+
+<h3 id="testing-with-systemjs">Testing with SystemJS</h3>
+
+<p>To test our <code class="highlighter-rouge">Counter</code>, the first thing we need to do is modify the test cases to accommodate for our new use of RxJS. Replace the contents of the <code class="highlighter-rouge">counter.spec.ts</code> file with the following:</p>
+
+<div class="language-typescript highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">Counter</span> <span class="p">}</span> <span class="k">from</span> <span class="s1">'./counter'</span><span class="p">;</span>
+
+<span class="nx">describe</span><span class="p">(</span><span class="s1">'Counter'</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="kd">let</span> <span class="na">counter</span><span class="p">:</span> <span class="nx">Counter</span><span class="p">;</span>
+
+  <span class="nx">beforeEach</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">counter</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Counter</span><span class="p">();</span>
+  <span class="p">});</span>
+
+  <span class="nx">it</span><span class="p">(</span><span class="s1">'should increase value of counter when incremented'</span><span class="p">,</span> <span class="p">(</span><span class="nx">done</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">counter</span><span class="p">.</span><span class="nx">increment</span><span class="p">();</span>
+    <span class="nx">counter</span><span class="p">.</span><span class="nx">value</span><span class="p">.</span><span class="nx">subscribe</span><span class="p">(</span><span class="nx">value</span> <span class="o">=&gt;</span> <span class="p">{</span>
+      <span class="nx">expect</span><span class="p">(</span><span class="nx">value</span><span class="p">).</span><span class="nx">toEqual</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+      <span class="nx">done</span><span class="p">();</span>
+    <span class="p">});</span>
+  <span class="p">});</span>
+
+  <span class="nx">it</span><span class="p">(</span><span class="s1">'should decrease value of counter when decremented'</span><span class="p">,</span> <span class="p">(</span><span class="nx">done</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">counter</span><span class="p">.</span><span class="nx">decrement</span><span class="p">();</span>
+    <span class="nx">counter</span><span class="p">.</span><span class="nx">value</span><span class="p">.</span><span class="nx">subscribe</span><span class="p">(</span><span class="nx">value</span> <span class="o">=&gt;</span> <span class="p">{</span>
+      <span class="nx">expect</span><span class="p">(</span><span class="nx">value</span><span class="p">).</span><span class="nx">toEqual</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">);</span>
+      <span class="nx">done</span><span class="p">();</span>
+    <span class="p">});</span>
+  <span class="p">});</span>
+<span class="p">});</span>
+</code></pre>
+</div>
+
+<p>Let’s also add the <code class="highlighter-rouge">counter.js</code> file to the Karma config so that Karma can add it to the server.</p>
+
+<div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="nx">files</span><span class="err">:</span> <span class="p">[</span>
+  <span class="p">{</span> <span class="na">pattern</span><span class="p">:</span> <span class="s1">'app/counter/counter.js'</span><span class="p">,</span> <span class="na">included</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span> <span class="na">watched</span><span class="p">:</span> <span class="kc">true</span> <span class="p">},</span>
+  <span class="p">{</span> <span class="na">pattern</span><span class="p">:</span> <span class="s1">'app/counter/counter.spec.js'</span><span class="p">,</span> <span class="na">included</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span> <span class="na">watched</span><span class="p">:</span> <span class="kc">true</span> <span class="p">}</span>
+<span class="p">],</span>
+</code></pre>
+</div>
+
+<p>Now let’s just run the test as-is, just to see what happens.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>npm run test
+</code></pre>
+</div>
+
+<p>You should see the following errors (preventing the tests from running):</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>[1] Chrome 54.0.2840 (Windows 10 0.0.0) ERROR
+[1]   Uncaught ReferenceError: require is not defined
+[1]   at app/counter/counter.spec.js:2
+[1]
+[1] Chrome 54.0.2840 (Windows 10 0.0.0) ERROR
+[1]   Uncaught ReferenceError: require is not defined
+[1]   at app/counter/counter.spec.js:2
+</code></pre>
+</div>
+
+<p>So what does this mean? Well let’s look at the compiled <code class="highlighter-rouge">counter.js</code> file. At line two we should see</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>var BehaviorSubject_1 = require("rxjs/BehaviorSubject");
+</code></pre>
+</div>
+
+<p>And <code class="highlighter-rouge">require</code> is not defined in the Browser engine. So why did it work when we ran the app? It’s because we were using SystemJS to load the module (i.e. we didn’t add the <code class="highlighter-rouge">counter.js</code> as a <code class="highlighter-rouge">&lt;script&gt;</code>). Also remember when we talked about the Karma configuration <code class="highlighter-rouge">files</code> array. Here is what is currently looks like.</p>
+
+<div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="nx">files</span><span class="err">:</span> <span class="p">[</span>
+  <span class="p">{</span> <span class="na">pattern</span><span class="p">:</span> <span class="s1">'app/counter/counter.js'</span><span class="p">,</span> <span class="na">included</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span> <span class="na">watched</span><span class="p">:</span> <span class="kc">true</span> <span class="p">},</span>
+  <span class="p">{</span> <span class="na">pattern</span><span class="p">:</span> <span class="s1">'app/counter/counter.spec.js'</span><span class="p">,</span> <span class="na">included</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span> <span class="na">watched</span><span class="p">:</span> <span class="kc">true</span> <span class="p">}</span>
+<span class="p">],</span>
+</code></pre>
+</div>
+
+<p>Remember we said that <code class="highlighter-rouge">included</code> means that the file should added as a <code class="highlighter-rouge">&lt;script&gt;</code>. Well this is what’s causing the error. For tests, we don’t want our application files added as a <code class="highlighter-rouge">&lt;script&gt;</code>. We want SystemJS to load them, just like in the application.</p>
+
+<p>So let’s update the <code class="highlighter-rouge">files</code> array:</p>
+
+<div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="nx">files</span><span class="err">:</span> <span class="p">[</span>
+  <span class="s1">'node_modules/systemjs/dist/system.src.js'</span><span class="p">,</span>
+
+  <span class="p">{</span> <span class="na">pattern</span><span class="p">:</span> <span class="s1">'node_modules/rxjs/**/*.js'</span><span class="p">,</span> <span class="na">included</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span> <span class="na">watched</span><span class="p">:</span> <span class="kc">false</span> <span class="p">},</span>
+  <span class="p">{</span> <span class="na">pattern</span><span class="p">:</span> <span class="s1">'node_modules/rxjs/**/*.js.map'</span><span class="p">,</span> <span class="na">included</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span> <span class="na">watched</span><span class="p">:</span> <span class="kc">false</span> <span class="p">},</span>
+
+  <span class="p">{</span> <span class="na">pattern</span><span class="p">:</span> <span class="s1">'systemjs.config.js'</span><span class="p">,</span> <span class="na">included</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span> <span class="na">watched</span><span class="p">:</span> <span class="kc">false</span> <span class="p">},</span>
+  <span class="p">{</span> <span class="na">pattern</span><span class="p">:</span> <span class="s1">'app/counter/counter.js'</span><span class="p">,</span> <span class="na">included</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span> <span class="na">watched</span><span class="p">:</span> <span class="kc">true</span> <span class="p">},</span>
+  <span class="p">{</span> <span class="na">pattern</span><span class="p">:</span> <span class="s1">'app/counter/counter.spec.js'</span><span class="p">,</span> <span class="na">included</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span> <span class="na">watched</span><span class="p">:</span> <span class="kc">true</span> <span class="p">}</span>
+<span class="p">],</span>
+</code></pre>
+</div>
+
+<p>So we are now adding SystemJS. Also just using a string for the module (instead of the object like the other three files used), we accept the defaults, which is <code class="highlighter-rouge">included: true, watched: false</code>. We <em>do</em> want SystemJS added as a <code class="highlighter-rouge">&lt;script&gt;</code> and we don’t need to watch it, as it’s a third-party library, and the code will not be changing. We also add our <code class="highlighter-rouge">systemjs.config.js</code> file. We are not including it as a <code class="highlighter-rouge">&lt;script&gt;</code> as we will have SystemJS load it. And finally, we added the RxJS library.</p>
+
+<p>At this point, if we tried to run the test, nothing would happen, i.e. no tests would be run. This is because 1) The spec file is not added as a <code class="highlighter-rouge">&lt;script&gt;</code> and 2) we haven’t told SystemJS to load them yet.</p>
+
+<p>This is where we want to make use of a <code class="highlighter-rouge">karma-test-shim.js</code> file, that we can use just for tests. In this file, we will have SystemJS load all of our modules.</p>
+
+<p><a name="karma-test-shim"></a></p>
+
+<h4 id="karma-test-shimjs"><em>karma-test-shim.js</em></h4>
+
+<p>Create a <code class="highlighter-rouge">karma-test-shim.js</code> file at the root of the project. As I mentioned before, this article is to help demystify the workings of the Angular 2 Quickstart project (in regards to testing). So I will grab some of the content from <a href="https://github.com/angular/quickstart/blob/master/karma-test-shim.js">its karma-test-shim.js</a>. I won’t grab all of it right now, as a lot it involves Angular, and I haven’t gotten there yet. I will just grab what is important for now and briefly walk through what all the code does. So in your file, add the following contents:</p>
+
+<div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="nb">Error</span><span class="p">.</span><span class="nx">stackTraceLimit</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="nx">jasmine</span><span class="p">.</span><span class="nx">DEFAULT_TIMEOUT_INTERVAL</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">;</span>
+
+<span class="c1">// (1)</span>
+<span class="kd">var</span> <span class="nx">builtPaths</span> <span class="o">=</span> <span class="p">(</span><span class="nx">__karma__</span><span class="p">.</span><span class="nx">config</span><span class="p">.</span><span class="nx">builtPaths</span> <span class="o">||</span> <span class="p">[</span><span class="s1">'app/'</span><span class="p">])</span>
+                  <span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">p</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="s1">'/base/'</span><span class="o">+</span><span class="nx">p</span><span class="p">;});</span>
+
+<span class="c1">// (2)</span>
+<span class="nx">__karma__</span><span class="p">.</span><span class="nx">loaded</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span> <span class="p">};</span>
+
+<span class="c1">// (3)</span>
+<span class="kd">function</span> <span class="nx">isJsFile</span><span class="p">(</span><span class="nx">path</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="nx">path</span><span class="p">.</span><span class="nx">slice</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">)</span> <span class="o">==</span> <span class="s1">'.js'</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// (4)</span>
+<span class="kd">function</span> <span class="nx">isSpecFile</span><span class="p">(</span><span class="nx">path</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="sr">/</span><span class="se">\.</span><span class="sr">spec</span><span class="se">\.(</span><span class="sr">.*</span><span class="se">\.)?</span><span class="sr">js$/</span><span class="p">.</span><span class="nx">test</span><span class="p">(</span><span class="nx">path</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="c1">// (5)</span>
+<span class="kd">function</span> <span class="nx">isBuiltFile</span><span class="p">(</span><span class="nx">path</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="nx">isJsFile</span><span class="p">(</span><span class="nx">path</span><span class="p">)</span> <span class="o">&amp;&amp;</span>
+          <span class="nx">builtPaths</span><span class="p">.</span><span class="nx">reduce</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">keep</span><span class="p">,</span> <span class="nx">bp</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="nx">keep</span> <span class="o">||</span> <span class="p">(</span><span class="nx">path</span><span class="p">.</span><span class="nx">substr</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nx">bp</span><span class="p">.</span><span class="nx">length</span><span class="p">)</span> <span class="o">===</span> <span class="nx">bp</span><span class="p">);</span>
+          <span class="p">},</span> <span class="kc">false</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="c1">// (6)</span>
+<span class="kd">var</span> <span class="nx">allSpecFiles</span> <span class="o">=</span> <span class="nb">Object</span><span class="p">.</span><span class="nx">keys</span><span class="p">(</span><span class="nb">window</span><span class="p">.</span><span class="nx">__karma__</span><span class="p">.</span><span class="nx">files</span><span class="p">)</span>
+  <span class="p">.</span><span class="nx">filter</span><span class="p">(</span><span class="nx">isSpecFile</span><span class="p">)</span>
+  <span class="p">.</span><span class="nx">filter</span><span class="p">(</span><span class="nx">isBuiltFile</span><span class="p">);</span>
+
+<span class="c1">// (7)</span>
+<span class="nx">SystemJS</span><span class="p">.</span><span class="nx">config</span><span class="p">({</span>
+  <span class="na">baseURL</span><span class="p">:</span> <span class="s1">'base'</span>
+<span class="p">});</span>
+
+<span class="c1">// (8)</span>
+<span class="nx">System</span><span class="p">.</span><span class="kr">import</span><span class="p">(</span><span class="s1">'systemjs.config.js'</span><span class="p">)</span>
+  <span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">initTesting</span><span class="p">);</span>
+
+<span class="c1">// (9)</span>
+<span class="kd">function</span> <span class="nx">initTesting</span> <span class="p">()</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="nx">Promise</span><span class="p">.</span><span class="nx">all</span><span class="p">(</span>
+    <span class="nx">allSpecFiles</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">moduleName</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="nx">System</span><span class="p">.</span><span class="kr">import</span><span class="p">(</span><span class="nx">moduleName</span><span class="p">);</span>
+    <span class="p">})</span>
+  <span class="p">)</span>
+  <span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">__karma__</span><span class="p">.</span><span class="nx">start</span><span class="p">,</span> <span class="nx">__karma__</span><span class="p">.</span><span class="nx">error</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>It looks like there is alot going on here, but really, most of the code is just helper functions. I’ll quickly go through them</p>
+
+<ul>
+  <li>
+    <p>First couple lines - Not really important right now. Just some environment settings.</p>
+  </li>
+  <li>
+    <p>(2) - Here we are using this hook to tell Karma <em>not</em> to start the tests. We will manually trigger the tests after SystemJS has loaded all the modules.</p>
+  </li>
+  <li>
+    <p>(6) - This is our main goal: to get all the <code class="highlighter-rouge">.spec</code> files. We only want <code class="highlighter-rouge">.spec</code> files that are a part of our application. The helper functions <code class="highlighter-rouge">(3)</code>, <code class="highlighter-rouge">(4)</code>, and <code class="highlighter-rouge">(5)</code> help us filter all the files to make sure we get what we want.</p>
+
+    <p>The <code class="highlighter-rouge">Object.keys(window.__karma__.files)</code> grabs all the files in our Karma config <code class="highlighter-rouge">files</code> array, and then we use the helper functions to filter them out.</p>
+
+    <p>We only want the <code class="highlighter-rouge">.spec</code> files because that all we want SystemJS to load. The spec files already import the application files, so we don’t need to import them manually. They will be imported transitively when SystemJS sees the <code class="highlighter-rouge">require</code>s.</p>
+  </li>
+  <li>
+    <p>(7) - Here we are setting the <code class="highlighter-rouge">baseURL</code> in the SystemJS configuration. Remember that Karma adds the base path <code class="highlighter-rouge">base</code> to the webserver URL. So SystemJS will use the same base URL when trying to load modules.</p>
+  </li>
+  <li>
+    <p>(8) - We now load the <code class="highlighter-rouge">systemjs.config.js</code> file, and when that module is resolved, we call <code class="highlighter-rouge">(9)</code></p>
+  </li>
+  <li>
+    <p>(9) - Here, we use the helper function (that grabbed all the spec files), we iterate through them, importing all of them with <code class="highlighter-rouge">System.import</code>. After they are all resolved, we manually start Karma by passing the karma start function to the Promise <code class="highlighter-rouge">then</code>.</p>
+  </li>
+</ul>
+
+<p>Now the last thing is to add this <code class="highlighter-rouge">karma-test-shim.js</code> file to the <code class="highlighter-rouge">karma.conf.js</code> file, so that Karma can load it and add it as a <code class="highlighter-rouge">&lt;script&gt;</code> to run  when the server starts. Below is the current <code class="highlighter-rouge">files</code> array configuration.</p>
+
+<div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="nx">files</span><span class="err">:</span> <span class="p">[</span>
+  <span class="s1">'node_modules/systemjs/dist/system.src.js'</span><span class="p">,</span>
+
+  <span class="p">{</span> <span class="na">pattern</span><span class="p">:</span> <span class="s1">'node_modules/rxjs/**/*.js'</span><span class="p">,</span> <span class="na">included</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span> <span class="na">watched</span><span class="p">:</span> <span class="kc">false</span> <span class="p">},</span>
+  <span class="p">{</span> <span class="na">pattern</span><span class="p">:</span> <span class="s1">'node_modules/rxjs/**/*.js.map'</span><span class="p">,</span> <span class="na">included</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span> <span class="na">watched</span><span class="p">:</span> <span class="kc">false</span> <span class="p">},</span>
+
+  <span class="p">{</span> <span class="na">pattern</span><span class="p">:</span> <span class="s1">'systemjs.config.js'</span><span class="p">,</span> <span class="na">included</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span> <span class="na">watched</span><span class="p">:</span> <span class="kc">false</span> <span class="p">},</span>
+  <span class="s1">'karma-test-shim.js'</span><span class="p">,</span>
+
+  <span class="p">{</span> <span class="na">pattern</span><span class="p">:</span> <span class="s1">'app/counter/counter.js'</span><span class="p">,</span> <span class="na">included</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span> <span class="na">watched</span><span class="p">:</span> <span class="kc">true</span> <span class="p">},</span>
+  <span class="p">{</span> <span class="na">pattern</span><span class="p">:</span> <span class="s1">'app/counter/counter.spec.js'</span><span class="p">,</span> <span class="na">included</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span> <span class="na">watched</span><span class="p">:</span> <span class="kc">true</span> <span class="p">}</span>
+<span class="p">],</span>
+</code></pre>
+</div>
+
+<p>Now if you run the test (<code class="highlighter-rouge">npm run test</code>), you should get a success with 2 tests run and 2 tests succeeding!</p>
+
+<p>Bet you feel pretty good about yourself right about now. Do you feel like a Guru yet? Not so fast, Grasshopper. We still need to add Angular!</p>
+
+<p><a name="angular"></a></p>
+
+<h2 id="adding-angular">Adding Angular</h2>
+
+<p>Finally, we’ve reached the point where we can now add Angular to our project.</p>
+
+<p><a name="angular-app"></a></p>
+
+<h3 id="application-setup">Application Setup</h3>
+
+<p>Let’s start by first just adding the dependencies, getting a hello world up and running, then we’ll get the testing. So install the following</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>npm install --save \
+  @angular/core @angular/common @angular/compiler \
+  @angular/platform-browser @angular/platform-browser-dynamic \
+  core-js reflect-metadata zone.js
+</code></pre>
+</div>
+
+<p>These are just the basic dependencies. We’re not going to do any forms or http calls or routing, so we’ll just leave those out.</p>
+
+<p>Now let’s code up the application. In the <code class="highlighter-rouge">app</code> folder, add the following files:</p>
+
+<p><em><strong>app.component.ts</strong></em></p>
+
+<div class="language-typescript highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">Component</span> <span class="p">}</span> <span class="k">from</span> <span class="s1">'@angular/core'</span><span class="p">;</span>
+
+<span class="err">@</span><span class="nx">Component</span><span class="p">({</span>
+  <span class="na">selector</span><span class="p">:</span> <span class="s1">'app'</span><span class="p">,</span>
+  <span class="na">template</span><span class="p">:</span> <span class="s1">'&lt;h1&gt;&lt;/h1&gt;'</span>
+<span class="p">})</span>
+<span class="k">export</span> <span class="kr">class</span> <span class="nx">AppComponent</span> <span class="p">{</span>
+  <span class="nx">message</span> <span class="o">=</span> <span class="s1">'Hello World!'</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p><em><strong>main.ts</strong></em></p>
+
+<div class="language-typescript highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">NgModule</span> <span class="p">}</span> <span class="k">from</span> <span class="s1">'@angular/core'</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">BrowserModule</span> <span class="p">}</span> <span class="k">from</span> <span class="s1">'@angular/platform-browser'</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">platformBrowserDynamic</span> <span class="p">}</span> <span class="k">from</span> <span class="s1">'@angular/platform-browser-dynamic'</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">AppComponent</span> <span class="p">}</span> <span class="k">from</span> <span class="s1">'./app.component'</span><span class="p">;</span>
+
+<span class="err">@</span><span class="nx">NgModule</span><span class="p">({</span>
+  <span class="na">imports</span><span class="p">:</span> <span class="p">[</span> <span class="nx">BrowserModule</span> <span class="p">],</span>
+  <span class="na">declarations</span><span class="p">:</span> <span class="p">[</span> <span class="nx">AppComponent</span> <span class="p">],</span>
+  <span class="na">bootstrap</span><span class="p">:</span> <span class="p">[</span> <span class="nx">AppComponent</span> <span class="p">]</span>
+<span class="p">})</span>
+<span class="k">export</span> <span class="kr">class</span> <span class="nx">AppModule</span> <span class="p">{</span>
+
+<span class="nx">platformBrowserDynamic</span><span class="p">().</span><span class="nx">bootstrapModule</span><span class="p">(</span><span class="nx">AppModule</span><span class="p">);</span>
+</code></pre>
+</div>
+
+<p>And  replace the contents of the <code class="highlighter-rouge">index.html</code> file with the following:</p>
+
+<div class="language-html highlighter-rouge"><pre class="highlight"><code><span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="nt">&lt;html&gt;</span>
+  <span class="nt">&lt;head&gt;</span>
+    <span class="nt">&lt;title&gt;</span>Angular2 Testing<span class="nt">&lt;/title&gt;</span>
+    <span class="nt">&lt;meta</span> <span class="na">charset=</span><span class="s">"UTF-8"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;meta</span> <span class="na">name=</span><span class="s">"viewport"</span> <span class="na">content=</span><span class="s">"width=device-width, initial-scale=1"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"node_modules/core-js/client/shim.min.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"node_modules/zone.js/dist/zone.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"node_modules/reflect-metadata/Reflect.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"node_modules/systemjs/dist/system.src.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"systemjs.config.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+    <span class="nt">&lt;script&gt;</span>
+      <span class="nx">System</span><span class="p">.</span><span class="kr">import</span><span class="p">(</span><span class="s1">'app'</span><span class="p">).</span><span class="k">catch</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">){</span> <span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span> <span class="p">});</span>
+    <span class="nt">&lt;/script&gt;</span>
+  <span class="nt">&lt;/head&gt;</span>
+
+  <span class="nt">&lt;body&gt;</span>
+    <span class="nt">&lt;app&gt;</span>Loading ...<span class="nt">&lt;/app&gt;</span>
+  <span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</code></pre>
+</div>
+
+<p>You can see here, that we use <code class="highlighter-rouge">System.import</code> to import the <code class="highlighter-rouge">app</code> package. But we need to make one change to the <code class="highlighter-rouge">systemjs.config.js</code> file. Add a <code class="highlighter-rouge">main</code> property that points our compiled <code class="highlighter-rouge">main.js</code>.</p>
+
+<div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="nx">app</span><span class="err">:</span> <span class="p">{</span>
+  <span class="nl">main</span><span class="p">:</span> <span class="s1">'./main.js'</span><span class="p">,</span>
+  <span class="nx">defaultExtension</span><span class="err">:</span> <span class="s1">'js'</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>The <code class="highlighter-rouge">main</code> tells SystemJS what file is the main file to load for this (<code class="highlighter-rouge">app</code>) package. In this case, the <code class="highlighter-rouge">main.js</code> file is the default one to load. And when that file is loaded, it will bootstrap our Angular application.</p>
+
+<p>We also need to make SystemJS aware of how to load the Angular modules. In our application files, when we import Angular, we do something like</p>
+
+<div class="language-typescript highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">Component</span> <span class="p">}</span> <span class="k">from</span> <span class="s1">'@angular/core'</span><span class="p">;</span>
+</code></pre>
+</div>
+
+<p>SystemJS doesn’t know what the <code class="highlighter-rouge">@angular/core</code> module is unless we map it correctly in the <code class="highlighter-rouge">systemjs.config.js</code> file, just like we did with RxJS. So modify the <code class="highlighter-rouge">map</code> property in the <code class="highlighter-rouge">systemjs.config.js</code> file to the following:</p>
+
+<div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="nx">map</span><span class="err">:</span> <span class="p">{</span>
+  <span class="s1">'app'</span><span class="err">:</span> <span class="s1">'app'</span><span class="p">,</span>
+
+  <span class="s1">'@angular/core'</span><span class="err">:</span> <span class="s1">'npm:@angular/core/bundles/core.umd.js'</span><span class="p">,</span>
+  <span class="s1">'@angular/common'</span><span class="err">:</span> <span class="s1">'npm:@angular/common/bundles/common.umd.js'</span><span class="p">,</span>
+  <span class="s1">'@angular/compiler'</span><span class="err">:</span> <span class="s1">'npm:@angular/compiler/bundles/compiler.umd.js'</span><span class="p">,</span>
+  <span class="s1">'@angular/platform-browser'</span><span class="err">:</span> <span class="s1">'npm:@angular/platform-browser/bundles/platform-browser.umd.js'</span><span class="p">,</span>
+  <span class="s1">'@angular/platform-browser-dynamic'</span><span class="err">:</span> <span class="s1">'npm:@angular/platform-browser-dynamic/bundles/platform-browser-dynamic.umd.js'</span><span class="p">,</span>
+
+  <span class="s1">'rxjs'</span><span class="err">:</span> <span class="s1">'npm:rxjs'</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>See how we are mapping the <code class="highlighter-rouge">@angular/core</code> to the actual module file. This is how we are able to to use <code class="highlighter-rouge">from '@angular/core'</code>.</p>
+
+<p>At this point, running the app should work. Give it a shot.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>npm start
+</code></pre>
+</div>
+
+<p>You should see the “Hello World!” message. And now we have Angular set up for the application. But we still need to configure the testing.</p>
+
+<p><a name="angular-test"></a></p>
+
+<h3 id="testing-setup">Testing Setup</h3>
+
+<p>Let’s start with the <code class="highlighter-rouge">karma.conf.js</code> file. In the <code class="highlighter-rouge">files</code> array, add the following right under the <code class="highlighter-rouge">systemjs.src.js</code> file</p>
+
+<div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="c1">// Polyfills</span>
+<span class="s1">'node_modules/core-js/client/shim.js'</span><span class="p">,</span>
+<span class="s1">'node_modules/reflect-metadata/Reflect.js'</span><span class="p">,</span>
+
+<span class="c1">// zone.js</span>
+<span class="s1">'node_modules/zone.js/dist/zone.js'</span><span class="p">,</span>
+<span class="s1">'node_modules/zone.js/dist/long-stack-trace-zone.js'</span><span class="p">,</span>
+<span class="s1">'node_modules/zone.js/dist/proxy.js'</span><span class="p">,</span>
+<span class="s1">'node_modules/zone.js/dist/sync-test.js'</span><span class="p">,</span>
+<span class="s1">'node_modules/zone.js/dist/jasmine-patch.js'</span><span class="p">,</span>
+<span class="s1">'node_modules/zone.js/dist/async-test.js'</span><span class="p">,</span>
+<span class="s1">'node_modules/zone.js/dist/fake-async-test.js'</span><span class="p">,</span>
+</code></pre>
+</div>
+
+<p>I won’t really get into what all these files are. Just accept that they are needed when testing Angular applications. And just notice that because we are just using strings, all these files are added as <code class="highlighter-rouge">&lt;script&gt;</code>s.</p>
+
+<p>Next we will add the Angular files. So right under the above files, add the following</p>
+
+<div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="p">{</span> <span class="nl">pattern</span><span class="p">:</span> <span class="s1">'node_modules/@angular/**/*.js'</span><span class="p">,</span> <span class="nx">included</span><span class="err">:</span> <span class="kc">false</span><span class="p">,</span> <span class="nx">watched</span><span class="err">:</span> <span class="kc">false</span> <span class="p">},</span>
+<span class="p">{</span> <span class="na">pattern</span><span class="p">:</span> <span class="s1">'node_modules/@angular/**/*.js.map'</span><span class="p">,</span> <span class="na">included</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span> <span class="na">watched</span><span class="p">:</span> <span class="kc">false</span> <span class="p">},</span>
+</code></pre>
+</div>
+
+<p>Here we are using a <code class="highlighter-rouge">pattern</code> matcher instead of individual files. This will match all the files in the <code class="highlighter-rouge">@angular/xxx</code> modules. We also add the source maps so that they can be used for debugging (we won’t do any debugging here). Also notice that we use <code class="highlighter-rouge">included: false</code>, which means that they will not get added as <code class="highlighter-rouge">&lt;script&gt;</code>s. They will get loaded by SystemJS.</p>
+
+<p>Now we need to add our application files. Previously, with the <code class="highlighter-rouge">counter</code> files, we added them individually. Let’s change that to use a pattern to add all of our files, just like we did with the Angular files. So replace the following</p>
+
+<div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="p">{</span> <span class="nl">pattern</span><span class="p">:</span> <span class="s1">'app/counter/counter.js'</span><span class="p">,</span> <span class="nx">included</span><span class="err">:</span> <span class="kc">false</span><span class="p">,</span> <span class="nx">watched</span><span class="err">:</span> <span class="kc">true</span> <span class="p">},</span>
+<span class="p">{</span> <span class="na">pattern</span><span class="p">:</span> <span class="s1">'app/counter/counter.spec.js'</span><span class="p">,</span> <span class="na">included</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span> <span class="na">watched</span><span class="p">:</span> <span class="kc">true</span> <span class="p">}</span>
+</code></pre>
+</div>
+
+<p>with</p>
+
+<div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="p">{</span> <span class="nl">pattern</span><span class="p">:</span> <span class="s1">'app/**/*.js'</span><span class="p">,</span> <span class="nx">included</span><span class="err">:</span> <span class="kc">false</span><span class="p">,</span> <span class="nx">watched</span><span class="err">:</span> <span class="kc">true</span> <span class="p">},</span>
+<span class="p">{</span> <span class="na">pattern</span><span class="p">:</span> <span class="s1">'app/**/*.ts'</span><span class="p">,</span> <span class="na">included</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span> <span class="na">watched</span><span class="p">:</span> <span class="kc">true</span> <span class="p">},</span>
+<span class="p">{</span> <span class="na">pattern</span><span class="p">:</span> <span class="s1">'app/**/*.js.map'</span><span class="p">,</span> <span class="na">included</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span> <span class="na">watched</span><span class="p">:</span> <span class="kc">true</span> <span class="p">}</span>
+</code></pre>
+</div>
+
+<p>we are also adding the source maps and the source <code class="highlighter-rouge">.ts</code> files here for debugging. But again, we will not be doing any debugging here. And again, notice the <code class="highlighter-rouge">included: false</code>. We will also let SystemJS load these modules.</p>
+
+<p>And that is it for the Karma configuration (for now). Now we need to tell SystemJS to load the files. So let’s go to our <code class="highlighter-rouge">karma-test-shim.js</code> file.</p>
+
+<p>Remember that in this file, we are loading the <code class="highlighter-rouge">systemjs.config.js</code> file with a <code class="highlighter-rouge">System.import</code>. Remember the <code class="highlighter-rouge">systemjs.config.js</code> file has all the mapping for the Angular files so we can do <code class="highlighter-rouge">from @angular/core</code>. In our tests, we are also now using the Angular testing files, which are <em>not</em> mapped in the <code class="highlighter-rouge">systemjs.config.js</code>. We don’t map them there because they are specific to testing, and we don’t want to clutter our application stuff with unnecessary testing stuff.</p>
+
+<p>In our tests will will being using things like</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>import { TestBed } from '@angular/core/testing'
+</code></pre>
+</div>
+
+<p>All of these <code class="highlighter-rouge">@angular/xxx/testing</code> modules, we still need to map. So change the <code class="highlighter-rouge">SystemJS.config</code> (<code class="highlighter-rouge">(7)</code> previously mentioned) in the <code class="highlighter-rouge">karma-test-shim.js</code> to the following</p>
+
+<div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="nx">System</span><span class="p">.</span><span class="nx">config</span><span class="p">({</span>
+  <span class="na">baseURL</span><span class="p">:</span> <span class="s1">'base'</span><span class="p">,</span>
+
+  <span class="na">map</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s1">'@angular/core/testing'</span><span class="p">:</span> <span class="s1">'npm:@angular/core/bundles/core-testing.umd.js'</span><span class="p">,</span>
+    <span class="s1">'@angular/common/testing'</span><span class="p">:</span> <span class="s1">'npm:@angular/common/bundles/common-testing.umd.js'</span><span class="p">,</span>
+    <span class="s1">'@angular/compiler/testing'</span><span class="p">:</span> <span class="s1">'npm:@angular/compiler/bundles/compiler-testing.umd.js'</span><span class="p">,</span>
+    <span class="s1">'@angular/platform-browser/testing'</span><span class="p">:</span> <span class="s1">'npm:@angular/platform-browser/bundles/platform-browser-testing.umd.js'</span><span class="p">,</span>
+    <span class="s1">'@angular/platform-browser-dynamic/testing'</span><span class="p">:</span> <span class="s1">'npm:@angular/platform-browser-dynamic/bundles/platform-browser-dynamic-testing.umd.js'</span><span class="p">,</span>
+  <span class="p">},</span>
+<span class="p">});</span>
+</code></pre>
+</div>
+
+<p>This is just like the mapping in the <code class="highlighter-rouge">systemjs.config.js</code> file, except now, we are adding the testing modules.</p>
+
+<p>We’re still not done with the configuration yet, but let’s try testing out what we have so far. We will get an error, but I want to be able to show what the problem is, and how we can fix it. So let’s add a test. Add a file name <code class="highlighter-rouge">app.component.spec.ts</code> in the <code class="highlighter-rouge">app</code> folder, and add the following contents:</p>
+
+<div class="language-typescript highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">TestBed</span><span class="p">,</span> <span class="nx">ComponentFixture</span> <span class="p">}</span> <span class="k">from</span> <span class="s1">'@angular/core/testing'</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">AppComponent</span> <span class="p">}</span> <span class="k">from</span> <span class="s1">'./app.component'</span><span class="p">;</span>
+
+<span class="nx">describe</span><span class="p">(</span><span class="s1">'component: AppComponent'</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="kd">let</span> <span class="na">fixture</span><span class="p">:</span> <span class="nx">ComponentFixture</span><span class="o">&lt;</span><span class="nx">AppComponent</span><span class="o">&gt;</span><span class="p">;</span>
+
+  <span class="nx">beforeEach</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">TestBed</span><span class="p">.</span><span class="nx">configureTestingModule</span><span class="p">({</span>
+      <span class="na">declarations</span><span class="p">:</span> <span class="p">[</span> <span class="nx">AppComponent</span> <span class="p">]</span>
+    <span class="p">});</span>
+    <span class="nx">fixture</span> <span class="o">=</span> <span class="nx">TestBed</span><span class="p">.</span><span class="nx">createComponent</span><span class="p">(</span><span class="nx">AppComponent</span><span class="p">);</span>
+    <span class="nx">fixture</span><span class="p">.</span><span class="nx">detectChanges</span><span class="p">();</span>
+  <span class="p">});</span>
+
+  <span class="nx">it</span><span class="p">(</span><span class="s1">'should display Hello World message'</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="kd">const</span> <span class="nx">debugEl</span> <span class="o">=</span> <span class="nx">fixture</span><span class="p">.</span><span class="nx">debugElement</span><span class="p">;</span>
+    <span class="kd">const</span> <span class="nx">h1</span> <span class="o">=</span> <span class="nx">debugEl</span><span class="p">.</span><span class="nx">nativeElement</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">(</span><span class="s1">'h1'</span><span class="p">);</span>
+    <span class="nx">expect</span><span class="p">(</span><span class="nx">h1</span><span class="p">.</span><span class="nx">textContent</span><span class="p">).</span><span class="nx">toEqual</span><span class="p">(</span><span class="s1">'Hello World!'</span><span class="p">);</span>
+  <span class="p">});</span>
+<span class="p">});</span>
+</code></pre>
+</div>
+
+<p>I’m not going to get into what this code does. That is not the purpose of this article. Angular documentation has great info on this subject.</p>
+
+<p>Let’s now run the test.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>npm run test
+</code></pre>
+</div>
+
+<p>When running the test, we should see one failure, which is from the <code class="highlighter-rouge">app.component.spec</code> file we just added. The error reads:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>[1]     TypeError: Cannot read property 'injector' of null
+</code></pre>
+</div>
+
+<p>The reason for this, is that when using the <code class="highlighter-rouge">TestBed</code>, it needs to be initialized in a special way. Let’s quickly see how to do that. In the same spec file, add the following imports:</p>
+
+<div class="language-typescript highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="p">{</span>
+  <span class="nx">BrowserDynamicTestingModule</span><span class="p">,</span> <span class="nx">platformBrowserDynamicTesting</span>
+<span class="p">}</span> <span class="k">from</span> <span class="s1">'@angular/platform-browser-dynamic/testing'</span><span class="p">;</span>
+</code></pre>
+</div>
+
+<p>Then in a <code class="highlighter-rouge">beforeAll</code>, right before the <code class="highlighter-rouge">beforeEach</code>, add the following:</p>
+
+<div class="language-typescript highlighter-rouge"><pre class="highlight"><code><span class="nx">beforeAll</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="nx">TestBed</span><span class="p">.</span><span class="nx">initTestEnvironment</span><span class="p">(</span>
+    <span class="nx">BrowserDynamicTestingModule</span><span class="p">,</span>
+    <span class="nx">platformBrowserDynamicTesting</span><span class="p">()</span>
+  <span class="p">);</span>
+<span class="p">});</span>
+</code></pre>
+</div>
+
+<p>If you run the tests again (or just watch it reload from the previous start), it should produce successes for all cases.</p>
+
+<p>The thing about the <code class="highlighter-rouge">TestBed.initTestEnvironment</code> is that it only needs to be called once for the entire test environment. So what we do instead of trying to add it to a test file like we did here, we instead call it in the <code class="highlighter-rouge">karma-test-shim.js</code> file. So remove the contents of the last step we just did (the <code class="highlighter-rouge">import</code> and the <code class="highlighter-rouge">beforeAll</code>). Then in the <code class="highlighter-rouge">karma-test-shim.js</code> file, replace</p>
+
+<div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="nx">System</span><span class="p">.</span><span class="kr">import</span><span class="p">(</span><span class="s1">'systemjs.config.js'</span><span class="p">)</span>
+  <span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">initTesting</span><span class="p">);</span>
+</code></pre>
+</div>
+
+<p>with</p>
+
+<div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="nx">System</span><span class="p">.</span><span class="kr">import</span><span class="p">(</span><span class="s1">'systemjs.config.js'</span><span class="p">)</span>
+  <span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">initTestBed</span><span class="p">)</span>
+  <span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">initTesting</span><span class="p">);</span>
+
+<span class="kd">function</span> <span class="nx">initTestBed</span><span class="p">(){</span>
+  <span class="k">return</span> <span class="nx">Promise</span><span class="p">.</span><span class="nx">all</span><span class="p">([</span>
+    <span class="nx">System</span><span class="p">.</span><span class="kr">import</span><span class="p">(</span><span class="s1">'@angular/core/testing'</span><span class="p">),</span>
+    <span class="nx">System</span><span class="p">.</span><span class="kr">import</span><span class="p">(</span><span class="s1">'@angular/platform-browser-dynamic/testing'</span><span class="p">)</span>
+  <span class="p">])</span>
+
+  <span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">providers</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">coreTesting</span>    <span class="o">=</span> <span class="nx">providers</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+    <span class="kd">var</span> <span class="nx">browserTesting</span> <span class="o">=</span> <span class="nx">providers</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+
+    <span class="nx">coreTesting</span><span class="p">.</span><span class="nx">TestBed</span><span class="p">.</span><span class="nx">initTestEnvironment</span><span class="p">(</span>
+      <span class="nx">browserTesting</span><span class="p">.</span><span class="nx">BrowserDynamicTestingModule</span><span class="p">,</span>
+      <span class="nx">browserTesting</span><span class="p">.</span><span class="nx">platformBrowserDynamicTesting</span><span class="p">());</span>
+  <span class="p">})</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>What we are doing in the <code class="highlighter-rouge">initTestBed</code> function is loading the two Angular testing modules, the ones that contain the <code class="highlighter-rouge">TestBed</code>, and the other two imports we used just recently. When those two modules are resolved, we call the <code class="highlighter-rouge">TestBed.initTestEnvironment</code> with the same two arguments as we did previously.</p>
+
+<p>Now if you run the tests again (or just wait for reload) the tests should again pass!</p>
+
+<p>And there you have it. You have now graduated from Grasshopper to Guru.</p>
+
+<p>One last thing I should probably add though, that I didn’t mention previously. That is how to deal with Angular retrieved assets, like our external templates and styles. For these you will need to add the files to the Karma config <code class="highlighter-rouge">files</code> array.</p>
+
+<div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="p">{</span> <span class="nl">pattern</span><span class="p">:</span> <span class="nx">appBase</span> <span class="o">+</span> <span class="s1">'**/*.html'</span><span class="p">,</span> <span class="nx">included</span><span class="err">:</span> <span class="kc">false</span><span class="p">,</span> <span class="nx">watched</span><span class="err">:</span> <span class="kc">true</span> <span class="p">},</span>
+<span class="p">{</span> <span class="na">pattern</span><span class="p">:</span> <span class="nx">appBase</span> <span class="o">+</span> <span class="s1">'**/*.css'</span><span class="p">,</span> <span class="na">included</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span> <span class="na">watched</span><span class="p">:</span> <span class="kc">true</span> <span class="p">},</span>
+</code></pre>
+</div>
+
+<p>Then, right below the <code class="highlighter-rouge">files</code> array property, add the following</p>
+
+<div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="nx">proxies</span><span class="err">:</span> <span class="p">{</span>
+  <span class="s2">"/app/"</span><span class="err">:</span> <span class="s2">"app/"</span>
+<span class="p">},</span>
+</code></pre>
+</div>
+
+<p>There are some comments in the quickstart, that explain what these are for. I won’t really go through it.</p>
+
+<p><a name="summary"></a></p>
+
+<h2 id="summary">Summary</h2>
+
+<p>We’ve gone through a lot in this article. First we examined testing with Jasmine in the browser. Then we switched over to Karma, and saw how it can be used to run Jasmine tests from the command line. After that, we got familiarized with SystemJS, using our <code class="highlighter-rouge">Counter</code> class along with RxJS. We then tested the <code class="highlighter-rouge">Counter</code> code, configuring SystemJS into the Karma configuration. Angular 2 was then added to the mix, and we saw what we need to do to configure Karma to be able to use the Angular modules.</p>
+
+<p>Hope you enjoyed reading this article as much as I enjoyed writing it. If you did, please leave a comment and tell me how much :-). If you have any questions, concerns, or issues, please feel free to leave a comment. I can also be contacted via email. Just click the contact link in the menu bar.</p>
+
+
+
+    <div class="disqus-comments">
+      
+        <div id="disqus_thread"></div>
+<script>
+    /**
+     *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+     *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables
+     */
+   
+    var disqus_config = function () {
+        
+    };
+
+    (function() {  // DON'T EDIT BELOW THIS LINE
+        var d = document, s = d.createElement('script');
+        
+        s.src = '//peeskillet-io.disqus.com/embed.js';
+        
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+      
+    </div>
+
+    <script id="dsq-count-scr" src="//peeskillet-io.disqus.com/count.js" async></script>
+
+  </article>
+
+
+</section>
+
+
+      <div class="clearfooter"></div>
+    </div>
+
+    
+
+    <footer class="site-footer">
+  <div class="site-constraint row">
+    <div class="footer-logo small-6 columns">
+      <svg class="footer-logo-icon">
+        <use xlink:href="#pio-logo"></use>
+      </svg>
+    </div>
+    <div class="footer-social small-6 columns">
+      <div class="social-links">
+        <ul>
+          <li><a href="http://stackoverflow.com/users/2587435/peeskillet">
+            <svg class="social-icon">
+              <use xlink:href="#so-plain"></use>
+            </svg>
+          </a></li>
+          <li><a href="https://github.com/psamsotha">
+            <svg class="social-icon">
+              <use xlink:href="#github-plain"></use>
+            </svg>
+          </a></li>
+          <li><a href="/feed.xml">
+            <svg class="social-icon">
+              <use xlink:href="#rss-plain"></use>
+            </svg>
+          </a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="footer-license">
+    <p class="license-message">
+      This site is open source, licensed under <a href="https://psamsotha.github.io/license">MIT</a>.<br>
+      The source code is avaible at <a href="https://github.com/psamsotha/psamsotha.github.io">GitHub</a>.
+    </p>
+  </div>
+</footer>
+
+
+    
+      <script src="/js/vendor/jquery.js"></script>
+      <script src="/js/vendor/what-input.js"></script>
+      <script src="/js/vendor/foundation.min.js"></script>
+      <script src="/js/app.js"></script>
+    
+
+    <script id="dsq-count-scr" src="//peeskillet-io.disqus.com/count.js" async></script>
+  </body>
+
+</html>
