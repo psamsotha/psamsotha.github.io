@@ -19,6 +19,7 @@
     "gulp-shell": "^0.5.2",
     "gulp-svgstore": "^6.1.0",
     "gulp-uglify": "^2.0.0",
+    "gulp-uncss": "^1.0.6",
     "lodash": "^4.17.2"
   },
   "dependencies": {}

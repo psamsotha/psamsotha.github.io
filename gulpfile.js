@@ -8,8 +8,10 @@ var ghPages = require('gulp-gh-pages');
 var concat = require("gulp-concat");
 var rename = require("gulp-rename");
 var uglify = require("gulp-uglify");
+var uncss = require('gulp-uncss');
 var exec = require('child_process').exec;
 var del = require('del');
+
 
 var paths = {
   jsDist: '_site/js'
@@ -64,6 +66,17 @@ gulp.task('minify-js', ['build'], function (done) {
 });
 
 /**
+ * Remove unused css.
+ */
+gulp.task('uncss', ['build'], function () {
+  return gulp.src('_site/css/main.css')
+    .pipe(uncss({
+      html: ['_site/**/*.html']
+    }))
+    .pipe(gulp.dest('./_site/css'));
+});
+
+/**
  * Serve with browser-sync, listening for file changes.
  */
 gulp.task('serve', function () {
@@ -107,7 +120,7 @@ gulp.task('jekyll-production', function() {
 });
 
 gulp.task('build:watch', ['svgstore'], shell.task(['jekyll build --watch']));
-gulp.task('build:prod', ['jekyll-production', 'build', 'minify-js']);
+gulp.task('build:prod', ['jekyll-production', 'build', 'minify-js', 'uncss']);
 gulp.task('build:prod:watch', ['jekyll-production', 'build:watch']);
 gulp.task('serve:prod', ['build:prod:watch', 'serve']);
 gulp.task('default', ['build:watch', 'serve']);
