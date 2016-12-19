@@ -9,6 +9,7 @@ var concat = require("gulp-concat");
 var rename = require("gulp-rename");
 var uglify = require("gulp-uglify");
 var uncss = require('gulp-uncss');
+var cleanCSS = require('gulp-clean-css');
 var exec = require('child_process').exec;
 var del = require('del');
 
@@ -66,14 +67,18 @@ gulp.task('minify-js', ['build'], function (done) {
 });
 
 /**
- * Remove unused css.
+ * Remove unused css and minify.
  */
-gulp.task('uncss', ['build'], function () {
+gulp.task('un-minify-css', ['build'], function () {
   return gulp.src('_site/css/main.css')
     .pipe(uncss({
       html: ['_site/**/*.html']
     }))
-    .pipe(gulp.dest('./_site/css'));
+    .pipe(cleanCSS({debug: true}, function(details) {
+      console.log(details.name + ': ' + details.stats.originalSize);
+      console.log(details.name + ': ' + details.stats.minifiedSize);
+    }))
+    .pipe(gulp.dest('./_site/css'))
 });
 
 /**
@@ -120,7 +125,7 @@ gulp.task('jekyll-production', function() {
 });
 
 gulp.task('build:watch', ['svgstore'], shell.task(['jekyll build --watch']));
-gulp.task('build:prod', ['jekyll-production', 'build', 'minify-js', 'uncss']);
+gulp.task('build:prod', ['jekyll-production', 'build', 'minify-js', 'un-minify-css']);
 gulp.task('build:prod:watch', ['jekyll-production', 'build:watch']);
 gulp.task('serve:prod', ['build:prod:watch', 'serve']);
 gulp.task('default', ['build:watch', 'serve']);
