@@ -10,14 +10,14 @@ layout: default
       <div class="post-title">
         <h1 class="post-title-text">{{ page.title }}</h1>
       </div>
-      <div class="post-subtitle">
+      <h2 class="post-subtitle">
         by<span class="post-author" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <span itemprop="name"><b>{{ page.author }}</b></span> on
         </span>
         <time class="post-date" datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished">
           {{ page.date | date: "%b %-d, %Y" }}
         </time> 
-      </div>
+      </h2>
     </div>
   </div>
 
