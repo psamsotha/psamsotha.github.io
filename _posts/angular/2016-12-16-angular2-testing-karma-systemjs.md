@@ -1093,7 +1093,7 @@ Then, right below the `files` array property, add the following
 
 ```js
 proxies: {
-  "/app/": "app/"
+  "/app/": "/base/app/"
 },
 ```
 

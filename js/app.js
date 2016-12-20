@@ -23,7 +23,6 @@
      }
    });
 
-
    /**
     * Make link clicks open new tab
     */
@@ -32,9 +31,6 @@
      $('a').each(function (index, el) {
        if (el.hostname !== host && el.hostname !== '') {
          $(el).attr('target', '_blank');
-       } else {
-         console.log(el);
-         console.log(el.hostname);
        }
      })
    }
