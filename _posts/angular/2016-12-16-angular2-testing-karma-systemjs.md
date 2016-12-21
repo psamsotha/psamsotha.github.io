@@ -1106,8 +1106,6 @@ There are some comments in the quickstart, that explain what these are for. I wo
 
 We've gone through a lot in this article. First we examined testing with Jasmine in the browser. Then we switched over to Karma, and saw how it can be used to run Jasmine tests from the command line. After that, we got familiarized with SystemJS, using our `Counter` class along with RxJS. We then tested the `Counter` code, configuring SystemJS into the Karma configuration. Angular 2 was then added to the mix, and we saw what we need to do to configure Karma to be able to use the Angular modules.
 
-Hope you enjoyed reading this article as much as I enjoyed writing it. If you did, please leave a comment and tell me how much :-). If you have any questions, concerns, or issues, please feel free to leave a comment. I can also be contacted via email. Just click the contact link in the menu bar.
-
 [final project]: https://github.com/psamsotha/angular2-testing
 
 
