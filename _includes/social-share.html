@@ -8,7 +8,7 @@
   </div>
   <div class="social-share-item">
     <div class="fb-like"
-        data-href="{{ site.url }}/{% if site.baseurl != '' %}{{ site.baseurl + "/"}}{% endif %}{{ page.url }}"
+        data-href="{{ site.url }}{% if site.baseurl != '' %}{{ site.baseurl + "/"}}{% endif %}{{ page.url }}"
         data-width="100px"
         data-layout="button_count"
         data-action="like"
@@ -21,7 +21,7 @@
           data-size="tall"
           data-annotation="inline"
           data-width="300"
-          data-href="{{ site.url }}/{% if site.baseurl != '' %}{{ site.baseurl + "/"}}{% endif %}{{ page.url }}">
+          data-href="{{ site.url }}{% if site.baseurl != '' %}{{ site.baseurl + "/"}}{% endif %}{{ page.url }}">
       </div>
     </div>
   </div>
