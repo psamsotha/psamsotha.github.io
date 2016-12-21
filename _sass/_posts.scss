@@ -1,3 +1,11 @@
+.social-share-item {
+  display: inline-block;
+
+  .twitter-tweet {
+    position: relative;
+    top: 7px;
+  }
+}
 
 .post-banner {
   @include blend-background;
