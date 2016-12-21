@@ -1317,9 +1317,51 @@ http://localhost:3000/rxjs/BehaviorSubject(…)
 
 <p>We’ve gone through a lot in this article. First we examined testing with Jasmine in the browser. Then we switched over to Karma, and saw how it can be used to run Jasmine tests from the command line. After that, we got familiarized with SystemJS, using our <code class="highlighter-rouge">Counter</code> class along with RxJS. We then tested the <code class="highlighter-rouge">Counter</code> code, configuring SystemJS into the Karma configuration. Angular 2 was then added to the mix, and we saw what we need to do to configure Karma to be able to use the Angular modules.</p>
 
-<p>Hope you enjoyed reading this article as much as I enjoyed writing it. If you did, please leave a comment and tell me how much :-). If you have any questions, concerns, or issues, please feel free to leave a comment. I can also be contacted via email. Just click the contact link in the menu bar.</p>
 
 
+    <div class="support-container">
+      <h2>Support Me</h2>
+      <p>
+        If you found any information in this post useful, please show your support and
+        like it, share it, tweet it, pin it, and/or plus one it. Much thanks!
+      </p>
+    </div>
+
+    <div class="social-share">
+  <div class="social-share-item">
+    <div class="twitter-tweet">
+      <a href="https://twitter.com/share"
+        class="twitter-share-button"
+        data-show-count="false">Tweet</a>
+    </div>
+  </div>
+  <div class="social-share-item">
+    <div class="pinterest-save">
+      <a data-pin-do="buttonBookmark"
+        data-pin-save="true"
+        href="https://www.pinterest.com/pin/create/button/"></a>
+    </div>
+  </div>
+  <div class="social-share-item">
+    <div class="fb-like"
+        data-href="https://psamsotha.github.io/angular/2016/12/16/angular2-testing-karma-systemjs.html"
+        data-width="100px"
+        data-layout="button_count"
+        data-action="like"
+        data-show-faces="false"
+        data-share="true"></div>
+  </div>
+  <div class="social-share-item">
+    <div class="google-plusone">
+      <div class="g-plusone"
+          data-size="tall"
+          data-annotation="inline"
+          data-width="300"
+          data-href="https://psamsotha.github.io/angular/2016/12/16/angular2-testing-karma-systemjs.html">
+      </div>
+    </div>
+  </div> 
+</div>
 
     <div class="disqus-comments">
       
@@ -1399,9 +1441,21 @@ http://localhost:3000/rxjs/BehaviorSubject(…)
 
     
       <script src="/js/main.js"></script>
+      <!-- disqus -->
+      <script id="dsq-count-scr" src="//peeskillet-io.disqus.com/count.js" async></script>
+      <!-- social buttons -->
+      <div id="fb-root"></div>
+      <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+      <script async defer src="//assets.pinterest.com/js/pinit.js"></script>
+      <script>(function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.8";
+        fjs.parentNode.insertBefore(js, fjs);
+      }(document, 'script', 'facebook-jssdk'));</script>
+      <script src="https://apis.google.com/js/platform.js" async defer></script>
     
-
-    <script id="dsq-count-scr" src="//peeskillet-io.disqus.com/count.js" async></script>
   </body>
 
 </html>

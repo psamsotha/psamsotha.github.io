@@ -6,8 +6,8 @@
 </description>
     <link>https://psamsotha.github.io/</link>
     <atom:link href="https://psamsotha.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Tue, 20 Dec 2016 13:56:21 +0700</pubDate>
-    <lastBuildDate>Tue, 20 Dec 2016 13:56:21 +0700</lastBuildDate>
+    <pubDate>Wed, 21 Dec 2016 17:09:53 +0700</pubDate>
+    <lastBuildDate>Wed, 21 Dec 2016 17:09:53 +0700</lastBuildDate>
     <generator>Jekyll v3.3.1</generator>
     
       <item>
@@ -1194,7 +1194,7 @@ http://localhost:3000/rxjs/BehaviorSubject(…)
 &lt;p&gt;Then, right below the &lt;code class=&quot;highlighter-rouge&quot;&gt;files&lt;/code&gt; array property, add the following&lt;/p&gt;
 
 &lt;div class=&quot;language-js highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nx&quot;&gt;proxies&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-  &lt;span class=&quot;s2&quot;&gt;&quot;/app/&quot;&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;app/&quot;&lt;/span&gt;
+  &lt;span class=&quot;s2&quot;&gt;&quot;/app/&quot;&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;/base/app/&quot;&lt;/span&gt;
 &lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
@@ -1206,8 +1206,6 @@ http://localhost:3000/rxjs/BehaviorSubject(…)
 &lt;h2 id=&quot;summary&quot;&gt;Summary&lt;/h2&gt;
 
 &lt;p&gt;We’ve gone through a lot in this article. First we examined testing with Jasmine in the browser. Then we switched over to Karma, and saw how it can be used to run Jasmine tests from the command line. After that, we got familiarized with SystemJS, using our &lt;code class=&quot;highlighter-rouge&quot;&gt;Counter&lt;/code&gt; class along with RxJS. We then tested the &lt;code class=&quot;highlighter-rouge&quot;&gt;Counter&lt;/code&gt; code, configuring SystemJS into the Karma configuration. Angular 2 was then added to the mix, and we saw what we need to do to configure Karma to be able to use the Angular modules.&lt;/p&gt;
-
-&lt;p&gt;Hope you enjoyed reading this article as much as I enjoyed writing it. If you did, please leave a comment and tell me how much :-). If you have any questions, concerns, or issues, please feel free to leave a comment. I can also be contacted via email. Just click the contact link in the menu bar.&lt;/p&gt;
 
 </description>
         <pubDate>Fri, 16 Dec 2016 00:00:00 +0700</pubDate>
