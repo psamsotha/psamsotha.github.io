@@ -24,6 +24,8 @@ layout: default
   <article class="post-content">
     {{ content }}
 
+    {% include social-share.html %}
+
     <div class="disqus-comments">
       {% if jekyll.environment == "production" %}
         {% include disqus.html %}
