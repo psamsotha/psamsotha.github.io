@@ -3,6 +3,7 @@ layout: post
 title: "Custom Method Parameter Injection with Jersey"
 description: "How we can use custom annotation injection for method parameters of our resource methods in Jersey."
 categories: jersey
+category: jersey
 thumb: self-park
 tags: jersey jersey-2.0
 ---

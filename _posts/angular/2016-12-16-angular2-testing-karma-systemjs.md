@@ -1,6 +1,7 @@
 ---
 layout: post
 categories: angular
+category: angular
 title: "Angular 2 Testing with Karma and SystemJS"
 description: "The Angular 2 Quickstart testing (Karma and SystemJS) configuration will be demystified."
 thumb: sideways-building

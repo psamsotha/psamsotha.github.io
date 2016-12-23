@@ -1,0 +1,37 @@
+
+.related-articles-group {
+  margin-left: -1rem;
+  margin-right: -1rem;
+}
+
+.related-article {
+  @include strip-row-padding;
+  display: block;
+  padding: 1rem;
+  color: #000 !important;
+
+  .post-title {
+    margin-top: 0;
+  }
+
+  h2 {
+    margin-bottom: 10px;
+  }
+
+  &:hover {
+    background-color: $gray;
+    color: #000 !important;
+  }
+
+  .post-date, .post-description {
+    font-weight: normal;
+  }
+}
+
+@media only screen and (min-width: $breakpoint-lg) {
+  .related-article {
+    .post-date {
+      font-size: $base-font-size !important;
+    }
+  }
+}

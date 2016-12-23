@@ -26,7 +26,7 @@ header_type: page
       <h2 class="post-group-header">FEATURED POSTS</h2>
       <div class="featured-posts-group row expanded" data-equalizer>
         {% assign featured_posts = (site.posts | where: "featured","true") %}
-        {% for post in featured_posts | limit: '4' %}
+        {% for post in featured_posts limit:4 %}
           <div class="featured-post small-12 medium-6 large-4 columns" data-equalizer-watch> 
             <a href="{{ post.url | prepend: site.baseurl }}" class="clickable">
               <div class="post-thumb"

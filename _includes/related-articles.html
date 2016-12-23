@@ -1,0 +1,40 @@
+<!--
+  check for posts in category that are not this post.
+  If there are no posts, we should not include the Related Articles
+-->
+{% assign has_posts = false %}
+{% assign related_posts = site.categories[page.category] %}
+{% for post in related_posts %}
+  {% if post.title != page.title %}
+    {% assign has_posts = true %}
+    {% break %}
+  {% endif %}
+{% endfor %}
+
+{% if has_posts == true %}
+<div class="related-articles">
+  <h2>Related Articles</h2>
+  <div class="related-articles-group row expanded" data-equalizer>
+    {% assign count = '' %}
+    {% for post in related_posts %}
+      {% if post.title != page.title %}
+        <!-- Little hack. Liquid doesn't seem to support counting using assign -->
+        <!-- https://github.com/jekyll/jekyll/issues/2141 -->
+        <!-- https://github.com/Shopify/liquid/issues/316 -->
+        {% capture count %}{{count}}1{% endcapture %}
+        <a class="related-article post-details small-12 medium-6 columns clickable"
+           href="{{ post.url | prepend: site.baseurl }}" data-equalizer-watch>   
+          <h2 class="post-title">                
+            {{ post.title }}
+          </h2>
+          <p class="post-date">{{ post.date | date: "%B %-d, %Y" }}</p>
+          <p class="post-description">{{ post.description | truncatewords: '20' }}</p> 
+        </a>
+      {% endif %}
+      {% if count == '11' %}
+        {% break %}
+      {% endif %}
+    {% endfor %}
+  </div>
+</div>
+{% endif %}
