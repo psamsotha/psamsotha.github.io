@@ -11,13 +11,15 @@ tags: jersey jersey-2.0
 
 Often in a Jersey application, you need configuration properties that need to be applied dynamically. In this article I will describe some native capabilities in Jersey, how we can extend that native capability into make injectable properties, and finally I will explain how to use a small module I created for working with properties.
 
-* **[Native Capabilities](#native)**
-* **[Custom Injection of Properties](#customInject)**
-* **[`jersey-properties` Module](#jerseyProps)**
+### Table of Contents
+
+* [Native Capabilities](#native)
+* [Custom Injection of Properties](#customInject)
+* [`jersey-properties` Module](#jerseyProps)
 
 <a name="native"></a>
 
-### Native Capabilities
+## Native Capabilities
 
 JAX-RS contains a class [`javax.ws.rs.core.Configuration`][1] from which we can obtain arbitrary properties from, that can be compiled from different locations. With Jersey, these properties can come from either servlet init-params or from explicitly set properties from a `ResourceConfig` or `Application` subclass. In a `ResourceConfig`, we could just call the `property(key, value)` method. For example
 
@@ -67,7 +69,7 @@ You can see a complete test case of the above example in [this GitHub Gist][2]
 
 <a name="customInject"></a>
 
-### Custom Injection of Properties
+## Custom Injection of Properties
 
 What if we want to avoid having to repetitively get the property from the `Configuration` object? Say we want to just inject the property value, maybe with a custom annotation. That is possible with the use of an (HK2) [`InjectionResolver`][3]. For example you can do something like
 
@@ -138,7 +140,7 @@ One limitation of the above implementation is that it doesn't allow for method p
 
 <a name="jerseyProps"></a>
 
-### `jersey-properties` Module
+## _jersey-properties_ Module
 
 I created a small module that helps with working with configuration properties. You can find the project [at GitHub][6], where there you can read more about about it. To use it you need to add this Maven artifact
 

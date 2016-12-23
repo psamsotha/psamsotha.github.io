@@ -7,30 +7,6 @@ description: "The Angular 2 Quickstart testing (Karma and SystemJS) configuratio
 thumb: sideways-building
 tags: angular2 karma systemjs
 ---
-### Table of Contents
-
-* [Introduction](#intro)
-* [Getting Started with Karma](#karma)
-	* [Jasmine Introduction](#jasmine)
-	* [Setting up Karma and Running Jasmine Tests](#karma-jasmine)
-		* [Karma dependencies](#karma-deps)
-		* [Karma Configuration](#karma-config)
-		* [Test Results](#test-results)
-* [Getting Started with SystemJS](#systemjs)
-	* [Intro to Modules](#modules)
-	* [SystemJS Quickstart](#systemjs-quickstart)
-	* [Importing Modules](#import-modules)
-	* [Testing with SystemJS](#systemjs-testing)
-		* [karma-test-shim.js](#karma-test-shim)
-* [Adding Angular](#angular)
-	* [Application Setup](#angular-app)
-	* [Testing Setup](#angular-test)
-* [Summary](#summary)
-
-
-<a name="intro"></a>
-
-## Introduction
 
 Unit testing is a critical part of any piece of software. Writing tests give us confidence that our individual software components act reliably in accordance to specification. An Angular 2 application is no different. We should write unit tests for our components, services, pipes, directives, etc.
 
@@ -47,6 +23,25 @@ I will begin by walking through the basics of Karma, then go through the basics 
 [testing docs]: https://angular.io/docs/ts/latest/guide/testing.html
 [quickstart-github]: https://github.com/angular/quickstart
 [node]: https://nodejs.org/en/
+
+### Table of Contents
+
+* [Getting Started with Karma](#karma)
+	* [Jasmine Introduction](#jasmine)
+	* [Setting up Karma and Running Jasmine Tests](#karma-jasmine)
+		* [Karma dependencies](#karma-deps)
+		* [Karma Configuration](#karma-config)
+		* [Test Results](#test-results)
+* [Getting Started with SystemJS](#systemjs)
+	* [Intro to Modules](#modules)
+	* [SystemJS Quickstart](#systemjs-quickstart)
+	* [Importing Modules](#import-modules)
+	* [Testing with SystemJS](#systemjs-testing)
+		* [karma-test-shim.js](#karma-test-shim)
+* [Adding Angular](#angular)
+	* [Application Setup](#angular-app)
+	* [Testing Setup](#angular-test)
+* [Summary](#summary)
 
 
 <a name="karma"></a>

@@ -10,6 +10,25 @@ tags: jersey jersey-2.0 jax-rs
 
 In this article I will be talking about caching in the context of the HTTP specs and REST (which is heavily linked with HTTP semantics). First I will cover the specifics covered in HTTP 1.0, then the changes made in HTTP 1.1, then conclude with how we can clean up some of the examples from the previous sections.
 
+### Table of Contents
+
+* [Requirements](#requirements)
+* [Caching in HTTP 1.0](#http10)
+    * [Expires Example](#http10example)
+* [Caching in HTTP 1.0](#http11)
+    * [Temporal Semantics](#temporal)
+        * [Cache-Control example](#temporalExample)
+    * [Revalidation Semantics](#revalidation)
+        * [Temporal Revalidation](#temporalRevalidation)
+            * [Temporal Revalidation Example](#temporalRevalidationExample)
+        * [Etag Revalidation](#etagRevalidation)
+            * [Etag Realidation Example](#etagRevalidationExample)
+* [Keeping it DRY (don't repeat yourself)](#dry)
+
+<a name="requirements"></a>
+
+## Requirements
+
 Tools you will need to follow along.
 
 * [cURL][1] - A command line tool that I use as a REST client. You may use a different client, but any other tools usages will be outside the scope of this article.
@@ -29,23 +48,10 @@ Or download it from the [Github project site][30]
 
 [30]: https://github.com/psamsotha/jersey-cache-example
 
-#### Sections
-
-* **[Caching in HTTP 1.0](#http10)**
-    * [Expires Example](#http10example)
-* **[Caching in HTTP 1.0](#http11)**
-    * [Temporal Semantics](#temporal)
-        * [Cache-Control example](#temporalExample)
-    * [Revalidation Semantics](#revalidation)
-        * [Temporal Revalidation](#temporalRevalidation)
-            * [Temporal Revalidation Example](#temporalRevalidationExample)
-        * [Etag Revalidation](#etagRevalidation)
-            * [Etag Realidation Example](#etagRevalidationExample)
-* **[Keeping it DRY (don't repeat yourself)](#dry)**
 
 <a name="http10"></a>
 
-### Caching in HTTP 1.0
+## Caching in HTTP 1.0
 
 In HTTP 1.0 the server sends an `Expires: <expiration-data>` header with the response. So a response might look something like
 
@@ -63,7 +69,7 @@ Here the expiration data has been set to one hour from the time the response was
 
 <a name="http10example"></a>
 
-##### Expires example
+### Expires example
 
 In JAX-RS, we would simply to something like
 
@@ -102,7 +108,7 @@ cURL doesn't support any caching features, so trying to make another call won't 
 
 <a name="http11"></a>
 
-### Caching in HTTP 1.1
+## Caching in HTTP 1.1
 
 Then came HTTP 1.1, which not only create new temporal semantics, but also added revalidation semantics to caching. Take for example the caching the `Expires` example above. Say the expiration time is 10 seconds. A request made after that ten seconds will _always_ get back new data from the server. With revalidation the server sends a _condition_ request, saying _"if the data has not been modified since [date]"_ and/or _"if data still matches the data in my cache"_, don't send back the data. This helps in bandwidth usage, as the data is not always sent back, as would be the case with the old Expires semantics. Here's a flow chart of basics of the process
 
@@ -112,7 +118,7 @@ Then came HTTP 1.1, which not only create new temporal semantics, but also added
 
 <a name="temporal"></a>
 
-#### Temporal caching 
+### Temporal caching 
 
 When I say "temporal", I am talking about time. As discussed, the old spec used the `Expires` header to set the expiration date on the data. The problem with this is that it is an absolute time that is dependent on system clock being set correctly. To fix this problem, the `Cache-Control` header was introduced. Instead of an absolute date, it uses a relative time in the form of `max-age`. For example a response might look like
 
@@ -131,7 +137,7 @@ Here the `Cache-Control` header is saying that the data is only good in the cach
 
 <a name="temporalExmple"></a>
 
-##### Cache-Control Example
+#### Cache-Control Example
 
 Here's how we could code it in JAX-RS
 
@@ -184,13 +190,13 @@ Cache-Control: no-transform, max-age=10
 
 <a name="revalidation"></a>
 
-#### Revalidation caching 
+### Revalidation caching 
 
 As previously mentioned, HTTP 1.1 also added the concept of revalidation. If there is a `Cache-Control` header, then after the time expires, the supporting client should revalidate the date and check to see if it has not changed. 
 
 <a name="temporalRevalidation"></a>
 
-##### Temporal Revalidation
+#### Temporal Revalidation
 
 There are two client request headers that could be involved in the revalidation process. The first is the `If-Modified-Since: [date]` header. How it works is that the server should send a `Last-Modified: [date]` response header along with the data. The server should have some way to maintaining this "last modified" date, for example a database field, that changes whenever the data is modified.
 
@@ -198,7 +204,7 @@ One subsequent requests, the client should send the `If-Modified-Since: [date]`,
     
 <a name="temporalRevalidationExample"></a>
 
-###### Temporal Revalidation Example
+##### Temporal Revalidation Example
 
 Let go through an example of using the `If-Modified-Since` and `Last-Modified` example. The code can be found in the `LastModifiedResource` in the Github project.
 
@@ -305,13 +311,13 @@ Hope you can easily follow along. The important point to notice is that in step 
 
 <a name="etagRevalidation"></a>
 
-##### Etag Revalidation
+#### Etag Revalidation
 
 The second form of validation is validating the content has not changed. To do that the server should send something to the client the represents the current state of the content being sent in the request. This is handled with the `Etag` header. In most cases, this will be a hash of the data. The server sends the `Etag: <hash>` header with the response. When the client makes a request for the same resource, it should send a `If-None-Match: <hash>` to the server. If the value does not match that of the server's, then the resource has been changed since the client last received it, and the server should send the new data with the new `Etag`. Otherwise if the data is the same, the server should send a `304 Not Modified`.
 
 <a name="etagRevalidationExample"></a>
 
-###### Etag Revalidation Example
+##### Etag Revalidation Example
 
 Below is an example implementation. It is very similar to the one above, except we are not checking the time the resource was last modified, but _if_ is was actually modified
 
@@ -420,7 +426,7 @@ You can see that in the 2nd step, we are not getting content back with a 304, bu
 
 <a name="dry"></a>
 
-### Staying DRY Using Filters and Interceptors
+## Staying DRY Using Filters and Interceptors
 
 If you've been following along up to this point, you will have noticed that there is a lot of boilerplate that goes into producing the functionality for handling HTTP caching. With more resource methods, we will need to repeat similar code over and over. With Jersey (and JAX-RS), when we are faced with this, it is often an opportunity to handle this repetition inside of a filter or interceptor. If you are unfamiliar with these, I suggest taking some time to review [Filters and Interceptors][10] from the Jersey user guide.
 

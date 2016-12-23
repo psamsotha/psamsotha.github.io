@@ -13,16 +13,17 @@ In this article, I will discuss how dynamic proxies work in the Java platform an
 
 First, I will go through a quick discussion about the Proxy Pattern, then show how to use dynamic proxies with the Java language, then finally go through an example using dynamic proxies and custom dependency injection.
 
-#### Sections:
+### Table of Contents:
 
-* **[Proxy Pattern](#proxyPattern)**
-* **[Java Dynamic Proxies](#dynamicProxies)**
-* **[Dynamic Proxy and Custom Injection Example](#example)**
+* [Proxy Pattern](#proxyPattern)
+* [Java Dynamic Proxies](#dynamicProxies)
+* [Dynamic Proxy and Custom Injection Example](#example)
+* [Summary](#summary)
 
 
 <a name="proxyPattern"></a>
 
-### Proxy Pattern
+## Proxy Pattern
 
 I won't get into too much detail about the proxy pattern. There is good reading all over the internet. I will just give a brief analogy, along with some brief code example of the pattern.
 
@@ -73,7 +74,7 @@ This might not be the greatest example, as the proxy does nothing but call the v
 
 <a name="dynamicProxies"></a>
 
-### Dynamic Proxies
+## Dynamic Proxies
 
 With the example above, we had to manually write the proxy class. In Java though, this is not required, with the introduction of dynamic proxies in 1.3. The core interface to dynamic proxies is [`java.lang.reflect.Proxy`][3]. To use it, we require to components, our interface to proxy, and an [`InvocationHandler`][4]. Let's look at a quick example, using the same above analogy.
 
@@ -121,7 +122,7 @@ And that's it. As you can see, dynamic proxies are fairly simple to implements.
 
 <a name="example"></a>
 
-### Dynamic Proxy and Custom Injection Example
+## Dynamic Proxy and Custom Injection Example
 
 * Get the [GitHub project][10]
 
@@ -316,7 +317,9 @@ The first thing that you should notice is that the service class is indeed the `
 
 And that's it.
 
-### Summary
+<a name="summary"></a>
+
+## Summary
 
 We covered some basics on the Proxy Pattern, and saw how it uses a wrapper or delegation model to make calls to an underlying object. Then we covered dynamic proxies, and how it is implemented in the Java language. The finally we went through an example of how dynamic proxies work with scoped dependency injection. If an object in a lesser scope needs to be injected in to an object in a wider scope, the lesser scope object needs to be proxied, so that different thread have access to their own lesser scoped object instance. 
 

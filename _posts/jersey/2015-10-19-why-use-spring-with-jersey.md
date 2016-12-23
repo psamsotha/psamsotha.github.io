@@ -10,10 +10,10 @@ tags: spring jersey
 
 I've seen a few question on Stack Overflow where people are confused about the difference between Jersey and Spring MVC, and I thought it would be a good opportunity to try and demystify some of the confusion. In this article I will first go through some analysis on why we should (or shouldn't) mix the two frameworks, then I will get into some example implementation.
 
-#### Sections:
+### Table of Contents:
 
-* **[WHY?](#why)**
-* **[Implementation](#impl)**
+* [WHY?](#why)
+* [Implementation](#impl)
 	* [Maven Dependencies](#mavenDeps)
 	* [Basic Configuration](#config)
 	* [Component Implementation](#compImpl)
@@ -21,7 +21,7 @@ I've seen a few question on Stack Overflow where people are confused about the d
 
 <a name="why"></a>
 
-### WHY?
+## WHY?
 
 So why use Spring with Jersey? First notice the careful naming of the title. It's not "Using Jersey with Spring". That title would imply a Spring application integrating Jersey, while the current title implies integrating Spring into a Jersey application. It's a subtle difference as far as the title is concerned, but a difference that should be acknowledged for this discussion. An article on "integrating Jersey into Spring" might be more aimed at Spring users that would like to learn Jersey, and may give some tutorial on beginning Jersey stuff. This article is not that. This article assumes you know Jersey, and are thinking about integrating Spring into your Jersey application.
 
@@ -131,7 +131,7 @@ So I hope that gives you an idea of why you should consider integrating. If not 
 
 <a name="impl"></a>
 
-### Implementation
+## Implementation
 
 So let's get into some implementation. You can find the complete project as [Github][8].
 
@@ -165,7 +165,7 @@ What I will cover will be as follows
 
 <a name="mavenDeps"></a>
 
-#### Maven Dependencies
+### Maven Dependencies
 
 So we are creating a new Maven web project. The following dependencies are ones we going to use. Note that there are exclusions in the `jersey-spring3` dependency. We want to replace the Spring 3 dependencies with Spring 4, and also exclude some conflicting bean validation transitive dependencies. The exclusion are  not shown in the following list. Please the pom in the Github project
 
@@ -223,7 +223,7 @@ For Spring Data JPA, we added the `spring-data-jpa` dependency. This will pull i
 
 <a name="config"></a>
 
-#### Basic Configuration
+### Basic Configuration
 
 Here we will cover both Jersey and Spring. The way we will implement this application is web.xml-less. For Jersey, this will be made possible with the `jersey-container-servlet` dependency. Note that for this to work, the application must be run an Servlet 3.x container. For example Tomcat 7, will work, but Tomcat 6 will not work as it is a Servlet 2.5 container. We will simply be running with the Jetty Maven plugin, which will be a Servlet 3.1 container.
 
@@ -321,7 +321,7 @@ The important thing to note about this components is the `@Order(1)`. We want to
 
 <a name="compImpl"></a>
 
-#### Component Implementation
+### Component Implementation
 
 The JPA entity we will use a simple `Customer` class with an `id`, `firstName`, and `lastName`
 
@@ -423,7 +423,7 @@ In the other resource method, we implement a `POST` to create a customer resourc
 
 <a name="runTest"></a>
 
-### Running and Testing with cURL
+## Running and Testing with cURL
 
 In testing our application will will use cURL. For a real application, you will probably also want to include automated JUnit tests, but I consider myself to be a pretty thorough tester, so for me to implement the JUnit tests in this example application would pretty much double the work. And this article is not really about testing. In future articles I may cover testing with Jersey.
 

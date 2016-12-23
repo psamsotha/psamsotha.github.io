@@ -15,27 +15,31 @@ Jersey is the reference implementation for the [JAX-RS specification](https://ja
 
 What I will do here is try and break down the basic requirements to get a Jersey 2.x (I will work with the latest version - as of this writing - 2.16) app up and running, and explain some basics of a Jersey app, as well as get into some tools I use when working with Jersey.
 
-### Requirements (mostly optional)
+### Table of Contents
+
+* [Requirements](#requiremens)
+* [Getting Started](#gettingStarted)
+    * [With Netbeans](#netbeans)
+    * [With Eclipse](#eclipse)
+    * [From Command Line](#commandLine)
+* [Explaining Source Code and Configuration](#sourceCode)
+    * [Jersey Configuration](#jerseyConfig)
+    * [Running the Application](#runApp)
+* [Adding Additional Features](#addFeatures)
+    * [Adding JSON Support](#jsonSupport) 
+
+<a name="requirements"></a>
+
+## Requirements (mostly optional)
 
 * **Maven** - I know some are already turned off by this, as some don't know Maven. So I'll leave this requirement as optional. I will have an image showing all the jars that are pulled in by Maven, so those that don't know Maven, can go searching for the jars. It's not a fun task, that's why I suggest learning Maven, if you don't already know it.
 * **[cURL](http://curl.haxx.se/)** - cURL is a command line tool that I use all the time, while developing Jersey applications. It allows you to make HTTP requests from the command line, as well as work with other protocols, other than just HTTP. See the link for download and installation instructions, as well as some user guides. I will do my best to explain the commands I use here.
 * **Netbeans or Eclipse** - Again these are optional, but I will go through steps on how to easily get started with a Jersey app, using these IDEs, so it would help.
 
-### What I'm Going to Cover
-
-* **[Getting Started](#gettingStarted)**
-    * [With Netbeans](#netbeans)
-    * [With Eclipse](#eclipse)
-    * [From Command Line](#commandLine)
-* **[Explaining Source Code and Configuration](#sourceCode)**
-    * [Jersey Configuration](#jerseyConfig)
-    * [Running the Application](#runApp)
-* **[Adding Additional Features](#addFeatures)**
-    * [Adding JSON Support](#jsonSupport) 
 
 <a name="gettingStarted"></a>
 
-### Getting Started
+## Getting Started
 
 * [Netbeans](#netbeans)
 * [Eclipse](#eclipse)
@@ -47,7 +51,7 @@ If you don't want to use Maven at all, then you can still see images (below) of 
 
 <a name="netbeans"></a>
 
-#### With Netbeans
+### With Netbeans
 
 1. Go to `File` &rarr; `New Project` &rarr; `Select "Maven"` &rarr; `Select "Project from Archetype"` &rarr; `Next`
 
@@ -79,7 +83,7 @@ You can now jump to [Explaining Source Code and Configuration](#sourceCode)
 
 <a name="eclipse"></a>
 
-#### With Eclipse
+### With Eclipse
 
 1. Go to `File` &rarr; `New` &rarr; `Other`
 
@@ -121,7 +125,7 @@ You can now jump to [Explaining Source Code and Configuration](#sourceCode)
 
 <a name="commandLine"></a>
 
-#### From Command line
+### From Command line
 
 You need to have Maven installed on your system to be able to issue these commands. This should all be types on one line (without the `\`s)
 
@@ -140,11 +144,11 @@ You should see the archetype being created. If you look at the contents, you sho
 
 <a name="sourceCode"></a>
 
-### Explaining Source Code and Configuration
+## Explaining Source Code and Configuration
 
 <a name="jerseyConfig"></a>
 
-#### Jersey Configuration
+### Jersey Configuration
 
 * [pom.xml](#pom)
 * [web.xml](#webxml)
@@ -152,7 +156,7 @@ You should see the archetype being created. If you look at the contents, you sho
 
 <a name="pom"></a>
 
-##### pom.xml
+#### pom.xml
 Now let's look at some of the source. Lets look at the pom.xml first. You should find this in the project root. We'll go through it piece by piece
 
 ```xml
@@ -255,7 +259,7 @@ The other commented out dependency, we will back to later. Let's look at the web
 
 <a name="web.xml"></a>
 
-##### web.xml
+#### web.xml
 
 The web.xml file is located in the `WEB-INF` folder.
 
@@ -288,7 +292,7 @@ Another part of the web.xml configuration is the `<init-param>` `jersey.config.s
 
 <a name="resource"></a>
 
-##### Resource class
+#### Resource class
 
 Now let's get into the last bit of source code to discuss, the resource class.
 
@@ -329,7 +333,7 @@ Now let's run the application to test it out.
 
 <a name="runApp"></a>
 
-#### Running the Application
+### Running the Application
 
 When developing Jersey applications, as discussed earlier, I tend to use the Jetty Maven plugin. We can run our web app from the command line, simply by using the command
 
@@ -339,7 +343,7 @@ mvn jetty:run
 
 Personally, even though developing in the IDE, I tend to run the app/plugin through the command line. But I'll first go through how you can do this in the IDE. First I'll start with Netbeans (or skip to [Eclipse](#runEclipse) or [Command Line](#runCL)).
 
-##### Netbeans
+#### Netbeans
 
 From Netbeans, you can Right click on the project to open the context menu, then go to [`Custom`] &rarr; [`Goals`].
 
@@ -360,7 +364,7 @@ That means our application has launched, and we are ready to access the URL. You
 
 <a name="runEclipse"></a>
 
-##### Eclipse
+#### Eclipse
 
 From Eclipse, right click on the project, in the context menu go to [`Run As`] &rarr; [`Maven Build`]
 
@@ -374,7 +378,7 @@ Now you are ready to access the URL. You can proceed to [Testing](#testing)
 
 <a name="runCL"></a>
 
-##### Command Line
+#### Command Line
 
 For the command line, simply `cd` to the directory of the project, then run `mvn jetty:run` command, you should see the build start and when the server starts, you should see something similar to 
 
@@ -384,7 +388,7 @@ For the command line, simply `cd` to the directory of the project, then run `mvn
 
 We can now [Test](#test)
 
-#### Testing
+### Testing
 
 At this point, the application should be up and running. And if you remembered from the earlier, the URL we should use to access our resource is
 
@@ -406,11 +410,11 @@ And you should see something similar to
 
 <a name="addFeatures"></a>
 
-### Adding Additional Features
+## Adding Additional Features
 
 <a name="jsonSupport"></a>
 
-#### Adding JSON Support
+### Adding JSON Support
 
 If you've ever working with a JSON/POJO framework/library like Jackson, you know that JSON/POJO mapping is pretty common practice. For example say we have this JSON
 
