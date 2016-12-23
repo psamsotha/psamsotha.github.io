@@ -124,15 +124,17 @@
   <article class="post-content">
     <p>Often in a Jersey application, you need configuration properties that need to be applied dynamically. In this article I will describe some native capabilities in Jersey, how we can extend that native capability into make injectable properties, and finally I will explain how to use a small module I created for working with properties.</p>
 
+<h3 id="table-of-contents">Table of Contents</h3>
+
 <ul>
-  <li><strong><a href="#native">Native Capabilities</a></strong></li>
-  <li><strong><a href="#customInject">Custom Injection of Properties</a></strong></li>
-  <li><strong><a href="#jerseyProps"><code class="highlighter-rouge">jersey-properties</code> Module</a></strong></li>
+  <li><a href="#native">Native Capabilities</a></li>
+  <li><a href="#customInject">Custom Injection of Properties</a></li>
+  <li><a href="#jerseyProps"><code class="highlighter-rouge">jersey-properties</code> Module</a></li>
 </ul>
 
 <p><a name="native"></a></p>
 
-<h3 id="native-capabilities">Native Capabilities</h3>
+<h2 id="native-capabilities">Native Capabilities</h2>
 
 <p>JAX-RS contains a class <a href="http://docs.oracle.com/javaee/7/api/javax/ws/rs/core/Configuration.html"><code class="highlighter-rouge">javax.ws.rs.core.Configuration</code></a> from which we can obtain arbitrary properties from, that can be compiled from different locations. With Jersey, these properties can come from either servlet init-params or from explicitly set properties from a <code class="highlighter-rouge">ResourceConfig</code> or <code class="highlighter-rouge">Application</code> subclass. In a <code class="highlighter-rouge">ResourceConfig</code>, we could just call the <code class="highlighter-rouge">property(key, value)</code> method. For example</p>
 
@@ -179,7 +181,7 @@
 
 <p><a name="customInject"></a></p>
 
-<h3 id="custom-injection-of-properties">Custom Injection of Properties</h3>
+<h2 id="custom-injection-of-properties">Custom Injection of Properties</h2>
 
 <p>What if we want to avoid having to repetitively get the property from the <code class="highlighter-rouge">Configuration</code> object? Say we want to just inject the property value, maybe with a custom annotation. That is possible with the use of an (HK2) <a href="https://hk2.java.net/apidocs/org/glassfish/hk2/api/InjectionResolver.html"><code class="highlighter-rouge">InjectionResolver</code></a>. For example you can do something like</p>
 
@@ -246,7 +248,7 @@
 
 <p><a name="jerseyProps"></a></p>
 
-<h3 id="jersey-properties-module"><code class="highlighter-rouge">jersey-properties</code> Module</h3>
+<h2 id="jersey-properties-module"><em>jersey-properties</em> Module</h2>
 
 <p>I created a small module that helps with working with configuration properties. You can find the project <a href="https://github.com/psamsotha/jersey-properties">at GitHub</a>, where there you can read more about about it. To use it you need to add this Maven artifact</p>
 
@@ -374,6 +376,64 @@
     </div>
   </div> 
 </div>
+
+    <!--
+  check for posts in category that are not this post.
+  If there are no posts, we should not include the Related Articles
+-->
+
+
+
+  
+
+  
+    
+    
+
+
+<div class="related-articles">
+  <h2>Related Articles</h2>
+  <div class="related-articles-group row expanded" data-equalizer>
+    
+    
+      
+      
+    
+      
+        <!-- Little hack. Liquid doesn't seem to support counting using assign -->
+        <!-- https://github.com/jekyll/jekyll/issues/2141 -->
+        <!-- https://github.com/Shopify/liquid/issues/316 -->
+        
+        <a class="related-article post-details small-12 medium-6 columns clickable"
+           href="/jersey/2015/12/16/request-scope-into-singleton-scope.html" data-equalizer-watch>   
+          <h2 class="post-title">                
+            Request Scoped Injection into a Singleton with Jersey
+          </h2>
+          <p class="post-date">December 16, 2015</p>
+          <p class="post-description">How we can inject request scoped objects into singletons when using Jersey 2 and its DI framework HK2.</p> 
+        </a>
+      
+      
+    
+      
+        <!-- Little hack. Liquid doesn't seem to support counting using assign -->
+        <!-- https://github.com/jekyll/jekyll/issues/2141 -->
+        <!-- https://github.com/Shopify/liquid/issues/316 -->
+        
+        <a class="related-article post-details small-12 medium-6 columns clickable"
+           href="/jersey/2015/12/16/dynamic-proxies-dependency-injection.html" data-equalizer-watch>   
+          <h2 class="post-title">                
+            Dynamic Proxies and Dependency Injection
+          </h2>
+          <p class="post-date">December 16, 2015</p>
+          <p class="post-description">How dynamic proxies work in Java and how they can be used with dependency injection.</p> 
+        </a>
+      
+      
+        
+  </div>
+</div>
+
 
     <div class="disqus-comments">
       

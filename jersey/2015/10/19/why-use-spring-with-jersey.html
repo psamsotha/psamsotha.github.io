@@ -124,11 +124,11 @@
   <article class="post-content">
     <p>I’ve seen a few question on Stack Overflow where people are confused about the difference between Jersey and Spring MVC, and I thought it would be a good opportunity to try and demystify some of the confusion. In this article I will first go through some analysis on why we should (or shouldn’t) mix the two frameworks, then I will get into some example implementation.</p>
 
-<h4 id="sections">Sections:</h4>
+<h3 id="table-of-contents">Table of Contents:</h3>
 
 <ul>
-  <li><strong><a href="#why">WHY?</a></strong></li>
-  <li><strong><a href="#impl">Implementation</a></strong>
+  <li><a href="#why">WHY?</a></li>
+  <li><a href="#impl">Implementation</a>
     <ul>
       <li><a href="#mavenDeps">Maven Dependencies</a></li>
       <li><a href="#config">Basic Configuration</a></li>
@@ -140,7 +140,7 @@
 
 <p><a name="why"></a></p>
 
-<h3 id="why">WHY?</h3>
+<h2 id="why">WHY?</h2>
 
 <p>So why use Spring with Jersey? First notice the careful naming of the title. It’s not “Using Jersey with Spring”. That title would imply a Spring application integrating Jersey, while the current title implies integrating Spring into a Jersey application. It’s a subtle difference as far as the title is concerned, but a difference that should be acknowledged for this discussion. An article on “integrating Jersey into Spring” might be more aimed at Spring users that would like to learn Jersey, and may give some tutorial on beginning Jersey stuff. This article is not that. This article assumes you know Jersey, and are thinking about integrating Spring into your Jersey application.</p>
 
@@ -245,7 +245,7 @@
 
 <p><a name="impl"></a></p>
 
-<h3 id="implementation">Implementation</h3>
+<h2 id="implementation">Implementation</h2>
 
 <p>So let’s get into some implementation. You can find the complete project as <a href="https://github.com/psamsotha/jersey-spring-example">Github</a>.</p>
 
@@ -279,7 +279,7 @@
 
 <p><a name="mavenDeps"></a></p>
 
-<h4 id="maven-dependencies">Maven Dependencies</h4>
+<h3 id="maven-dependencies">Maven Dependencies</h3>
 
 <p>So we are creating a new Maven web project. The following dependencies are ones we going to use. Note that there are exclusions in the <code class="highlighter-rouge">jersey-spring3</code> dependency. We want to replace the Spring 3 dependencies with Spring 4, and also exclude some conflicting bean validation transitive dependencies. The exclusion are  not shown in the following list. Please the pom in the Github project</p>
 
@@ -337,7 +337,7 @@
 
 <p><a name="config"></a></p>
 
-<h4 id="basic-configuration">Basic Configuration</h4>
+<h3 id="basic-configuration">Basic Configuration</h3>
 
 <p>Here we will cover both Jersey and Spring. The way we will implement this application is web.xml-less. For Jersey, this will be made possible with the <code class="highlighter-rouge">jersey-container-servlet</code> dependency. Note that for this to work, the application must be run an Servlet 3.x container. For example Tomcat 7, will work, but Tomcat 6 will not work as it is a Servlet 2.5 container. We will simply be running with the Jetty Maven plugin, which will be a Servlet 3.1 container.</p>
 
@@ -432,7 +432,7 @@
 
 <p><a name="compImpl"></a></p>
 
-<h4 id="component-implementation">Component Implementation</h4>
+<h3 id="component-implementation">Component Implementation</h3>
 
 <p>The JPA entity we will use a simple <code class="highlighter-rouge">Customer</code> class with an <code class="highlighter-rouge">id</code>, <code class="highlighter-rouge">firstName</code>, and <code class="highlighter-rouge">lastName</code></p>
 
@@ -534,7 +534,7 @@
 
 <p><a name="runTest"></a></p>
 
-<h3 id="running-and-testing-with-curl">Running and Testing with cURL</h3>
+<h2 id="running-and-testing-with-curl">Running and Testing with cURL</h2>
 
 <p>In testing our application will will use cURL. For a real application, you will probably also want to include automated JUnit tests, but I consider myself to be a pretty thorough tester, so for me to implement the JUnit tests in this example application would pretty much double the work. And this article is not really about testing. In future articles I may cover testing with Jersey.</p>
 
@@ -707,6 +707,59 @@ Content-Length: 0
     </div>
   </div> 
 </div>
+
+    <!--
+  check for posts in category that are not this post.
+  If there are no posts, we should not include the Related Articles
+-->
+
+
+
+  
+    
+    
+
+
+<div class="related-articles">
+  <h2>Related Articles</h2>
+  <div class="related-articles-group row expanded" data-equalizer>
+    
+    
+      
+        <!-- Little hack. Liquid doesn't seem to support counting using assign -->
+        <!-- https://github.com/jekyll/jekyll/issues/2141 -->
+        <!-- https://github.com/Shopify/liquid/issues/316 -->
+        
+        <a class="related-article post-details small-12 medium-6 columns clickable"
+           href="/jersey/2015/12/27/jersey-configuration-properties.html" data-equalizer-watch>   
+          <h2 class="post-title">                
+            Working with Jersey Configuration Properties
+          </h2>
+          <p class="post-date">December 27, 2015</p>
+          <p class="post-description">A few different ways of how we can use configuration properties in a Jersey application.</p> 
+        </a>
+      
+      
+    
+      
+        <!-- Little hack. Liquid doesn't seem to support counting using assign -->
+        <!-- https://github.com/jekyll/jekyll/issues/2141 -->
+        <!-- https://github.com/Shopify/liquid/issues/316 -->
+        
+        <a class="related-article post-details small-12 medium-6 columns clickable"
+           href="/jersey/2015/12/16/request-scope-into-singleton-scope.html" data-equalizer-watch>   
+          <h2 class="post-title">                
+            Request Scoped Injection into a Singleton with Jersey
+          </h2>
+          <p class="post-date">December 16, 2015</p>
+          <p class="post-description">How we can inject request scoped objects into singletons when using Jersey 2 and its DI framework HK2.</p> 
+        </a>
+      
+      
+        
+  </div>
+</div>
+
 
     <div class="disqus-comments">
       

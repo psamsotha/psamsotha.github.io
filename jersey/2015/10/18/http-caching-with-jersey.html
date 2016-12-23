@@ -124,30 +124,16 @@
   <article class="post-content">
     <p>In this article I will be talking about caching in the context of the HTTP specs and REST (which is heavily linked with HTTP semantics). First I will cover the specifics covered in HTTP 1.0, then the changes made in HTTP 1.1, then conclude with how we can clean up some of the examples from the previous sections.</p>
 
-<p>Tools you will need to follow along.</p>
+<h3 id="table-of-contents">Table of Contents</h3>
 
 <ul>
-  <li><a href="http://curl.haxx.se/">cURL</a> - A command line tool that I use as a REST client. You may use a different client, but any other tools usages will be outside the scope of this article.</li>
-  <li><a href="https://maven.apache.org/">Maven</a> - To build and run the app with the <a href="http://www.eclipse.org/jetty/documentation/current/jetty-maven-plugin.html">jetty-maven-plugin</a></li>
-</ul>
-
-<p>You download or clone the app from Github</p>
-
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code>git clone https://github.com/psamsotha/jersey-cache-example.git
-</code></pre>
-</div>
-
-<p>Or download it from the <a href="https://github.com/psamsotha/jersey-cache-example">Github project site</a></p>
-
-<h4 id="sections">Sections</h4>
-
-<ul>
-  <li><strong><a href="#http10">Caching in HTTP 1.0</a></strong>
+  <li><a href="#requirements">Requirements</a></li>
+  <li><a href="#http10">Caching in HTTP 1.0</a>
     <ul>
       <li><a href="#http10example">Expires Example</a></li>
     </ul>
   </li>
-  <li><strong><a href="#http11">Caching in HTTP 1.0</a></strong>
+  <li><a href="#http11">Caching in HTTP 1.0</a>
     <ul>
       <li><a href="#temporal">Temporal Semantics</a>
         <ul>
@@ -170,12 +156,31 @@
       </li>
     </ul>
   </li>
-  <li><strong><a href="#dry">Keeping it DRY (don’t repeat yourself)</a></strong></li>
+  <li><a href="#dry">Keeping it DRY (don’t repeat yourself)</a></li>
 </ul>
+
+<p><a name="requirements"></a></p>
+
+<h2 id="requirements">Requirements</h2>
+
+<p>Tools you will need to follow along.</p>
+
+<ul>
+  <li><a href="http://curl.haxx.se/">cURL</a> - A command line tool that I use as a REST client. You may use a different client, but any other tools usages will be outside the scope of this article.</li>
+  <li><a href="https://maven.apache.org/">Maven</a> - To build and run the app with the <a href="http://www.eclipse.org/jetty/documentation/current/jetty-maven-plugin.html">jetty-maven-plugin</a></li>
+</ul>
+
+<p>You download or clone the app from Github</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>git clone https://github.com/psamsotha/jersey-cache-example.git
+</code></pre>
+</div>
+
+<p>Or download it from the <a href="https://github.com/psamsotha/jersey-cache-example">Github project site</a></p>
 
 <p><a name="http10"></a></p>
 
-<h3 id="caching-in-http-10">Caching in HTTP 1.0</h3>
+<h2 id="caching-in-http-10">Caching in HTTP 1.0</h2>
 
 <p>In HTTP 1.0 the server sends an <code class="highlighter-rouge">Expires: &lt;expiration-data&gt;</code> header with the response. So a response might look something like</p>
 
@@ -193,7 +198,7 @@ Expires: Sun, 18 Oct 2015, 10:15:25 GMT
 
 <p><a name="http10example"></a></p>
 
-<h5 id="expires-example">Expires example</h5>
+<h3 id="expires-example">Expires example</h3>
 
 <p>In JAX-RS, we would simply to something like</p>
 
@@ -230,7 +235,7 @@ Some Data
 
 <p><a name="http11"></a></p>
 
-<h3 id="caching-in-http-11">Caching in HTTP 1.1</h3>
+<h2 id="caching-in-http-11">Caching in HTTP 1.1</h2>
 
 <p>Then came HTTP 1.1, which not only create new temporal semantics, but also added revalidation semantics to caching. Take for example the caching the <code class="highlighter-rouge">Expires</code> example above. Say the expiration time is 10 seconds. A request made after that ten seconds will <em>always</em> get back new data from the server. With revalidation the server sends a <em>condition</em> request, saying <em>“if the data has not been modified since [date]”</em> and/or <em>“if data still matches the data in my cache”</em>, don’t send back the data. This helps in bandwidth usage, as the data is not always sent back, as would be the case with the old Expires semantics. Here’s a flow chart of basics of the process</p>
 
@@ -238,7 +243,7 @@ Some Data
 
 <p><a name="temporal"></a></p>
 
-<h4 id="temporal-caching">Temporal caching</h4>
+<h3 id="temporal-caching">Temporal caching</h3>
 
 <p>When I say “temporal”, I am talking about time. As discussed, the old spec used the <code class="highlighter-rouge">Expires</code> header to set the expiration date on the data. The problem with this is that it is an absolute time that is dependent on system clock being set correctly. To fix this problem, the <code class="highlighter-rouge">Cache-Control</code> header was introduced. Instead of an absolute date, it uses a relative time in the form of <code class="highlighter-rouge">max-age</code>. For example a response might look like</p>
 
@@ -257,7 +262,7 @@ Some Data
 
 <p><a name="temporalExmple"></a></p>
 
-<h5 id="cache-control-example">Cache-Control Example</h5>
+<h4 id="cache-control-example">Cache-Control Example</h4>
 
 <p>Here’s how we could code it in JAX-RS</p>
 
@@ -304,13 +309,13 @@ mvn jetty:run
 
 <p><a name="revalidation"></a></p>
 
-<h4 id="revalidation-caching">Revalidation caching</h4>
+<h3 id="revalidation-caching">Revalidation caching</h3>
 
 <p>As previously mentioned, HTTP 1.1 also added the concept of revalidation. If there is a <code class="highlighter-rouge">Cache-Control</code> header, then after the time expires, the supporting client should revalidate the date and check to see if it has not changed.</p>
 
 <p><a name="temporalRevalidation"></a></p>
 
-<h5 id="temporal-revalidation">Temporal Revalidation</h5>
+<h4 id="temporal-revalidation">Temporal Revalidation</h4>
 
 <p>There are two client request headers that could be involved in the revalidation process. The first is the <code class="highlighter-rouge">If-Modified-Since: [date]</code> header. How it works is that the server should send a <code class="highlighter-rouge">Last-Modified: [date]</code> response header along with the data. The server should have some way to maintaining this “last modified” date, for example a database field, that changes whenever the data is modified.</p>
 
@@ -318,7 +323,7 @@ mvn jetty:run
 
 <p><a name="temporalRevalidationExample"></a></p>
 
-<h6 id="temporal-revalidation-example">Temporal Revalidation Example</h6>
+<h5 id="temporal-revalidation-example">Temporal Revalidation Example</h5>
 
 <p>Let go through an example of using the <code class="highlighter-rouge">If-Modified-Since</code> and <code class="highlighter-rouge">Last-Modified</code> example. The code can be found in the <code class="highlighter-rouge">LastModifiedResource</code> in the Github project.</p>
 
@@ -424,13 +429,13 @@ new data
 
 <p><a name="etagRevalidation"></a></p>
 
-<h5 id="etag-revalidation">Etag Revalidation</h5>
+<h4 id="etag-revalidation">Etag Revalidation</h4>
 
 <p>The second form of validation is validating the content has not changed. To do that the server should send something to the client the represents the current state of the content being sent in the request. This is handled with the <code class="highlighter-rouge">Etag</code> header. In most cases, this will be a hash of the data. The server sends the <code class="highlighter-rouge">Etag: &lt;hash&gt;</code> header with the response. When the client makes a request for the same resource, it should send a <code class="highlighter-rouge">If-None-Match: &lt;hash&gt;</code> to the server. If the value does not match that of the server’s, then the resource has been changed since the client last received it, and the server should send the new data with the new <code class="highlighter-rouge">Etag</code>. Otherwise if the data is the same, the server should send a <code class="highlighter-rouge">304 Not Modified</code>.</p>
 
 <p><a name="etagRevalidationExample"></a></p>
 
-<h6 id="etag-revalidation-example">Etag Revalidation Example</h6>
+<h5 id="etag-revalidation-example">Etag Revalidation Example</h5>
 
 <p>Below is an example implementation. It is very similar to the one above, except we are not checking the time the resource was last modified, but <em>if</em> is was actually modified</p>
 
@@ -541,7 +546,7 @@ new data
 
 <p><a name="dry"></a></p>
 
-<h3 id="staying-dry-using-filters-and-interceptors">Staying DRY Using Filters and Interceptors</h3>
+<h2 id="staying-dry-using-filters-and-interceptors">Staying DRY Using Filters and Interceptors</h2>
 
 <p>If you’ve been following along up to this point, you will have noticed that there is a lot of boilerplate that goes into producing the functionality for handling HTTP caching. With more resource methods, we will need to repeat similar code over and over. With Jersey (and JAX-RS), when we are faced with this, it is often an opportunity to handle this repetition inside of a filter or interceptor. If you are unfamiliar with these, I suggest taking some time to review <a href="https://jersey.java.net/documentation/latest/filters-and-interceptors.html">Filters and Interceptors</a> from the Jersey user guide.</p>
 
@@ -664,6 +669,59 @@ new data
     </div>
   </div> 
 </div>
+
+    <!--
+  check for posts in category that are not this post.
+  If there are no posts, we should not include the Related Articles
+-->
+
+
+
+  
+    
+    
+
+
+<div class="related-articles">
+  <h2>Related Articles</h2>
+  <div class="related-articles-group row expanded" data-equalizer>
+    
+    
+      
+        <!-- Little hack. Liquid doesn't seem to support counting using assign -->
+        <!-- https://github.com/jekyll/jekyll/issues/2141 -->
+        <!-- https://github.com/Shopify/liquid/issues/316 -->
+        
+        <a class="related-article post-details small-12 medium-6 columns clickable"
+           href="/jersey/2015/12/27/jersey-configuration-properties.html" data-equalizer-watch>   
+          <h2 class="post-title">                
+            Working with Jersey Configuration Properties
+          </h2>
+          <p class="post-date">December 27, 2015</p>
+          <p class="post-description">A few different ways of how we can use configuration properties in a Jersey application.</p> 
+        </a>
+      
+      
+    
+      
+        <!-- Little hack. Liquid doesn't seem to support counting using assign -->
+        <!-- https://github.com/jekyll/jekyll/issues/2141 -->
+        <!-- https://github.com/Shopify/liquid/issues/316 -->
+        
+        <a class="related-article post-details small-12 medium-6 columns clickable"
+           href="/jersey/2015/12/16/request-scope-into-singleton-scope.html" data-equalizer-watch>   
+          <h2 class="post-title">                
+            Request Scoped Injection into a Singleton with Jersey
+          </h2>
+          <p class="post-date">December 16, 2015</p>
+          <p class="post-description">How we can inject request scoped objects into singletons when using Jersey 2 and its DI framework HK2.</p> 
+        </a>
+      
+      
+        
+  </div>
+</div>
+
 
     <div class="disqus-comments">
       

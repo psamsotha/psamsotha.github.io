@@ -122,10 +122,23 @@
   </div>
 
   <article class="post-content">
-    <h3 id="table-of-contents">Table of Contents</h3>
+    <p>Unit testing is a critical part of any piece of software. Writing tests give us confidence that our individual software components act reliably in accordance to specification. An Angular 2 application is no different. We should write unit tests for our components, services, pipes, directives, etc.</p>
+
+<p>The <a href="https://angular.io/docs/ts/latest/guide/testing.html">Angular 2 documentation</a> may be the best source out there for examples (and explanation) of how to write tests for Angular 2 code. There are many examples for many use cases. The one thing that the documentation lacks is an explanation of the configuration of the tests. It only links to a <a href="https://github.com/angular/quickstart">quickstart</a> project, and briefly explains what some of the files are used for. This is great to get started, but if you’re like me, you are curious and want to know how things work.</p>
+
+<p>In this article I will walk through the basics of working with the different technologies used to run the Angular tests (from the linked quickstart), and then go through how they all fit together. There are many different ways we can configure testing with different technologies. The aim of this article is to simply try to demystify the configuration in the Angular 2 Quickstart, by explaining the project’s configuration, step by step.</p>
+
+<p>This is a hands on guide, and to get the most out of it, you should follow along and write the code and understand it, as I explain it. After reading this article, you should be able to create an Angular project from scratch, using SystemJS as the module loader, and Karma as the test runner for your Angular 2 tests.</p>
+
+<p>I will begin by walking through the basics of Karma, then go through the basics of SystemJS. Afterwards, we will add Angular to the project and then configure the test infrastructure to be able to use Angular in the tests. To follow along, you will need to have <a href="https://nodejs.org/en/">Node</a> installed and have a text editor ready.</p>
+
+<blockquote>
+  <p><strong>NOTE:</strong> The complete source code for this article can be found at <a href="https://github.com/psamsotha/angular2-testing"><strong>GitHub</strong></a>. This project is not meant to be a starter project of any kind. So please do not try to use it as such. Use the <a href="https://github.com/angular/quickstart">quickstart</a> instead. For the best learning experience, this project should only be used as a reference for if you get stuck at any point. It is recommended to write everything yourself.</p>
+</blockquote>
+
+<h3 id="table-of-contents">Table of Contents</h3>
 
 <ul>
-  <li><a href="#intro">Introduction</a></li>
   <li><a href="#karma">Getting Started with Karma</a>
     <ul>
       <li><a href="#jasmine">Jasmine Introduction</a></li>
@@ -158,24 +171,6 @@
   </li>
   <li><a href="#summary">Summary</a></li>
 </ul>
-
-<p><a name="intro"></a></p>
-
-<h2 id="introduction">Introduction</h2>
-
-<p>Unit testing is a critical part of any piece of software. Writing tests give us confidence that our individual software components act reliably in accordance to specification. An Angular 2 application is no different. We should write unit tests for our components, services, pipes, directives, etc.</p>
-
-<p>The <a href="https://angular.io/docs/ts/latest/guide/testing.html">Angular 2 documentation</a> may be the best source out there for examples (and explanation) of how to write tests for Angular 2 code. There are many examples for many use cases. The one thing that the documentation lacks is an explanation of the configuration of the tests. It only links to a <a href="https://github.com/angular/quickstart">quickstart</a> project, and briefly explains what some of the files are used for. This is great to get started, but if you’re like me, you are curious and want to know how things work.</p>
-
-<p>In this article I will walk through the basics of working with the different technologies used to run the Angular tests (from the linked quickstart), and then go through how they all fit together. There are many different ways we can configure testing with different technologies. The aim of this article is to simply try to demystify the configuration in the Angular 2 Quickstart, by explaining the project’s configuration, step by step.</p>
-
-<p>This is a hands on guide, and to get the most out of it, you should follow along and write the code and understand it, as I explain it. After reading this article, you should be able to create an Angular project from scratch, using SystemJS as the module loader, and Karma as the test runner for your Angular 2 tests.</p>
-
-<p>I will begin by walking through the basics of Karma, then go through the basics of SystemJS. Afterwards, we will add Angular to the project and then configure the test infrastructure to be able to use Angular in the tests. To follow along, you will need to have <a href="https://nodejs.org/en/">Node</a> installed and have a text editor ready.</p>
-
-<blockquote>
-  <p><strong>NOTE:</strong> The complete source code for this article can be found at <a href="https://github.com/psamsotha/angular2-testing"><strong>GitHub</strong></a>. This project is not meant to be a starter project of any kind. So please do not try to use it as such. Use the <a href="https://github.com/angular/quickstart">quickstart</a> instead. For the best learning experience, this project should only be used as a reference for if you get stuck at any point. It is recommended to write everything yourself.</p>
-</blockquote>
 
 <p><a name="karma"></a></p>
 
@@ -1362,6 +1357,18 @@ http://localhost:3000/rxjs/BehaviorSubject(…)
     </div>
   </div> 
 </div>
+
+    <!--
+  check for posts in category that are not this post.
+  If there are no posts, we should not include the Related Articles
+-->
+
+
+
+  
+
+
+
 
     <div class="disqus-comments">
       

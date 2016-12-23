@@ -128,7 +128,33 @@
 
 <p>What I will do here is try and break down the basic requirements to get a Jersey 2.x (I will work with the latest version - as of this writing - 2.16) app up and running, and explain some basics of a Jersey app, as well as get into some tools I use when working with Jersey.</p>
 
-<h3 id="requirements-mostly-optional">Requirements (mostly optional)</h3>
+<h3 id="table-of-contents">Table of Contents</h3>
+
+<ul>
+  <li><a href="#requiremens">Requirements</a></li>
+  <li><a href="#gettingStarted">Getting Started</a>
+    <ul>
+      <li><a href="#netbeans">With Netbeans</a></li>
+      <li><a href="#eclipse">With Eclipse</a></li>
+      <li><a href="#commandLine">From Command Line</a></li>
+    </ul>
+  </li>
+  <li><a href="#sourceCode">Explaining Source Code and Configuration</a>
+    <ul>
+      <li><a href="#jerseyConfig">Jersey Configuration</a></li>
+      <li><a href="#runApp">Running the Application</a></li>
+    </ul>
+  </li>
+  <li><a href="#addFeatures">Adding Additional Features</a>
+    <ul>
+      <li><a href="#jsonSupport">Adding JSON Support</a></li>
+    </ul>
+  </li>
+</ul>
+
+<p><a name="requirements"></a></p>
+
+<h2 id="requirements-mostly-optional">Requirements (mostly optional)</h2>
 
 <ul>
   <li><strong>Maven</strong> - I know some are already turned off by this, as some don’t know Maven. So I’ll leave this requirement as optional. I will have an image showing all the jars that are pulled in by Maven, so those that don’t know Maven, can go searching for the jars. It’s not a fun task, that’s why I suggest learning Maven, if you don’t already know it.</li>
@@ -136,32 +162,9 @@
   <li><strong>Netbeans or Eclipse</strong> - Again these are optional, but I will go through steps on how to easily get started with a Jersey app, using these IDEs, so it would help.</li>
 </ul>
 
-<h3 id="what-im-going-to-cover">What I’m Going to Cover</h3>
-
-<ul>
-  <li><strong><a href="#gettingStarted">Getting Started</a></strong>
-    <ul>
-      <li><a href="#netbeans">With Netbeans</a></li>
-      <li><a href="#eclipse">With Eclipse</a></li>
-      <li><a href="#commandLine">From Command Line</a></li>
-    </ul>
-  </li>
-  <li><strong><a href="#sourceCode">Explaining Source Code and Configuration</a></strong>
-    <ul>
-      <li><a href="#jerseyConfig">Jersey Configuration</a></li>
-      <li><a href="#runApp">Running the Application</a></li>
-    </ul>
-  </li>
-  <li><strong><a href="#addFeatures">Adding Additional Features</a></strong>
-    <ul>
-      <li><a href="#jsonSupport">Adding JSON Support</a></li>
-    </ul>
-  </li>
-</ul>
-
 <p><a name="gettingStarted"></a></p>
 
-<h3 id="getting-started">Getting Started</h3>
+<h2 id="getting-started">Getting Started</h2>
 
 <ul>
   <li><a href="#netbeans">Netbeans</a></li>
@@ -175,7 +178,7 @@
 
 <p><a name="netbeans"></a></p>
 
-<h4 id="with-netbeans">With Netbeans</h4>
+<h3 id="with-netbeans">With Netbeans</h3>
 
 <ol>
   <li>
@@ -214,7 +217,7 @@
 
 <p><a name="eclipse"></a></p>
 
-<h4 id="with-eclipse">With Eclipse</h4>
+<h3 id="with-eclipse">With Eclipse</h3>
 
 <ol>
   <li>
@@ -265,7 +268,7 @@
 
 <p><a name="commandLine"></a></p>
 
-<h4 id="from-command-line">From Command line</h4>
+<h3 id="from-command-line">From Command line</h3>
 
 <p>You need to have Maven installed on your system to be able to issue these commands. This should all be types on one line (without the <code class="highlighter-rouge">\</code>s)</p>
 
@@ -284,11 +287,11 @@
 
 <p><a name="sourceCode"></a></p>
 
-<h3 id="explaining-source-code-and-configuration">Explaining Source Code and Configuration</h3>
+<h2 id="explaining-source-code-and-configuration">Explaining Source Code and Configuration</h2>
 
 <p><a name="jerseyConfig"></a></p>
 
-<h4 id="jersey-configuration">Jersey Configuration</h4>
+<h3 id="jersey-configuration">Jersey Configuration</h3>
 
 <ul>
   <li><a href="#pom">pom.xml</a></li>
@@ -298,7 +301,7 @@
 
 <p><a name="pom"></a></p>
 
-<h5 id="pomxml">pom.xml</h5>
+<h4 id="pomxml">pom.xml</h4>
 <p>Now let’s look at some of the source. Lets look at the pom.xml first. You should find this in the project root. We’ll go through it piece by piece</p>
 
 <div class="language-xml highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;build&gt;</span>
@@ -401,7 +404,7 @@
 
 <p><a name="web.xml"></a></p>
 
-<h5 id="webxml">web.xml</h5>
+<h4 id="webxml">web.xml</h4>
 
 <p>The web.xml file is located in the <code class="highlighter-rouge">WEB-INF</code> folder.</p>
 
@@ -434,7 +437,7 @@
 
 <p><a name="resource"></a></p>
 
-<h5 id="resource-class">Resource class</h5>
+<h4 id="resource-class">Resource class</h4>
 
 <p>Now let’s get into the last bit of source code to discuss, the resource class.</p>
 
@@ -479,7 +482,7 @@
 
 <p><a name="runApp"></a></p>
 
-<h4 id="running-the-application">Running the Application</h4>
+<h3 id="running-the-application">Running the Application</h3>
 
 <p>When developing Jersey applications, as discussed earlier, I tend to use the Jetty Maven plugin. We can run our web app from the command line, simply by using the command</p>
 
@@ -489,7 +492,7 @@
 
 <p>Personally, even though developing in the IDE, I tend to run the app/plugin through the command line. But I’ll first go through how you can do this in the IDE. First I’ll start with Netbeans (or skip to <a href="#runEclipse">Eclipse</a> or <a href="#runCL">Command Line</a>).</p>
 
-<h5 id="netbeans">Netbeans</h5>
+<h4 id="netbeans">Netbeans</h4>
 
 <p>From Netbeans, you can Right click on the project to open the context menu, then go to [<code class="highlighter-rouge">Custom</code>] → [<code class="highlighter-rouge">Goals</code>].</p>
 
@@ -505,7 +508,7 @@
 
 <p><a name="runEclipse"></a></p>
 
-<h5 id="eclipse">Eclipse</h5>
+<h4 id="eclipse">Eclipse</h4>
 
 <p>From Eclipse, right click on the project, in the context menu go to [<code class="highlighter-rouge">Run As</code>] → [<code class="highlighter-rouge">Maven Build</code>]</p>
 
@@ -517,7 +520,7 @@
 
 <p><a name="runCL"></a></p>
 
-<h5 id="command-line">Command Line</h5>
+<h4 id="command-line">Command Line</h4>
 
 <p>For the command line, simply <code class="highlighter-rouge">cd</code> to the directory of the project, then run <code class="highlighter-rouge">mvn jetty:run</code> command, you should see the build start and when the server starts, you should see something similar to</p>
 
@@ -525,7 +528,7 @@
 
 <p>We can now <a href="#test">Test</a></p>
 
-<h4 id="testing">Testing</h4>
+<h3 id="testing">Testing</h3>
 
 <p>At this point, the application should be up and running. And if you remembered from the earlier, the URL we should use to access our resource is</p>
 
@@ -545,11 +548,11 @@
 
 <p><a name="addFeatures"></a></p>
 
-<h3 id="adding-additional-features">Adding Additional Features</h3>
+<h2 id="adding-additional-features">Adding Additional Features</h2>
 
 <p><a name="jsonSupport"></a></p>
 
-<h4 id="adding-json-support">Adding JSON Support</h4>
+<h3 id="adding-json-support">Adding JSON Support</h3>
 
 <p>If you’ve ever working with a JSON/POJO framework/library like Jackson, you know that JSON/POJO mapping is pretty common practice. For example say we have this JSON</p>
 
@@ -778,6 +781,59 @@
     </div>
   </div> 
 </div>
+
+    <!--
+  check for posts in category that are not this post.
+  If there are no posts, we should not include the Related Articles
+-->
+
+
+
+  
+    
+    
+
+
+<div class="related-articles">
+  <h2>Related Articles</h2>
+  <div class="related-articles-group row expanded" data-equalizer>
+    
+    
+      
+        <!-- Little hack. Liquid doesn't seem to support counting using assign -->
+        <!-- https://github.com/jekyll/jekyll/issues/2141 -->
+        <!-- https://github.com/Shopify/liquid/issues/316 -->
+        
+        <a class="related-article post-details small-12 medium-6 columns clickable"
+           href="/jersey/2015/12/27/jersey-configuration-properties.html" data-equalizer-watch>   
+          <h2 class="post-title">                
+            Working with Jersey Configuration Properties
+          </h2>
+          <p class="post-date">December 27, 2015</p>
+          <p class="post-description">A few different ways of how we can use configuration properties in a Jersey application.</p> 
+        </a>
+      
+      
+    
+      
+        <!-- Little hack. Liquid doesn't seem to support counting using assign -->
+        <!-- https://github.com/jekyll/jekyll/issues/2141 -->
+        <!-- https://github.com/Shopify/liquid/issues/316 -->
+        
+        <a class="related-article post-details small-12 medium-6 columns clickable"
+           href="/jersey/2015/12/16/request-scope-into-singleton-scope.html" data-equalizer-watch>   
+          <h2 class="post-title">                
+            Request Scoped Injection into a Singleton with Jersey
+          </h2>
+          <p class="post-date">December 16, 2015</p>
+          <p class="post-description">How we can inject request scoped objects into singletons when using Jersey 2 and its DI framework HK2.</p> 
+        </a>
+      
+      
+        
+  </div>
+</div>
+
 
     <div class="disqus-comments">
       

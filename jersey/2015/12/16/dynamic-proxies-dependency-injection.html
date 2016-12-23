@@ -126,17 +126,18 @@
 
 <p>First, I will go through a quick discussion about the Proxy Pattern, then show how to use dynamic proxies with the Java language, then finally go through an example using dynamic proxies and custom dependency injection.</p>
 
-<h4 id="sections">Sections:</h4>
+<h3 id="table-of-contents">Table of Contents:</h3>
 
 <ul>
-  <li><strong><a href="#proxyPattern">Proxy Pattern</a></strong></li>
-  <li><strong><a href="#dynamicProxies">Java Dynamic Proxies</a></strong></li>
-  <li><strong><a href="#example">Dynamic Proxy and Custom Injection Example</a></strong></li>
+  <li><a href="#proxyPattern">Proxy Pattern</a></li>
+  <li><a href="#dynamicProxies">Java Dynamic Proxies</a></li>
+  <li><a href="#example">Dynamic Proxy and Custom Injection Example</a></li>
+  <li><a href="#summary">Summary</a></li>
 </ul>
 
 <p><a name="proxyPattern"></a></p>
 
-<h3 id="proxy-pattern">Proxy Pattern</h3>
+<h2 id="proxy-pattern">Proxy Pattern</h2>
 
 <p>I won’t get into too much detail about the proxy pattern. There is good reading all over the internet. I will just give a brief analogy, along with some brief code example of the pattern.</p>
 
@@ -184,7 +185,7 @@
 
 <p><a name="dynamicProxies"></a></p>
 
-<h3 id="dynamic-proxies">Dynamic Proxies</h3>
+<h2 id="dynamic-proxies">Dynamic Proxies</h2>
 
 <p>With the example above, we had to manually write the proxy class. In Java though, this is not required, with the introduction of dynamic proxies in 1.3. The core interface to dynamic proxies is <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Proxy.html"><code class="highlighter-rouge">java.lang.reflect.Proxy</code></a>. To use it, we require to components, our interface to proxy, and an <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/InvocationHandler.html"><code class="highlighter-rouge">InvocationHandler</code></a>. Let’s look at a quick example, using the same above analogy.</p>
 
@@ -229,7 +230,7 @@
 
 <p><a name="example"></a></p>
 
-<h3 id="dynamic-proxy-and-custom-injection-example">Dynamic Proxy and Custom Injection Example</h3>
+<h2 id="dynamic-proxy-and-custom-injection-example">Dynamic Proxy and Custom Injection Example</h2>
 
 <ul>
   <li>Get the <a href="https://github.com/psamsotha/dynamic-proxies-example">GitHub project</a></li>
@@ -424,7 +425,9 @@ Message: Hello Lebron
 
 <p>And that’s it.</p>
 
-<h3 id="summary">Summary</h3>
+<p><a name="summary"></a></p>
+
+<h2 id="summary">Summary</h2>
 
 <p>We covered some basics on the Proxy Pattern, and saw how it uses a wrapper or delegation model to make calls to an underlying object. Then we covered dynamic proxies, and how it is implemented in the Java language. The finally we went through an example of how dynamic proxies work with scoped dependency injection. If an object in a lesser scope needs to be injected in to an object in a wider scope, the lesser scope object needs to be proxied, so that different thread have access to their own lesser scoped object instance.</p>
 
@@ -475,6 +478,59 @@ Message: Hello Lebron
     </div>
   </div> 
 </div>
+
+    <!--
+  check for posts in category that are not this post.
+  If there are no posts, we should not include the Related Articles
+-->
+
+
+
+  
+    
+    
+
+
+<div class="related-articles">
+  <h2>Related Articles</h2>
+  <div class="related-articles-group row expanded" data-equalizer>
+    
+    
+      
+        <!-- Little hack. Liquid doesn't seem to support counting using assign -->
+        <!-- https://github.com/jekyll/jekyll/issues/2141 -->
+        <!-- https://github.com/Shopify/liquid/issues/316 -->
+        
+        <a class="related-article post-details small-12 medium-6 columns clickable"
+           href="/jersey/2015/12/27/jersey-configuration-properties.html" data-equalizer-watch>   
+          <h2 class="post-title">                
+            Working with Jersey Configuration Properties
+          </h2>
+          <p class="post-date">December 27, 2015</p>
+          <p class="post-description">A few different ways of how we can use configuration properties in a Jersey application.</p> 
+        </a>
+      
+      
+    
+      
+        <!-- Little hack. Liquid doesn't seem to support counting using assign -->
+        <!-- https://github.com/jekyll/jekyll/issues/2141 -->
+        <!-- https://github.com/Shopify/liquid/issues/316 -->
+        
+        <a class="related-article post-details small-12 medium-6 columns clickable"
+           href="/jersey/2015/12/16/request-scope-into-singleton-scope.html" data-equalizer-watch>   
+          <h2 class="post-title">                
+            Request Scoped Injection into a Singleton with Jersey
+          </h2>
+          <p class="post-date">December 16, 2015</p>
+          <p class="post-description">How we can inject request scoped objects into singletons when using Jersey 2 and its DI framework HK2.</p> 
+        </a>
+      
+      
+        
+  </div>
+</div>
+
 
     <div class="disqus-comments">
       

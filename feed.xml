@@ -6,16 +6,29 @@
 </description>
     <link>https://psamsotha.github.io/</link>
     <atom:link href="https://psamsotha.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Wed, 21 Dec 2016 17:09:53 +0700</pubDate>
-    <lastBuildDate>Wed, 21 Dec 2016 17:09:53 +0700</lastBuildDate>
+    <pubDate>Fri, 23 Dec 2016 18:41:41 +0700</pubDate>
+    <lastBuildDate>Fri, 23 Dec 2016 18:41:41 +0700</lastBuildDate>
     <generator>Jekyll v3.3.1</generator>
     
       <item>
         <title>Angular 2 Testing with Karma and SystemJS</title>
-        <description>&lt;h3 id=&quot;table-of-contents&quot;&gt;Table of Contents&lt;/h3&gt;
+        <description>&lt;p&gt;Unit testing is a critical part of any piece of software. Writing tests give us confidence that our individual software components act reliably in accordance to specification. An Angular 2 application is no different. We should write unit tests for our components, services, pipes, directives, etc.&lt;/p&gt;
+
+&lt;p&gt;The &lt;a href=&quot;https://angular.io/docs/ts/latest/guide/testing.html&quot;&gt;Angular 2 documentation&lt;/a&gt; may be the best source out there for examples (and explanation) of how to write tests for Angular 2 code. There are many examples for many use cases. The one thing that the documentation lacks is an explanation of the configuration of the tests. It only links to a &lt;a href=&quot;https://github.com/angular/quickstart&quot;&gt;quickstart&lt;/a&gt; project, and briefly explains what some of the files are used for. This is great to get started, but if you’re like me, you are curious and want to know how things work.&lt;/p&gt;
+
+&lt;p&gt;In this article I will walk through the basics of working with the different technologies used to run the Angular tests (from the linked quickstart), and then go through how they all fit together. There are many different ways we can configure testing with different technologies. The aim of this article is to simply try to demystify the configuration in the Angular 2 Quickstart, by explaining the project’s configuration, step by step.&lt;/p&gt;
+
+&lt;p&gt;This is a hands on guide, and to get the most out of it, you should follow along and write the code and understand it, as I explain it. After reading this article, you should be able to create an Angular project from scratch, using SystemJS as the module loader, and Karma as the test runner for your Angular 2 tests.&lt;/p&gt;
+
+&lt;p&gt;I will begin by walking through the basics of Karma, then go through the basics of SystemJS. Afterwards, we will add Angular to the project and then configure the test infrastructure to be able to use Angular in the tests. To follow along, you will need to have &lt;a href=&quot;https://nodejs.org/en/&quot;&gt;Node&lt;/a&gt; installed and have a text editor ready.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; The complete source code for this article can be found at &lt;a href=&quot;https://github.com/psamsotha/angular2-testing&quot;&gt;&lt;strong&gt;GitHub&lt;/strong&gt;&lt;/a&gt;. This project is not meant to be a starter project of any kind. So please do not try to use it as such. Use the &lt;a href=&quot;https://github.com/angular/quickstart&quot;&gt;quickstart&lt;/a&gt; instead. For the best learning experience, this project should only be used as a reference for if you get stuck at any point. It is recommended to write everything yourself.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h3 id=&quot;table-of-contents&quot;&gt;Table of Contents&lt;/h3&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;#intro&quot;&gt;Introduction&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;#karma&quot;&gt;Getting Started with Karma&lt;/a&gt;
     &lt;ul&gt;
       &lt;li&gt;&lt;a href=&quot;#jasmine&quot;&gt;Jasmine Introduction&lt;/a&gt;&lt;/li&gt;
@@ -48,24 +61,6 @@
   &lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;#summary&quot;&gt;Summary&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
-
-&lt;p&gt;&lt;a name=&quot;intro&quot;&gt;&lt;/a&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;introduction&quot;&gt;Introduction&lt;/h2&gt;
-
-&lt;p&gt;Unit testing is a critical part of any piece of software. Writing tests give us confidence that our individual software components act reliably in accordance to specification. An Angular 2 application is no different. We should write unit tests for our components, services, pipes, directives, etc.&lt;/p&gt;
-
-&lt;p&gt;The &lt;a href=&quot;https://angular.io/docs/ts/latest/guide/testing.html&quot;&gt;Angular 2 documentation&lt;/a&gt; may be the best source out there for examples (and explanation) of how to write tests for Angular 2 code. There are many examples for many use cases. The one thing that the documentation lacks is an explanation of the configuration of the tests. It only links to a &lt;a href=&quot;https://github.com/angular/quickstart&quot;&gt;quickstart&lt;/a&gt; project, and briefly explains what some of the files are used for. This is great to get started, but if you’re like me, you are curious and want to know how things work.&lt;/p&gt;
-
-&lt;p&gt;In this article I will walk through the basics of working with the different technologies used to run the Angular tests (from the linked quickstart), and then go through how they all fit together. There are many different ways we can configure testing with different technologies. The aim of this article is to simply try to demystify the configuration in the Angular 2 Quickstart, by explaining the project’s configuration, step by step.&lt;/p&gt;
-
-&lt;p&gt;This is a hands on guide, and to get the most out of it, you should follow along and write the code and understand it, as I explain it. After reading this article, you should be able to create an Angular project from scratch, using SystemJS as the module loader, and Karma as the test runner for your Angular 2 tests.&lt;/p&gt;
-
-&lt;p&gt;I will begin by walking through the basics of Karma, then go through the basics of SystemJS. Afterwards, we will add Angular to the project and then configure the test infrastructure to be able to use Angular in the tests. To follow along, you will need to have &lt;a href=&quot;https://nodejs.org/en/&quot;&gt;Node&lt;/a&gt; installed and have a text editor ready.&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; The complete source code for this article can be found at &lt;a href=&quot;https://github.com/psamsotha/angular2-testing&quot;&gt;&lt;strong&gt;GitHub&lt;/strong&gt;&lt;/a&gt;. This project is not meant to be a starter project of any kind. So please do not try to use it as such. Use the &lt;a href=&quot;https://github.com/angular/quickstart&quot;&gt;quickstart&lt;/a&gt; instead. For the best learning experience, this project should only be used as a reference for if you get stuck at any point. It is recommended to write everything yourself.&lt;/p&gt;
-&lt;/blockquote&gt;
 
 &lt;p&gt;&lt;a name=&quot;karma&quot;&gt;&lt;/a&gt;&lt;/p&gt;
 
@@ -1227,15 +1222,17 @@ http://localhost:3000/rxjs/BehaviorSubject(…)
         <title>Working with Jersey Configuration Properties</title>
         <description>&lt;p&gt;Often in a Jersey application, you need configuration properties that need to be applied dynamically. In this article I will describe some native capabilities in Jersey, how we can extend that native capability into make injectable properties, and finally I will explain how to use a small module I created for working with properties.&lt;/p&gt;
 
+&lt;h3 id=&quot;table-of-contents&quot;&gt;Table of Contents&lt;/h3&gt;
+
 &lt;ul&gt;
-  &lt;li&gt;&lt;strong&gt;&lt;a href=&quot;#native&quot;&gt;Native Capabilities&lt;/a&gt;&lt;/strong&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;strong&gt;&lt;a href=&quot;#customInject&quot;&gt;Custom Injection of Properties&lt;/a&gt;&lt;/strong&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;strong&gt;&lt;a href=&quot;#jerseyProps&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;jersey-properties&lt;/code&gt; Module&lt;/a&gt;&lt;/strong&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#native&quot;&gt;Native Capabilities&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#customInject&quot;&gt;Custom Injection of Properties&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#jerseyProps&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;jersey-properties&lt;/code&gt; Module&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;p&gt;&lt;a name=&quot;native&quot;&gt;&lt;/a&gt;&lt;/p&gt;
 
-&lt;h3 id=&quot;native-capabilities&quot;&gt;Native Capabilities&lt;/h3&gt;
+&lt;h2 id=&quot;native-capabilities&quot;&gt;Native Capabilities&lt;/h2&gt;
 
 &lt;p&gt;JAX-RS contains a class &lt;a href=&quot;http://docs.oracle.com/javaee/7/api/javax/ws/rs/core/Configuration.html&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;javax.ws.rs.core.Configuration&lt;/code&gt;&lt;/a&gt; from which we can obtain arbitrary properties from, that can be compiled from different locations. With Jersey, these properties can come from either servlet init-params or from explicitly set properties from a &lt;code class=&quot;highlighter-rouge&quot;&gt;ResourceConfig&lt;/code&gt; or &lt;code class=&quot;highlighter-rouge&quot;&gt;Application&lt;/code&gt; subclass. In a &lt;code class=&quot;highlighter-rouge&quot;&gt;ResourceConfig&lt;/code&gt;, we could just call the &lt;code class=&quot;highlighter-rouge&quot;&gt;property(key, value)&lt;/code&gt; method. For example&lt;/p&gt;
 
@@ -1282,7 +1279,7 @@ http://localhost:3000/rxjs/BehaviorSubject(…)
 
 &lt;p&gt;&lt;a name=&quot;customInject&quot;&gt;&lt;/a&gt;&lt;/p&gt;
 
-&lt;h3 id=&quot;custom-injection-of-properties&quot;&gt;Custom Injection of Properties&lt;/h3&gt;
+&lt;h2 id=&quot;custom-injection-of-properties&quot;&gt;Custom Injection of Properties&lt;/h2&gt;
 
 &lt;p&gt;What if we want to avoid having to repetitively get the property from the &lt;code class=&quot;highlighter-rouge&quot;&gt;Configuration&lt;/code&gt; object? Say we want to just inject the property value, maybe with a custom annotation. That is possible with the use of an (HK2) &lt;a href=&quot;https://hk2.java.net/apidocs/org/glassfish/hk2/api/InjectionResolver.html&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;InjectionResolver&lt;/code&gt;&lt;/a&gt;. For example you can do something like&lt;/p&gt;
 
@@ -1349,7 +1346,7 @@ http://localhost:3000/rxjs/BehaviorSubject(…)
 
 &lt;p&gt;&lt;a name=&quot;jerseyProps&quot;&gt;&lt;/a&gt;&lt;/p&gt;
 
-&lt;h3 id=&quot;jersey-properties-module&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;jersey-properties&lt;/code&gt; Module&lt;/h3&gt;
+&lt;h2 id=&quot;jersey-properties-module&quot;&gt;&lt;em&gt;jersey-properties&lt;/em&gt; Module&lt;/h2&gt;
 
 &lt;p&gt;I created a small module that helps with working with configuration properties. You can find the project &lt;a href=&quot;https://github.com/psamsotha/jersey-properties&quot;&gt;at GitHub&lt;/a&gt;, where there you can read more about about it. To use it you need to add this Maven artifact&lt;/p&gt;
 
@@ -1582,17 +1579,18 @@ http://localhost:3000/rxjs/BehaviorSubject(…)
 
 &lt;p&gt;First, I will go through a quick discussion about the Proxy Pattern, then show how to use dynamic proxies with the Java language, then finally go through an example using dynamic proxies and custom dependency injection.&lt;/p&gt;
 
-&lt;h4 id=&quot;sections&quot;&gt;Sections:&lt;/h4&gt;
+&lt;h3 id=&quot;table-of-contents&quot;&gt;Table of Contents:&lt;/h3&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;&lt;strong&gt;&lt;a href=&quot;#proxyPattern&quot;&gt;Proxy Pattern&lt;/a&gt;&lt;/strong&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;strong&gt;&lt;a href=&quot;#dynamicProxies&quot;&gt;Java Dynamic Proxies&lt;/a&gt;&lt;/strong&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;strong&gt;&lt;a href=&quot;#example&quot;&gt;Dynamic Proxy and Custom Injection Example&lt;/a&gt;&lt;/strong&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#proxyPattern&quot;&gt;Proxy Pattern&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#dynamicProxies&quot;&gt;Java Dynamic Proxies&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#example&quot;&gt;Dynamic Proxy and Custom Injection Example&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#summary&quot;&gt;Summary&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;p&gt;&lt;a name=&quot;proxyPattern&quot;&gt;&lt;/a&gt;&lt;/p&gt;
 
-&lt;h3 id=&quot;proxy-pattern&quot;&gt;Proxy Pattern&lt;/h3&gt;
+&lt;h2 id=&quot;proxy-pattern&quot;&gt;Proxy Pattern&lt;/h2&gt;
 
 &lt;p&gt;I won’t get into too much detail about the proxy pattern. There is good reading all over the internet. I will just give a brief analogy, along with some brief code example of the pattern.&lt;/p&gt;
 
@@ -1640,7 +1638,7 @@ http://localhost:3000/rxjs/BehaviorSubject(…)
 
 &lt;p&gt;&lt;a name=&quot;dynamicProxies&quot;&gt;&lt;/a&gt;&lt;/p&gt;
 
-&lt;h3 id=&quot;dynamic-proxies&quot;&gt;Dynamic Proxies&lt;/h3&gt;
+&lt;h2 id=&quot;dynamic-proxies&quot;&gt;Dynamic Proxies&lt;/h2&gt;
 
 &lt;p&gt;With the example above, we had to manually write the proxy class. In Java though, this is not required, with the introduction of dynamic proxies in 1.3. The core interface to dynamic proxies is &lt;a href=&quot;https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Proxy.html&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;java.lang.reflect.Proxy&lt;/code&gt;&lt;/a&gt;. To use it, we require to components, our interface to proxy, and an &lt;a href=&quot;https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/InvocationHandler.html&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;InvocationHandler&lt;/code&gt;&lt;/a&gt;. Let’s look at a quick example, using the same above analogy.&lt;/p&gt;
 
@@ -1685,7 +1683,7 @@ http://localhost:3000/rxjs/BehaviorSubject(…)
 
 &lt;p&gt;&lt;a name=&quot;example&quot;&gt;&lt;/a&gt;&lt;/p&gt;
 
-&lt;h3 id=&quot;dynamic-proxy-and-custom-injection-example&quot;&gt;Dynamic Proxy and Custom Injection Example&lt;/h3&gt;
+&lt;h2 id=&quot;dynamic-proxy-and-custom-injection-example&quot;&gt;Dynamic Proxy and Custom Injection Example&lt;/h2&gt;
 
 &lt;ul&gt;
   &lt;li&gt;Get the &lt;a href=&quot;https://github.com/psamsotha/dynamic-proxies-example&quot;&gt;GitHub project&lt;/a&gt;&lt;/li&gt;
@@ -1880,7 +1878,9 @@ Message: Hello Lebron
 
 &lt;p&gt;And that’s it.&lt;/p&gt;
 
-&lt;h3 id=&quot;summary&quot;&gt;Summary&lt;/h3&gt;
+&lt;p&gt;&lt;a name=&quot;summary&quot;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;summary&quot;&gt;Summary&lt;/h2&gt;
 
 &lt;p&gt;We covered some basics on the Proxy Pattern, and saw how it uses a wrapper or delegation model to make calls to an underlying object. Then we covered dynamic proxies, and how it is implemented in the Java language. The finally we went through an example of how dynamic proxies work with scoped dependency injection. If an object in a lesser scope needs to be injected in to an object in a wider scope, the lesser scope object needs to be proxied, so that different thread have access to their own lesser scoped object instance.&lt;/p&gt;
 
@@ -2534,11 +2534,11 @@ public String post(@TenantParam Tenant tenant, String body) {
         <title>Why and How to Use Spring With Jersey?</title>
         <description>&lt;p&gt;I’ve seen a few question on Stack Overflow where people are confused about the difference between Jersey and Spring MVC, and I thought it would be a good opportunity to try and demystify some of the confusion. In this article I will first go through some analysis on why we should (or shouldn’t) mix the two frameworks, then I will get into some example implementation.&lt;/p&gt;
 
-&lt;h4 id=&quot;sections&quot;&gt;Sections:&lt;/h4&gt;
+&lt;h3 id=&quot;table-of-contents&quot;&gt;Table of Contents:&lt;/h3&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;&lt;strong&gt;&lt;a href=&quot;#why&quot;&gt;WHY?&lt;/a&gt;&lt;/strong&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;strong&gt;&lt;a href=&quot;#impl&quot;&gt;Implementation&lt;/a&gt;&lt;/strong&gt;
+  &lt;li&gt;&lt;a href=&quot;#why&quot;&gt;WHY?&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#impl&quot;&gt;Implementation&lt;/a&gt;
     &lt;ul&gt;
       &lt;li&gt;&lt;a href=&quot;#mavenDeps&quot;&gt;Maven Dependencies&lt;/a&gt;&lt;/li&gt;
       &lt;li&gt;&lt;a href=&quot;#config&quot;&gt;Basic Configuration&lt;/a&gt;&lt;/li&gt;
@@ -2550,7 +2550,7 @@ public String post(@TenantParam Tenant tenant, String body) {
 
 &lt;p&gt;&lt;a name=&quot;why&quot;&gt;&lt;/a&gt;&lt;/p&gt;
 
-&lt;h3 id=&quot;why&quot;&gt;WHY?&lt;/h3&gt;
+&lt;h2 id=&quot;why&quot;&gt;WHY?&lt;/h2&gt;
 
 &lt;p&gt;So why use Spring with Jersey? First notice the careful naming of the title. It’s not “Using Jersey with Spring”. That title would imply a Spring application integrating Jersey, while the current title implies integrating Spring into a Jersey application. It’s a subtle difference as far as the title is concerned, but a difference that should be acknowledged for this discussion. An article on “integrating Jersey into Spring” might be more aimed at Spring users that would like to learn Jersey, and may give some tutorial on beginning Jersey stuff. This article is not that. This article assumes you know Jersey, and are thinking about integrating Spring into your Jersey application.&lt;/p&gt;
 
@@ -2655,7 +2655,7 @@ public String post(@TenantParam Tenant tenant, String body) {
 
 &lt;p&gt;&lt;a name=&quot;impl&quot;&gt;&lt;/a&gt;&lt;/p&gt;
 
-&lt;h3 id=&quot;implementation&quot;&gt;Implementation&lt;/h3&gt;
+&lt;h2 id=&quot;implementation&quot;&gt;Implementation&lt;/h2&gt;
 
 &lt;p&gt;So let’s get into some implementation. You can find the complete project as &lt;a href=&quot;https://github.com/psamsotha/jersey-spring-example&quot;&gt;Github&lt;/a&gt;.&lt;/p&gt;
 
@@ -2689,7 +2689,7 @@ public String post(@TenantParam Tenant tenant, String body) {
 
 &lt;p&gt;&lt;a name=&quot;mavenDeps&quot;&gt;&lt;/a&gt;&lt;/p&gt;
 
-&lt;h4 id=&quot;maven-dependencies&quot;&gt;Maven Dependencies&lt;/h4&gt;
+&lt;h3 id=&quot;maven-dependencies&quot;&gt;Maven Dependencies&lt;/h3&gt;
 
 &lt;p&gt;So we are creating a new Maven web project. The following dependencies are ones we going to use. Note that there are exclusions in the &lt;code class=&quot;highlighter-rouge&quot;&gt;jersey-spring3&lt;/code&gt; dependency. We want to replace the Spring 3 dependencies with Spring 4, and also exclude some conflicting bean validation transitive dependencies. The exclusion are  not shown in the following list. Please the pom in the Github project&lt;/p&gt;
 
@@ -2747,7 +2747,7 @@ public String post(@TenantParam Tenant tenant, String body) {
 
 &lt;p&gt;&lt;a name=&quot;config&quot;&gt;&lt;/a&gt;&lt;/p&gt;
 
-&lt;h4 id=&quot;basic-configuration&quot;&gt;Basic Configuration&lt;/h4&gt;
+&lt;h3 id=&quot;basic-configuration&quot;&gt;Basic Configuration&lt;/h3&gt;
 
 &lt;p&gt;Here we will cover both Jersey and Spring. The way we will implement this application is web.xml-less. For Jersey, this will be made possible with the &lt;code class=&quot;highlighter-rouge&quot;&gt;jersey-container-servlet&lt;/code&gt; dependency. Note that for this to work, the application must be run an Servlet 3.x container. For example Tomcat 7, will work, but Tomcat 6 will not work as it is a Servlet 2.5 container. We will simply be running with the Jetty Maven plugin, which will be a Servlet 3.1 container.&lt;/p&gt;
 
@@ -2842,7 +2842,7 @@ public String post(@TenantParam Tenant tenant, String body) {
 
 &lt;p&gt;&lt;a name=&quot;compImpl&quot;&gt;&lt;/a&gt;&lt;/p&gt;
 
-&lt;h4 id=&quot;component-implementation&quot;&gt;Component Implementation&lt;/h4&gt;
+&lt;h3 id=&quot;component-implementation&quot;&gt;Component Implementation&lt;/h3&gt;
 
 &lt;p&gt;The JPA entity we will use a simple &lt;code class=&quot;highlighter-rouge&quot;&gt;Customer&lt;/code&gt; class with an &lt;code class=&quot;highlighter-rouge&quot;&gt;id&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;firstName&lt;/code&gt;, and &lt;code class=&quot;highlighter-rouge&quot;&gt;lastName&lt;/code&gt;&lt;/p&gt;
 
@@ -2944,7 +2944,7 @@ public String post(@TenantParam Tenant tenant, String body) {
 
 &lt;p&gt;&lt;a name=&quot;runTest&quot;&gt;&lt;/a&gt;&lt;/p&gt;
 
-&lt;h3 id=&quot;running-and-testing-with-curl&quot;&gt;Running and Testing with cURL&lt;/h3&gt;
+&lt;h2 id=&quot;running-and-testing-with-curl&quot;&gt;Running and Testing with cURL&lt;/h2&gt;
 
 &lt;p&gt;In testing our application will will use cURL. For a real application, you will probably also want to include automated JUnit tests, but I consider myself to be a pretty thorough tester, so for me to implement the JUnit tests in this example application would pretty much double the work. And this article is not really about testing. In future articles I may cover testing with Jersey.&lt;/p&gt;
 
@@ -3090,30 +3090,16 @@ Content-Length: 0
         <title>HTTP Caching with Jersey (and JAX-RS)</title>
         <description>&lt;p&gt;In this article I will be talking about caching in the context of the HTTP specs and REST (which is heavily linked with HTTP semantics). First I will cover the specifics covered in HTTP 1.0, then the changes made in HTTP 1.1, then conclude with how we can clean up some of the examples from the previous sections.&lt;/p&gt;
 
-&lt;p&gt;Tools you will need to follow along.&lt;/p&gt;
+&lt;h3 id=&quot;table-of-contents&quot;&gt;Table of Contents&lt;/h3&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;http://curl.haxx.se/&quot;&gt;cURL&lt;/a&gt; - A command line tool that I use as a REST client. You may use a different client, but any other tools usages will be outside the scope of this article.&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://maven.apache.org/&quot;&gt;Maven&lt;/a&gt; - To build and run the app with the &lt;a href=&quot;http://www.eclipse.org/jetty/documentation/current/jetty-maven-plugin.html&quot;&gt;jetty-maven-plugin&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;You download or clone the app from Github&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git clone https://github.com/psamsotha/jersey-cache-example.git
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;Or download it from the &lt;a href=&quot;https://github.com/psamsotha/jersey-cache-example&quot;&gt;Github project site&lt;/a&gt;&lt;/p&gt;
-
-&lt;h4 id=&quot;sections&quot;&gt;Sections&lt;/h4&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;strong&gt;&lt;a href=&quot;#http10&quot;&gt;Caching in HTTP 1.0&lt;/a&gt;&lt;/strong&gt;
+  &lt;li&gt;&lt;a href=&quot;#requirements&quot;&gt;Requirements&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#http10&quot;&gt;Caching in HTTP 1.0&lt;/a&gt;
     &lt;ul&gt;
       &lt;li&gt;&lt;a href=&quot;#http10example&quot;&gt;Expires Example&lt;/a&gt;&lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
-  &lt;li&gt;&lt;strong&gt;&lt;a href=&quot;#http11&quot;&gt;Caching in HTTP 1.0&lt;/a&gt;&lt;/strong&gt;
+  &lt;li&gt;&lt;a href=&quot;#http11&quot;&gt;Caching in HTTP 1.0&lt;/a&gt;
     &lt;ul&gt;
       &lt;li&gt;&lt;a href=&quot;#temporal&quot;&gt;Temporal Semantics&lt;/a&gt;
         &lt;ul&gt;
@@ -3136,12 +3122,31 @@ Content-Length: 0
       &lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
-  &lt;li&gt;&lt;strong&gt;&lt;a href=&quot;#dry&quot;&gt;Keeping it DRY (don’t repeat yourself)&lt;/a&gt;&lt;/strong&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#dry&quot;&gt;Keeping it DRY (don’t repeat yourself)&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
+
+&lt;p&gt;&lt;a name=&quot;requirements&quot;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;requirements&quot;&gt;Requirements&lt;/h2&gt;
+
+&lt;p&gt;Tools you will need to follow along.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;http://curl.haxx.se/&quot;&gt;cURL&lt;/a&gt; - A command line tool that I use as a REST client. You may use a different client, but any other tools usages will be outside the scope of this article.&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://maven.apache.org/&quot;&gt;Maven&lt;/a&gt; - To build and run the app with the &lt;a href=&quot;http://www.eclipse.org/jetty/documentation/current/jetty-maven-plugin.html&quot;&gt;jetty-maven-plugin&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;You download or clone the app from Github&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git clone https://github.com/psamsotha/jersey-cache-example.git
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Or download it from the &lt;a href=&quot;https://github.com/psamsotha/jersey-cache-example&quot;&gt;Github project site&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;a name=&quot;http10&quot;&gt;&lt;/a&gt;&lt;/p&gt;
 
-&lt;h3 id=&quot;caching-in-http-10&quot;&gt;Caching in HTTP 1.0&lt;/h3&gt;
+&lt;h2 id=&quot;caching-in-http-10&quot;&gt;Caching in HTTP 1.0&lt;/h2&gt;
 
 &lt;p&gt;In HTTP 1.0 the server sends an &lt;code class=&quot;highlighter-rouge&quot;&gt;Expires: &amp;lt;expiration-data&amp;gt;&lt;/code&gt; header with the response. So a response might look something like&lt;/p&gt;
 
@@ -3159,7 +3164,7 @@ Expires: Sun, 18 Oct 2015, 10:15:25 GMT
 
 &lt;p&gt;&lt;a name=&quot;http10example&quot;&gt;&lt;/a&gt;&lt;/p&gt;
 
-&lt;h5 id=&quot;expires-example&quot;&gt;Expires example&lt;/h5&gt;
+&lt;h3 id=&quot;expires-example&quot;&gt;Expires example&lt;/h3&gt;
 
 &lt;p&gt;In JAX-RS, we would simply to something like&lt;/p&gt;
 
@@ -3196,7 +3201,7 @@ Some Data
 
 &lt;p&gt;&lt;a name=&quot;http11&quot;&gt;&lt;/a&gt;&lt;/p&gt;
 
-&lt;h3 id=&quot;caching-in-http-11&quot;&gt;Caching in HTTP 1.1&lt;/h3&gt;
+&lt;h2 id=&quot;caching-in-http-11&quot;&gt;Caching in HTTP 1.1&lt;/h2&gt;
 
 &lt;p&gt;Then came HTTP 1.1, which not only create new temporal semantics, but also added revalidation semantics to caching. Take for example the caching the &lt;code class=&quot;highlighter-rouge&quot;&gt;Expires&lt;/code&gt; example above. Say the expiration time is 10 seconds. A request made after that ten seconds will &lt;em&gt;always&lt;/em&gt; get back new data from the server. With revalidation the server sends a &lt;em&gt;condition&lt;/em&gt; request, saying &lt;em&gt;“if the data has not been modified since [date]”&lt;/em&gt; and/or &lt;em&gt;“if data still matches the data in my cache”&lt;/em&gt;, don’t send back the data. This helps in bandwidth usage, as the data is not always sent back, as would be the case with the old Expires semantics. Here’s a flow chart of basics of the process&lt;/p&gt;
 
@@ -3204,7 +3209,7 @@ Some Data
 
 &lt;p&gt;&lt;a name=&quot;temporal&quot;&gt;&lt;/a&gt;&lt;/p&gt;
 
-&lt;h4 id=&quot;temporal-caching&quot;&gt;Temporal caching&lt;/h4&gt;
+&lt;h3 id=&quot;temporal-caching&quot;&gt;Temporal caching&lt;/h3&gt;
 
 &lt;p&gt;When I say “temporal”, I am talking about time. As discussed, the old spec used the &lt;code class=&quot;highlighter-rouge&quot;&gt;Expires&lt;/code&gt; header to set the expiration date on the data. The problem with this is that it is an absolute time that is dependent on system clock being set correctly. To fix this problem, the &lt;code class=&quot;highlighter-rouge&quot;&gt;Cache-Control&lt;/code&gt; header was introduced. Instead of an absolute date, it uses a relative time in the form of &lt;code class=&quot;highlighter-rouge&quot;&gt;max-age&lt;/code&gt;. For example a response might look like&lt;/p&gt;
 
@@ -3223,7 +3228,7 @@ Some Data
 
 &lt;p&gt;&lt;a name=&quot;temporalExmple&quot;&gt;&lt;/a&gt;&lt;/p&gt;
 
-&lt;h5 id=&quot;cache-control-example&quot;&gt;Cache-Control Example&lt;/h5&gt;
+&lt;h4 id=&quot;cache-control-example&quot;&gt;Cache-Control Example&lt;/h4&gt;
 
 &lt;p&gt;Here’s how we could code it in JAX-RS&lt;/p&gt;
 
@@ -3270,13 +3275,13 @@ mvn jetty:run
 
 &lt;p&gt;&lt;a name=&quot;revalidation&quot;&gt;&lt;/a&gt;&lt;/p&gt;
 
-&lt;h4 id=&quot;revalidation-caching&quot;&gt;Revalidation caching&lt;/h4&gt;
+&lt;h3 id=&quot;revalidation-caching&quot;&gt;Revalidation caching&lt;/h3&gt;
 
 &lt;p&gt;As previously mentioned, HTTP 1.1 also added the concept of revalidation. If there is a &lt;code class=&quot;highlighter-rouge&quot;&gt;Cache-Control&lt;/code&gt; header, then after the time expires, the supporting client should revalidate the date and check to see if it has not changed.&lt;/p&gt;
 
 &lt;p&gt;&lt;a name=&quot;temporalRevalidation&quot;&gt;&lt;/a&gt;&lt;/p&gt;
 
-&lt;h5 id=&quot;temporal-revalidation&quot;&gt;Temporal Revalidation&lt;/h5&gt;
+&lt;h4 id=&quot;temporal-revalidation&quot;&gt;Temporal Revalidation&lt;/h4&gt;
 
 &lt;p&gt;There are two client request headers that could be involved in the revalidation process. The first is the &lt;code class=&quot;highlighter-rouge&quot;&gt;If-Modified-Since: [date]&lt;/code&gt; header. How it works is that the server should send a &lt;code class=&quot;highlighter-rouge&quot;&gt;Last-Modified: [date]&lt;/code&gt; response header along with the data. The server should have some way to maintaining this “last modified” date, for example a database field, that changes whenever the data is modified.&lt;/p&gt;
 
@@ -3284,7 +3289,7 @@ mvn jetty:run
 
 &lt;p&gt;&lt;a name=&quot;temporalRevalidationExample&quot;&gt;&lt;/a&gt;&lt;/p&gt;
 
-&lt;h6 id=&quot;temporal-revalidation-example&quot;&gt;Temporal Revalidation Example&lt;/h6&gt;
+&lt;h5 id=&quot;temporal-revalidation-example&quot;&gt;Temporal Revalidation Example&lt;/h5&gt;
 
 &lt;p&gt;Let go through an example of using the &lt;code class=&quot;highlighter-rouge&quot;&gt;If-Modified-Since&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;Last-Modified&lt;/code&gt; example. The code can be found in the &lt;code class=&quot;highlighter-rouge&quot;&gt;LastModifiedResource&lt;/code&gt; in the Github project.&lt;/p&gt;
 
@@ -3390,13 +3395,13 @@ new data
 
 &lt;p&gt;&lt;a name=&quot;etagRevalidation&quot;&gt;&lt;/a&gt;&lt;/p&gt;
 
-&lt;h5 id=&quot;etag-revalidation&quot;&gt;Etag Revalidation&lt;/h5&gt;
+&lt;h4 id=&quot;etag-revalidation&quot;&gt;Etag Revalidation&lt;/h4&gt;
 
 &lt;p&gt;The second form of validation is validating the content has not changed. To do that the server should send something to the client the represents the current state of the content being sent in the request. This is handled with the &lt;code class=&quot;highlighter-rouge&quot;&gt;Etag&lt;/code&gt; header. In most cases, this will be a hash of the data. The server sends the &lt;code class=&quot;highlighter-rouge&quot;&gt;Etag: &amp;lt;hash&amp;gt;&lt;/code&gt; header with the response. When the client makes a request for the same resource, it should send a &lt;code class=&quot;highlighter-rouge&quot;&gt;If-None-Match: &amp;lt;hash&amp;gt;&lt;/code&gt; to the server. If the value does not match that of the server’s, then the resource has been changed since the client last received it, and the server should send the new data with the new &lt;code class=&quot;highlighter-rouge&quot;&gt;Etag&lt;/code&gt;. Otherwise if the data is the same, the server should send a &lt;code class=&quot;highlighter-rouge&quot;&gt;304 Not Modified&lt;/code&gt;.&lt;/p&gt;
 
 &lt;p&gt;&lt;a name=&quot;etagRevalidationExample&quot;&gt;&lt;/a&gt;&lt;/p&gt;
 
-&lt;h6 id=&quot;etag-revalidation-example&quot;&gt;Etag Revalidation Example&lt;/h6&gt;
+&lt;h5 id=&quot;etag-revalidation-example&quot;&gt;Etag Revalidation Example&lt;/h5&gt;
 
 &lt;p&gt;Below is an example implementation. It is very similar to the one above, except we are not checking the time the resource was last modified, but &lt;em&gt;if&lt;/em&gt; is was actually modified&lt;/p&gt;
 
@@ -3507,7 +3512,7 @@ new data
 
 &lt;p&gt;&lt;a name=&quot;dry&quot;&gt;&lt;/a&gt;&lt;/p&gt;
 
-&lt;h3 id=&quot;staying-dry-using-filters-and-interceptors&quot;&gt;Staying DRY Using Filters and Interceptors&lt;/h3&gt;
+&lt;h2 id=&quot;staying-dry-using-filters-and-interceptors&quot;&gt;Staying DRY Using Filters and Interceptors&lt;/h2&gt;
 
 &lt;p&gt;If you’ve been following along up to this point, you will have noticed that there is a lot of boilerplate that goes into producing the functionality for handling HTTP caching. With more resource methods, we will need to repeat similar code over and over. With Jersey (and JAX-RS), when we are faced with this, it is often an opportunity to handle this repetition inside of a filter or interceptor. If you are unfamiliar with these, I suggest taking some time to review &lt;a href=&quot;https://jersey.java.net/documentation/latest/filters-and-interceptors.html&quot;&gt;Filters and Interceptors&lt;/a&gt; from the Jersey user guide.&lt;/p&gt;
 
@@ -3609,7 +3614,33 @@ new data
 
 &lt;p&gt;What I will do here is try and break down the basic requirements to get a Jersey 2.x (I will work with the latest version - as of this writing - 2.16) app up and running, and explain some basics of a Jersey app, as well as get into some tools I use when working with Jersey.&lt;/p&gt;
 
-&lt;h3 id=&quot;requirements-mostly-optional&quot;&gt;Requirements (mostly optional)&lt;/h3&gt;
+&lt;h3 id=&quot;table-of-contents&quot;&gt;Table of Contents&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;#requiremens&quot;&gt;Requirements&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#gettingStarted&quot;&gt;Getting Started&lt;/a&gt;
+    &lt;ul&gt;
+      &lt;li&gt;&lt;a href=&quot;#netbeans&quot;&gt;With Netbeans&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#eclipse&quot;&gt;With Eclipse&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#commandLine&quot;&gt;From Command Line&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#sourceCode&quot;&gt;Explaining Source Code and Configuration&lt;/a&gt;
+    &lt;ul&gt;
+      &lt;li&gt;&lt;a href=&quot;#jerseyConfig&quot;&gt;Jersey Configuration&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#runApp&quot;&gt;Running the Application&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#addFeatures&quot;&gt;Adding Additional Features&lt;/a&gt;
+    &lt;ul&gt;
+      &lt;li&gt;&lt;a href=&quot;#jsonSupport&quot;&gt;Adding JSON Support&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;a name=&quot;requirements&quot;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;requirements-mostly-optional&quot;&gt;Requirements (mostly optional)&lt;/h2&gt;
 
 &lt;ul&gt;
   &lt;li&gt;&lt;strong&gt;Maven&lt;/strong&gt; - I know some are already turned off by this, as some don’t know Maven. So I’ll leave this requirement as optional. I will have an image showing all the jars that are pulled in by Maven, so those that don’t know Maven, can go searching for the jars. It’s not a fun task, that’s why I suggest learning Maven, if you don’t already know it.&lt;/li&gt;
@@ -3617,32 +3648,9 @@ new data
   &lt;li&gt;&lt;strong&gt;Netbeans or Eclipse&lt;/strong&gt; - Again these are optional, but I will go through steps on how to easily get started with a Jersey app, using these IDEs, so it would help.&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h3 id=&quot;what-im-going-to-cover&quot;&gt;What I’m Going to Cover&lt;/h3&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;strong&gt;&lt;a href=&quot;#gettingStarted&quot;&gt;Getting Started&lt;/a&gt;&lt;/strong&gt;
-    &lt;ul&gt;
-      &lt;li&gt;&lt;a href=&quot;#netbeans&quot;&gt;With Netbeans&lt;/a&gt;&lt;/li&gt;
-      &lt;li&gt;&lt;a href=&quot;#eclipse&quot;&gt;With Eclipse&lt;/a&gt;&lt;/li&gt;
-      &lt;li&gt;&lt;a href=&quot;#commandLine&quot;&gt;From Command Line&lt;/a&gt;&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;&lt;strong&gt;&lt;a href=&quot;#sourceCode&quot;&gt;Explaining Source Code and Configuration&lt;/a&gt;&lt;/strong&gt;
-    &lt;ul&gt;
-      &lt;li&gt;&lt;a href=&quot;#jerseyConfig&quot;&gt;Jersey Configuration&lt;/a&gt;&lt;/li&gt;
-      &lt;li&gt;&lt;a href=&quot;#runApp&quot;&gt;Running the Application&lt;/a&gt;&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;&lt;strong&gt;&lt;a href=&quot;#addFeatures&quot;&gt;Adding Additional Features&lt;/a&gt;&lt;/strong&gt;
-    &lt;ul&gt;
-      &lt;li&gt;&lt;a href=&quot;#jsonSupport&quot;&gt;Adding JSON Support&lt;/a&gt;&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
 &lt;p&gt;&lt;a name=&quot;gettingStarted&quot;&gt;&lt;/a&gt;&lt;/p&gt;
 
-&lt;h3 id=&quot;getting-started&quot;&gt;Getting Started&lt;/h3&gt;
+&lt;h2 id=&quot;getting-started&quot;&gt;Getting Started&lt;/h2&gt;
 
 &lt;ul&gt;
   &lt;li&gt;&lt;a href=&quot;#netbeans&quot;&gt;Netbeans&lt;/a&gt;&lt;/li&gt;
@@ -3656,7 +3664,7 @@ new data
 
 &lt;p&gt;&lt;a name=&quot;netbeans&quot;&gt;&lt;/a&gt;&lt;/p&gt;
 
-&lt;h4 id=&quot;with-netbeans&quot;&gt;With Netbeans&lt;/h4&gt;
+&lt;h3 id=&quot;with-netbeans&quot;&gt;With Netbeans&lt;/h3&gt;
 
 &lt;ol&gt;
   &lt;li&gt;
@@ -3695,7 +3703,7 @@ new data
 
 &lt;p&gt;&lt;a name=&quot;eclipse&quot;&gt;&lt;/a&gt;&lt;/p&gt;
 
-&lt;h4 id=&quot;with-eclipse&quot;&gt;With Eclipse&lt;/h4&gt;
+&lt;h3 id=&quot;with-eclipse&quot;&gt;With Eclipse&lt;/h3&gt;
 
 &lt;ol&gt;
   &lt;li&gt;
@@ -3746,7 +3754,7 @@ new data
 
 &lt;p&gt;&lt;a name=&quot;commandLine&quot;&gt;&lt;/a&gt;&lt;/p&gt;
 
-&lt;h4 id=&quot;from-command-line&quot;&gt;From Command line&lt;/h4&gt;
+&lt;h3 id=&quot;from-command-line&quot;&gt;From Command line&lt;/h3&gt;
 
 &lt;p&gt;You need to have Maven installed on your system to be able to issue these commands. This should all be types on one line (without the &lt;code class=&quot;highlighter-rouge&quot;&gt;\&lt;/code&gt;s)&lt;/p&gt;
 
@@ -3765,11 +3773,11 @@ new data
 
 &lt;p&gt;&lt;a name=&quot;sourceCode&quot;&gt;&lt;/a&gt;&lt;/p&gt;
 
-&lt;h3 id=&quot;explaining-source-code-and-configuration&quot;&gt;Explaining Source Code and Configuration&lt;/h3&gt;
+&lt;h2 id=&quot;explaining-source-code-and-configuration&quot;&gt;Explaining Source Code and Configuration&lt;/h2&gt;
 
 &lt;p&gt;&lt;a name=&quot;jerseyConfig&quot;&gt;&lt;/a&gt;&lt;/p&gt;
 
-&lt;h4 id=&quot;jersey-configuration&quot;&gt;Jersey Configuration&lt;/h4&gt;
+&lt;h3 id=&quot;jersey-configuration&quot;&gt;Jersey Configuration&lt;/h3&gt;
 
 &lt;ul&gt;
   &lt;li&gt;&lt;a href=&quot;#pom&quot;&gt;pom.xml&lt;/a&gt;&lt;/li&gt;
@@ -3779,7 +3787,7 @@ new data
 
 &lt;p&gt;&lt;a name=&quot;pom&quot;&gt;&lt;/a&gt;&lt;/p&gt;
 
-&lt;h5 id=&quot;pomxml&quot;&gt;pom.xml&lt;/h5&gt;
+&lt;h4 id=&quot;pomxml&quot;&gt;pom.xml&lt;/h4&gt;
 &lt;p&gt;Now let’s look at some of the source. Lets look at the pom.xml first. You should find this in the project root. We’ll go through it piece by piece&lt;/p&gt;
 
 &lt;div class=&quot;language-xml highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;build&amp;gt;&lt;/span&gt;
@@ -3882,7 +3890,7 @@ new data
 
 &lt;p&gt;&lt;a name=&quot;web.xml&quot;&gt;&lt;/a&gt;&lt;/p&gt;
 
-&lt;h5 id=&quot;webxml&quot;&gt;web.xml&lt;/h5&gt;
+&lt;h4 id=&quot;webxml&quot;&gt;web.xml&lt;/h4&gt;
 
 &lt;p&gt;The web.xml file is located in the &lt;code class=&quot;highlighter-rouge&quot;&gt;WEB-INF&lt;/code&gt; folder.&lt;/p&gt;
 
@@ -3915,7 +3923,7 @@ new data
 
 &lt;p&gt;&lt;a name=&quot;resource&quot;&gt;&lt;/a&gt;&lt;/p&gt;
 
-&lt;h5 id=&quot;resource-class&quot;&gt;Resource class&lt;/h5&gt;
+&lt;h4 id=&quot;resource-class&quot;&gt;Resource class&lt;/h4&gt;
 
 &lt;p&gt;Now let’s get into the last bit of source code to discuss, the resource class.&lt;/p&gt;
 
@@ -3960,7 +3968,7 @@ new data
 
 &lt;p&gt;&lt;a name=&quot;runApp&quot;&gt;&lt;/a&gt;&lt;/p&gt;
 
-&lt;h4 id=&quot;running-the-application&quot;&gt;Running the Application&lt;/h4&gt;
+&lt;h3 id=&quot;running-the-application&quot;&gt;Running the Application&lt;/h3&gt;
 
 &lt;p&gt;When developing Jersey applications, as discussed earlier, I tend to use the Jetty Maven plugin. We can run our web app from the command line, simply by using the command&lt;/p&gt;
 
@@ -3970,7 +3978,7 @@ new data
 
 &lt;p&gt;Personally, even though developing in the IDE, I tend to run the app/plugin through the command line. But I’ll first go through how you can do this in the IDE. First I’ll start with Netbeans (or skip to &lt;a href=&quot;#runEclipse&quot;&gt;Eclipse&lt;/a&gt; or &lt;a href=&quot;#runCL&quot;&gt;Command Line&lt;/a&gt;).&lt;/p&gt;
 
-&lt;h5 id=&quot;netbeans&quot;&gt;Netbeans&lt;/h5&gt;
+&lt;h4 id=&quot;netbeans&quot;&gt;Netbeans&lt;/h4&gt;
 
 &lt;p&gt;From Netbeans, you can Right click on the project to open the context menu, then go to [&lt;code class=&quot;highlighter-rouge&quot;&gt;Custom&lt;/code&gt;] → [&lt;code class=&quot;highlighter-rouge&quot;&gt;Goals&lt;/code&gt;].&lt;/p&gt;
 
@@ -3986,7 +3994,7 @@ new data
 
 &lt;p&gt;&lt;a name=&quot;runEclipse&quot;&gt;&lt;/a&gt;&lt;/p&gt;
 
-&lt;h5 id=&quot;eclipse&quot;&gt;Eclipse&lt;/h5&gt;
+&lt;h4 id=&quot;eclipse&quot;&gt;Eclipse&lt;/h4&gt;
 
 &lt;p&gt;From Eclipse, right click on the project, in the context menu go to [&lt;code class=&quot;highlighter-rouge&quot;&gt;Run As&lt;/code&gt;] → [&lt;code class=&quot;highlighter-rouge&quot;&gt;Maven Build&lt;/code&gt;]&lt;/p&gt;
 
@@ -3998,7 +4006,7 @@ new data
 
 &lt;p&gt;&lt;a name=&quot;runCL&quot;&gt;&lt;/a&gt;&lt;/p&gt;
 
-&lt;h5 id=&quot;command-line&quot;&gt;Command Line&lt;/h5&gt;
+&lt;h4 id=&quot;command-line&quot;&gt;Command Line&lt;/h4&gt;
 
 &lt;p&gt;For the command line, simply &lt;code class=&quot;highlighter-rouge&quot;&gt;cd&lt;/code&gt; to the directory of the project, then run &lt;code class=&quot;highlighter-rouge&quot;&gt;mvn jetty:run&lt;/code&gt; command, you should see the build start and when the server starts, you should see something similar to&lt;/p&gt;
 
@@ -4006,7 +4014,7 @@ new data
 
 &lt;p&gt;We can now &lt;a href=&quot;#test&quot;&gt;Test&lt;/a&gt;&lt;/p&gt;
 
-&lt;h4 id=&quot;testing&quot;&gt;Testing&lt;/h4&gt;
+&lt;h3 id=&quot;testing&quot;&gt;Testing&lt;/h3&gt;
 
 &lt;p&gt;At this point, the application should be up and running. And if you remembered from the earlier, the URL we should use to access our resource is&lt;/p&gt;
 
@@ -4026,11 +4034,11 @@ new data
 
 &lt;p&gt;&lt;a name=&quot;addFeatures&quot;&gt;&lt;/a&gt;&lt;/p&gt;
 
-&lt;h3 id=&quot;adding-additional-features&quot;&gt;Adding Additional Features&lt;/h3&gt;
+&lt;h2 id=&quot;adding-additional-features&quot;&gt;Adding Additional Features&lt;/h2&gt;
 
 &lt;p&gt;&lt;a name=&quot;jsonSupport&quot;&gt;&lt;/a&gt;&lt;/p&gt;
 
-&lt;h4 id=&quot;adding-json-support&quot;&gt;Adding JSON Support&lt;/h4&gt;
+&lt;h3 id=&quot;adding-json-support&quot;&gt;Adding JSON Support&lt;/h3&gt;
 
 &lt;p&gt;If you’ve ever working with a JSON/POJO framework/library like Jackson, you know that JSON/POJO mapping is pretty common practice. For example say we have this JSON&lt;/p&gt;
 
