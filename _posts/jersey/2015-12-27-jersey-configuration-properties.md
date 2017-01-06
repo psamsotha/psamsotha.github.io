@@ -134,6 +134,10 @@ You can see a complete runnable test case at [this GitHub Gist][4].
 
 One limitation of the above implementation is that it doesn't allow for method parameter injection. This is not so much that there is anything wrong with the implementation, it is about the way the Jersey handles parameter injection. To read more about it, see [Custom Method Parameter Injection in Jersey 2][5]. Usually though, there is not much need to inject configuration properties into method parameters.
 
+>**Note:** Another thing about the above `InjectionResolver` implementation is that it does not support
+constructor injection. To see a complete example that does support this, see this [Stack Overflow post][constructor inject].
+
+[constructor inject]: http://stackoverflow.com/a/41436316/2587435
 [3]: https://hk2.java.net/apidocs/org/glassfish/hk2/api/InjectionResolver.html
 [4]: https://gist.github.com/psamsotha/981796428ed736977eed
 [5]: {{ site.baseurl }}{% link _posts/jersey/2015-11-01-jersey-method-parameter-injection.md %}
