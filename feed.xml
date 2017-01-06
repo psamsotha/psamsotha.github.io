@@ -6,8 +6,8 @@
 </description>
     <link>https://psamsotha.github.io/</link>
     <atom:link href="https://psamsotha.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sat, 31 Dec 2016 22:01:49 +0700</pubDate>
-    <lastBuildDate>Sat, 31 Dec 2016 22:01:49 +0700</lastBuildDate>
+    <pubDate>Fri, 06 Jan 2017 21:59:43 +0700</pubDate>
+    <lastBuildDate>Fri, 06 Jan 2017 21:59:43 +0700</lastBuildDate>
     <generator>Jekyll v3.3.1</generator>
     
       <item>
@@ -1589,6 +1589,11 @@ http://localhost:3000/rxjs/BehaviorSubject(…)
 &lt;p&gt;You can see a complete runnable test case at &lt;a href=&quot;https://gist.github.com/psamsotha/981796428ed736977eed&quot;&gt;this GitHub Gist&lt;/a&gt;.&lt;/p&gt;
 
 &lt;p&gt;One limitation of the above implementation is that it doesn’t allow for method parameter injection. This is not so much that there is anything wrong with the implementation, it is about the way the Jersey handles parameter injection. To read more about it, see &lt;a href=&quot;/jersey/2015/11/01/jersey-method-parameter-injection.html&quot;&gt;Custom Method Parameter Injection in Jersey 2&lt;/a&gt;. Usually though, there is not much need to inject configuration properties into method parameters.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; Another thing about the above &lt;code class=&quot;highlighter-rouge&quot;&gt;InjectionResolver&lt;/code&gt; implementation is that it does not support
+constructor injection. To see a complete example that does support this, see this &lt;a href=&quot;http://stackoverflow.com/a/41436316/2587435&quot;&gt;Stack Overflow post&lt;/a&gt;.&lt;/p&gt;
+&lt;/blockquote&gt;
 
 &lt;p&gt;&lt;a name=&quot;jerseyProps&quot;&gt;&lt;/a&gt;&lt;/p&gt;
 

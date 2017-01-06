@@ -246,6 +246,11 @@
 
 <p>One limitation of the above implementation is that it doesn’t allow for method parameter injection. This is not so much that there is anything wrong with the implementation, it is about the way the Jersey handles parameter injection. To read more about it, see <a href="/jersey/2015/11/01/jersey-method-parameter-injection.html">Custom Method Parameter Injection in Jersey 2</a>. Usually though, there is not much need to inject configuration properties into method parameters.</p>
 
+<blockquote>
+  <p><strong>Note:</strong> Another thing about the above <code class="highlighter-rouge">InjectionResolver</code> implementation is that it does not support
+constructor injection. To see a complete example that does support this, see this <a href="http://stackoverflow.com/a/41436316/2587435">Stack Overflow post</a>.</p>
+</blockquote>
+
 <p><a name="jerseyProps"></a></p>
 
 <h2 id="jersey-properties-module"><em>jersey-properties</em> Module</h2>
