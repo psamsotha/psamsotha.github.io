@@ -390,8 +390,6 @@ constructor injection. To see a complete example that does support this, see thi
 
 
   
-
-  
     
     
 
@@ -400,6 +398,22 @@ constructor injection. To see a complete example that does support this, see thi
   <h2>Related Articles</h2>
   <div class="related-articles-group row expanded" data-equalizer>
     
+    
+      
+        <!-- Little hack. Liquid doesn't seem to support counting using assign -->
+        <!-- https://github.com/jekyll/jekyll/issues/2141 -->
+        <!-- https://github.com/Shopify/liquid/issues/316 -->
+        
+        <a class="related-article post-details small-12 medium-6 columns clickable"
+           href="/jersey/2017/01/07/jersey-pagination-with-spring-data.html" data-equalizer-watch>   
+          <h2 class="post-title">                
+            Jersey Pagination With Spring Data JPA
+          </h2>
+          <p class="post-date">January 7, 2017</p>
+          <p class="post-description">How we can implement pagination and sorting using Jersey along with Spring Data JPA.</p> 
+        </a>
+      
+      
     
       
       
@@ -416,22 +430,6 @@ constructor injection. To see a complete example that does support this, see thi
           </h2>
           <p class="post-date">December 16, 2015</p>
           <p class="post-description">How we can inject request scoped objects into singletons when using Jersey 2 and its DI framework HK2.</p> 
-        </a>
-      
-      
-    
-      
-        <!-- Little hack. Liquid doesn't seem to support counting using assign -->
-        <!-- https://github.com/jekyll/jekyll/issues/2141 -->
-        <!-- https://github.com/Shopify/liquid/issues/316 -->
-        
-        <a class="related-article post-details small-12 medium-6 columns clickable"
-           href="/jersey/2015/12/16/dynamic-proxies-dependency-injection.html" data-equalizer-watch>   
-          <h2 class="post-title">                
-            Dynamic Proxies and Dependency Injection
-          </h2>
-          <p class="post-date">December 16, 2015</p>
-          <p class="post-description">How dynamic proxies work in Java and how they can be used with dependency injection.</p> 
         </a>
       
       
