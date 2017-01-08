@@ -166,11 +166,11 @@ in a previous article <a href="https://psamsotha.github.io/jersey/2015/10/19/why
 (<a href="http://docs.spring.io/spring-data/jpa/docs/current/api/org/springframework/data/jpa/repository/JpaRepository.html"><code class="highlighter-rouge">JpaRepository</code></a>) with an interface of our own, and Spring Data will provide 
 implementations for some basic CRUD and paging method implementations. For example, take this interface:</p>
 
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">CustomerRepository</span> <span class="kd">extends</span> <span class="n">JpaRepository</span><span class="o">&lt;</span><span class="n">Customer</span><span class="o">,</span> <span class="n">Long</span><span class="o">&gt;</span> <span class="o">{}</span>
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">CustomerRepository</span> <span class="kd">extends</span> <span class="n">JpaRepository</span><span class="o">&lt;</span><span class="n">Customer</span><span class="o">,</span> <span class="n">Long</span><span class="o">&gt;</span> <span class="o">{}</span>
 </code></pre>
 </div>
 
-<p>The <code class="highlighter-rouge">JpaRepository</code> defines (or ore precisely, inherits) methods such as</p>
+<p>The <code class="highlighter-rouge">JpaRepository</code> defines (or more precisely, inherits) methods such as</p>
 
 <div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="n">List</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="nf">findAll</span><span class="o">();</span>
 
