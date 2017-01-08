@@ -53,10 +53,10 @@ When working with Spring Data JPA, we are able to simply extend an interface
 implementations for some basic CRUD and paging method implementations. For example, take this interface:
 
 ```java
-public class CustomerRepository extends JpaRepository<Customer, Long> {}
+public interface CustomerRepository extends JpaRepository<Customer, Long> {}
 ```
 
-The `JpaRepository` defines (or ore precisely, inherits) methods such as
+The `JpaRepository` defines (or more precisely, inherits) methods such as
 
 ```java
 List<T> findAll();
