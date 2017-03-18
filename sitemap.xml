@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
+<loc>https://psamsotha.github.io/angular/2017/03/18/angular-webpack-absolute-paths.html</loc>
+<lastmod>2017-03-18T00:00:00+07:00</lastmod>
+</url>
+<url>
 <loc>https://psamsotha.github.io/jersey/2017/01/07/jersey-pagination-with-spring-data.html</loc>
 <lastmod>2017-01-07T00:00:00+07:00</lastmod>
 </url>

@@ -6,9 +6,157 @@
 </description>
     <link>https://psamsotha.github.io/</link>
     <atom:link href="https://psamsotha.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Thu, 12 Jan 2017 21:31:22 +0700</pubDate>
-    <lastBuildDate>Thu, 12 Jan 2017 21:31:22 +0700</lastBuildDate>
+    <pubDate>Sat, 18 Mar 2017 16:22:53 +0700</pubDate>
+    <lastBuildDate>Sat, 18 Mar 2017 16:22:53 +0700</lastBuildDate>
     <generator>Jekyll v3.3.1</generator>
+    
+      <item>
+        <title>Absolute Paths with Angular and Webpack</title>
+        <description>&lt;p&gt;When using Angular with TypeScript, we’re always importing files into other files. An import statement might look something like&lt;/p&gt;
+
+&lt;div class=&quot;language-typescript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Data&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'../data'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;If you are very picky about style, then you might be repulsed at seeing something like the following, when you have deeply nested files&lt;/p&gt;
+
+&lt;div class=&quot;language-typescript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Data&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'../../../data'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;We are not strictly tied to using this way of relative importing though. In this article, I will briefly explain how we can use absolute file paths for imports, so you that with the following file structure&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;src/
+    + app/
+    |  |
+    |  `- constants.ts
+    |
+    + message/
+      |
+      `- model/
+          |
+          `- message.ts
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;in your &lt;code class=&quot;highlighter-rouge&quot;&gt;message.ts&lt;/code&gt; file, you can do this&lt;/p&gt;
+
+&lt;div class=&quot;language-typescript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;DEFAULT_MESSAGE&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'src/app/constants'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;which is IMO is much more preferable than doing&lt;/p&gt;
+
+&lt;div class=&quot;language-typescript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;DEFAULT_MESSAGE&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'../../app/constants'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;To begin, please have a look at &lt;a href=&quot;https://github.com/psamsotha/angular-docs-webpack&quot;&gt;this GitHub repo&lt;/a&gt;. It is basically just the project from the &lt;a href=&quot;https://github.com/psamsotha/angular-docs-webpack&quot;&gt;Angular Webapack docs&lt;/a&gt;, with a few modifications.&lt;/p&gt;
+
+&lt;p&gt;In the project, you will see the previously mentioned file structure. You may not have this same file structure in your application (for instance you may keep all your app folders inside the app directory), but hopefully after reading this article, you will be able to figure out how to adjust configurations accordingly to fit your application structure.&lt;/p&gt;
+
+&lt;p&gt;So to get this working there are two steps we need to take. First we need to make a simple modification to the TypeScript &lt;code class=&quot;highlighter-rouge&quot;&gt;tsconfig.json&lt;/code&gt; file, and second we beed to make a small modification to the Webpack &lt;code class=&quot;highlighter-rouge&quot;&gt;webpack.config.js&lt;/code&gt; file&lt;/p&gt;
+
+&lt;h2 id=&quot;tsconfigjson&quot;&gt;&lt;em&gt;tsconfig.json&lt;/em&gt;&lt;/h2&gt;
+
+&lt;p&gt;The only thing we need to configure for TypeScript is to set the &lt;code class=&quot;highlighter-rouge&quot;&gt;baseUrl&lt;/code&gt; property in the &lt;code class=&quot;highlighter-rouge&quot;&gt;compilerOptions&lt;/code&gt;&lt;/p&gt;
+
+&lt;div class=&quot;language-json highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;s2&quot;&gt;&quot;compilerOptions&quot;&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;baseUrl&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;.&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;The &lt;code class=&quot;highlighter-rouge&quot;&gt;baseUrl&lt;/code&gt; property is stated in the &lt;a href=&quot;http://www.typescriptlang.org/docs/handbook/compiler-options.html&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;compilerOptions&lt;/code&gt;&lt;/a&gt; to be:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Base directory to resolve non-relative module names&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;So if we don’t use this property, then all of our module imports will be relative. So we can only use the &lt;code class=&quot;highlighter-rouge&quot;&gt;./&lt;/code&gt; syntax. But now we are saying that “aside from relative paths, look at the &lt;code class=&quot;highlighter-rouge&quot;&gt;.&lt;/code&gt; (base) directory. So now if we use&lt;/p&gt;
+
+&lt;div class=&quot;language-typescript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;DEFAULT_MESSAGE&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'src/app/constants'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;src&lt;/code&gt; is in the base directory, so TypeScript will be able to resolve the file using this absolute path.&lt;/p&gt;
+
+&lt;p&gt;Or if you wanted, you could even do&lt;/p&gt;
+
+&lt;div class=&quot;language-json highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;s2&quot;&gt;&quot;compilerOptions&quot;&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;baseUrl&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;./src&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;This would allow you to get rid of the &lt;code class=&quot;highlighter-rouge&quot;&gt;src&lt;/code&gt; from the import&lt;/p&gt;
+
+&lt;div class=&quot;language-typescript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;DEFAULT_MESSAGE&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'app/constants'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;webpackconfigjs&quot;&gt;&lt;em&gt;webpack.config.js&lt;/em&gt;&lt;/h2&gt;
+
+&lt;p&gt;The configuration for Webpack is pretty easy also. What we want to do is modify the &lt;code class=&quot;highlighter-rouge&quot;&gt;resolve.modules&lt;/code&gt;. In your project, you might just have&lt;/p&gt;
+
+&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nx&quot;&gt;module&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;exports&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;resolve&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;extensions&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'.js'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'.ts'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;But there are other properties on the &lt;code class=&quot;highlighter-rouge&quot;&gt;resolve&lt;/code&gt; that we can configure (see link below for more). For this case we just want to configure the &lt;code class=&quot;highlighter-rouge&quot;&gt;module&lt;/code&gt; property to tell Webpack where else to resolve modules from besides just the &lt;code class=&quot;highlighter-rouge&quot;&gt;node_modules&lt;/code&gt;&lt;/p&gt;
+
+&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nx&quot;&gt;modules&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
+  &lt;span class=&quot;s1&quot;&gt;'../'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;s1&quot;&gt;'../node_modules'&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Or if you’re going of the project, you can use the `helpers utility.&lt;/p&gt;
+
+&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nx&quot;&gt;modules&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;helpers&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;root&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'/'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;helpers&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;root&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'node_modules'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Here we are telling Webpack to use both the root directory and the &lt;code class=&quot;highlighter-rouge&quot;&gt;node_modules&lt;/code&gt;. We need to specify the &lt;code class=&quot;highlighter-rouge&quot;&gt;node_modules&lt;/code&gt; since we are overriding the default.&lt;/p&gt;
+
+&lt;p&gt;One thing to note about the project is that is uses a &lt;code class=&quot;highlighter-rouge&quot;&gt;config&lt;/code&gt; directory t store all the configuration files. This is why we need to go a level up &lt;code class=&quot;highlighter-rouge&quot;&gt;../&lt;/code&gt; to resolve, as it’s being resolved from the location of the configuration file. If you are only using one &lt;code class=&quot;highlighter-rouge&quot;&gt;webpack.config.js&lt;/code&gt; file or even multiple that are in the root directory, then we don’t need to go a level up. You can just do&lt;/p&gt;
+
+&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nx&quot;&gt;modules&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;path&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;resolve&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'.'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
+  &lt;span class=&quot;s1&quot;&gt;'node_modules'&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;resources&quot;&gt;Resources&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://webpack.js.org/concepts/module-resolution/&quot;&gt;Webpack Module Resolution&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://webpack.js.org/configuration/resolve/#resolve-modules&quot;&gt;Webpack Resolve&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://www.typescriptlang.org/docs/handbook/module-resolution.html#base-url&quot;&gt;TypeScript Module Resolution&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+</description>
+        <pubDate>Sat, 18 Mar 2017 00:00:00 +0700</pubDate>
+        <link>https://psamsotha.github.io/angular/2017/03/18/angular-webpack-absolute-paths.html</link>
+        <guid isPermaLink="true">https://psamsotha.github.io/angular/2017/03/18/angular-webpack-absolute-paths.html</guid>
+        
+        <category>angular2</category>
+        
+        <category>webpack</category>
+        
+        
+        <category>angular</category>
+        
+      </item>
     
       <item>
         <title>Jersey Pagination With Spring Data JPA</title>
@@ -3703,526 +3851,6 @@ Content-Length: 0
         <category>spring</category>
         
         <category>jersey</category>
-        
-        
-        <category>jersey</category>
-        
-      </item>
-    
-      <item>
-        <title>HTTP Caching with Jersey (and JAX-RS)</title>
-        <description>&lt;p&gt;In this article I will be talking about caching in the context of the HTTP specs and REST (which is heavily linked with HTTP semantics). First I will cover the specifics covered in HTTP 1.0, then the changes made in HTTP 1.1, then conclude with how we can clean up some of the examples from the previous sections.&lt;/p&gt;
-
-&lt;h3 id=&quot;table-of-contents&quot;&gt;Table of Contents&lt;/h3&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;#requirements&quot;&gt;Requirements&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#http10&quot;&gt;Caching in HTTP 1.0&lt;/a&gt;
-    &lt;ul&gt;
-      &lt;li&gt;&lt;a href=&quot;#http10example&quot;&gt;Expires Example&lt;/a&gt;&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#http11&quot;&gt;Caching in HTTP 1.0&lt;/a&gt;
-    &lt;ul&gt;
-      &lt;li&gt;&lt;a href=&quot;#temporal&quot;&gt;Temporal Semantics&lt;/a&gt;
-        &lt;ul&gt;
-          &lt;li&gt;&lt;a href=&quot;#temporalExample&quot;&gt;Cache-Control example&lt;/a&gt;&lt;/li&gt;
-        &lt;/ul&gt;
-      &lt;/li&gt;
-      &lt;li&gt;&lt;a href=&quot;#revalidation&quot;&gt;Revalidation Semantics&lt;/a&gt;
-        &lt;ul&gt;
-          &lt;li&gt;&lt;a href=&quot;#temporalRevalidation&quot;&gt;Temporal Revalidation&lt;/a&gt;
-            &lt;ul&gt;
-              &lt;li&gt;&lt;a href=&quot;#temporalRevalidationExample&quot;&gt;Temporal Revalidation Example&lt;/a&gt;&lt;/li&gt;
-            &lt;/ul&gt;
-          &lt;/li&gt;
-          &lt;li&gt;&lt;a href=&quot;#etagRevalidation&quot;&gt;Etag Revalidation&lt;/a&gt;
-            &lt;ul&gt;
-              &lt;li&gt;&lt;a href=&quot;#etagRevalidationExample&quot;&gt;Etag Realidation Example&lt;/a&gt;&lt;/li&gt;
-            &lt;/ul&gt;
-          &lt;/li&gt;
-        &lt;/ul&gt;
-      &lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#dry&quot;&gt;Keeping it DRY (don’t repeat yourself)&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;&lt;a name=&quot;requirements&quot;&gt;&lt;/a&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;requirements&quot;&gt;Requirements&lt;/h2&gt;
-
-&lt;p&gt;Tools you will need to follow along.&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;http://curl.haxx.se/&quot;&gt;cURL&lt;/a&gt; - A command line tool that I use as a REST client. You may use a different client, but any other tools usages will be outside the scope of this article.&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://maven.apache.org/&quot;&gt;Maven&lt;/a&gt; - To build and run the app with the &lt;a href=&quot;http://www.eclipse.org/jetty/documentation/current/jetty-maven-plugin.html&quot;&gt;jetty-maven-plugin&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;You download or clone the app from Github&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git clone https://github.com/psamsotha/jersey-cache-example.git
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;Or download it from the &lt;a href=&quot;https://github.com/psamsotha/jersey-cache-example&quot;&gt;Github project site&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;a name=&quot;http10&quot;&gt;&lt;/a&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;caching-in-http-10&quot;&gt;Caching in HTTP 1.0&lt;/h2&gt;
-
-&lt;p&gt;In HTTP 1.0 the server sends an &lt;code class=&quot;highlighter-rouge&quot;&gt;Expires: &amp;lt;expiration-data&amp;gt;&lt;/code&gt; header with the response. So a response might look something like&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;HTTP/1.0 200 OK
-Date: Sun, 18 Oct 2015, 09:15:25 GMT
-Content-Type: text/plain
-Content-Length: 100
-Expires: Sun, 18 Oct 2015, 10:15:25 GMT
-
-  &amp;lt;body content&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;Here the expiration data has been set to one hour from the time the response was sent out.&lt;/p&gt;
-
-&lt;p&gt;&lt;a name=&quot;http10example&quot;&gt;&lt;/a&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;expires-example&quot;&gt;Expires example&lt;/h3&gt;
-
-&lt;p&gt;In JAX-RS, we would simply to something like&lt;/p&gt;
-
-&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nd&quot;&gt;@GET&lt;/span&gt;
-&lt;span class=&quot;nd&quot;&gt;@Produces&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text/plain&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Response&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;get&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;kt&quot;&gt;long&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;current&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Date&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getTime&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;Date&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;expires&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Date&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;current&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;_000&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;));&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Response&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;ok&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Some Data&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;expires&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;expires&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;build&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;There’s nothing really interesting goind on here. We are calling &lt;code class=&quot;highlighter-rouge&quot;&gt;expires&lt;/code&gt; on the &lt;a href=&quot;http://docs.oracle.com/javaee/7/api/javax/ws/rs/core/Response.ResponseBuilder.html&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;ResponseBuilder&lt;/code&gt;&lt;/a&gt; which sets the &lt;code class=&quot;highlighter-rouge&quot;&gt;Exires&lt;/code&gt; to ten seconds from the time of request. If we make the cURL request, we can see the header.&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;C:&lt;span class=&quot;se&quot;&gt;\&amp;gt;&lt;/span&gt;curl -v http://localhost:8080/api/expires
-&lt;span class=&quot;gp&quot;&gt;&amp;gt; &lt;/span&gt;GET /api/expires HTTP/1.1
-&lt;span class=&quot;gp&quot;&gt;&amp;gt; &lt;/span&gt;User-Agent: curl/7.40.0
-&lt;span class=&quot;gp&quot;&gt;&amp;gt; &lt;/span&gt;Host: localhost:8080
-&lt;span class=&quot;gp&quot;&gt;&amp;gt; &lt;/span&gt;Accept: &lt;span class=&quot;k&quot;&gt;*&lt;/span&gt;/&lt;span class=&quot;k&quot;&gt;*&lt;/span&gt;
-&amp;gt;
-&amp;lt; HTTP/1.1 200 OK
-&amp;lt; Date: Sun, 18 Oct 2015 03:34:50 GMT
-&amp;lt; Expires: Sun, 18 Oct 2015 03:35:00 GMT
-&amp;lt; Content-Type: text/plain
-&amp;lt; Content-Length: 9
-&amp;lt; Server: Jetty&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;9.2.6.v20141205&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-&amp;lt;
-Some Data
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;cURL doesn’t support any caching features, so trying to make another call won’t respect the &lt;code class=&quot;highlighter-rouge&quot;&gt;Expires&lt;/code&gt; header, and another request will be made.&lt;/p&gt;
-
-&lt;p&gt;&lt;a name=&quot;http11&quot;&gt;&lt;/a&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;caching-in-http-11&quot;&gt;Caching in HTTP 1.1&lt;/h2&gt;
-
-&lt;p&gt;Then came HTTP 1.1, which not only create new temporal semantics, but also added revalidation semantics to caching. Take for example the caching the &lt;code class=&quot;highlighter-rouge&quot;&gt;Expires&lt;/code&gt; example above. Say the expiration time is 10 seconds. A request made after that ten seconds will &lt;em&gt;always&lt;/em&gt; get back new data from the server. With revalidation the server sends a &lt;em&gt;condition&lt;/em&gt; request, saying &lt;em&gt;“if the data has not been modified since [date]”&lt;/em&gt; and/or &lt;em&gt;“if data still matches the data in my cache”&lt;/em&gt;, don’t send back the data. This helps in bandwidth usage, as the data is not always sent back, as would be the case with the old Expires semantics. Here’s a flow chart of basics of the process&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://www.dropbox.com/s/vxuzxwthzg2cj5s/cache-flow.png?dl=1&quot; alt=&quot;cache-flow&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;a name=&quot;temporal&quot;&gt;&lt;/a&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;temporal-caching&quot;&gt;Temporal caching&lt;/h3&gt;
-
-&lt;p&gt;When I say “temporal”, I am talking about time. As discussed, the old spec used the &lt;code class=&quot;highlighter-rouge&quot;&gt;Expires&lt;/code&gt; header to set the expiration date on the data. The problem with this is that it is an absolute time that is dependent on system clock being set correctly. To fix this problem, the &lt;code class=&quot;highlighter-rouge&quot;&gt;Cache-Control&lt;/code&gt; header was introduced. Instead of an absolute date, it uses a relative time in the form of &lt;code class=&quot;highlighter-rouge&quot;&gt;max-age&lt;/code&gt;. For example a response might look like&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;HTTP/1.1 200 OK
-Date: Sun, 18 Oct 2015 03:47:18 GMT
-Cache-Control: max-age&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;10
-Content-Type: text/plain
-Content-Length: 9
-Server: Jetty&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;9.2.6.v20141205&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-
-Some Data
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;Here the &lt;code class=&quot;highlighter-rouge&quot;&gt;Cache-Control&lt;/code&gt; header is saying that the data is only good in the cache for 10 second, after which a supporting client should get new data.&lt;/p&gt;
-
-&lt;p&gt;&lt;a name=&quot;temporalExmple&quot;&gt;&lt;/a&gt;&lt;/p&gt;
-
-&lt;h4 id=&quot;cache-control-example&quot;&gt;Cache-Control Example&lt;/h4&gt;
-
-&lt;p&gt;Here’s how we could code it in JAX-RS&lt;/p&gt;
-
-&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nd&quot;&gt;@GET&lt;/span&gt;
-&lt;span class=&quot;nd&quot;&gt;@Produces&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text/plain&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Response&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;get&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;CacheControl&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cc&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CacheControl&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;cc&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;setMaxAge&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Response&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;ok&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Some Data&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;cacheControl&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cc&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;build&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;This example is from &lt;code class=&quot;highlighter-rouge&quot;&gt;CacheControlResource&lt;/code&gt; in the Github project. We are setting the &lt;code class=&quot;highlighter-rouge&quot;&gt;max-age&lt;/code&gt; to 10 seconds. So let’s test it out. From the command line, &lt;code class=&quot;highlighter-rouge&quot;&gt;cd&lt;/code&gt; to the project root, then run the project with the Maven Jetty plugin (You will need to have Maven installed, or you can deploy the project to any servlet container).&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; &amp;lt;to&amp;gt; jersey-cache-example
-mvn jetty:run
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;You should see the embedded Jetty server start. Wait until you see &lt;code class=&quot;highlighter-rouge&quot;&gt;[INFO] Started Jetty Server&lt;/code&gt;. That’s when you know the server startup is complete.&lt;/p&gt;
-
-&lt;p&gt;Instead of testing with cURL, we will use the browser. As I mentioned above cURL doesn’t offer any caching support. For testing with the browser, I often make use of some developer tool. In Firefox, there should be able to go to &lt;code class=&quot;highlighter-rouge&quot;&gt;Tools&lt;/code&gt;→&lt;code class=&quot;highlighter-rouge&quot;&gt;Web Developer&lt;/code&gt;→&lt;code class=&quot;highlighter-rouge&quot;&gt;Web Console&lt;/code&gt; to see the below console, or with Chrome there is also a dev tool installed. Just hit F12 to open it.&lt;/p&gt;
-
-&lt;p&gt;This what we are going to do. First make a request, and see the request being sent to the server. Then make another immediate request, and see that the browser doesn’t make a request, but give’s use the cache value. And lastly, wait 10 seconds and make another request, and see the request being sent to the server.&lt;/p&gt;
-
-&lt;p&gt;When you first start up Firefox Web Console, you will see a window like below. Hit the &lt;kbd&gt;Network&lt;/kbd&gt; tab. Which will show networks calls.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://www.dropbox.com/s/z97efh9z2ee8l2a/firefox1.png?dl=1&quot; alt=&quot;firefox1&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Now in the URL bar, type in the URL &lt;code class=&quot;highlighter-rouge&quot;&gt;http://localhost:8080/api/cc&lt;/code&gt; and hit Enter. You will can tell that a request is made, from the green dot on the left, as well as the request time in milliseconds on the right&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://www.dropbox.com/s/1grasb6h3gpyiw4/firefox2.png?dl=1&quot; alt=&quot;firefox2&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Most likely 10 seconds has passed. So highlight the URL bar then make a request again by hitting Enter, but make a second request but highlighting and hitting enter again. This time what you should have seen if first the same screen as above, as a request &lt;em&gt;is&lt;/em&gt; made, but the second time you hit enter to make a request, you should see&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://www.dropbox.com/s/8xxof4v6j4i2mo3/firefox3.png?dl=1&quot; alt=&quot;firefox3&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;This time there is no green dot, and no time elapsed for the request. This is because the browser respects the &lt;code class=&quot;highlighter-rouge&quot;&gt;Cache-Control&lt;/code&gt; and knows the data is only good for the &lt;code class=&quot;highlighter-rouge&quot;&gt;max-age&lt;/code&gt; of 10 seconds. At any time you can select the request table row to see all the request and response headers. You should see the header for the cache control.&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Cache-Control: no-transform, max-age=10 
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;&lt;a name=&quot;revalidation&quot;&gt;&lt;/a&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;revalidation-caching&quot;&gt;Revalidation caching&lt;/h3&gt;
-
-&lt;p&gt;As previously mentioned, HTTP 1.1 also added the concept of revalidation. If there is a &lt;code class=&quot;highlighter-rouge&quot;&gt;Cache-Control&lt;/code&gt; header, then after the time expires, the supporting client should revalidate the date and check to see if it has not changed.&lt;/p&gt;
-
-&lt;p&gt;&lt;a name=&quot;temporalRevalidation&quot;&gt;&lt;/a&gt;&lt;/p&gt;
-
-&lt;h4 id=&quot;temporal-revalidation&quot;&gt;Temporal Revalidation&lt;/h4&gt;
-
-&lt;p&gt;There are two client request headers that could be involved in the revalidation process. The first is the &lt;code class=&quot;highlighter-rouge&quot;&gt;If-Modified-Since: [date]&lt;/code&gt; header. How it works is that the server should send a &lt;code class=&quot;highlighter-rouge&quot;&gt;Last-Modified: [date]&lt;/code&gt; response header along with the data. The server should have some way to maintaining this “last modified” date, for example a database field, that changes whenever the data is modified.&lt;/p&gt;
-
-&lt;p&gt;One subsequent requests, the client should send the &lt;code class=&quot;highlighter-rouge&quot;&gt;If-Modified-Since: [date]&lt;/code&gt;, with the &lt;code class=&quot;highlighter-rouge&quot;&gt;[date]&lt;/code&gt; being the same date in the &lt;code class=&quot;highlighter-rouge&quot;&gt;Last-Modified&lt;/code&gt; response header from the server. The server should check if the data has been modified since that date. If it hasn’t then the sever simply send back a &lt;code class=&quot;highlighter-rouge&quot;&gt;304 Not Modified&lt;/code&gt;, other wise send the new data with a &lt;code class=&quot;highlighter-rouge&quot;&gt;200 OK&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;a name=&quot;temporalRevalidationExample&quot;&gt;&lt;/a&gt;&lt;/p&gt;
-
-&lt;h5 id=&quot;temporal-revalidation-example&quot;&gt;Temporal Revalidation Example&lt;/h5&gt;
-
-&lt;p&gt;Let go through an example of using the &lt;code class=&quot;highlighter-rouge&quot;&gt;If-Modified-Since&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;Last-Modified&lt;/code&gt; example. The code can be found in the &lt;code class=&quot;highlighter-rouge&quot;&gt;LastModifiedResource&lt;/code&gt; in the Github project.&lt;/p&gt;
-
-&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nd&quot;&gt;@Singleton&lt;/span&gt;
-&lt;span class=&quot;nd&quot;&gt;@Path&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;last-modified&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;LastModifiedResource&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-    
-    &lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;Some Data&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Date&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lastModified&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Date&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
-    
-    &lt;span class=&quot;nd&quot;&gt;@GET&lt;/span&gt;
-    &lt;span class=&quot;nd&quot;&gt;@Produces&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text/plain&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Response&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;get&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nd&quot;&gt;@Context&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Request&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;request&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;ResponseBuilder&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;builder&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;request&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;evaluatePreconditions&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;lastModified&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;builder&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-            &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;builder&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;build&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
-        &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Response&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;ok&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;lastModified&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;lastModified&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;build&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-    
-    &lt;span class=&quot;nd&quot;&gt;@POST&lt;/span&gt;
-    &lt;span class=&quot;nd&quot;&gt;@Consumes&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text/plain&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Response&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;post&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;lastModified&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Date&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Response&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;noContent&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;build&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;Here we are creating a singleton resource (which &lt;em&gt;is not&lt;/em&gt; thread safe in this example; bare with me). Here is what we want to accomplish in this example.&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;The client sends a GET that will produce the &lt;code class=&quot;highlighter-rouge&quot;&gt;data&lt;/code&gt;, and send with it a &lt;code class=&quot;highlighter-rouge&quot;&gt;Last-Modified&lt;/code&gt; date being the &lt;code class=&quot;highlighter-rouge&quot;&gt;lastModfied&lt;/code&gt; field.&lt;/li&gt;
-  &lt;li&gt;We will make a GET request to the same endpoint, but this time adding the &lt;code class=&quot;highlighter-rouge&quot;&gt;If-Modified-Since&lt;/code&gt; header, with the date value being the one the server sent us in the &lt;code class=&quot;highlighter-rouge&quot;&gt;Last-Modified&lt;/code&gt; header. When we send this request, we will get back a &lt;code class=&quot;highlighter-rouge&quot;&gt;304 Not Modified&lt;/code&gt; response, with no data&lt;/li&gt;
-  &lt;li&gt;Then we will make a POST request, changing the data, which will also cause the &lt;code class=&quot;highlighter-rouge&quot;&gt;lastModfied&lt;/code&gt; field to change.&lt;/li&gt;
-  &lt;li&gt;Finally we will make the same request as in step two. But this time the revalidation will fail, as the dates are different. This time we will get the data back with a &lt;code class=&quot;highlighter-rouge&quot;&gt;200 OK&lt;/code&gt; along with a new date in the &lt;code class=&quot;highlighter-rouge&quot;&gt;Last-Modified&lt;/code&gt; response header.&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;In the example you will notice the uses of the &lt;a href=&quot;http://docs.oracle.com/javaee/7/api/javax/ws/rs/core/Request.html&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;javax.ws.rs.core.Request&lt;/code&gt;&lt;/a&gt; context object. How it works is that it already has reference to the &lt;code class=&quot;highlighter-rouge&quot;&gt;If-Modified-Since&lt;/code&gt; header sent by the client. The &lt;code class=&quot;highlighter-rouge&quot;&gt;evaluatePreconditions&lt;/code&gt; check to see if they are the same dates. If they are, the method will return a &lt;code class=&quot;highlighter-rouge&quot;&gt;ResponseBuilder&lt;/code&gt; set up to return a &lt;code class=&quot;highlighter-rouge&quot;&gt;304 Not Modified&lt;/code&gt;, so we don’t need to do anything but build and return it. If the dates are different, then it fail the revalidation and return null.&lt;/p&gt;
-
-&lt;p&gt;Here is the request sequence in cURL (listed as in the steps above)&lt;/p&gt;
-
-&lt;p&gt;Step 1 (initial GET)&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;C:&lt;span class=&quot;se&quot;&gt;\&amp;gt;&lt;/span&gt;curl -v http://localhost:8080/api/last-modified
-&lt;span class=&quot;gp&quot;&gt;&amp;gt; &lt;/span&gt;GET /api/last-modified HTTP/1.1
-&lt;span class=&quot;gp&quot;&gt;&amp;gt; &lt;/span&gt;...
-&amp;lt; HTTP/1.1 200 OK
-&amp;lt; Date: Sun, 18 Oct 2015 05:44:48 GMT
-&amp;lt; Last-Modified: Sun, 18 Oct 2015 05:44:48 GMT
-&amp;lt; Content-Type: text/plain
-&amp;lt;
-Some Data
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;Step 2 (GET with If-Modified-Since)&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;C:&lt;span class=&quot;se&quot;&gt;\&amp;gt;&lt;/span&gt;curl -v http://localhost:8080/api/last-modified &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-         -H &lt;span class=&quot;s2&quot;&gt;&quot;If-Modified-Since: Sun, 18 Oct 2015 05:44:48 GMT&quot;&lt;/span&gt;
-&lt;span class=&quot;gp&quot;&gt;&amp;gt; &lt;/span&gt;GET /api/last-modified HTTP/1.1
-&lt;span class=&quot;gp&quot;&gt;&amp;gt; &lt;/span&gt;If-Modified-Since: Sun, 18 Oct 2015 05:44:48 GMT
-&lt;span class=&quot;gp&quot;&gt;&amp;gt; &lt;/span&gt;...
-&amp;lt; HTTP/1.1 304 Not Modified
-&amp;lt; Date: Sun, 18 Oct 2015 05:45:28 GMT
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;Step 3 (POST to change data)&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;C:&lt;span class=&quot;se&quot;&gt;\&amp;gt;&lt;/span&gt;curl -v -X POST -d &lt;span class=&quot;s2&quot;&gt;&quot;new data&quot;&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-         -H &lt;span class=&quot;s2&quot;&gt;&quot;Content-Type:text/plain&quot;&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-         http://localhost:8080/api/last-modified
-&lt;span class=&quot;gp&quot;&gt;&amp;gt; &lt;/span&gt;POST /api/last-modified HTTP/1.1
-&lt;span class=&quot;gp&quot;&gt;&amp;gt; &lt;/span&gt;Content-Type:text/plain
-&lt;span class=&quot;gp&quot;&gt;&amp;gt; &lt;/span&gt;Content-Length: 8
-&lt;span class=&quot;gp&quot;&gt;&amp;gt; &lt;/span&gt;...
-&amp;lt; HTTP/1.1 204 No Content
-&amp;lt; Date: Sun, 18 Oct 2015 05:45:45 GMT
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;Step 4 (Same GET as in Step 2)&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;C:&lt;span class=&quot;se&quot;&gt;\&amp;gt;&lt;/span&gt;curl -v http://localhost:8080/api/last-modified 
-         -H &lt;span class=&quot;s2&quot;&gt;&quot;If-Modified-Since: Sun, 18 Oct 2015 05:44:48 GMT&quot;&lt;/span&gt;
-&lt;span class=&quot;gp&quot;&gt;&amp;gt; &lt;/span&gt;GET /api/last-modified HTTP/1.1
-&lt;span class=&quot;gp&quot;&gt;&amp;gt; &lt;/span&gt;If-Modified-Since: Sun, 18 Oct 2015 05:44:48 GMT
-&lt;span class=&quot;gp&quot;&gt;&amp;gt; &lt;/span&gt;...
-&amp;lt; HTTP/1.1 200 OK
-&amp;lt; Date: Sun, 18 Oct 2015 05:46:01 GMT
-&amp;lt; Last-Modified: Sun, 18 Oct 2015 05:45:45 GMT
-&amp;lt; Content-Type: text/plain
-&amp;lt; Content-Length: 8
-&amp;lt;
-new data
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;Hope you can easily follow along. The important point to notice is that in step two, we are getting no content back and a 304 as the date is the same as on the server. But in the last request, the date change because of the previous POST, so now we get back new data with a different date.&lt;/p&gt;
-
-&lt;p&gt;&lt;a name=&quot;etagRevalidation&quot;&gt;&lt;/a&gt;&lt;/p&gt;
-
-&lt;h4 id=&quot;etag-revalidation&quot;&gt;Etag Revalidation&lt;/h4&gt;
-
-&lt;p&gt;The second form of validation is validating the content has not changed. To do that the server should send something to the client the represents the current state of the content being sent in the request. This is handled with the &lt;code class=&quot;highlighter-rouge&quot;&gt;Etag&lt;/code&gt; header. In most cases, this will be a hash of the data. The server sends the &lt;code class=&quot;highlighter-rouge&quot;&gt;Etag: &amp;lt;hash&amp;gt;&lt;/code&gt; header with the response. When the client makes a request for the same resource, it should send a &lt;code class=&quot;highlighter-rouge&quot;&gt;If-None-Match: &amp;lt;hash&amp;gt;&lt;/code&gt; to the server. If the value does not match that of the server’s, then the resource has been changed since the client last received it, and the server should send the new data with the new &lt;code class=&quot;highlighter-rouge&quot;&gt;Etag&lt;/code&gt;. Otherwise if the data is the same, the server should send a &lt;code class=&quot;highlighter-rouge&quot;&gt;304 Not Modified&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;&lt;a name=&quot;etagRevalidationExample&quot;&gt;&lt;/a&gt;&lt;/p&gt;
-
-&lt;h5 id=&quot;etag-revalidation-example&quot;&gt;Etag Revalidation Example&lt;/h5&gt;
-
-&lt;p&gt;Below is an example implementation. It is very similar to the one above, except we are not checking the time the resource was last modified, but &lt;em&gt;if&lt;/em&gt; is was actually modified&lt;/p&gt;
-
-&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nd&quot;&gt;@Singleton&lt;/span&gt;
-&lt;span class=&quot;nd&quot;&gt;@Path&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;etag&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;EtagResource&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-    
-    &lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;Some Data&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-    
-    &lt;span class=&quot;nd&quot;&gt;@GET&lt;/span&gt;
-    &lt;span class=&quot;nd&quot;&gt;@Produces&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text/plain&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Response&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;get&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nd&quot;&gt;@Context&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Request&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;request&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;throws&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Exception&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;MessageDigest&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;digest&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;MessageDigest&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getInstance&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;MD5&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
-        &lt;span class=&quot;kt&quot;&gt;byte&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[]&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;hash&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;digest&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;digest&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getBytes&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;StandardCharsets&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;UTF_8&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;));&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;hex&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DatatypeConverter&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;printHexBinary&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;hash&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;EntityTag&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;etag&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;EntityTag&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;hex&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
-        
-        &lt;span class=&quot;n&quot;&gt;ResponseBuilder&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;builder&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;request&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;evaluatePreconditions&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;etag&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;builder&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-            &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;builder&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;build&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
-        &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-        
-        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Response&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;ok&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;tag&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;etag&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;build&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-    
-    &lt;span class=&quot;nd&quot;&gt;@POST&lt;/span&gt;
-    &lt;span class=&quot;nd&quot;&gt;@Consumes&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text/plain&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Response&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;post&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Response&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;noContent&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;build&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;You can see the same use of the &lt;code class=&quot;highlighter-rouge&quot;&gt;Request&lt;/code&gt; context object, and a similar usage of the &lt;code class=&quot;highlighter-rouge&quot;&gt;evaluatePreconditions&lt;/code&gt;. Only this time we are using the overloaded method that accepts and &lt;code class=&quot;highlighter-rouge&quot;&gt;EntityTag&lt;/code&gt;. We construct the &lt;code class=&quot;highlighter-rouge&quot;&gt;EntityTag&lt;/code&gt; from the hash of the &lt;code class=&quot;highlighter-rouge&quot;&gt;data&lt;/code&gt;. In the initial request, the revalidation will not pass as there is no header from the client, so we just return the normal response, setting the &lt;code class=&quot;highlighter-rouge&quot;&gt;Etag&lt;/code&gt; response header, by calling &lt;code class=&quot;highlighter-rouge&quot;&gt;tag(EntityTag)&lt;/code&gt; on the &lt;code class=&quot;highlighter-rouge&quot;&gt;ResponseBuilder&lt;/code&gt;. In subsequent requests, if the &lt;code class=&quot;highlighter-rouge&quot;&gt;EntityTag&lt;/code&gt; matches, the the &lt;code class=&quot;highlighter-rouge&quot;&gt;ResponseBuilder&lt;/code&gt; will not be null, and we create the pre-configured &lt;code class=&quot;highlighter-rouge&quot;&gt;ResponseBuilder&lt;/code&gt; that is set to send a &lt;code class=&quot;highlighter-rouge&quot;&gt;304 Not Modified&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;Below I’ll post the same steps as I did with the above example and you will see similar results&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;Send initial GET to get the data for the first time. We will get a response with the hash in the &lt;code class=&quot;highlighter-rouge&quot;&gt;Etag&lt;/code&gt; header.&lt;/li&gt;
-  &lt;li&gt;We will make the same request, except this time we will add the &lt;code class=&quot;highlighter-rouge&quot;&gt;If-None-Match&lt;/code&gt; header, with the etag value. We should get back a &lt;code class=&quot;highlighter-rouge&quot;&gt;304 Not Modified&lt;/code&gt; with no data.&lt;/li&gt;
-  &lt;li&gt;We will send a POST request to change the data.&lt;/li&gt;
-  &lt;li&gt;We will make the exact same request as in step 2, but this time we will get the new data, with the new &lt;code class=&quot;highlighter-rouge&quot;&gt;Etag&lt;/code&gt;.&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;Step 1 (initial GET)&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;C:&lt;span class=&quot;se&quot;&gt;\&amp;gt;&lt;/span&gt;curl -v http://localhost:8080/api/etag
-&lt;span class=&quot;gp&quot;&gt;&amp;gt; &lt;/span&gt;GET /api/etag HTTP/1.1
-&lt;span class=&quot;gp&quot;&gt;&amp;gt; &lt;/span&gt;...
-&amp;lt; HTTP/1.1 200 OK
-&amp;lt; Date: Sun, 18 Oct 2015 07:57:29 GMT
-&amp;lt; ETag: &lt;span class=&quot;s2&quot;&gt;&quot;30057E5031BCF44D47B005A1F1700F7B&quot;&lt;/span&gt;
-&amp;lt; Content-Type: text/plain
-&amp;lt; Content-Length: 9
-&amp;lt;
-Some Data
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;Step 2 (GET with If-None-Match))&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;C:&lt;span class=&quot;se&quot;&gt;\&amp;gt;&lt;/span&gt;curl -v http://localhost:8080/api/etag &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-         -H &lt;span class=&quot;s2&quot;&gt;&quot;If-None-Match: &lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;30057E5031BCF44D47B005A1F1700F7B&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
-&lt;span class=&quot;gp&quot;&gt;&amp;gt; &lt;/span&gt;GET /api/etag HTTP/1.1
-&lt;span class=&quot;gp&quot;&gt;&amp;gt; &lt;/span&gt;If-None-Match: &lt;span class=&quot;s2&quot;&gt;&quot;30057E5031BCF44D47B005A1F1700F7B&quot;&lt;/span&gt;
-&lt;span class=&quot;gp&quot;&gt;&amp;gt; &lt;/span&gt;...
-&amp;lt; HTTP/1.1 304 Not Modified
-&amp;lt; Date: Sun, 18 Oct 2015 07:58:22 GMT
-&amp;lt; ETag: &lt;span class=&quot;s2&quot;&gt;&quot;30057E5031BCF44D47B005A1F1700F7B&quot;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;Step 3 (change data with POST)&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;C:&lt;span class=&quot;se&quot;&gt;\&amp;gt;&lt;/span&gt;curl -v -X POST -d &lt;span class=&quot;s2&quot;&gt;&quot;new data&quot;&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-         -H &lt;span class=&quot;s2&quot;&gt;&quot;Content-Type: text/plain&quot;&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-         http://localhost:8080/api/etag
-&lt;span class=&quot;gp&quot;&gt;&amp;gt; &lt;/span&gt;POST /api/etag HTTP/1.1
-&lt;span class=&quot;gp&quot;&gt;&amp;gt; &lt;/span&gt;Content-Type: text/plain
-&lt;span class=&quot;gp&quot;&gt;&amp;gt; &lt;/span&gt;Content-Length: 8
-&lt;span class=&quot;gp&quot;&gt;&amp;gt; &lt;/span&gt;...
-&amp;lt; HTTP/1.1 204 No Content
-&amp;lt; Date: Sun, 18 Oct 2015 07:58:57 GMT
-&amp;lt; Server: Jetty&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;9.2.6.v20141205&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;Step 4 (set GET from step 2)&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;C:&lt;span class=&quot;se&quot;&gt;\&amp;gt;&lt;/span&gt;curl -v http://localhost:8080/api/etag 
-         -H &lt;span class=&quot;s2&quot;&gt;&quot;If-None-Match: &lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;30057E5031BCF44D47B005A1F1700F7B&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
-&lt;span class=&quot;gp&quot;&gt;&amp;gt; &lt;/span&gt;GET /api/etag HTTP/1.1
-&lt;span class=&quot;gp&quot;&gt;&amp;gt; &lt;/span&gt;If-None-Match: &lt;span class=&quot;s2&quot;&gt;&quot;30057E5031BCF44D47B005A1F1700F7B&quot;&lt;/span&gt;
-&lt;span class=&quot;gp&quot;&gt;&amp;gt; &lt;/span&gt;...
-&amp;lt; HTTP/1.1 200 OK
-&amp;lt; Date: Sun, 18 Oct 2015 07:59:01 GMT
-&amp;lt; ETag: &lt;span class=&quot;s2&quot;&gt;&quot;E83CA39A795E57283EC1D12EDA0FECD3&quot;&lt;/span&gt;
-&amp;lt; Content-Type: text/plain
-&amp;lt; Content-Length: 8
-&amp;lt;
-new data
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;You can see that in the 2nd step, we are not getting content back with a 304, but in the 4th request, we are getting the new data with a 200 and the new etag.&lt;/p&gt;
-
-&lt;p&gt;&lt;a name=&quot;dry&quot;&gt;&lt;/a&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;staying-dry-using-filters-and-interceptors&quot;&gt;Staying DRY Using Filters and Interceptors&lt;/h2&gt;
-
-&lt;p&gt;If you’ve been following along up to this point, you will have noticed that there is a lot of boilerplate that goes into producing the functionality for handling HTTP caching. With more resource methods, we will need to repeat similar code over and over. With Jersey (and JAX-RS), when we are faced with this, it is often an opportunity to handle this repetition inside of a filter or interceptor. If you are unfamiliar with these, I suggest taking some time to review &lt;a href=&quot;https://jersey.java.net/documentation/latest/filters-and-interceptors.html&quot;&gt;Filters and Interceptors&lt;/a&gt; from the Jersey user guide.&lt;/p&gt;
-
-&lt;p&gt;What I will do here is not try to implement this functionality myself, but I will direct your attention to RESTeasy’s implementation. For those that don’t know, RESTeasy is another implementation of JAX-RS. From this implementation you can get an idea of what it takes to implement this.&lt;/p&gt;
-
-&lt;p&gt;What I did was port the functionality over to Jersey for my example. Some of the classes used in the implementation were RESTeasy specific, so I had to change some of it.&lt;/p&gt;
-
-&lt;p&gt;You will find all classes in the &lt;code class=&quot;highlighter-rouge&quot;&gt;com.underdog.jersey.cache.example.dry&lt;/code&gt; in my Github example project. All of the classes in the package are either complete duplicates or just altered a bit to port to Jersey. Below is a list of the classes, with a link to the original source code from the RESTeasy project. I will then describe them.&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;https://github.com/resteasy/Resteasy/blob/master/jaxrs/resteasy-jaxrs/src/main/java/org/jboss/resteasy/annotations/cache/Cache.java&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;@Cache&lt;/code&gt;&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://github.com/resteasy/Resteasy/blob/master/jaxrs/resteasy-jaxrs/src/main/java/org/jboss/resteasy/plugins/interceptors/CacheControlFilter.java&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;CacheControlFilter&lt;/code&gt;&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://github.com/resteasy/Resteasy/blob/master/jaxrs/resteasy-jaxrs/src/main/java/org/jboss/resteasy/plugins/interceptors/CacheControlFeature.java&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;CacheControlFeature&lt;/code&gt;&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://github.com/resteasy/Resteasy/blob/master/jaxrs/resteasy-cache/resteasy-cache-core/src/main/java/org/jboss/resteasy/plugins/cache/server/ServerCache.java&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;ServerCache&lt;/code&gt;&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://github.com/resteasy/Resteasy/blob/master/jaxrs/resteasy-cache/resteasy-cache-core/src/main/java/org/jboss/resteasy/plugins/cache/server/SimpleServerCache.java&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;SimpleServerCache&lt;/code&gt;&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://github.com/resteasy/Resteasy/blob/master/jaxrs/resteasy-cache/resteasy-cache-core/src/main/java/org/jboss/resteasy/plugins/cache/server/ServerCacheHitFilter.java&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;ServerCacheHitFilter&lt;/code&gt;&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://github.com/resteasy/Resteasy/blob/master/jaxrs/resteasy-cache/resteasy-cache-core/src/main/java/org/jboss/resteasy/plugins/cache/server/ServerCacheHitFilter.java&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;ServerCacheInterceptor&lt;/code&gt;&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://github.com/resteasy/Resteasy/blob/master/jaxrs/resteasy-cache/resteasy-cache-core/src/main/java/org/jboss/resteasy/plugins/cache/server/ServerCacheFeature.java&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;ServerCacheFeature&lt;/code&gt;&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;&lt;strong&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;@Cache&lt;/code&gt;&lt;/strong&gt; - Is used as metadata for resource method or resource class. For example&lt;/p&gt;
-
-&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nd&quot;&gt;@GET&lt;/span&gt;
-&lt;span class=&quot;nd&quot;&gt;@Cache&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;maxAge&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Responge&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;get&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(){}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;The &lt;code class=&quot;highlighter-rouge&quot;&gt;CacheControlFilter&lt;/code&gt; uses this meta data to send the &lt;code class=&quot;highlighter-rouge&quot;&gt;Cache-Control&lt;/code&gt; header to the client&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;CacheControlFilter&lt;/code&gt;&lt;/strong&gt; - It uses the &lt;code class=&quot;highlighter-rouge&quot;&gt;@Cache&lt;/code&gt; metadata to create a &lt;code class=&quot;highlighter-rouge&quot;&gt;CacheControl&lt;/code&gt; object to send with the response header.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;CacheControlFeature&lt;/code&gt;&lt;/strong&gt; is a &lt;a href=&quot;https://docs.oracle.com/javaee/7/api/javax/ws/rs/container/DynamicFeature.html&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;DynamicFeature&lt;/code&gt;&lt;/a&gt; that is registered with the application. This is what registers the &lt;code class=&quot;highlighter-rouge&quot;&gt;CacheControlFilter&lt;/code&gt; for each endpoint.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;ServerCache&lt;/code&gt;&lt;/strong&gt; - This is an interface for the internal caching operations. Implementation will have an internal cache and the contract has methods to save to the cache, get from the cache, and remove from the cache&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;SimpleServerCache&lt;/code&gt;&lt;/strong&gt; - This is deprecated implementation of the &lt;code class=&quot;highlighter-rouge&quot;&gt;ServerCache&lt;/code&gt;. I only use it for this example so I don’t have to introduce other dependencies. The preferred implementation is the &lt;a href=&quot;https://github.com/resteasy/Resteasy/blob/master/jaxrs/resteasy-cache/resteasy-cache-core/src/main/java/org/jboss/resteasy/plugins/cache/server/InfinispanCache.java&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;InfinispanCache&lt;/code&gt;&lt;/a&gt;, which uses &lt;a href=&quot;https://github.com/resteasy/Resteasy/blob/master/jaxrs/resteasy-cache/resteasy-cache-core/src/main/java/org/jboss/resteasy/plugins/cache/server/InfinispanCache.java&quot;&gt;Infinispan&lt;/a&gt; as the underlying cache, as opposed to the &lt;code class=&quot;highlighter-rouge&quot;&gt;SimpleServerCache&lt;/code&gt; which simply uses a &lt;code class=&quot;highlighter-rouge&quot;&gt;ConcurrentHashMap&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;Now get to where all the action lies.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;ServerCacheHitFilter&lt;/code&gt;&lt;/strong&gt; The basic algorithm goes like this&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;If it is not a GET request (e.g. PUT or POST), then remove the URI from the cache. (Note that cache keys are the URI and MediaTypes)&lt;/li&gt;
-  &lt;li&gt;If it is a GET request then &lt;code class=&quot;highlighter-rouge&quot;&gt;handleGET&lt;/code&gt;
-    &lt;ol&gt;
-      &lt;li&gt;Lookup cache from URI and MediaType key&lt;/li&gt;
-      &lt;li&gt;If entry is null, end filter, go to resource method&lt;/li&gt;
-      &lt;li&gt;If the entry is expired, remove from cache and end filter, go to resource method.&lt;/li&gt;
-      &lt;li&gt;Else if entry not null
-        &lt;ol&gt;
-          &lt;li&gt;Create &lt;code class=&quot;highlighter-rouge&quot;&gt;EntityTag&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;Request.evaluatePreconditions()&lt;/code&gt;&lt;/li&gt;
-          &lt;li&gt;If &lt;code class=&quot;highlighter-rouge&quot;&gt;ResponseBuilder&lt;/code&gt; is returned, then etag from client matches. Return &lt;code class=&quot;highlighter-rouge&quot;&gt;304 Not Modified&lt;/code&gt;&lt;/li&gt;
-          &lt;li&gt;If &lt;code class=&quot;highlighter-rouge&quot;&gt;ResponseBuilder&lt;/code&gt; is null, that means that the etag from the client is different from the one in the cache. So we just send an OK response with the entity in the cache.&lt;/li&gt;
-        &lt;/ol&gt;
-      &lt;/li&gt;
-    &lt;/ol&gt;
-  &lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;&lt;strong&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;ServerCacheInterceptor&lt;/code&gt;&lt;/strong&gt; - This is the component that adds to the cache.&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;If not GET, proceed and return.&lt;/li&gt;
-  &lt;li&gt;If there is no &lt;code class=&quot;highlighter-rouge&quot;&gt;Cache-Control&lt;/code&gt; header set (from the &lt;code class=&quot;highlighter-rouge&quot;&gt;CacheControlFilter&lt;/code&gt;), proceed. The component will only handle caching for endpoints that send out &lt;code class=&quot;highlighter-rouge&quot;&gt;Cache-Control&lt;/code&gt;&lt;/li&gt;
-  &lt;li&gt;If all is well, the interceptor sets the &lt;code class=&quot;highlighter-rouge&quot;&gt;OutputStream&lt;/code&gt; for the writer to a &lt;code class=&quot;highlighter-rouge&quot;&gt;ByteArrayOutputStream&lt;/code&gt;. The reason for this is that the interceptor works in an AOP “around-invoke” style. It handles some “before” stuff, calls &lt;code class=&quot;highlighter-rouge&quot;&gt;proceed&lt;/code&gt; so the &lt;code class=&quot;highlighter-rouge&quot;&gt;MessageBodyWriter&lt;/code&gt; can do its serialization, then it handle the “after” stuff. So what happens is the after &lt;code class=&quot;highlighter-rouge&quot;&gt;proceed&lt;/code&gt; is called, the &lt;code class=&quot;highlighter-rouge&quot;&gt;MessageBodyWriter&lt;/code&gt; has written the data to the &lt;code class=&quot;highlighter-rouge&quot;&gt;ByteArrayOutputStream&lt;/code&gt;. Not the interceptor can get the &lt;code class=&quot;highlighter-rouge&quot;&gt;byte[]&lt;/code&gt; and use it to create the hash for the etag.&lt;/li&gt;
-  &lt;li&gt;With the etag created, the interceptor saves the &lt;code class=&quot;highlighter-rouge&quot;&gt;byte[]&lt;/code&gt; entity data along with the etag into the cache.&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;Now the process is complete. To register this functionality, we use the last component&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;ServerCacheFeature&lt;/code&gt;&lt;/strong&gt; - The original &lt;code class=&quot;highlighter-rouge&quot;&gt;ServerCacheFeature&lt;/code&gt; (linked above) registers the &lt;code class=&quot;highlighter-rouge&quot;&gt;InfinispanCache&lt;/code&gt; as the default cache, so I change it up to register the &lt;code class=&quot;highlighter-rouge&quot;&gt;SimpleServerCache&lt;/code&gt; instead. The feature also registers the &lt;code class=&quot;highlighter-rouge&quot;&gt;ServerCacheHitFilter&lt;/code&gt;, the &lt;code class=&quot;highlighter-rouge&quot;&gt;ServerCacheInterceptor&lt;/code&gt;, and the &lt;code class=&quot;highlighter-rouge&quot;&gt;CacheControlFilter&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;All that’s needed to make everything work, is to annotate a method with &lt;code class=&quot;highlighter-rouge&quot;&gt;@Cache&lt;/code&gt;, and to register the &lt;code class=&quot;highlighter-rouge&quot;&gt;ServerCacheFeature&lt;/code&gt;. You can see in the &lt;code class=&quot;highlighter-rouge&quot;&gt;DryResource&lt;/code&gt; from the example project, where the &lt;code class=&quot;highlighter-rouge&quot;&gt;@Cache&lt;/code&gt; annotation is used, and see the &lt;code class=&quot;highlighter-rouge&quot;&gt;AppConfig&lt;/code&gt; where the &lt;code class=&quot;highlighter-rouge&quot;&gt;ServerCacheInterceptor&lt;/code&gt; is registered.&lt;/p&gt;
-
-&lt;p&gt;To test this functionality out just start the server &lt;code class=&quot;highlighter-rouge&quot;&gt;mvn jetty:run&lt;/code&gt;, then follow the four cURL steps above in the Etag section. So will see the same results. The URL will be different though. Use &lt;code class=&quot;highlighter-rouge&quot;&gt;http://localhost:8080/api/dry&lt;/code&gt;&lt;/p&gt;
-
-</description>
-        <pubDate>Sun, 18 Oct 2015 00:00:00 +0700</pubDate>
-        <link>https://psamsotha.github.io/jersey/2015/10/18/http-caching-with-jersey.html</link>
-        <guid isPermaLink="true">https://psamsotha.github.io/jersey/2015/10/18/http-caching-with-jersey.html</guid>
-        
-        <category>jersey</category>
-        
-        <category>jersey-2.0</category>
-        
-        <category>jax-rs</category>
         
         
         <category>jersey</category>

@@ -17,14 +17,13 @@
   <!-- end favicon -->
 
   <title>
-     Peeskillet.IO  - 
-    Archive
+    angular - 
+    Absolute Paths with Angular and Webpack
   </title>
-  <meta name="description" content="Paul Samsotha's developer blog.
-">
+  <meta name="description" content="How to use absolute paths when using imports in Angular and Webpack.">
 
   <link rel="stylesheet" href="/css/main.css">
-  <link rel="canonical" href="https://psamsotha.github.io/archive/">
+  <link rel="canonical" href="https://psamsotha.github.io/angular/2017/03/18/angular-webpack-absolute-paths.html">
   <link rel="alternate" type="application/rss+xml" title="Paul Samsotha Blog" href="https://psamsotha.github.io/feed.xml">
 
   <!-- Google Analytics -->
@@ -61,8 +60,8 @@
 </div>
 
     
-      <header class="site-header" role="banner" data-page="Archive">
-  <div class="topbar page-topbar">
+      <header class="site-header" role="banner" data-page="Absolute Paths with Angular and Webpack">
+  <div class="topbar post-topbar">
     <div class="site-constraint">
       <a class="topbar-logo" href="/" title="Home Page">
         <svg class="topbar-logo-svg">
@@ -102,33 +101,234 @@
     
 
     <div class="main-content">
-      <main class="archive">
-  <div class="archive-container site-constraint">
-    <div class="archive-title">
-      <h2 class="archive-heading">All Posts</h2>
+      <section class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <div class="post-banner"
+       style="background-image: linear-gradient(to bottom, rgba(0,0,0,0) 0%,rgba(0,0,0,0.01) 2%,#29383E 100%), url('/assets/images/snowy-under-bridge-lg.jpg')">
+  
+    <div class="post-banner-container">
+      <div class="post-title">
+        <h1 class="post-title-text">Absolute Paths with Angular and Webpack</h1>
+      </div>
+      <h2 class="post-subtitle">
+        by<span class="post-author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <span itemprop="name"><b>Paul Samsotha</b></span> on
+        </span>
+        <time class="post-date" datetime="2017-03-18T00:00:00+07:00" itemprop="datePublished">
+          Mar 18, 2017
+        </time> 
+      </h2>
     </div>
-    <div class="archive-posts row expanded" data-equalizer>
+  </div>
+
+  <article class="post-content">
+    <p>When using Angular with TypeScript, we’re always importing files into other files. An import statement might look something like</p>
+
+<div class="language-typescript highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">Data</span> <span class="p">}</span> <span class="k">from</span> <span class="s1">'../data'</span><span class="p">;</span>
+</code></pre>
+</div>
+
+<p>If you are very picky about style, then you might be repulsed at seeing something like the following, when you have deeply nested files</p>
+
+<div class="language-typescript highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">Data</span> <span class="p">}</span> <span class="k">from</span> <span class="s1">'../../../data'</span><span class="p">;</span>
+</code></pre>
+</div>
+
+<p>We are not strictly tied to using this way of relative importing though. In this article, I will briefly explain how we can use absolute file paths for imports, so you that with the following file structure</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>src/
+    + app/
+    |  |
+    |  `- constants.ts
+    |
+    + message/
+      |
+      `- model/
+          |
+          `- message.ts
+</code></pre>
+</div>
+
+<p>in your <code class="highlighter-rouge">message.ts</code> file, you can do this</p>
+
+<div class="language-typescript highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">DEFAULT_MESSAGE</span> <span class="p">}</span> <span class="k">from</span> <span class="s1">'src/app/constants'</span><span class="p">;</span>
+</code></pre>
+</div>
+
+<p>which is IMO is much more preferable than doing</p>
+
+<div class="language-typescript highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">DEFAULT_MESSAGE</span> <span class="p">}</span> <span class="k">from</span> <span class="s1">'../../app/constants'</span><span class="p">;</span>
+</code></pre>
+</div>
+
+<p>To begin, please have a look at <a href="https://github.com/psamsotha/angular-docs-webpack">this GitHub repo</a>. It is basically just the project from the <a href="https://github.com/psamsotha/angular-docs-webpack">Angular Webapack docs</a>, with a few modifications.</p>
+
+<p>In the project, you will see the previously mentioned file structure. You may not have this same file structure in your application (for instance you may keep all your app folders inside the app directory), but hopefully after reading this article, you will be able to figure out how to adjust configurations accordingly to fit your application structure.</p>
+
+<p>So to get this working there are two steps we need to take. First we need to make a simple modification to the TypeScript <code class="highlighter-rouge">tsconfig.json</code> file, and second we beed to make a small modification to the Webpack <code class="highlighter-rouge">webpack.config.js</code> file</p>
+
+<h2 id="tsconfigjson"><em>tsconfig.json</em></h2>
+
+<p>The only thing we need to configure for TypeScript is to set the <code class="highlighter-rouge">baseUrl</code> property in the <code class="highlighter-rouge">compilerOptions</code></p>
+
+<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="s2">"compilerOptions"</span><span class="err">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="nt">"baseUrl"</span><span class="p">:</span><span class="w"> </span><span class="s2">"."</span><span class="p">,</span><span class="w">
+</span><span class="err">}</span><span class="w">
+</span></code></pre>
+</div>
+
+<p>The <code class="highlighter-rouge">baseUrl</code> property is stated in the <a href="http://www.typescriptlang.org/docs/handbook/compiler-options.html"><code class="highlighter-rouge">compilerOptions</code></a> to be:</p>
+
+<blockquote>
+  <p>Base directory to resolve non-relative module names</p>
+</blockquote>
+
+<p>So if we don’t use this property, then all of our module imports will be relative. So we can only use the <code class="highlighter-rouge">./</code> syntax. But now we are saying that “aside from relative paths, look at the <code class="highlighter-rouge">.</code> (base) directory. So now if we use</p>
+
+<div class="language-typescript highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">DEFAULT_MESSAGE</span> <span class="p">}</span> <span class="k">from</span> <span class="s1">'src/app/constants'</span><span class="p">;</span>
+</code></pre>
+</div>
+
+<p><code class="highlighter-rouge">src</code> is in the base directory, so TypeScript will be able to resolve the file using this absolute path.</p>
+
+<p>Or if you wanted, you could even do</p>
+
+<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="s2">"compilerOptions"</span><span class="err">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="nt">"baseUrl"</span><span class="p">:</span><span class="w"> </span><span class="s2">"./src"</span><span class="p">,</span><span class="w">
+</span><span class="err">}</span><span class="w">
+</span></code></pre>
+</div>
+
+<p>This would allow you to get rid of the <code class="highlighter-rouge">src</code> from the import</p>
+
+<div class="language-typescript highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">DEFAULT_MESSAGE</span> <span class="p">}</span> <span class="k">from</span> <span class="s1">'app/constants'</span><span class="p">;</span>
+</code></pre>
+</div>
+
+<h2 id="webpackconfigjs"><em>webpack.config.js</em></h2>
+
+<p>The configuration for Webpack is pretty easy also. What we want to do is modify the <code class="highlighter-rouge">resolve.modules</code>. In your project, you might just have</p>
+
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">resolve</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">extensions</span><span class="p">:</span> <span class="p">[</span><span class="s1">'.js'</span><span class="p">,</span> <span class="s1">'.ts'</span><span class="p">]</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>But there are other properties on the <code class="highlighter-rouge">resolve</code> that we can configure (see link below for more). For this case we just want to configure the <code class="highlighter-rouge">module</code> property to tell Webpack where else to resolve modules from besides just the <code class="highlighter-rouge">node_modules</code></p>
+
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="nx">modules</span><span class="err">:</span> <span class="p">[</span>
+  <span class="s1">'../'</span><span class="p">,</span>
+  <span class="s1">'../node_modules'</span>
+<span class="p">]</span>
+</code></pre>
+</div>
+
+<p>Or if you’re going of the project, you can use the `helpers utility.</p>
+
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="nx">modules</span><span class="err">:</span> <span class="p">[</span>
+  <span class="nx">helpers</span><span class="p">.</span><span class="nx">root</span><span class="p">(</span><span class="s1">'/'</span><span class="p">),</span>
+  <span class="nx">helpers</span><span class="p">.</span><span class="nx">root</span><span class="p">(</span><span class="s1">'node_modules'</span><span class="p">)</span>
+<span class="p">]</span>
+</code></pre>
+</div>
+
+<p>Here we are telling Webpack to use both the root directory and the <code class="highlighter-rouge">node_modules</code>. We need to specify the <code class="highlighter-rouge">node_modules</code> since we are overriding the default.</p>
+
+<p>One thing to note about the project is that is uses a <code class="highlighter-rouge">config</code> directory t store all the configuration files. This is why we need to go a level up <code class="highlighter-rouge">../</code> to resolve, as it’s being resolved from the location of the configuration file. If you are only using one <code class="highlighter-rouge">webpack.config.js</code> file or even multiple that are in the root directory, then we don’t need to go a level up. You can just do</p>
+
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="nx">modules</span><span class="err">:</span> <span class="p">[</span>
+  <span class="nx">path</span><span class="p">.</span><span class="nx">resolve</span><span class="p">(</span><span class="s1">'.'</span><span class="p">),</span>
+  <span class="s1">'node_modules'</span>
+<span class="p">]</span>
+</code></pre>
+</div>
+
+<h2 id="resources">Resources</h2>
+
+<ul>
+  <li><a href="https://webpack.js.org/concepts/module-resolution/">Webpack Module Resolution</a></li>
+  <li><a href="https://webpack.js.org/configuration/resolve/#resolve-modules">Webpack Resolve</a></li>
+  <li><a href="http://www.typescriptlang.org/docs/handbook/module-resolution.html#base-url">TypeScript Module Resolution</a></li>
+</ul>
+
+
+
+    <div class="support-container">
+      <h2>Support Me</h2>
+      <p>
+        If you found any information in this post useful, please show your support and
+        like it, share it, tweet it, pin it, and/or plus one it. Much thanks!
+      </p>
+    </div>
+
+    <div class="social-share">
+  <div class="social-share-item">
+    <div class="twitter-tweet">
+      <a href="https://twitter.com/share"
+        class="twitter-share-button"
+        data-show-count="false">Tweet</a>
+    </div>
+  </div>
+  <div class="social-share-item">
+    <div class="pinterest-save">
+      <a data-pin-do="buttonBookmark"
+        data-pin-save="true"
+        href="https://www.pinterest.com/pin/create/button/"></a>
+    </div>
+  </div>
+  <div class="social-share-item">
+    <div class="fb-like"
+        data-href="https://psamsotha.github.io/angular/2017/03/18/angular-webpack-absolute-paths.html"
+        data-width="100px"
+        data-layout="button_count"
+        data-action="like"
+        data-show-faces="false"
+        data-share="true"></div>
+  </div>
+  <div class="social-share-item">
+    <div class="google-plusone">
+      <div class="g-plusone"
+          data-size="tall"
+          data-annotation="inline"
+          data-width="300"
+          data-href="https://psamsotha.github.io/angular/2017/03/18/angular-webpack-absolute-paths.html">
+      </div>
+    </div>
+  </div> 
+</div>
+
+    <!--
+  check for posts in category that are not this post.
+  If there are no posts, we should not include the Related Articles
+-->
+
+
+
+  
+
+  
+    
+    
+
+
+<div class="related-articles">
+  <h2>Related Articles</h2>
+  <div class="related-articles-group row expanded" data-equalizer>
+    
+    
       
-        <a class="archive-post post-details columns small-12 medium-6 large-4" data-equalizer-watch
-            href="/angular/2017/03/18/angular-webpack-absolute-paths.html">
-          <h2 class="post-title">                
-            Absolute Paths with Angular and Webpack
-          </h2>
-          <p class="post-date">March 18, 2017</p>
-          <p class="post-description">How to use absolute paths when using imports in Angular and Webpack.</p> 
-        </a>
       
-        <a class="archive-post post-details columns small-12 medium-6 large-4" data-equalizer-watch
-            href="/jersey/2017/01/07/jersey-pagination-with-spring-data.html">
-          <h2 class="post-title">                
-            Jersey Pagination With Spring Data JPA
-          </h2>
-          <p class="post-date">January 7, 2017</p>
-          <p class="post-description">How we can implement pagination and sorting using Jersey along with Spring Data JPA.</p> 
-        </a>
+    
       
-        <a class="archive-post post-details columns small-12 medium-6 large-4" data-equalizer-watch
-            href="/angular/2016/12/31/ngrx-effects-with-angular.html">
+        <!-- Little hack. Liquid doesn't seem to support counting using assign -->
+        <!-- https://github.com/jekyll/jekyll/issues/2141 -->
+        <!-- https://github.com/Shopify/liquid/issues/316 -->
+        
+        <a class="related-article post-details small-12 medium-6 columns clickable"
+           href="/angular/2016/12/31/ngrx-effects-with-angular.html" data-equalizer-watch>   
           <h2 class="post-title">                
             Using Effects in an Angular 2 NgRx Application
           </h2>
@@ -136,8 +336,15 @@
           <p class="post-description">An introduction of how to incorporate ngrx/effects into your Angular ngrx applications.</p> 
         </a>
       
-        <a class="archive-post post-details columns small-12 medium-6 large-4" data-equalizer-watch
-            href="/angular/2016/12/16/angular2-testing-karma-systemjs.html">
+      
+    
+      
+        <!-- Little hack. Liquid doesn't seem to support counting using assign -->
+        <!-- https://github.com/jekyll/jekyll/issues/2141 -->
+        <!-- https://github.com/Shopify/liquid/issues/316 -->
+        
+        <a class="related-article post-details small-12 medium-6 columns clickable"
+           href="/angular/2016/12/16/angular2-testing-karma-systemjs.html" data-equalizer-watch>   
           <h2 class="post-title">                
             Angular 2 Testing with Karma and SystemJS
           </h2>
@@ -145,47 +352,46 @@
           <p class="post-description">The Angular 2 Quickstart testing (Karma and SystemJS) configuration will be demystified.</p> 
         </a>
       
-        <a class="archive-post post-details columns small-12 medium-6 large-4" data-equalizer-watch
-            href="/jersey/2015/12/27/jersey-configuration-properties.html">
-          <h2 class="post-title">                
-            Working with Jersey Configuration Properties
-          </h2>
-          <p class="post-date">December 27, 2015</p>
-          <p class="post-description">A few different ways of how we can use configuration properties in a Jersey application.</p> 
-        </a>
       
-        <a class="archive-post post-details columns small-12 medium-6 large-4" data-equalizer-watch
-            href="/jersey/2015/12/16/request-scope-into-singleton-scope.html">
-          <h2 class="post-title">                
-            Request Scoped Injection into a Singleton with Jersey
-          </h2>
-          <p class="post-date">December 16, 2015</p>
-          <p class="post-description">How we can inject request scoped objects into singletons when using Jersey 2 and its DI framework HK2.</p> 
-        </a>
+        
+  </div>
+</div>
+
+
+    <div class="disqus-comments">
+      
+        <div id="disqus_thread"></div>
+<script>
+    /**
+     *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+     *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables
+     */
+   
+    var disqus_config = function () {
+        
+    };
+
+    (function() {  // DON'T EDIT BELOW THIS LINE
+        var d = document, s = d.createElement('script');
+        
+        s.src = '//peeskillet-io.disqus.com/embed.js';
+        
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
       
     </div>
 
-    <div class="pagination">
-  
-    <span class="previous pagination-disabled page-action">
-      <svg class="pagination-icon">
-        <use xlink:href="#back-arrow"></use>
-      </svg>
-      Previous
-    </span>
-  
-  
-  
-    <a href="/archive/page2/" class="next page-action">
-      Next
-      <svg class="pagination-icon">
-        <use xlink:href="#forward-arrow"></use>
-      </svg>
-    </a>
-  
-</div>
-  </div>
-</main>
+    <script id="dsq-count-scr" src="//peeskillet-io.disqus.com/count.js" async></script>
+
+  </article>
+
+
+</section>
+
 
       <div class="clearfooter"></div>
     </div>
