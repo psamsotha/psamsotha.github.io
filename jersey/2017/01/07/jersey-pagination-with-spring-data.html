@@ -26,6 +26,13 @@
   <link rel="canonical" href="https://psamsotha.github.io/jersey/2017/01/07/jersey-pagination-with-spring-data.html">
   <link rel="alternate" type="application/rss+xml" title="Paul Samsotha Blog" href="https://psamsotha.github.io/feed.xml">
 
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <script>
+    (adsbygoogle = window.adsbygoogle || []).push({
+      google_ad_client: "ca-pub-5723433679253306",
+      enable_page_level_ads: true
+    });
+  </script>
   <!-- Google Analytics -->
   
   <script>
@@ -114,7 +121,7 @@
         by<span class="post-author" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <span itemprop="name"><b>Paul Samsotha</b></span> on
         </span>
-        <time class="post-date" datetime="2017-01-07T00:00:00+07:00" itemprop="datePublished">
+        <time class="post-date" datetime="2017-01-07T00:00:00-08:00" itemprop="datePublished">
           Jan 7, 2017
         </time> 
       </h2>
@@ -134,14 +141,13 @@ pages (or “block” of results), with a set size for each page. To get the nex
 just change the “page” query parameter. Assuming you have some experience working with
 JPA (Java Persistence API), what that might look in code is something like</p>
 
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kd">public</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">Product</span><span class="o">&gt;</span> <span class="nf">getProducts</span><span class="o">(</span><span class="kt">int</span> <span class="n">page</span><span class="o">,</span> <span class="kt">int</span> <span class="n">size</span><span class="o">)</span> <span class="o">{</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">Product</span><span class="o">&gt;</span> <span class="nf">getProducts</span><span class="o">(</span><span class="kt">int</span> <span class="n">page</span><span class="o">,</span> <span class="kt">int</span> <span class="n">size</span><span class="o">)</span> <span class="o">{</span>
     <span class="k">return</span> <span class="k">this</span><span class="o">.</span><span class="na">entityManager</span><span class="o">.</span><span class="na">createNamedQuery</span><span class="o">(</span><span class="s">"Product.findAll"</span><span class="o">,</span> <span class="n">Product</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
         <span class="o">.</span><span class="na">setFirstResult</span><span class="o">(</span><span class="n">page</span> <span class="o">*</span> <span class="n">size</span><span class="o">)</span>
         <span class="o">.</span><span class="na">setMaxResults</span><span class="o">(</span><span class="n">size</span><span class="o">)</span>
         <span class="o">.</span><span class="na">getResultList</span><span class="o">();</span>
 <span class="o">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>The above code is a just a method in some arbitrary service class that has access to the <code class="highlighter-rouge">EntityManager</code>.
 The call to <code class="highlighter-rouge">setFirstResult</code> determines the first result that is returned. This allows use to paginate
@@ -166,39 +172,35 @@ in a previous article <a href="https://psamsotha.github.io/jersey/2015/10/19/why
 (<a href="http://docs.spring.io/spring-data/jpa/docs/current/api/org/springframework/data/jpa/repository/JpaRepository.html"><code class="highlighter-rouge">JpaRepository</code></a>) with an interface of our own, and Spring Data will provide 
 implementations for some basic CRUD and paging method implementations. For example, take this interface:</p>
 
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">CustomerRepository</span> <span class="kd">extends</span> <span class="n">JpaRepository</span><span class="o">&lt;</span><span class="n">Customer</span><span class="o">,</span> <span class="n">Long</span><span class="o">&gt;</span> <span class="o">{}</span>
-</code></pre>
-</div>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">CustomerRepository</span> <span class="kd">extends</span> <span class="n">JpaRepository</span><span class="o">&lt;</span><span class="n">Customer</span><span class="o">,</span> <span class="n">Long</span><span class="o">&gt;</span> <span class="o">{}</span>
+</code></pre></div></div>
 
 <p>The <code class="highlighter-rouge">JpaRepository</code> defines (or more precisely, inherits) methods such as</p>
 
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="n">List</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="nf">findAll</span><span class="o">();</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">List</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="nf">findAll</span><span class="o">();</span>
 
 <span class="n">T</span> <span class="nf">save</span><span class="o">(</span><span class="n">T</span> <span class="n">t</span><span class="o">);</span>
 
 <span class="kt">void</span> <span class="nf">delete</span><span class="o">(</span><span class="n">T</span> <span class="n">t</span><span class="o">);</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>where <code class="highlighter-rouge">T</code> is the entity type (in this case <code class="highlighter-rouge">Customer</code>). These are not the only methods defined though. 
 There are a bunch more. And we do not need to implement these. These are all implemented by Spring Data.
 Along with the “vanilla” <code class="highlighter-rouge">findAll</code> method, there is also a “pageable” version defined:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>Page&lt;T&gt; findAll(Pageable pageable);
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Page&lt;T&gt; findAll(Pageable pageable);
+</code></pre></div></div>
 
 <p>This allows us to pass a <a href="http://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/domain/Pageable.html"><code class="highlighter-rouge">Pageable</code></a> instance and returns to us a <a href="http://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/domain/Page.html"><code class="highlighter-rouge">Page</code></a>. An 
 implementation of the <code class="highlighter-rouge">Pageable</code> interface is the <a href="http://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/domain/PageRequest.html"><code class="highlighter-rouge">PageRequest</code></a>, which has the following 
 overloaded constructors:</p>
 
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="n">PageRequest</span><span class="o">(</span><span class="kt">int</span> <span class="n">page</span><span class="o">,</span> <span class="kt">int</span> <span class="n">size</span><span class="o">)</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">PageRequest</span><span class="o">(</span><span class="kt">int</span> <span class="n">page</span><span class="o">,</span> <span class="kt">int</span> <span class="n">size</span><span class="o">)</span>
 
 <span class="n">PageRequest</span><span class="o">(</span><span class="kt">int</span> <span class="n">page</span><span class="o">,</span> <span class="kt">int</span> <span class="n">size</span><span class="o">,</span> <span class="n">Sort</span><span class="o">.</span><span class="na">Direction</span> <span class="n">direction</span><span class="o">,</span> <span class="n">String</span><span class="o">...</span> <span class="n">properties</span><span class="o">)</span>
 
 <span class="n">PageRequest</span><span class="o">(</span><span class="kt">int</span> <span class="n">page</span><span class="o">,</span> <span class="kt">int</span> <span class="n">size</span><span class="o">,</span> <span class="n">Sort</span> <span class="n">sort</span><span class="o">)</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>The first constructor allows us to simply pass the page and size, just like in our vanilla JPA example. 
 The next two constructors allow for sorting of the pre-paged results. The sorting is based on properties 
@@ -208,14 +210,13 @@ In our example, we will use the third constructor which allows us to pass a <cod
 <p>Let’s now implement our resource class, that makes use of the <code class="highlighter-rouge">CustomerRepository</code>. The paging and 
 sorting parameters will be passed as query parameters. An example URL will be</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>http://localhost:8080/api/customers?page=1&amp;size=2&amp;sort=firstName,DESC
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http://localhost:8080/api/customers?page=1&amp;size=2&amp;sort=firstName,DESC
+</code></pre></div></div>
 
 <p>Here, the result will be the second page, with two results, sorted by the first name, in descending 
 order. The following is our first implementation of the resource class:</p>
 
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="nd">@Path</span><span class="o">(</span><span class="s">"customers"</span><span class="o">)</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Path</span><span class="o">(</span><span class="s">"customers"</span><span class="o">)</span>
 <span class="nd">@Produces</span><span class="o">(</span><span class="n">MediaType</span><span class="o">.</span><span class="na">APPLICATION_JSON</span><span class="o">)</span>
 <span class="nd">@Consumes</span><span class="o">(</span><span class="n">MediaType</span><span class="o">.</span><span class="na">APPLICATION_JSON</span><span class="o">)</span>
 <span class="kd">public</span> <span class="kd">class</span> <span class="nc">CustomerResource</span> <span class="o">{</span>
@@ -253,14 +254,12 @@ order. The following is our first implementation of the resource class:</p>
         <span class="k">return</span> <span class="n">Response</span><span class="o">.</span><span class="na">ok</span><span class="o">(</span><span class="k">new</span> <span class="n">GenericEntity</span><span class="o">&lt;</span><span class="n">List</span><span class="o">&lt;</span><span class="n">Customer</span><span class="o">&gt;&gt;(</span><span class="n">customers</span><span class="o">)</span> <span class="o">{}).</span><span class="na">build</span><span class="o">();</span>
     <span class="o">}</span>
 <span class="o">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>The <code class="highlighter-rouge">sort</code> query parameter can be used multiple times like</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>sort=firstName&amp;sort=lastName,DESC
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sort=firstName&amp;sort=lastName,DESC
+</code></pre></div></div>
 
 <p>so we accept a <code class="highlighter-rouge">List&lt;String&gt;</code> as the parameter type. We want to turn that <code class="highlighter-rouge">List&lt;String&gt;</code> into 
 a <code class="highlighter-rouge">List&lt;Sort.Order&gt;</code>, as that’s what the <code class="highlighter-rouge">Sort</code> constructor takes. Remember, we are using the 
@@ -277,19 +276,18 @@ the problem is that we would have to do this for every resource method where we 
 We could create a helper/utility class, but we would still have to accept the <code class="highlighter-rouge">@QueryParam</code>s to the 
 resource method, then pass them to the helper. Ideally, we would rather be able to do something like</p>
 
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="nd">@GET</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@GET</span>
 <span class="kd">public</span> <span class="n">Response</span> <span class="nf">getAllCustomers</span><span class="o">(</span><span class="nd">@Pagination</span> <span class="n">Pageable</span> <span class="n">pageable</span><span class="o">)</span> <span class="o">{</span>
     <span class="n">List</span><span class="o">&lt;</span><span class="n">Customer</span><span class="o">&gt;</span> <span class="n">customers</span> <span class="o">=</span> <span class="n">repository</span><span class="o">.</span><span class="na">findAll</span><span class="o">(</span><span class="n">pageable</span><span class="o">).</span><span class="na">getContent</span><span class="o">();</span>
     <span class="k">return</span> <span class="n">Response</span><span class="o">.</span><span class="na">ok</span><span class="o">(</span><span class="k">new</span> <span class="n">GenericEntity</span><span class="o">&lt;</span><span class="n">List</span><span class="o">&lt;</span><span class="n">Customer</span><span class="o">&gt;&gt;(</span><span class="n">customers</span><span class="o">)</span> <span class="o">{}).</span><span class="na">build</span><span class="o">();</span>
 <span class="o">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>where the <code class="highlighter-rouge">Pageable</code> is transparently created and passed to us. In Jersey, we can do this with 
 a <code class="highlighter-rouge">ValueFactoryProvider</code>, which is the SPI we need to implement to tell Jersey that we want to create 
 an injectable method parameter. The following is an implementation we can use for the <code class="highlighter-rouge">Pageable</code></p>
 
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">PageableValueFactoryProvider</span> <span class="kd">implements</span> <span class="n">ValueFactoryProvider</span> <span class="o">{</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">PageableValueFactoryProvider</span> <span class="kd">implements</span> <span class="n">ValueFactoryProvider</span> <span class="o">{</span>
 
     <span class="kd">private</span> <span class="kd">final</span> <span class="n">ServiceLocator</span> <span class="n">locator</span><span class="o">;</span>
 
@@ -348,12 +346,11 @@ an injectable method parameter. The following is an implementation we can use fo
         <span class="o">}</span>
     <span class="o">}</span>
 <span class="o">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>The main method of the <code class="highlighter-rouge">ValueFactoryProvider</code> SPI, is the <code class="highlighter-rouge">createValueFactory</code> method</p>
 
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="nd">@Override</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Override</span>
 <span class="kd">public</span> <span class="n">Factory</span><span class="o">&lt;?&gt;</span> <span class="n">getValueFactory</span><span class="o">(</span><span class="n">Parameter</span> <span class="n">parameter</span><span class="o">)</span> <span class="o">{</span>
     <span class="k">if</span> <span class="o">(</span><span class="n">parameter</span><span class="o">.</span><span class="na">getRawType</span><span class="o">()</span> <span class="o">==</span> <span class="n">Pageable</span><span class="o">.</span><span class="na">class</span>
             <span class="o">&amp;&amp;</span> <span class="n">parameter</span><span class="o">.</span><span class="na">isAnnotationPresent</span><span class="o">(</span><span class="n">Pagination</span><span class="o">.</span><span class="na">class</span><span class="o">))</span> <span class="o">{</span>
@@ -362,8 +359,7 @@ an injectable method parameter. The following is an implementation we can use fo
     <span class="o">}</span>
     <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
 <span class="o">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>In order for Jersey to see if it can handle a method parameter, it will call all the 
 <code class="highlighter-rouge">ValueFactoryProvider</code>s, and call their <code class="highlighter-rouge">getValueFactory</code> methods. If the <code class="highlighter-rouge">ValueFactoryProvider</code> 
@@ -371,16 +367,15 @@ can handle the parameter, it should return a <code class="highlighter-rouge">Fac
 implementation we are saying that we can handle parameters of type <code class="highlighter-rouge">Pageable</code> that are annotated 
 with <code class="highlighter-rouge">@Pagination</code> (which is a custom annotation)</p>
 
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="nd">@Target</span><span class="o">(</span><span class="n">ElementType</span><span class="o">.</span><span class="na">PARAMETER</span><span class="o">)</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Target</span><span class="o">(</span><span class="n">ElementType</span><span class="o">.</span><span class="na">PARAMETER</span><span class="o">)</span>
 <span class="nd">@Retention</span><span class="o">(</span><span class="n">RetentionPolicy</span><span class="o">.</span><span class="na">RUNTIME</span><span class="o">)</span>
 <span class="kd">public</span> <span class="nd">@interface</span> <span class="n">Pagination</span> <span class="o">{</span>
 <span class="o">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>The <code class="highlighter-rouge">PageableValueFactory</code> is our <code class="highlighter-rouge">Factory</code> implementation. This will be where we create the <code class="highlighter-rouge">Pageable</code></p>
 
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kd">private</span> <span class="kd">static</span> <span class="kd">class</span> <span class="nc">PageableValueFactory</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">private</span> <span class="kd">static</span> <span class="kd">class</span> <span class="nc">PageableValueFactory</span>
         <span class="kd">extends</span> <span class="n">AbstractContainerRequestValueFactory</span><span class="o">&lt;</span><span class="n">Pageable</span><span class="o">&gt;</span> <span class="o">{</span>
 
     <span class="nd">@QueryParam</span><span class="o">(</span><span class="s">"page"</span><span class="o">)</span> <span class="nd">@DefaultValue</span><span class="o">(</span><span class="s">"0"</span><span class="o">)</span> <span class="n">Integer</span> <span class="n">page</span><span class="o">;</span>
@@ -414,8 +409,7 @@ with <code class="highlighter-rouge">@Pagination</code> (which is a custom annot
                 <span class="n">orders</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">()</span> <span class="o">?</span> <span class="kc">null</span> <span class="o">:</span> <span class="k">new</span> <span class="n">Sort</span><span class="o">(</span><span class="n">orders</span><span class="o">));</span>
     <span class="o">}</span>
 <span class="o">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>One interesting thing about <code class="highlighter-rouge">@QueryParam</code>, <code class="highlighter-rouge">@PathParam</code> and other <code class="highlighter-rouge">@XxxParam</code>, is that they can 
 also be injected into fields (instead of what you would normally see as method parameters). So here, 
@@ -425,7 +419,7 @@ explicitly inject it with the <code class="highlighter-rouge">ServiceLocator</co
 
 <p>Now that we have our implementation, the last thing is just to register the provider with Jersey</p>
 
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="nd">@ApplicationPath</span><span class="o">(</span><span class="s">"/api"</span><span class="o">)</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@ApplicationPath</span><span class="o">(</span><span class="s">"/api"</span><span class="o">)</span>
 <span class="kd">public</span> <span class="kd">class</span> <span class="nc">AppConfig</span> <span class="kd">extends</span> <span class="n">ResourceConfig</span> <span class="o">{</span>
     
     <span class="kd">public</span> <span class="nf">AppConfig</span><span class="o">()</span> <span class="o">{</span>
@@ -440,18 +434,16 @@ explicitly inject it with the <code class="highlighter-rouge">ServiceLocator</co
         <span class="o">});</span>
     <span class="o">}</span>
 <span class="o">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>And now we can do the following for any resource method that wants the <code class="highlighter-rouge">Pageable</code></p>
 
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="nd">@GET</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@GET</span>
 <span class="kd">public</span> <span class="n">Response</span> <span class="nf">getAllCustomers</span><span class="o">(</span><span class="nd">@Pagination</span> <span class="n">Pageable</span> <span class="n">pageable</span><span class="o">)</span> <span class="o">{</span>
     <span class="n">List</span><span class="o">&lt;</span><span class="n">Customer</span><span class="o">&gt;</span> <span class="n">customers</span> <span class="o">=</span> <span class="n">repository</span><span class="o">.</span><span class="na">findAll</span><span class="o">(</span><span class="n">pageable</span><span class="o">).</span><span class="na">getContent</span><span class="o">();</span>
     <span class="k">return</span> <span class="n">Response</span><span class="o">.</span><span class="na">ok</span><span class="o">(</span><span class="k">new</span> <span class="n">GenericEntity</span><span class="o">&lt;</span><span class="n">List</span><span class="o">&lt;</span><span class="n">Customer</span><span class="o">&gt;&gt;(</span><span class="n">customers</span><span class="o">)</span> <span class="o">{}).</span><span class="na">build</span><span class="o">();</span>
 <span class="o">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h2 id="note">Note</h2>
 
@@ -462,7 +454,7 @@ previous page will be, or whether there <em>is</em> a next, and things like that
 to play. Instead of just returning the list, you may want to provide links to next and previous URLs. 
 For instance</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>http://localhost:8080/api/customers
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http://localhost:8080/api/customers
 
 {
   "_links": {
@@ -471,8 +463,7 @@ For instance</p>
   },
   "content": [ ..first five (default size) results.. ]
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>This is just an example. HATEOAS is implemented in different ways. There is not just one correct way. 
 I am not going to get into the details, but HATEOAS is definitely something to consider, and research 

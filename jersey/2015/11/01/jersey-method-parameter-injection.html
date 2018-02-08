@@ -26,6 +26,13 @@
   <link rel="canonical" href="https://psamsotha.github.io/jersey/2015/11/01/jersey-method-parameter-injection.html">
   <link rel="alternate" type="application/rss+xml" title="Paul Samsotha Blog" href="https://psamsotha.github.io/feed.xml">
 
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <script>
+    (adsbygoogle = window.adsbygoogle || []).push({
+      google_ad_client: "ca-pub-5723433679253306",
+      enable_page_level_ads: true
+    });
+  </script>
   <!-- Google Analytics -->
   
   <script>
@@ -114,7 +121,7 @@
         by<span class="post-author" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <span itemprop="name"><b>Paul Samsotha</b></span> on
         </span>
-        <time class="post-date" datetime="2015-11-01T00:00:00+07:00" itemprop="datePublished">
+        <time class="post-date" datetime="2015-11-01T00:00:00-07:00" itemprop="datePublished">
           Nov 1, 2015
         </time> 
       </h2>
@@ -134,16 +141,15 @@
 
 <p>So let’s get started. We are going to start with a simple <code class="highlighter-rouge">Tenant</code> class, which we want to inject into a method parameter.</p>
 
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">class</span> <span class="nc">Tenant</span> <span class="o">{</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">class</span> <span class="nc">Tenant</span> <span class="o">{</span>
     <span class="kd">public</span> <span class="n">String</span> <span class="n">name</span><span class="o">;</span>
     <span class="kd">public</span> <span class="nf">Tenant</span><span class="o">(</span><span class="n">String</span> <span class="n">name</span><span class="o">)</span> <span class="o">{</span> <span class="k">this</span><span class="o">.</span><span class="na">name</span> <span class="o">=</span> <span class="n">name</span><span class="o">;</span> <span class="o">}</span>
 <span class="o">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>The first example is a working example. We will inject the <code class="highlighter-rouge">Tenant</code> using the <code class="highlighter-rouge">@Context</code> annotation, which is known by Jersey. If you look at the first paragraph, this is what I mean by “non-custom” injection. Later we will try to use our own annotation, which is what I consider “custom” injection.</p>
 
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="nd">@Path</span><span class="o">(</span><span class="s">"with-context"</span><span class="o">)</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Path</span><span class="o">(</span><span class="s">"with-context"</span><span class="o">)</span>
 <span class="kd">public</span> <span class="kd">static</span> <span class="kd">class</span> <span class="nc">WithContextNoOther</span> <span class="o">{</span>
 
     <span class="nd">@GET</span>
@@ -151,12 +157,11 @@
         <span class="k">return</span> <span class="n">tenant</span><span class="o">.</span><span class="na">name</span><span class="o">;</span>
     <span class="o">}</span>
 <span class="o">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>To make this work, we will use an HK2 <code class="highlighter-rouge">Factory</code> to create the <code class="highlighter-rouge">Tenant</code></p>
 
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">class</span> <span class="nc">TenantFactory</span> <span class="kd">implements</span> <span class="n">Factory</span><span class="o">&lt;</span><span class="n">Tenant</span><span class="o">&gt;</span> <span class="o">{</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">class</span> <span class="nc">TenantFactory</span> <span class="kd">implements</span> <span class="n">Factory</span><span class="o">&lt;</span><span class="n">Tenant</span><span class="o">&gt;</span> <span class="o">{</span>
 
     <span class="nd">@Override</span>
     <span class="kd">public</span> <span class="n">Tenant</span> <span class="nf">provide</span><span class="o">()</span> <span class="o">{</span> <span class="k">return</span> <span class="k">new</span> <span class="n">Tenant</span><span class="o">(</span><span class="n">TENANT_NAME</span><span class="o">);</span> <span class="o">}</span>
@@ -164,12 +169,11 @@
     <span class="nd">@Override</span>
     <span class="kd">public</span> <span class="kt">void</span> <span class="nf">dispose</span><span class="o">(</span><span class="n">Tenant</span> <span class="n">t</span><span class="o">)</span> <span class="o">{</span> <span class="o">}</span>
 <span class="o">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Then we need to bind the factory to HK2 in a <code class="highlighter-rouge">AbstractBinder</code>, then register the binder with the <code class="highlighter-rouge">ResourceConfig</code></p>
 
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">class</span> <span class="nc">TenantBinder</span> <span class="kd">extends</span> <span class="n">AbstractBinder</span> <span class="o">{</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">class</span> <span class="nc">TenantBinder</span> <span class="kd">extends</span> <span class="n">AbstractBinder</span> <span class="o">{</span>
     <span class="nd">@Override</span>
     <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">configure</span><span class="o">()</span> <span class="o">{</span>
         <span class="n">bindFactory</span><span class="o">(</span><span class="n">TenantFactory</span><span class="o">.</span><span class="na">class</span><span class="o">).</span><span class="na">to</span><span class="o">(</span><span class="n">Tenant</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
@@ -183,23 +187,21 @@
             <span class="o">.</span><span class="na">register</span><span class="o">(</span><span class="n">WithContextNoOther</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
             <span class="o">.</span><span class="na">register</span><span class="o">(</span><span class="n">DebugMapper</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
 <span class="o">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>If you run the test, you will see that it passes.</p>
 
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="nd">@Test</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Test</span>
 <span class="kd">public</span> <span class="kt">void</span> <span class="nf">should_return_tenant_with_Context_injection</span><span class="o">()</span> <span class="o">{</span>
     <span class="n">Response</span> <span class="n">response</span> <span class="o">=</span> <span class="n">target</span><span class="o">(</span><span class="s">"with-context"</span><span class="o">).</span><span class="na">request</span><span class="o">().</span><span class="na">get</span><span class="o">();</span>
     <span class="n">assertEquals</span><span class="o">(</span><span class="mi">200</span><span class="o">,</span> <span class="n">response</span><span class="o">.</span><span class="na">getStatus</span><span class="o">());</span>
     <span class="n">assertEquals</span><span class="o">(</span><span class="n">TENANT_NAME</span><span class="o">,</span> <span class="n">response</span><span class="o">.</span><span class="na">readEntity</span><span class="o">(</span><span class="n">String</span><span class="o">.</span><span class="na">class</span><span class="o">));</span>
 <span class="o">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>The injection works fine as expected. Next we will add a another method parameter, which will be the entity body of the request. This is just so we have some context later on.</p>
 
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="nd">@Path</span><span class="o">(</span><span class="s">"with-context-and-entity"</span><span class="o">)</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Path</span><span class="o">(</span><span class="s">"with-context-and-entity"</span><span class="o">)</span>
 <span class="kd">public</span> <span class="kd">static</span> <span class="kd">class</span> <span class="nc">WithContextAndEntity</span> <span class="o">{</span>
 
     <span class="nd">@POST</span>
@@ -207,12 +209,11 @@
         <span class="k">return</span> <span class="n">tenant</span><span class="o">.</span><span class="na">name</span> <span class="o">+</span> <span class="s">":"</span> <span class="o">+</span> <span class="n">body</span><span class="o">;</span>
     <span class="o">}</span>
 <span class="o">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>To run the test on this endpoint, you should un-comment the configuration where I register the class</p>
 
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="nd">@Override</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Override</span>
 <span class="kd">public</span> <span class="n">ResourceConfig</span> <span class="nf">configure</span><span class="o">()</span> <span class="o">{</span>
     <span class="k">return</span> <span class="k">new</span> <span class="nf">ResourceConfig</span><span class="o">()</span>
             <span class="o">.</span><span class="na">register</span><span class="o">(</span><span class="k">new</span> <span class="n">TenantBinder</span><span class="o">())</span>
@@ -220,32 +221,29 @@
             <span class="o">.</span><span class="na">register</span><span class="o">(</span><span class="n">WithContextAndEntity</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
             <span class="o">.</span><span class="na">register</span><span class="o">(</span><span class="n">DebugMapper</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
 <span class="o">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>And un-comment the <code class="highlighter-rouge">@Test</code> method.</p>
 
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="nd">@Test</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Test</span>
 <span class="kd">public</span> <span class="kt">void</span> <span class="nf">should_return_tenant_with_Context_injection_and_entity</span><span class="o">()</span> <span class="o">{</span>
     <span class="n">Response</span> <span class="n">response</span> <span class="o">=</span> <span class="n">target</span><span class="o">(</span><span class="s">"with-context-and-entity"</span><span class="o">).</span><span class="na">request</span><span class="o">()</span>
             <span class="o">.</span><span class="na">post</span><span class="o">(</span><span class="n">Entity</span><span class="o">.</span><span class="na">text</span><span class="o">(</span><span class="n">MESSAGE_BODY</span><span class="o">));</span>
     <span class="n">assertEquals</span><span class="o">(</span><span class="mi">200</span><span class="o">,</span> <span class="n">response</span><span class="o">.</span><span class="na">getStatus</span><span class="o">());</span>
     <span class="n">assertEquals</span><span class="o">(</span><span class="n">NAME_AND_MESSAGE</span><span class="o">,</span> <span class="n">response</span><span class="o">.</span><span class="na">readEntity</span><span class="o">(</span><span class="n">String</span><span class="o">.</span><span class="na">class</span><span class="o">));</span>
 <span class="o">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>You will see that this also passes. But now we want to inject with a custom annotation, say</p>
 
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="nd">@Target</span><span class="o">(</span><span class="n">ElementType</span><span class="o">.</span><span class="na">PARAMETER</span><span class="o">)</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Target</span><span class="o">(</span><span class="n">ElementType</span><span class="o">.</span><span class="na">PARAMETER</span><span class="o">)</span>
 <span class="nd">@Retention</span><span class="o">(</span><span class="n">RetentionPolicy</span><span class="o">.</span><span class="na">RUNTIME</span><span class="o">)</span>
 <span class="kd">public</span> <span class="kd">static</span> <span class="nd">@interface</span> <span class="n">TenantParam</span> <span class="o">{}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>If you’ve ever used a custom annotation or if you look at the Jersey user guide link I provided above, you will see that in order to use a custom annotation for injection, we need to provide our own <code class="highlighter-rouge">InjectionResolver</code>. Here is the implementation we will use for the example</p>
 
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">class</span> <span class="nc">TenantParamResolver</span> <span class="kd">implements</span> <span class="n">InjectionResolver</span><span class="o">&lt;</span><span class="n">TenantParam</span><span class="o">&gt;</span> <span class="o">{</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">class</span> <span class="nc">TenantParamResolver</span> <span class="kd">implements</span> <span class="n">InjectionResolver</span><span class="o">&lt;</span><span class="n">TenantParam</span><span class="o">&gt;</span> <span class="o">{</span>
     
     <span class="nd">@Inject</span>
     <span class="nd">@Named</span><span class="o">(</span><span class="n">InjectionResolver</span><span class="o">.</span><span class="na">SYSTEM_RESOLVER_NAME</span><span class="o">)</span>
@@ -265,12 +263,11 @@
     <span class="nd">@Override</span>
     <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">isMethodParameterIndicator</span><span class="o">()</span> <span class="o">{</span> <span class="k">return</span> <span class="kc">false</span><span class="o">;</span> <span class="o">}</span>   
 <span class="o">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Then we will register the <code class="highlighter-rouge">InjectionResolver</code> in our <code class="highlighter-rouge">AbstractBinder</code>. Just un-comment the part in the <code class="highlighter-rouge">TenantBinder</code> where we register it</p>
 
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">class</span> <span class="nc">TenantBinder</span> <span class="kd">extends</span> <span class="n">AbstractBinder</span> <span class="o">{</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">class</span> <span class="nc">TenantBinder</span> <span class="kd">extends</span> <span class="n">AbstractBinder</span> <span class="o">{</span>
     <span class="nd">@Override</span>
     <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">configure</span><span class="o">()</span> <span class="o">{</span>
         <span class="n">bindFactory</span><span class="o">(</span><span class="n">TenantFactory</span><span class="o">.</span><span class="na">class</span><span class="o">).</span><span class="na">to</span><span class="o">(</span><span class="n">Tenant</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
@@ -279,12 +276,11 @@
                 <span class="o">.</span><span class="na">in</span><span class="o">(</span><span class="n">Singleton</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
     <span class="o">}</span>
 <span class="o">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Here is the resource class/method we will use to test</p>
 
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="nd">@Path</span><span class="o">(</span><span class="s">"with-custom"</span><span class="o">)</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Path</span><span class="o">(</span><span class="s">"with-custom"</span><span class="o">)</span>
 <span class="kd">public</span> <span class="kd">static</span> <span class="kd">class</span> <span class="nc">WithCustomNoOther</span> <span class="o">{</span>
 
     <span class="nd">@GET</span>
@@ -292,12 +288,11 @@
         <span class="k">return</span> <span class="n">tenant</span><span class="o">.</span><span class="na">name</span><span class="o">;</span>
     <span class="o">}</span>
 <span class="o">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>And un-comment the registration of the resource class, and also the <code class="highlighter-rouge">@Test</code> method for this test</p>
 
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="nd">@Override</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Override</span>
 <span class="kd">public</span> <span class="n">ResourceConfig</span> <span class="nf">configure</span><span class="o">()</span> <span class="o">{</span>
     <span class="k">return</span> <span class="k">new</span> <span class="nf">ResourceConfig</span><span class="o">()</span>
             <span class="o">.</span><span class="na">register</span><span class="o">(</span><span class="k">new</span> <span class="n">TenantBinder</span><span class="o">())</span>
@@ -313,14 +308,13 @@
     <span class="n">assertEquals</span><span class="o">(</span><span class="mi">200</span><span class="o">,</span> <span class="n">response</span><span class="o">.</span><span class="na">getStatus</span><span class="o">());</span>
     <span class="n">assertEquals</span><span class="o">(</span><span class="n">TENANT_NAME</span><span class="o">,</span> <span class="n">response</span><span class="o">.</span><span class="na">readEntity</span><span class="o">(</span><span class="n">String</span><span class="o">.</span><span class="na">class</span><span class="o">));</span>
 <span class="o">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>When you run the test you will see two things. The first is that the test assertion fails, as it expects a 200 response, but we get a 500. Second, if you look at the log (or console), you will see that we logged a <code class="highlighter-rouge">NullPointerException</code> where we tried to call <code class="highlighter-rouge">tenant.name</code> in the resource method. This is because the injection failed, and the <code class="highlighter-rouge">Tenant</code> never got injected.</p>
 
 <p>Now before we try to fix this, let’s try out something else to see a different result. First comment back out the previous <code class="highlighter-rouge">@Test</code>. We don’t care for it right now. Also comment out the registration of the <code class="highlighter-rouge">WithCustomNoOther.class</code>. What we will do here is use the <code class="highlighter-rouge">WithCustomAndEntity.class</code>. We will not test it though, we will only register it.</p>
 
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="nd">@Path</span><span class="o">(</span><span class="s">"with-custom-and-entity"</span><span class="o">)</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Path</span><span class="o">(</span><span class="s">"with-custom-and-entity"</span><span class="o">)</span>
 <span class="kd">public</span> <span class="kd">static</span> <span class="kd">class</span> <span class="nc">WithCustomAndEntity</span> <span class="o">{</span>
 
     <span class="nd">@POST</span>
@@ -339,8 +333,7 @@
             <span class="o">.</span><span class="na">register</span><span class="o">(</span><span class="n">WithCustomAndEntity</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
             <span class="o">.</span><span class="na">register</span><span class="o">(</span><span class="n">DebugMapper</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
 <span class="o">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>So at this point, the only thing that should be changed from the previous successful test, is that we just registered the <code class="highlighter-rouge">WithCustomAndEntity.class</code>. We should still only have the previous successful <code class="highlighter-rouge">@Test</code> methods un-commented.</p>
 
@@ -362,20 +355,18 @@
 
 <p>The reason we didn’t get this exception on the first fail to</p>
 
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="nd">@GET</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@GET</span>
 <span class="kd">public</span> <span class="n">String</span> <span class="nf">get</span><span class="o">(</span><span class="nd">@TenantParam</span> <span class="n">Tenant</span> <span class="n">tenant</span><span class="o">)</span> <span class="o">{</span>
     <span class="k">return</span> <span class="n">tenant</span><span class="o">.</span><span class="na">name</span><span class="o">;</span>
 <span class="o">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
-<p>is that we are allowed to have one method parameter as the entity body parameter. I’m sure you’ve noticed in your experience with Jersey, that when you want a method parameter to be the body, say a JSON-parsed-to-POJO body, you don’t use an annotation (unless its for form or multipart). This is allowed for one method parameter. A request should only have one entity body, therefore only one entity parameter is allowed. There is even a <a href="https://github.com/jersey/jersey/blob/master/core-server/src/main/java/org/glassfish/jersey/server/internal/inject/EntityParamValueFactoryProvider.java"><code class="highlighter-rouge">EntityParamValueFactoryProvider</code></a> to handle this one entity parameter. The reason we get the exception with<br />
-<code class="highlighter-rouge">java
-@POST
-public String post(@TenantParam Tenant tenant, String body) {
-    return tenant.name + ":" + body;
-}
-</code></p>
+<p>is that we are allowed to have one method parameter as the entity body parameter. I’m sure you’ve noticed in your experience with Jersey, that when you want a method parameter to be the body, say a JSON-parsed-to-POJO body, you don’t use an annotation (unless its for form or multipart). This is allowed for one method parameter. A request should only have one entity body, therefore only one entity parameter is allowed. There is even a <a href="https://github.com/jersey/jersey/blob/master/core-server/src/main/java/org/glassfish/jersey/server/internal/inject/EntityParamValueFactoryProvider.java"><code class="highlighter-rouge">EntityParamValueFactoryProvider</code></a> to handle this one entity parameter. The reason we get the exception with</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@POST</span>
+<span class="kd">public</span> <span class="n">String</span> <span class="nf">post</span><span class="o">(</span><span class="nd">@TenantParam</span> <span class="n">Tenant</span> <span class="n">tenant</span><span class="o">,</span> <span class="n">String</span> <span class="n">body</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="n">tenant</span><span class="o">.</span><span class="na">name</span> <span class="o">+</span> <span class="s">":"</span> <span class="o">+</span> <span class="n">body</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre></div></div>
 
 <p>is that the <code class="highlighter-rouge">@TenantParam</code> is not recognized by the validator. So it thinks there may be two entity body parameters. It validates the <code class="highlighter-rouge">Tenant</code> just fine, but then it gets to the second parameter, which is also assumed to be and entity. So the exception points to the <code class="highlighter-rouge">String</code> parameter, and not the <code class="highlighter-rouge">Tenant</code> parameter.</p>
 
@@ -387,7 +378,7 @@ public String post(@TenantParam Tenant tenant, String body) {
 
 <p>Here is the example <code class="highlighter-rouge">ValueFactoryProvider</code> we will use.</p>
 
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">class</span> <span class="nc">TenantParamValueProvider</span> <span class="kd">implements</span> <span class="n">ValueFactoryProvider</span> <span class="o">{</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">class</span> <span class="nc">TenantParamValueProvider</span> <span class="kd">implements</span> <span class="n">ValueFactoryProvider</span> <span class="o">{</span>
 
     <span class="nd">@Override</span>
     <span class="kd">public</span> <span class="n">Factory</span><span class="o">&lt;?&gt;</span> <span class="n">getValueFactory</span><span class="o">(</span><span class="n">Parameter</span> <span class="n">parameter</span><span class="o">)</span> <span class="o">{</span>
@@ -403,12 +394,11 @@ public String post(@TenantParam Tenant tenant, String body) {
         <span class="k">return</span> <span class="n">Priority</span><span class="o">.</span><span class="na">NORMAL</span><span class="o">;</span>
     <span class="o">}</span>
 <span class="o">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Here’s we just check that the parameter is of type <code class="highlighter-rouge">Tenant</code> and that it is annotated with <code class="highlighter-rouge">@TenantParam</code>. Any other parameter qualifications, we cannot handle and just return null. Now just un-comment the registration of this provider in the <code class="highlighter-rouge">TenantBinder</code></p>
 
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">class</span> <span class="nc">TenantBinder</span> <span class="kd">extends</span> <span class="n">AbstractBinder</span> <span class="o">{</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">class</span> <span class="nc">TenantBinder</span> <span class="kd">extends</span> <span class="n">AbstractBinder</span> <span class="o">{</span>
     <span class="nd">@Override</span>
     <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">configure</span><span class="o">()</span> <span class="o">{</span>
         <span class="n">bindFactory</span><span class="o">(</span><span class="n">TenantFactory</span><span class="o">.</span><span class="na">class</span><span class="o">).</span><span class="na">to</span><span class="o">(</span><span class="n">Tenant</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
@@ -420,12 +410,11 @@ public String post(@TenantParam Tenant tenant, String body) {
                 <span class="o">.</span><span class="na">in</span><span class="o">(</span><span class="n">Singleton</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
     <span class="o">}</span>
 <span class="o">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Make sure all the resource classes are registered</p>
 
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="nd">@Override</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Override</span>
 <span class="kd">public</span> <span class="n">ResourceConfig</span> <span class="nf">configure</span><span class="o">()</span> <span class="o">{</span>
     <span class="k">return</span> <span class="k">new</span> <span class="nf">ResourceConfig</span><span class="o">()</span>
             <span class="o">.</span><span class="na">register</span><span class="o">(</span><span class="k">new</span> <span class="n">TenantBinder</span><span class="o">())</span>
@@ -435,8 +424,7 @@ public String post(@TenantParam Tenant tenant, String body) {
             <span class="o">.</span><span class="na">register</span><span class="o">(</span><span class="n">WithCustomAndEntity</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
             <span class="o">.</span><span class="na">register</span><span class="o">(</span><span class="n">DebugMapper</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
 <span class="o">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>And un-comment all the <code class="highlighter-rouge">@Test</code> methods. There should be four in total. Then run the test… and Woo Hoo!. We passed.</p>
 
@@ -446,7 +434,7 @@ public String post(@TenantParam Tenant tenant, String body) {
 
 <p>To see this version work, you can un-comment the registration of its <code class="highlighter-rouge">Binder</code> and comment the registration of the <code class="highlighter-rouge">TenantBinder</code></p>
 
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="nd">@Override</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Override</span>
 <span class="kd">public</span> <span class="n">ResourceConfig</span> <span class="nf">configure</span><span class="o">()</span> <span class="o">{</span>
     <span class="k">return</span> <span class="k">new</span> <span class="nf">ResourceConfig</span><span class="o">()</span>
             <span class="c1">//.register(new TenantBinder())</span>
@@ -457,8 +445,7 @@ public String post(@TenantParam Tenant tenant, String body) {
             <span class="o">.</span><span class="na">register</span><span class="o">(</span><span class="n">WithCustomAndEntity</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
             <span class="o">.</span><span class="na">register</span><span class="o">(</span><span class="n">DebugMapper</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
 <span class="o">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>And that’s it. Hope you guys found this article informative.</p>
 

@@ -26,6 +26,13 @@
   <link rel="canonical" href="https://psamsotha.github.io/angular/2016/12/16/angular2-testing-karma-systemjs.html">
   <link rel="alternate" type="application/rss+xml" title="Paul Samsotha Blog" href="https://psamsotha.github.io/feed.xml">
 
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <script>
+    (adsbygoogle = window.adsbygoogle || []).push({
+      google_ad_client: "ca-pub-5723433679253306",
+      enable_page_level_ads: true
+    });
+  </script>
   <!-- Google Analytics -->
   
   <script>
@@ -114,7 +121,7 @@
         by<span class="post-author" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <span itemprop="name"><b>Paul Samsotha</b></span> on
         </span>
-        <time class="post-date" datetime="2016-12-16T00:00:00+07:00" itemprop="datePublished">
+        <time class="post-date" datetime="2016-12-16T00:00:00-08:00" itemprop="datePublished">
           Dec 16, 2016
         </time> 
       </h2>
@@ -207,41 +214,38 @@
 
 <p>First we need to install TypeScript, and then set up the TypeScript configuration in the <code class="highlighter-rouge">tsconfig.json</code> file.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>npm install --save-dev typescript core-js @types/node @types/jasmine
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm install --save-dev typescript core-js @types/node @types/jasmine
+</code></pre></div></div>
 
 <p>We’re also installing the TypeScript typings for jasmine and node as we’ll need them to compile our TypeScript tests.</p>
 
 <p>Then create a <code class="highlighter-rouge">tsconfig.json</code> file at the root of the project, and add the following contents</p>
 
-<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"compilerOptions"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="nt">"target"</span><span class="p">:</span><span class="w"> </span><span class="s2">"es5"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"module"</span><span class="p">:</span><span class="w"> </span><span class="s2">"commonjs"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"moduleResolution"</span><span class="p">:</span><span class="w"> </span><span class="s2">"node"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"sourceMap"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"emitDecoratorMetadata"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"experimentalDecorators"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"lib"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"es2015"</span><span class="p">,</span><span class="w"> </span><span class="s2">"dom"</span><span class="w"> </span><span class="p">],</span><span class="w">
-    </span><span class="nt">"noImplicitAny"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"suppressImplicitAnyIndexErrors"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"compilerOptions"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"target"</span><span class="p">:</span><span class="w"> </span><span class="s2">"es5"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"module"</span><span class="p">:</span><span class="w"> </span><span class="s2">"commonjs"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"moduleResolution"</span><span class="p">:</span><span class="w"> </span><span class="s2">"node"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"sourceMap"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"emitDecoratorMetadata"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"experimentalDecorators"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"lib"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"es2015"</span><span class="p">,</span><span class="w"> </span><span class="s2">"dom"</span><span class="w"> </span><span class="p">],</span><span class="w">
+    </span><span class="s2">"noImplicitAny"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"suppressImplicitAnyIndexErrors"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
 <p>I won’t go into anything about this file. You should read the <a href="http://www.typescriptlang.org/docs/tutorial.html">TypeScript documentation</a> for a quickstart guide on getting started with TypeScript, if you are unfamiliar with this.</p>
 
 <p>Let’s now add some scripts to the <code class="highlighter-rouge">package.json</code> file, which will allow us to run some basic tasks for our project. Replace the <code class="highlighter-rouge">"scripts"</code> property in the <code class="highlighter-rouge">package.json</code> with the following:</p>
 
-<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="s2">"scripts"</span><span class="err">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-  </span><span class="nt">"start"</span><span class="p">:</span><span class="w"> </span><span class="s2">"tsc &amp;&amp; concurrently \"tsc -w\" \"lite-server\" "</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"test"</span><span class="p">:</span><span class="w"> </span><span class="s2">"npm start"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"tsc"</span><span class="p">:</span><span class="w"> </span><span class="s2">"tsc"</span><span class="w">
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s2">"scripts"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="s2">"start"</span><span class="p">:</span><span class="w"> </span><span class="s2">"tsc &amp;&amp; concurrently </span><span class="se">\"</span><span class="s2">tsc -w</span><span class="se">\"</span><span class="s2"> </span><span class="se">\"</span><span class="s2">lite-server</span><span class="se">\"</span><span class="s2"> "</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"test"</span><span class="p">:</span><span class="w"> </span><span class="s2">"npm start"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"tsc"</span><span class="p">:</span><span class="w"> </span><span class="s2">"tsc"</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
 <p>The <code class="highlighter-rouge">tsc</code> command will simply do a one-time compilation of our TypeScript code. The <code class="highlighter-rouge">start</code> command will compile the TypeScript, watch for any changes, and also run the lite-server to serve up our project artifacts. Since we are just using Jasmine by itself for these initial tests, the <code class="highlighter-rouge">test</code> command will simply do the same thing as the <code class="highlighter-rouge">start</code> command, and will run our tests when we open the <code class="highlighter-rouge">index.html</code> page (that we will create in a moment).</p>
 
@@ -249,7 +253,7 @@
 
 <p>Create an <code class="highlighter-rouge">app</code> folder and inside the <code class="highlighter-rouge">app</code> folder, create a <code class="highlighter-rouge">counter</code> folder. Now create a <code class="highlighter-rouge">counter.spec.ts</code> in the <code class="highlighter-rouge">counter</code> folder. In the <code class="highlighter-rouge">counter.sepc.ts</code> file, add the following contents:</p>
 
-<div class="language-typescript highlighter-rouge"><pre class="highlight"><code><span class="kr">class</span> <span class="nx">Counter</span> <span class="p">{</span>
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="nx">Counter</span> <span class="p">{</span>
   <span class="nx">_count</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
 
   <span class="nx">increment</span><span class="p">()</span> <span class="p">{</span>
@@ -260,16 +264,15 @@
     <span class="k">this</span><span class="p">.</span><span class="nx">_count</span><span class="o">--</span><span class="p">;</span>
   <span class="p">}</span>
 
-  <span class="nx">get</span> <span class="nx">value</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kd">get</span> <span class="nx">value</span><span class="p">()</span> <span class="p">{</span>
     <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">_count</span><span class="p">;</span>
   <span class="p">}</span>
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>You can see this is just a simple class that increments and decrements the state of the counter. Now directly below that class, add the following</p>
 
-<div class="language-typescript highlighter-rouge"><pre class="highlight"><code><span class="nx">describe</span><span class="p">(</span><span class="s1">'Counter'</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">describe</span><span class="p">(</span><span class="s1">'Counter'</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
   <span class="kd">let</span> <span class="na">counter</span><span class="p">:</span> <span class="nx">Counter</span><span class="p">;</span>
 
   <span class="nx">beforeEach</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="p">{</span>
@@ -288,8 +291,7 @@
     <span class="nx">expect</span><span class="p">(</span><span class="nx">counter</span><span class="p">.</span><span class="nx">value</span><span class="p">).</span><span class="nx">toEqual</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">);</span>
   <span class="p">});</span>
 <span class="p">});</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>These are just a couple simple tests to make sure the <code class="highlighter-rouge">decrement</code> and <code class="highlighter-rouge">increment</code> function work correctly. I won’t get into what the code does. If you have never used Jasmine, please read <a href="https://jasmine.github.io/">the documentation</a>.</p>
 
@@ -297,15 +299,14 @@
 
 <p>Now let’s compile just to make sure there are no compilation errors. Run</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>npm run tsc
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm run tsc
+</code></pre></div></div>
 
 <p>There should be no errors. You can now see the transpiled <code class="highlighter-rouge">.js</code> files right next to the TypeScript <code class="highlighter-rouge">.ts</code> file, along with the source map.</p>
 
 <p>Now let’s set up the Jasmine tests. Add an <code class="highlighter-rouge">index.html</code> page to the root of the project and add the following contents.</p>
 
-<div class="language-html highlighter-rouge"><pre class="highlight"><code><span class="cp">&lt;!doctype html&gt;</span>
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;!doctype html&gt;</span>
 <span class="nt">&lt;head&gt;</span>
   <span class="nt">&lt;meta</span> <span class="na">charset=</span><span class="s">"utf-8"</span><span class="nt">&gt;</span>
   <span class="nt">&lt;title&gt;</span>Angular 2 Testing<span class="nt">&lt;/title&gt;</span>
@@ -322,8 +323,7 @@
 <span class="nt">&lt;body&gt;</span>
 <span class="nt">&lt;/body&gt;</span>
 <span class="nt">&lt;/html&gt;</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Here, we are adding all the required Jasmine files from the node package we installed earlier. We also add the single spec file we created. I won’t get too much into explaining these files, because using Jasmine this way, is not the point of this article. This is more for those that are coming from a straight Jasmine background. I thought that seeing this would make for an easier transition to Karma.</p>
 
@@ -353,15 +353,13 @@
 
 <p>Add all of the above to the install command to install them</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>npm install --save-dev &lt;all-of-the-above&gt;
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm install --save-dev &lt;all-of-the-above&gt;
+</code></pre></div></div>
 
 <p>You should also install the Karma CLI globally.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>npm install -g karma-cli
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm install -g karma-cli
+</code></pre></div></div>
 
 <p><code class="highlighter-rouge">karma</code> and <code class="highlighter-rouge">karma-cli</code> are the core Karma module to run Karma. <code class="highlighter-rouge">karma-jasmine</code> is the Karma plugin that allows us to run Jasmine tests. Remember that Karma is not dependent on any one testing framework. But most of the time (for Angular projects), you will see the testing framework used is Jasmine.</p>
 
@@ -377,8 +375,8 @@
 
 <p>At the root of the project, create a <code class="highlighter-rouge">karma.conf.js</code> file and add the following contents into the file.</p>
 
-<div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">config</span><span class="p">)</span> <span class="p">{</span>
-  <span class="nx">config</span><span class="p">.</span><span class="nx">set</span><span class="p">({</span>
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">config</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">config</span><span class="p">.</span><span class="kd">set</span><span class="p">({</span>
     <span class="na">basePath</span><span class="p">:</span> <span class="s1">''</span><span class="p">,</span>
     <span class="na">frameworks</span><span class="p">:</span> <span class="p">[</span><span class="s1">'jasmine'</span><span class="p">],</span>
 
@@ -402,8 +400,7 @@
     <span class="na">singleRun</span><span class="p">:</span> <span class="kc">false</span>
   <span class="p">});</span>
 <span class="p">};</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>The <code class="highlighter-rouge">karma.conf.js</code> is a Node module, and when Karma loads it, it will pass a configuration object. We can use this object to configure Karma by calling the <code class="highlighter-rouge">config.set</code>, passing in a configuration object. All of the available configuration properties are listed in <a href="https://karma-runner.github.io/1.0/config/configuration-file.html">the karma documentation</a>. I will quickly go through the ones used above.</p>
 
@@ -432,16 +429,14 @@
 
 <p>When Karma executes, it starts a web server. All the files include in the <code class="highlighter-rouge">files</code> array are the files included in the server. If the file is not listed, then it isn’t added to the server.  Let’s give this a test run, for now ignoring any results (which we will get to later). Let’s first add a couple new scripts to the <code class="highlighter-rouge">package.json</code> file. In the <code class="highlighter-rouge">"scripts"</code> replace the <code class="highlighter-rouge">"test"</code> property with the following two</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>"test": "tsc &amp;&amp; concurrently \"tsc -w\" \"karma start karma.conf.js\"",
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>"test": "tsc &amp;&amp; concurrently \"tsc -w\" \"karma start karma.conf.js\"",
 "test-once": "tsc &amp;&amp; karma start karma.conf.js --single-run",
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>The first one will start the Karma server, and stay running while watching files. The second one will just do a single run. We will use the first one for now. Run the following</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>npm run test
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm run test
+</code></pre></div></div>
 
 <p>You should see a Chrome browser launch with something like the following</p>
 
@@ -449,15 +444,13 @@
 
 <p>Now as I mentioned, Karma starts a server and adds the files we listed in the <code class="highlighter-rouge">files</code> array. Let’s check it out. Open up a different browser window, and just type into the URL bar</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>http://localhost:9876/base/app/counter/counter.spec.js
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http://localhost:9876/base/app/counter/counter.spec.js
+</code></pre></div></div>
 
 <p>You should see the source code the <code class="highlighter-rouge">counter.spec.js</code> file. You may also notice that we used <code class="highlighter-rouge">base</code> in the URL. The is important to remember for later, as by default, Karma adds <code class="highlighter-rouge">base</code> as the base path. Now try to type in the URL bar</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>http://localhost:9876/base/app/counter/counter.spec.js.map
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http://localhost:9876/base/app/counter/counter.spec.js.map
+</code></pre></div></div>
 
 <p>The file isn’t found. You should see NOT FOUND in the browser.. Now try to stop the server, add the <code class="highlighter-rouge">.map</code> file to the <code class="highlighter-rouge">files</code> array, and restart the server. Now try to go to the URL. You should see now see the contents of the <code class="highlighter-rouge">.map</code> file. When you’re done, just remove the <code class="highlighter-rouge">.map</code> file from the <code class="highlighter-rouge">files</code> array.</p>
 
@@ -477,17 +470,15 @@
 
 <p>Lets change the configuration of the <code class="highlighter-rouge">files</code> array to:</p>
 
-<div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="nx">files</span><span class="err">:</span> <span class="p">[</span>
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">files</span><span class="p">:</span> <span class="p">[</span>
   <span class="p">{</span> <span class="na">pattern</span><span class="p">:</span> <span class="s1">'app/counter/counter.spec.js'</span><span class="p">,</span> <span class="na">included</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span> <span class="na">watched</span><span class="p">:</span> <span class="kc">true</span> <span class="p">}</span>
 <span class="p">]</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>This will have the exact same effect as if we were to just use the single string file name. The default for <code class="highlighter-rouge">includeed</code> is true, and the default for <code class="highlighter-rouge">watched</code> is true. Let’s check out what the <code class="highlighter-rouge">included</code> really means. Start Karma again (stop first if needed - configuration changes requires a restart).</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>npm run test
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm run test
+</code></pre></div></div>
 
 <p>In the Chrome window, after you see that Karma is connection, open the Chrome developer tools with <kbd>f12</kbd>. Now open the “Network” tab and refresh the browser. On the left, in the list of all the files retrieved on the refresh, you should see a <code class="highlighter-rouge">context.html</code> page. Click on it to open the contents.</p>
 
@@ -503,9 +494,8 @@
 
 <p>So most of the discussion so far has been about configuration. As for the results, there’s really not much to discuss. If you start Karma again, and you look in the terminal, you should see the results at the bottom.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>Chrome 54.0.2840 (Windows 10 0.0.0): Executed 2 of 2 SUCCESS (0.295 secs / 0.016 secs)
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Chrome 54.0.2840 (Windows 10 0.0.0): Executed 2 of 2 SUCCESS (0.295 secs / 0.016 secs)
+</code></pre></div></div>
 
 <p>If you want to view the Jasmine HTML report, click on the <kbd>Debug</kbd> button in the Chrome Browser. You should see a similar result as the one earlier.</p>
 
@@ -529,44 +519,39 @@
 
 <p>Remember our good friend the <code class="highlighter-rouge">Counter</code> class, that we just had in the same file as the spec file? Let’s put it into it’s own file, and and the import it into the spec file. Create a <code class="highlighter-rouge">counter.ts</code> file in the <code class="highlighter-rouge">counter</code> folder, and copy and paste the <code class="highlighter-rouge">Counter</code> class (from the spec) into it, also adding the <code class="highlighter-rouge">export</code> keyword</p>
 
-<div class="language-typescript highlighter-rouge"><pre class="highlight"><code><span class="k">export</span> <span class="kr">class</span> <span class="nx">Counter</span> <span class="p">{</span>
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">export</span> <span class="kd">class</span> <span class="nx">Counter</span> <span class="p">{</span>
   <span class="p">...</span>
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Then in the <code class="highlighter-rouge">counter.spec.ts</code> file, remove the <code class="highlighter-rouge">Counter</code> class, and instead import it, using the following syntax</p>
 
-<div class="language-typescript highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">Counter</span> <span class="p">}</span> <span class="k">from</span> <span class="s1">'./counter'</span><span class="p">;</span>
-</code></pre>
-</div>
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">Counter</span> <span class="p">}</span> <span class="k">from</span> <span class="s1">'./counter'</span><span class="p">;</span>
+</code></pre></div></div>
 
 <p>Everything else in the spec file should be the same. Now let’s compile both files.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>npm run tsc
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm run tsc
+</code></pre></div></div>
 
 <p>If you look at the contents of the compiled <code class="highlighter-rouge">counter.js</code> file, you should see</p>
 
-<div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">Counter</span> <span class="o">=</span> <span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">Counter</span> <span class="o">=</span> <span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
     <span class="p">...</span>
 <span class="p">}());</span>
 <span class="nx">exports</span><span class="p">.</span><span class="nx">Counter</span> <span class="o">=</span> <span class="nx">Counter</span><span class="p">;</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Here, <code class="highlighter-rouge">Counter</code> is being exported with the module. Now look at the <code class="highlighter-rouge">counter.spec.js</code> file</p>
 
-<div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">counter_1</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"./counter"</span><span class="p">);</span>
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">counter_1</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"./counter"</span><span class="p">);</span>
 <span class="nx">describe</span><span class="p">(</span><span class="s1">'Counter'</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
     <span class="kd">var</span> <span class="nx">counter</span><span class="p">;</span>
     <span class="nx">beforeEach</span><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
         <span class="nx">counter</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">counter_1</span><span class="p">.</span><span class="nx">Counter</span><span class="p">();</span>
     <span class="p">});</span>
 <span class="p">});</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Using <code class="highlighter-rouge">require</code> is how to load the module in Javascript. You can see that the <code class="highlighter-rouge">Counter</code> class is actually a <em>member</em> of imported module. That’s why we do <code class="highlighter-rouge">new counter_1.Counter()</code> instead of <code class="highlighter-rouge">new counter_1()</code>.</p>
 
@@ -578,13 +563,12 @@
 
 <p>First, let’s install SystemJS</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>npm install --save systemjs
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm install --save systemjs
+</code></pre></div></div>
 
 <p>Once that’s finished installing, let’s add it to our <code class="highlighter-rouge">index.html</code>. If you haven’t already, you can remove all the Jasmine related stuff from the file. (Just a note, in case there is any confusion, none of that Jasmine stuff in the index.html file was actually used in the Karma testing). Replace the contents of the <code class="highlighter-rouge">index.html</code> page with the following (removing the <code class="highlighter-rouge">(#)</code>s)</p>
 
-<div class="language-html highlighter-rouge"><pre class="highlight"><code><span class="cp">&lt;!doctype html&gt;</span>
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;!doctype html&gt;</span>
 <span class="nt">&lt;head&gt;</span>
   <span class="nt">&lt;meta</span> <span class="na">charset=</span><span class="s">"utf-8"</span><span class="nt">&gt;</span>
   <span class="nt">&lt;title&gt;</span>Angular 2 Testing<span class="nt">&lt;/title&gt;</span>
@@ -594,7 +578,7 @@
   <span class="nt">&lt;h2&gt;</span>Count: <span class="nt">&lt;span</span> <span class="na">id=</span><span class="s">"count"</span><span class="nt">&gt;</span>0<span class="nt">&lt;/span&gt;&lt;/h2&gt;</span>
 
   <span class="nt">&lt;script&gt;</span>
-    <span class="nx">System</span><span class="p">.</span><span class="kr">import</span><span class="p">(</span><span class="s1">'app/counter/counter.js'</span><span class="p">).</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">module</span><span class="p">)</span> <span class="p">{</span>  <span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+    <span class="nx">System</span><span class="p">.</span><span class="k">import</span><span class="p">(</span><span class="s1">'app/counter/counter.js'</span><span class="p">).</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">module</span><span class="p">)</span> <span class="p">{</span>  <span class="p">(</span><span class="mi">2</span><span class="p">)</span>
       <span class="kd">var</span> <span class="nx">counter</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">module</span><span class="p">.</span><span class="nx">Counter</span><span class="p">();</span>  <span class="p">(</span><span class="mi">3</span><span class="p">)</span>
       <span class="kd">var</span> <span class="nx">count</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">'count'</span><span class="p">);</span>
       <span class="nx">setInterval</span><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
@@ -605,8 +589,7 @@
   <span class="nt">&lt;/script&gt;</span>
 <span class="nt">&lt;/body&gt;</span>
 <span class="nt">&lt;/html&gt;</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>There are a few things going on here:</p>
 
@@ -627,9 +610,8 @@
 
 <p>Let’s run the code.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>npm start
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm start
+</code></pre></div></div>
 
 <p>If all went well, you should see the count increment every second. Now let’s take this example to next level.</p>
 
@@ -639,19 +621,18 @@
 
 <p>Let’s import something from another module into the <code class="highlighter-rouge">counter</code> module. I will use RxJS just so we can also see how to use the <code class="highlighter-rouge">SystemJS.config</code>. First install <code class="highlighter-rouge">RxJS</code></p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>npm install --save rxjs
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm install --save rxjs
+</code></pre></div></div>
 
 <p>Now change the contents of the <code class="highlighter-rouge">counter.ts</code> file to</p>
 
-<div class="language-typescript highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">BehaviorSubject</span> <span class="p">}</span> <span class="k">from</span> <span class="s1">'rxjs/BehaviorSubject'</span><span class="p">;</span>
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">BehaviorSubject</span> <span class="p">}</span> <span class="k">from</span> <span class="s1">'rxjs/BehaviorSubject'</span><span class="p">;</span>
 <span class="k">import</span> <span class="p">{</span> <span class="nx">Observable</span> <span class="p">}</span> <span class="k">from</span> <span class="s1">'rxjs/Observable'</span><span class="p">;</span>
 
-<span class="k">export</span> <span class="kr">class</span> <span class="nx">Counter</span> <span class="p">{</span>
+<span class="k">export</span> <span class="kd">class</span> <span class="nx">Counter</span> <span class="p">{</span>
   
-  <span class="k">private</span> <span class="nx">_count</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-  <span class="k">private</span> <span class="nx">_value</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">BehaviorSubject</span><span class="o">&lt;</span><span class="kr">number</span><span class="o">&gt;</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">_count</span><span class="p">);</span>
+  <span class="kr">private</span> <span class="nx">_count</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="kr">private</span> <span class="nx">_value</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">BehaviorSubject</span><span class="o">&lt;</span><span class="nx">number</span><span class="o">&gt;</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">_count</span><span class="p">);</span>
 
   <span class="nx">increment</span><span class="p">()</span> <span class="p">{</span>
     <span class="k">this</span><span class="p">.</span><span class="nx">_value</span><span class="p">.</span><span class="nx">next</span><span class="p">(</span><span class="o">++</span><span class="k">this</span><span class="p">.</span><span class="nx">_count</span><span class="p">);</span>
@@ -661,17 +642,16 @@
     <span class="k">this</span><span class="p">.</span><span class="nx">_value</span><span class="p">.</span><span class="nx">next</span><span class="p">(</span><span class="o">--</span><span class="k">this</span><span class="p">.</span><span class="nx">_count</span><span class="p">);</span>
   <span class="p">}</span>
 
-  <span class="nx">get</span> <span class="nx">value</span><span class="p">()</span><span class="err">:</span> <span class="nx">Observable</span><span class="o">&lt;</span><span class="kr">number</span><span class="o">&gt;</span> <span class="p">{</span>
+  <span class="kd">get</span> <span class="nx">value</span><span class="p">():</span> <span class="nx">Observable</span><span class="o">&lt;</span><span class="nx">number</span><span class="o">&gt;</span> <span class="p">{</span>
     <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">_value</span><span class="p">.</span><span class="nx">asObservable</span><span class="p">();</span>
   <span class="p">}</span>
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Here, we are using RxJS to publish the new value to subscribers. In the <code class="highlighter-rouge">index.thml</code> page, change the contents of the <code class="highlighter-rouge">&lt;script&gt;</code> accordingly, to adjust to this new change</p>
 
-<div class="language-html highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;script&gt;</span>
-  <span class="nx">System</span><span class="p">.</span><span class="kr">import</span><span class="p">(</span><span class="s1">'app/counter/counter.js'</span><span class="p">).</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">module</span><span class="p">)</span> <span class="p">{</span>
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;script&gt;</span>
+  <span class="nx">System</span><span class="p">.</span><span class="k">import</span><span class="p">(</span><span class="s1">'app/counter/counter.js'</span><span class="p">).</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">module</span><span class="p">)</span> <span class="p">{</span>
     <span class="kd">var</span> <span class="nx">count</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">'count'</span><span class="p">);</span>
     <span class="kd">var</span> <span class="nx">counter</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">module</span><span class="p">.</span><span class="nx">Counter</span><span class="p">();</span>
     <span class="nx">counter</span><span class="p">.</span><span class="nx">value</span><span class="p">.</span><span class="nx">subscribe</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">value</span><span class="p">)</span> <span class="p">{</span>
@@ -682,33 +662,29 @@
     <span class="p">},</span> <span class="mi">1000</span><span class="p">);</span>
   <span class="p">});</span>
 <span class="nt">&lt;/script&gt;</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Now lets try to run the app.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>npm start
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm start
+</code></pre></div></div>
 
 <p>If you look at both the terminal and Browser console, you will see 404 errors. In  the browser console, you will see</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>Uncaught (in promise) Error: (SystemJS) XHR error (404 Not Found) loading
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Uncaught (in promise) Error: (SystemJS) XHR error (404 Not Found) loading
 http://localhost:3000/rxjs/BehaviorSubject(…)
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>What this means is that when the <code class="highlighter-rouge">counter</code> module is loaded, it is trying to import the <code class="highlighter-rouge">BehaviorSubject</code>. And the error is telling you the path it is trying to load it from. It is using this path, because that is the path we use in our import statement</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+</code></pre></div></div>
 
 <p>So how can we fix this? This is were the <code class="highlighter-rouge">SystemJS.config</code> comes to the rescue. We can configure how different paths are resolved.</p>
 
 <p>Add a <code class="highlighter-rouge">systemjs.config.js</code> file to the root of the project, and add the following contents to that file</p>
 
-<div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">global</span><span class="p">)</span> <span class="p">{</span>
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nb">global</span><span class="p">)</span> <span class="p">{</span>
   <span class="nx">SystemJS</span><span class="p">.</span><span class="nx">config</span><span class="p">({</span>
     <span class="na">paths</span><span class="p">:</span> <span class="p">{</span>
       <span class="s1">'npm:'</span><span class="p">:</span> <span class="s1">'node_modules/'</span>
@@ -727,8 +703,7 @@ http://localhost:3000/rxjs/BehaviorSubject(…)
     <span class="p">}</span>
   <span class="p">})</span>
 <span class="p">})(</span><span class="k">this</span><span class="p">);</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>This is how we can configure SystemJS. The following is a description of the properties used above:</p>
 
@@ -746,42 +721,37 @@ http://localhost:3000/rxjs/BehaviorSubject(…)
 
 <p>With this configuration and the following import statement</p>
 
-<div class="language-typescript highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">BehaviorSubject</span> <span class="p">}</span> <span class="k">from</span> <span class="s1">'rxjs/BehaviorSubject'</span>
-</code></pre>
-</div>
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">BehaviorSubject</span> <span class="p">}</span> <span class="k">from</span> <span class="s1">'rxjs/BehaviorSubject'</span>
+</code></pre></div></div>
 
 <p>when SystemJS tries to load <code class="highlighter-rouge">rxjs/BehaviorSubject</code>, it will now prefix it with <code class="highlighter-rouge">node_modules/</code> and add the default extension <code class="highlighter-rouge">.js</code>. Now the path is absolute, and the module can be resolved.</p>
 
 <p>We also add a mapping for <code class="highlighter-rouge">app</code>, as this is part of the path for the project files. For this package, we also add the <code class="highlighter-rouge">defaultExtension: js</code>. For the code we are using right now in the <code class="highlighter-rouge">index.html</code>, this is not really required at this point, as we are importing using the <code class="highlighter-rouge">.js</code> extension already. But in the real application, we will not be using extensions with our import statements. And the above mapping will allow for that. So let’s just adjust the <code class="highlighter-rouge">index.html</code> page to accommodate for this adjustments. Just change</p>
 
-<div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="nx">System</span><span class="p">.</span><span class="kr">import</span><span class="p">(</span><span class="s1">'app/counter/counter.js'</span><span class="p">)</span>
-</code></pre>
-</div>
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">System</span><span class="p">.</span><span class="k">import</span><span class="p">(</span><span class="s1">'app/counter/counter.js'</span><span class="p">)</span>
+</code></pre></div></div>
 
 <p>to</p>
 
-<div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="nx">System</span><span class="p">.</span><span class="kr">import</span><span class="p">(</span><span class="s1">'app/counter/counter'</span><span class="p">)</span>
-</code></pre>
-</div>
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">System</span><span class="p">.</span><span class="k">import</span><span class="p">(</span><span class="s1">'app/counter/counter'</span><span class="p">)</span>
+</code></pre></div></div>
 
 <p>See how we removed the <code class="highlighter-rouge">.js</code> extension.</p>
 
 <p>Now we just need to add the configuration file the <code class="highlighter-rouge">index.html</code> page. Now this is what the <code class="highlighter-rouge">&lt;head&gt;</code> should look like</p>
 
-<div class="language-html highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;head&gt;</span>
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;head&gt;</span>
   <span class="nt">&lt;meta</span> <span class="na">charset=</span><span class="s">"utf-8"</span><span class="nt">&gt;</span>
   <span class="nt">&lt;title&gt;</span>Angular 2 Testing<span class="nt">&lt;/title&gt;</span>
   <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"node_modules/systemjs/dist/system.src.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
   <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"systemjs.config.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
 <span class="nt">&lt;/head&gt;</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Now we can run the app.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>npm start
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm start
+</code></pre></div></div>
 
 <p>Voila! Everything now works. You should be feeling like a champ right now! But we still need to test it :-)</p>
 
@@ -791,7 +761,7 @@ http://localhost:3000/rxjs/BehaviorSubject(…)
 
 <p>To test our <code class="highlighter-rouge">Counter</code>, the first thing we need to do is modify the test cases to accommodate for our new use of RxJS. Replace the contents of the <code class="highlighter-rouge">counter.spec.ts</code> file with the following:</p>
 
-<div class="language-typescript highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">Counter</span> <span class="p">}</span> <span class="k">from</span> <span class="s1">'./counter'</span><span class="p">;</span>
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">Counter</span> <span class="p">}</span> <span class="k">from</span> <span class="s1">'./counter'</span><span class="p">;</span>
 
 <span class="nx">describe</span><span class="p">(</span><span class="s1">'Counter'</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
   <span class="kd">let</span> <span class="na">counter</span><span class="p">:</span> <span class="nx">Counter</span><span class="p">;</span>
@@ -816,56 +786,50 @@ http://localhost:3000/rxjs/BehaviorSubject(…)
     <span class="p">});</span>
   <span class="p">});</span>
 <span class="p">});</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Let’s also add the <code class="highlighter-rouge">counter.js</code> file to the Karma config so that Karma can add it to the server.</p>
 
-<div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="nx">files</span><span class="err">:</span> <span class="p">[</span>
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">files</span><span class="p">:</span> <span class="p">[</span>
   <span class="p">{</span> <span class="na">pattern</span><span class="p">:</span> <span class="s1">'app/counter/counter.js'</span><span class="p">,</span> <span class="na">included</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span> <span class="na">watched</span><span class="p">:</span> <span class="kc">true</span> <span class="p">},</span>
   <span class="p">{</span> <span class="na">pattern</span><span class="p">:</span> <span class="s1">'app/counter/counter.spec.js'</span><span class="p">,</span> <span class="na">included</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span> <span class="na">watched</span><span class="p">:</span> <span class="kc">true</span> <span class="p">}</span>
 <span class="p">],</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Now let’s just run the test as-is, just to see what happens.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>npm run test
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm run test
+</code></pre></div></div>
 
 <p>You should see the following errors (preventing the tests from running):</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>[1] Chrome 54.0.2840 (Windows 10 0.0.0) ERROR
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[1] Chrome 54.0.2840 (Windows 10 0.0.0) ERROR
 [1]   Uncaught ReferenceError: require is not defined
 [1]   at app/counter/counter.spec.js:2
 [1]
 [1] Chrome 54.0.2840 (Windows 10 0.0.0) ERROR
 [1]   Uncaught ReferenceError: require is not defined
 [1]   at app/counter/counter.spec.js:2
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>So what does this mean? Well let’s look at the compiled <code class="highlighter-rouge">counter.js</code> file. At line two we should see</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>var BehaviorSubject_1 = require("rxjs/BehaviorSubject");
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>var BehaviorSubject_1 = require("rxjs/BehaviorSubject");
+</code></pre></div></div>
 
 <p>And <code class="highlighter-rouge">require</code> is not defined in the Browser engine. So why did it work when we ran the app? It’s because we were using SystemJS to load the module (i.e. we didn’t add the <code class="highlighter-rouge">counter.js</code> as a <code class="highlighter-rouge">&lt;script&gt;</code>). Also remember when we talked about the Karma configuration <code class="highlighter-rouge">files</code> array. Here is what is currently looks like.</p>
 
-<div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="nx">files</span><span class="err">:</span> <span class="p">[</span>
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">files</span><span class="p">:</span> <span class="p">[</span>
   <span class="p">{</span> <span class="na">pattern</span><span class="p">:</span> <span class="s1">'app/counter/counter.js'</span><span class="p">,</span> <span class="na">included</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span> <span class="na">watched</span><span class="p">:</span> <span class="kc">true</span> <span class="p">},</span>
   <span class="p">{</span> <span class="na">pattern</span><span class="p">:</span> <span class="s1">'app/counter/counter.spec.js'</span><span class="p">,</span> <span class="na">included</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span> <span class="na">watched</span><span class="p">:</span> <span class="kc">true</span> <span class="p">}</span>
 <span class="p">],</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Remember we said that <code class="highlighter-rouge">included</code> means that the file should added as a <code class="highlighter-rouge">&lt;script&gt;</code>. Well this is what’s causing the error. For tests, we don’t want our application files added as a <code class="highlighter-rouge">&lt;script&gt;</code>. We want SystemJS to load them, just like in the application.</p>
 
 <p>So let’s update the <code class="highlighter-rouge">files</code> array:</p>
 
-<div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="nx">files</span><span class="err">:</span> <span class="p">[</span>
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">files</span><span class="p">:</span> <span class="p">[</span>
   <span class="s1">'node_modules/systemjs/dist/system.src.js'</span><span class="p">,</span>
 
   <span class="p">{</span> <span class="na">pattern</span><span class="p">:</span> <span class="s1">'node_modules/rxjs/**/*.js'</span><span class="p">,</span> <span class="na">included</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span> <span class="na">watched</span><span class="p">:</span> <span class="kc">false</span> <span class="p">},</span>
@@ -875,8 +839,7 @@ http://localhost:3000/rxjs/BehaviorSubject(…)
   <span class="p">{</span> <span class="na">pattern</span><span class="p">:</span> <span class="s1">'app/counter/counter.js'</span><span class="p">,</span> <span class="na">included</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span> <span class="na">watched</span><span class="p">:</span> <span class="kc">true</span> <span class="p">},</span>
   <span class="p">{</span> <span class="na">pattern</span><span class="p">:</span> <span class="s1">'app/counter/counter.spec.js'</span><span class="p">,</span> <span class="na">included</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span> <span class="na">watched</span><span class="p">:</span> <span class="kc">true</span> <span class="p">}</span>
 <span class="p">],</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>So we are now adding SystemJS. Also just using a string for the module (instead of the object like the other three files used), we accept the defaults, which is <code class="highlighter-rouge">included: true, watched: false</code>. We <em>do</em> want SystemJS added as a <code class="highlighter-rouge">&lt;script&gt;</code> and we don’t need to watch it, as it’s a third-party library, and the code will not be changing. We also add our <code class="highlighter-rouge">systemjs.config.js</code> file. We are not including it as a <code class="highlighter-rouge">&lt;script&gt;</code> as we will have SystemJS load it. And finally, we added the RxJS library.</p>
 
@@ -890,7 +853,7 @@ http://localhost:3000/rxjs/BehaviorSubject(…)
 
 <p>Create a <code class="highlighter-rouge">karma-test-shim.js</code> file at the root of the project. As I mentioned before, this article is to help demystify the workings of the Angular 2 Quickstart project (in regards to testing). So I will grab some of the content from <a href="https://github.com/angular/quickstart/blob/master/karma-test-shim.js">its karma-test-shim.js</a>. I won’t grab all of it right now, as a lot it involves Angular, and I haven’t gotten there yet. I will just grab what is important for now and briefly walk through what all the code does. So in your file, add the following contents:</p>
 
-<div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="nb">Error</span><span class="p">.</span><span class="nx">stackTraceLimit</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">Error</span><span class="p">.</span><span class="nx">stackTraceLimit</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
 <span class="nx">jasmine</span><span class="p">.</span><span class="nx">DEFAULT_TIMEOUT_INTERVAL</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">;</span>
 
 <span class="c1">// (1)</span>
@@ -929,20 +892,19 @@ http://localhost:3000/rxjs/BehaviorSubject(…)
 <span class="p">});</span>
 
 <span class="c1">// (8)</span>
-<span class="nx">System</span><span class="p">.</span><span class="kr">import</span><span class="p">(</span><span class="s1">'systemjs.config.js'</span><span class="p">)</span>
+<span class="nx">System</span><span class="p">.</span><span class="k">import</span><span class="p">(</span><span class="s1">'systemjs.config.js'</span><span class="p">)</span>
   <span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">initTesting</span><span class="p">);</span>
 
 <span class="c1">// (9)</span>
 <span class="kd">function</span> <span class="nx">initTesting</span> <span class="p">()</span> <span class="p">{</span>
-  <span class="k">return</span> <span class="nx">Promise</span><span class="p">.</span><span class="nx">all</span><span class="p">(</span>
+  <span class="k">return</span> <span class="nb">Promise</span><span class="p">.</span><span class="nx">all</span><span class="p">(</span>
     <span class="nx">allSpecFiles</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">moduleName</span><span class="p">)</span> <span class="p">{</span>
-      <span class="k">return</span> <span class="nx">System</span><span class="p">.</span><span class="kr">import</span><span class="p">(</span><span class="nx">moduleName</span><span class="p">);</span>
+      <span class="k">return</span> <span class="nx">System</span><span class="p">.</span><span class="k">import</span><span class="p">(</span><span class="nx">moduleName</span><span class="p">);</span>
     <span class="p">})</span>
   <span class="p">)</span>
   <span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">__karma__</span><span class="p">.</span><span class="nx">start</span><span class="p">,</span> <span class="nx">__karma__</span><span class="p">.</span><span class="nx">error</span><span class="p">);</span>
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>It looks like there is alot going on here, but really, most of the code is just helper functions. I’ll quickly go through them</p>
 
@@ -973,7 +935,7 @@ http://localhost:3000/rxjs/BehaviorSubject(…)
 
 <p>Now the last thing is to add this <code class="highlighter-rouge">karma-test-shim.js</code> file to the <code class="highlighter-rouge">karma.conf.js</code> file, so that Karma can load it and add it as a <code class="highlighter-rouge">&lt;script&gt;</code> to run  when the server starts. Below is the current <code class="highlighter-rouge">files</code> array configuration.</p>
 
-<div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="nx">files</span><span class="err">:</span> <span class="p">[</span>
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">files</span><span class="p">:</span> <span class="p">[</span>
   <span class="s1">'node_modules/systemjs/dist/system.src.js'</span><span class="p">,</span>
 
   <span class="p">{</span> <span class="na">pattern</span><span class="p">:</span> <span class="s1">'node_modules/rxjs/**/*.js'</span><span class="p">,</span> <span class="na">included</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span> <span class="na">watched</span><span class="p">:</span> <span class="kc">false</span> <span class="p">},</span>
@@ -985,8 +947,7 @@ http://localhost:3000/rxjs/BehaviorSubject(…)
   <span class="p">{</span> <span class="na">pattern</span><span class="p">:</span> <span class="s1">'app/counter/counter.js'</span><span class="p">,</span> <span class="na">included</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span> <span class="na">watched</span><span class="p">:</span> <span class="kc">true</span> <span class="p">},</span>
   <span class="p">{</span> <span class="na">pattern</span><span class="p">:</span> <span class="s1">'app/counter/counter.spec.js'</span><span class="p">,</span> <span class="na">included</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span> <span class="na">watched</span><span class="p">:</span> <span class="kc">true</span> <span class="p">}</span>
 <span class="p">],</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Now if you run the test (<code class="highlighter-rouge">npm run test</code>), you should get a success with 2 tests run and 2 tests succeeding!</p>
 
@@ -1004,12 +965,11 @@ http://localhost:3000/rxjs/BehaviorSubject(…)
 
 <p>Let’s start by first just adding the dependencies, getting a hello world up and running, then we’ll get the testing. So install the following</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>npm install --save \
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm install --save \
   @angular/core @angular/common @angular/compiler \
   @angular/platform-browser @angular/platform-browser-dynamic \
   core-js reflect-metadata zone.js
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>These are just the basic dependencies. We’re not going to do any forms or http calls or routing, so we’ll just leave those out.</p>
 
@@ -1017,39 +977,37 @@ http://localhost:3000/rxjs/BehaviorSubject(…)
 
 <p><em><strong>app.component.ts</strong></em></p>
 
-<div class="language-typescript highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">Component</span> <span class="p">}</span> <span class="k">from</span> <span class="s1">'@angular/core'</span><span class="p">;</span>
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">Component</span> <span class="p">}</span> <span class="k">from</span> <span class="s1">'@angular/core'</span><span class="p">;</span>
 
-<span class="err">@</span><span class="nx">Component</span><span class="p">({</span>
+<span class="p">@</span><span class="nd">Component</span><span class="p">({</span>
   <span class="na">selector</span><span class="p">:</span> <span class="s1">'app'</span><span class="p">,</span>
   <span class="na">template</span><span class="p">:</span> <span class="s1">'&lt;h1&gt;&lt;/h1&gt;'</span>
 <span class="p">})</span>
-<span class="k">export</span> <span class="kr">class</span> <span class="nx">AppComponent</span> <span class="p">{</span>
+<span class="k">export</span> <span class="kd">class</span> <span class="nx">AppComponent</span> <span class="p">{</span>
   <span class="nx">message</span> <span class="o">=</span> <span class="s1">'Hello World!'</span><span class="p">;</span>
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p><em><strong>main.ts</strong></em></p>
 
-<div class="language-typescript highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">NgModule</span> <span class="p">}</span> <span class="k">from</span> <span class="s1">'@angular/core'</span><span class="p">;</span>
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">NgModule</span> <span class="p">}</span> <span class="k">from</span> <span class="s1">'@angular/core'</span><span class="p">;</span>
 <span class="k">import</span> <span class="p">{</span> <span class="nx">BrowserModule</span> <span class="p">}</span> <span class="k">from</span> <span class="s1">'@angular/platform-browser'</span><span class="p">;</span>
 <span class="k">import</span> <span class="p">{</span> <span class="nx">platformBrowserDynamic</span> <span class="p">}</span> <span class="k">from</span> <span class="s1">'@angular/platform-browser-dynamic'</span><span class="p">;</span>
 <span class="k">import</span> <span class="p">{</span> <span class="nx">AppComponent</span> <span class="p">}</span> <span class="k">from</span> <span class="s1">'./app.component'</span><span class="p">;</span>
 
-<span class="err">@</span><span class="nx">NgModule</span><span class="p">({</span>
+<span class="p">@</span><span class="nd">NgModule</span><span class="p">({</span>
   <span class="na">imports</span><span class="p">:</span> <span class="p">[</span> <span class="nx">BrowserModule</span> <span class="p">],</span>
   <span class="na">declarations</span><span class="p">:</span> <span class="p">[</span> <span class="nx">AppComponent</span> <span class="p">],</span>
   <span class="na">bootstrap</span><span class="p">:</span> <span class="p">[</span> <span class="nx">AppComponent</span> <span class="p">]</span>
 <span class="p">})</span>
-<span class="k">export</span> <span class="kr">class</span> <span class="nx">AppModule</span> <span class="p">{</span>
+<span class="k">export</span> <span class="kd">class</span> <span class="nx">AppModule</span> <span class="p">{</span>
 
 <span class="nx">platformBrowserDynamic</span><span class="p">().</span><span class="nx">bootstrapModule</span><span class="p">(</span><span class="nx">AppModule</span><span class="p">);</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>And  replace the contents of the <code class="highlighter-rouge">index.html</code> file with the following:</p>
 
-<div class="language-html highlighter-rouge"><pre class="highlight"><code><span class="cp">&lt;!DOCTYPE html&gt;</span>
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;!DOCTYPE html&gt;</span>
 <span class="nt">&lt;html&gt;</span>
   <span class="nt">&lt;head&gt;</span>
     <span class="nt">&lt;title&gt;</span>Angular2 Testing<span class="nt">&lt;/title&gt;</span>
@@ -1061,7 +1019,7 @@ http://localhost:3000/rxjs/BehaviorSubject(…)
     <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"node_modules/systemjs/dist/system.src.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
     <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"systemjs.config.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
     <span class="nt">&lt;script&gt;</span>
-      <span class="nx">System</span><span class="p">.</span><span class="kr">import</span><span class="p">(</span><span class="s1">'app'</span><span class="p">).</span><span class="k">catch</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">){</span> <span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span> <span class="p">});</span>
+      <span class="nx">System</span><span class="p">.</span><span class="k">import</span><span class="p">(</span><span class="s1">'app'</span><span class="p">).</span><span class="k">catch</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">){</span> <span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span> <span class="p">});</span>
     <span class="nt">&lt;/script&gt;</span>
   <span class="nt">&lt;/head&gt;</span>
 
@@ -1069,49 +1027,44 @@ http://localhost:3000/rxjs/BehaviorSubject(…)
     <span class="nt">&lt;app&gt;</span>Loading ...<span class="nt">&lt;/app&gt;</span>
   <span class="nt">&lt;/body&gt;</span>
 <span class="nt">&lt;/html&gt;</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>You can see here, that we use <code class="highlighter-rouge">System.import</code> to import the <code class="highlighter-rouge">app</code> package. But we need to make one change to the <code class="highlighter-rouge">systemjs.config.js</code> file. Add a <code class="highlighter-rouge">main</code> property that points our compiled <code class="highlighter-rouge">main.js</code>.</p>
 
-<div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="nx">app</span><span class="err">:</span> <span class="p">{</span>
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">app</span><span class="p">:</span> <span class="p">{</span>
   <span class="nl">main</span><span class="p">:</span> <span class="s1">'./main.js'</span><span class="p">,</span>
-  <span class="nx">defaultExtension</span><span class="err">:</span> <span class="s1">'js'</span>
+  <span class="nx">defaultExtension</span><span class="p">:</span> <span class="s1">'js'</span>
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>The <code class="highlighter-rouge">main</code> tells SystemJS what file is the main file to load for this (<code class="highlighter-rouge">app</code>) package. In this case, the <code class="highlighter-rouge">main.js</code> file is the default one to load. And when that file is loaded, it will bootstrap our Angular application.</p>
 
 <p>We also need to make SystemJS aware of how to load the Angular modules. In our application files, when we import Angular, we do something like</p>
 
-<div class="language-typescript highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">Component</span> <span class="p">}</span> <span class="k">from</span> <span class="s1">'@angular/core'</span><span class="p">;</span>
-</code></pre>
-</div>
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">Component</span> <span class="p">}</span> <span class="k">from</span> <span class="s1">'@angular/core'</span><span class="p">;</span>
+</code></pre></div></div>
 
 <p>SystemJS doesn’t know what the <code class="highlighter-rouge">@angular/core</code> module is unless we map it correctly in the <code class="highlighter-rouge">systemjs.config.js</code> file, just like we did with RxJS. So modify the <code class="highlighter-rouge">map</code> property in the <code class="highlighter-rouge">systemjs.config.js</code> file to the following:</p>
 
-<div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="nx">map</span><span class="err">:</span> <span class="p">{</span>
-  <span class="s1">'app'</span><span class="err">:</span> <span class="s1">'app'</span><span class="p">,</span>
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">map</span><span class="p">:</span> <span class="p">{</span>
+  <span class="s1">'app'</span><span class="p">:</span> <span class="s1">'app'</span><span class="p">,</span>
 
-  <span class="s1">'@angular/core'</span><span class="err">:</span> <span class="s1">'npm:@angular/core/bundles/core.umd.js'</span><span class="p">,</span>
-  <span class="s1">'@angular/common'</span><span class="err">:</span> <span class="s1">'npm:@angular/common/bundles/common.umd.js'</span><span class="p">,</span>
-  <span class="s1">'@angular/compiler'</span><span class="err">:</span> <span class="s1">'npm:@angular/compiler/bundles/compiler.umd.js'</span><span class="p">,</span>
-  <span class="s1">'@angular/platform-browser'</span><span class="err">:</span> <span class="s1">'npm:@angular/platform-browser/bundles/platform-browser.umd.js'</span><span class="p">,</span>
-  <span class="s1">'@angular/platform-browser-dynamic'</span><span class="err">:</span> <span class="s1">'npm:@angular/platform-browser-dynamic/bundles/platform-browser-dynamic.umd.js'</span><span class="p">,</span>
+  <span class="s1">'@angular/core'</span><span class="p">:</span> <span class="s1">'npm:@angular/core/bundles/core.umd.js'</span><span class="p">,</span>
+  <span class="s1">'@angular/common'</span><span class="p">:</span> <span class="s1">'npm:@angular/common/bundles/common.umd.js'</span><span class="p">,</span>
+  <span class="s1">'@angular/compiler'</span><span class="p">:</span> <span class="s1">'npm:@angular/compiler/bundles/compiler.umd.js'</span><span class="p">,</span>
+  <span class="s1">'@angular/platform-browser'</span><span class="p">:</span> <span class="s1">'npm:@angular/platform-browser/bundles/platform-browser.umd.js'</span><span class="p">,</span>
+  <span class="s1">'@angular/platform-browser-dynamic'</span><span class="p">:</span> <span class="s1">'npm:@angular/platform-browser-dynamic/bundles/platform-browser-dynamic.umd.js'</span><span class="p">,</span>
 
-  <span class="s1">'rxjs'</span><span class="err">:</span> <span class="s1">'npm:rxjs'</span>
+  <span class="s1">'rxjs'</span><span class="p">:</span> <span class="s1">'npm:rxjs'</span>
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>See how we are mapping the <code class="highlighter-rouge">@angular/core</code> to the actual module file. This is how we are able to to use <code class="highlighter-rouge">from '@angular/core'</code>.</p>
 
 <p>At this point, running the app should work. Give it a shot.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>npm start
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm start
+</code></pre></div></div>
 
 <p>You should see the “Hello World!” message. And now we have Angular set up for the application. But we still need to configure the testing.</p>
 
@@ -1121,7 +1074,7 @@ http://localhost:3000/rxjs/BehaviorSubject(…)
 
 <p>Let’s start with the <code class="highlighter-rouge">karma.conf.js</code> file. In the <code class="highlighter-rouge">files</code> array, add the following right under the <code class="highlighter-rouge">systemjs.src.js</code> file</p>
 
-<div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="c1">// Polyfills</span>
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Polyfills</span>
 <span class="s1">'node_modules/core-js/client/shim.js'</span><span class="p">,</span>
 <span class="s1">'node_modules/reflect-metadata/Reflect.js'</span><span class="p">,</span>
 
@@ -1133,34 +1086,30 @@ http://localhost:3000/rxjs/BehaviorSubject(…)
 <span class="s1">'node_modules/zone.js/dist/jasmine-patch.js'</span><span class="p">,</span>
 <span class="s1">'node_modules/zone.js/dist/async-test.js'</span><span class="p">,</span>
 <span class="s1">'node_modules/zone.js/dist/fake-async-test.js'</span><span class="p">,</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>I won’t really get into what all these files are. Just accept that they are needed when testing Angular applications. And just notice that because we are just using strings, all these files are added as <code class="highlighter-rouge">&lt;script&gt;</code>s.</p>
 
 <p>Next we will add the Angular files. So right under the above files, add the following</p>
 
-<div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="p">{</span> <span class="nl">pattern</span><span class="p">:</span> <span class="s1">'node_modules/@angular/**/*.js'</span><span class="p">,</span> <span class="nx">included</span><span class="err">:</span> <span class="kc">false</span><span class="p">,</span> <span class="nx">watched</span><span class="err">:</span> <span class="kc">false</span> <span class="p">},</span>
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span> <span class="nl">pattern</span><span class="p">:</span> <span class="s1">'node_modules/@angular/**/*.js'</span><span class="p">,</span> <span class="nx">included</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span> <span class="nx">watched</span><span class="p">:</span> <span class="kc">false</span> <span class="p">},</span>
 <span class="p">{</span> <span class="na">pattern</span><span class="p">:</span> <span class="s1">'node_modules/@angular/**/*.js.map'</span><span class="p">,</span> <span class="na">included</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span> <span class="na">watched</span><span class="p">:</span> <span class="kc">false</span> <span class="p">},</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Here we are using a <code class="highlighter-rouge">pattern</code> matcher instead of individual files. This will match all the files in the <code class="highlighter-rouge">@angular/xxx</code> modules. We also add the source maps so that they can be used for debugging (we won’t do any debugging here). Also notice that we use <code class="highlighter-rouge">included: false</code>, which means that they will not get added as <code class="highlighter-rouge">&lt;script&gt;</code>s. They will get loaded by SystemJS.</p>
 
 <p>Now we need to add our application files. Previously, with the <code class="highlighter-rouge">counter</code> files, we added them individually. Let’s change that to use a pattern to add all of our files, just like we did with the Angular files. So replace the following</p>
 
-<div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="p">{</span> <span class="nl">pattern</span><span class="p">:</span> <span class="s1">'app/counter/counter.js'</span><span class="p">,</span> <span class="nx">included</span><span class="err">:</span> <span class="kc">false</span><span class="p">,</span> <span class="nx">watched</span><span class="err">:</span> <span class="kc">true</span> <span class="p">},</span>
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span> <span class="nl">pattern</span><span class="p">:</span> <span class="s1">'app/counter/counter.js'</span><span class="p">,</span> <span class="nx">included</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span> <span class="nx">watched</span><span class="p">:</span> <span class="kc">true</span> <span class="p">},</span>
 <span class="p">{</span> <span class="na">pattern</span><span class="p">:</span> <span class="s1">'app/counter/counter.spec.js'</span><span class="p">,</span> <span class="na">included</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span> <span class="na">watched</span><span class="p">:</span> <span class="kc">true</span> <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>with</p>
 
-<div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="p">{</span> <span class="nl">pattern</span><span class="p">:</span> <span class="s1">'app/**/*.js'</span><span class="p">,</span> <span class="nx">included</span><span class="err">:</span> <span class="kc">false</span><span class="p">,</span> <span class="nx">watched</span><span class="err">:</span> <span class="kc">true</span> <span class="p">},</span>
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span> <span class="nl">pattern</span><span class="p">:</span> <span class="s1">'app/**/*.js'</span><span class="p">,</span> <span class="nx">included</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span> <span class="nx">watched</span><span class="p">:</span> <span class="kc">true</span> <span class="p">},</span>
 <span class="p">{</span> <span class="na">pattern</span><span class="p">:</span> <span class="s1">'app/**/*.ts'</span><span class="p">,</span> <span class="na">included</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span> <span class="na">watched</span><span class="p">:</span> <span class="kc">true</span> <span class="p">},</span>
 <span class="p">{</span> <span class="na">pattern</span><span class="p">:</span> <span class="s1">'app/**/*.js.map'</span><span class="p">,</span> <span class="na">included</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span> <span class="na">watched</span><span class="p">:</span> <span class="kc">true</span> <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>we are also adding the source maps and the source <code class="highlighter-rouge">.ts</code> files here for debugging. But again, we will not be doing any debugging here. And again, notice the <code class="highlighter-rouge">included: false</code>. We will also let SystemJS load these modules.</p>
 
@@ -1170,13 +1119,12 @@ http://localhost:3000/rxjs/BehaviorSubject(…)
 
 <p>In our tests will will being using things like</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>import { TestBed } from '@angular/core/testing'
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>import { TestBed } from '@angular/core/testing'
+</code></pre></div></div>
 
 <p>All of these <code class="highlighter-rouge">@angular/xxx/testing</code> modules, we still need to map. So change the <code class="highlighter-rouge">SystemJS.config</code> (<code class="highlighter-rouge">(7)</code> previously mentioned) in the <code class="highlighter-rouge">karma-test-shim.js</code> to the following</p>
 
-<div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="nx">System</span><span class="p">.</span><span class="nx">config</span><span class="p">({</span>
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">System</span><span class="p">.</span><span class="nx">config</span><span class="p">({</span>
   <span class="na">baseURL</span><span class="p">:</span> <span class="s1">'base'</span><span class="p">,</span>
 
   <span class="na">map</span><span class="p">:</span> <span class="p">{</span>
@@ -1187,14 +1135,13 @@ http://localhost:3000/rxjs/BehaviorSubject(…)
     <span class="s1">'@angular/platform-browser-dynamic/testing'</span><span class="p">:</span> <span class="s1">'npm:@angular/platform-browser-dynamic/bundles/platform-browser-dynamic-testing.umd.js'</span><span class="p">,</span>
   <span class="p">},</span>
 <span class="p">});</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>This is just like the mapping in the <code class="highlighter-rouge">systemjs.config.js</code> file, except now, we are adding the testing modules.</p>
 
 <p>We’re still not done with the configuration yet, but let’s try testing out what we have so far. We will get an error, but I want to be able to show what the problem is, and how we can fix it. So let’s add a test. Add a file name <code class="highlighter-rouge">app.component.spec.ts</code> in the <code class="highlighter-rouge">app</code> folder, and add the following contents:</p>
 
-<div class="language-typescript highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">TestBed</span><span class="p">,</span> <span class="nx">ComponentFixture</span> <span class="p">}</span> <span class="k">from</span> <span class="s1">'@angular/core/testing'</span><span class="p">;</span>
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">TestBed</span><span class="p">,</span> <span class="nx">ComponentFixture</span> <span class="p">}</span> <span class="k">from</span> <span class="s1">'@angular/core/testing'</span><span class="p">;</span>
 <span class="k">import</span> <span class="p">{</span> <span class="nx">AppComponent</span> <span class="p">}</span> <span class="k">from</span> <span class="s1">'./app.component'</span><span class="p">;</span>
 
 <span class="nx">describe</span><span class="p">(</span><span class="s1">'component: AppComponent'</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
@@ -1214,61 +1161,55 @@ http://localhost:3000/rxjs/BehaviorSubject(…)
     <span class="nx">expect</span><span class="p">(</span><span class="nx">h1</span><span class="p">.</span><span class="nx">textContent</span><span class="p">).</span><span class="nx">toEqual</span><span class="p">(</span><span class="s1">'Hello World!'</span><span class="p">);</span>
   <span class="p">});</span>
 <span class="p">});</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>I’m not going to get into what this code does. That is not the purpose of this article. Angular documentation has great info on this subject.</p>
 
 <p>Let’s now run the test.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>npm run test
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm run test
+</code></pre></div></div>
 
 <p>When running the test, we should see one failure, which is from the <code class="highlighter-rouge">app.component.spec</code> file we just added. The error reads:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>[1]     TypeError: Cannot read property 'injector' of null
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[1]     TypeError: Cannot read property 'injector' of null
+</code></pre></div></div>
 
 <p>The reason for this, is that when using the <code class="highlighter-rouge">TestBed</code>, it needs to be initialized in a special way. Let’s quickly see how to do that. In the same spec file, add the following imports:</p>
 
-<div class="language-typescript highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="p">{</span>
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="p">{</span>
   <span class="nx">BrowserDynamicTestingModule</span><span class="p">,</span> <span class="nx">platformBrowserDynamicTesting</span>
 <span class="p">}</span> <span class="k">from</span> <span class="s1">'@angular/platform-browser-dynamic/testing'</span><span class="p">;</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Then in a <code class="highlighter-rouge">beforeAll</code>, right before the <code class="highlighter-rouge">beforeEach</code>, add the following:</p>
 
-<div class="language-typescript highlighter-rouge"><pre class="highlight"><code><span class="nx">beforeAll</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">beforeAll</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="p">{</span>
   <span class="nx">TestBed</span><span class="p">.</span><span class="nx">initTestEnvironment</span><span class="p">(</span>
     <span class="nx">BrowserDynamicTestingModule</span><span class="p">,</span>
     <span class="nx">platformBrowserDynamicTesting</span><span class="p">()</span>
   <span class="p">);</span>
 <span class="p">});</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>If you run the tests again (or just watch it reload from the previous start), it should produce successes for all cases.</p>
 
 <p>The thing about the <code class="highlighter-rouge">TestBed.initTestEnvironment</code> is that it only needs to be called once for the entire test environment. So what we do instead of trying to add it to a test file like we did here, we instead call it in the <code class="highlighter-rouge">karma-test-shim.js</code> file. So remove the contents of the last step we just did (the <code class="highlighter-rouge">import</code> and the <code class="highlighter-rouge">beforeAll</code>). Then in the <code class="highlighter-rouge">karma-test-shim.js</code> file, replace</p>
 
-<div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="nx">System</span><span class="p">.</span><span class="kr">import</span><span class="p">(</span><span class="s1">'systemjs.config.js'</span><span class="p">)</span>
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">System</span><span class="p">.</span><span class="k">import</span><span class="p">(</span><span class="s1">'systemjs.config.js'</span><span class="p">)</span>
   <span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">initTesting</span><span class="p">);</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>with</p>
 
-<div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="nx">System</span><span class="p">.</span><span class="kr">import</span><span class="p">(</span><span class="s1">'systemjs.config.js'</span><span class="p">)</span>
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">System</span><span class="p">.</span><span class="k">import</span><span class="p">(</span><span class="s1">'systemjs.config.js'</span><span class="p">)</span>
   <span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">initTestBed</span><span class="p">)</span>
   <span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">initTesting</span><span class="p">);</span>
 
 <span class="kd">function</span> <span class="nx">initTestBed</span><span class="p">(){</span>
-  <span class="k">return</span> <span class="nx">Promise</span><span class="p">.</span><span class="nx">all</span><span class="p">([</span>
-    <span class="nx">System</span><span class="p">.</span><span class="kr">import</span><span class="p">(</span><span class="s1">'@angular/core/testing'</span><span class="p">),</span>
-    <span class="nx">System</span><span class="p">.</span><span class="kr">import</span><span class="p">(</span><span class="s1">'@angular/platform-browser-dynamic/testing'</span><span class="p">)</span>
+  <span class="k">return</span> <span class="nb">Promise</span><span class="p">.</span><span class="nx">all</span><span class="p">([</span>
+    <span class="nx">System</span><span class="p">.</span><span class="k">import</span><span class="p">(</span><span class="s1">'@angular/core/testing'</span><span class="p">),</span>
+    <span class="nx">System</span><span class="p">.</span><span class="k">import</span><span class="p">(</span><span class="s1">'@angular/platform-browser-dynamic/testing'</span><span class="p">)</span>
   <span class="p">])</span>
 
   <span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">providers</span><span class="p">)</span> <span class="p">{</span>
@@ -1280,8 +1221,7 @@ http://localhost:3000/rxjs/BehaviorSubject(…)
       <span class="nx">browserTesting</span><span class="p">.</span><span class="nx">platformBrowserDynamicTesting</span><span class="p">());</span>
   <span class="p">})</span>
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>What we are doing in the <code class="highlighter-rouge">initTestBed</code> function is loading the two Angular testing modules, the ones that contain the <code class="highlighter-rouge">TestBed</code>, and the other two imports we used just recently. When those two modules are resolved, we call the <code class="highlighter-rouge">TestBed.initTestEnvironment</code> with the same two arguments as we did previously.</p>
 
@@ -1291,18 +1231,16 @@ http://localhost:3000/rxjs/BehaviorSubject(…)
 
 <p>One last thing I should probably add though, that I didn’t mention previously. That is how to deal with Angular retrieved assets, like our external templates and styles. For these you will need to add the files to the Karma config <code class="highlighter-rouge">files</code> array.</p>
 
-<div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="p">{</span> <span class="nl">pattern</span><span class="p">:</span> <span class="nx">appBase</span> <span class="o">+</span> <span class="s1">'**/*.html'</span><span class="p">,</span> <span class="nx">included</span><span class="err">:</span> <span class="kc">false</span><span class="p">,</span> <span class="nx">watched</span><span class="err">:</span> <span class="kc">true</span> <span class="p">},</span>
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span> <span class="nl">pattern</span><span class="p">:</span> <span class="nx">appBase</span> <span class="o">+</span> <span class="s1">'**/*.html'</span><span class="p">,</span> <span class="nx">included</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span> <span class="nx">watched</span><span class="p">:</span> <span class="kc">true</span> <span class="p">},</span>
 <span class="p">{</span> <span class="na">pattern</span><span class="p">:</span> <span class="nx">appBase</span> <span class="o">+</span> <span class="s1">'**/*.css'</span><span class="p">,</span> <span class="na">included</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span> <span class="na">watched</span><span class="p">:</span> <span class="kc">true</span> <span class="p">},</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Then, right below the <code class="highlighter-rouge">files</code> array property, add the following</p>
 
-<div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="nx">proxies</span><span class="err">:</span> <span class="p">{</span>
-  <span class="s2">"/app/"</span><span class="err">:</span> <span class="s2">"/base/app/"</span>
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">proxies</span><span class="p">:</span> <span class="p">{</span>
+  <span class="s2">"/app/"</span><span class="p">:</span> <span class="s2">"/base/app/"</span>
 <span class="p">},</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>There are some comments in the quickstart, that explain what these are for. I won’t really go through it.</p>
 

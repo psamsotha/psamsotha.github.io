@@ -26,6 +26,13 @@
   <link rel="canonical" href="https://psamsotha.github.io/angular/2017/03/18/angular-webpack-absolute-paths.html">
   <link rel="alternate" type="application/rss+xml" title="Paul Samsotha Blog" href="https://psamsotha.github.io/feed.xml">
 
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <script>
+    (adsbygoogle = window.adsbygoogle || []).push({
+      google_ad_client: "ca-pub-5723433679253306",
+      enable_page_level_ads: true
+    });
+  </script>
   <!-- Google Analytics -->
   
   <script>
@@ -114,7 +121,7 @@
         by<span class="post-author" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <span itemprop="name"><b>Paul Samsotha</b></span> on
         </span>
-        <time class="post-date" datetime="2017-03-18T00:00:00+07:00" itemprop="datePublished">
+        <time class="post-date" datetime="2017-03-18T00:00:00-07:00" itemprop="datePublished">
           Mar 18, 2017
         </time> 
       </h2>
@@ -124,19 +131,17 @@
   <article class="post-content">
     <p>When using Angular with TypeScript, we’re always importing files into other files. An import statement might look something like</p>
 
-<div class="language-typescript highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">Data</span> <span class="p">}</span> <span class="k">from</span> <span class="s1">'../data'</span><span class="p">;</span>
-</code></pre>
-</div>
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">Data</span> <span class="p">}</span> <span class="k">from</span> <span class="s1">'../data'</span><span class="p">;</span>
+</code></pre></div></div>
 
 <p>If you are very picky about style, then you might be repulsed at seeing something like the following, when you have deeply nested files</p>
 
-<div class="language-typescript highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">Data</span> <span class="p">}</span> <span class="k">from</span> <span class="s1">'../../../data'</span><span class="p">;</span>
-</code></pre>
-</div>
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">Data</span> <span class="p">}</span> <span class="k">from</span> <span class="s1">'../../../data'</span><span class="p">;</span>
+</code></pre></div></div>
 
 <p>We are not strictly tied to using this way of relative importing though. In this article, I will briefly explain how we can use absolute file paths for imports, so you that with the following file structure</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>src/
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>src/
     + app/
     |  |
     |  `- constants.ts
@@ -146,20 +151,17 @@
       `- model/
           |
           `- message.ts
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>in your <code class="highlighter-rouge">message.ts</code> file, you can do this</p>
 
-<div class="language-typescript highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">DEFAULT_MESSAGE</span> <span class="p">}</span> <span class="k">from</span> <span class="s1">'src/app/constants'</span><span class="p">;</span>
-</code></pre>
-</div>
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">DEFAULT_MESSAGE</span> <span class="p">}</span> <span class="k">from</span> <span class="s1">'src/app/constants'</span><span class="p">;</span>
+</code></pre></div></div>
 
 <p>which is IMO is much more preferable than doing</p>
 
-<div class="language-typescript highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">DEFAULT_MESSAGE</span> <span class="p">}</span> <span class="k">from</span> <span class="s1">'../../app/constants'</span><span class="p">;</span>
-</code></pre>
-</div>
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">DEFAULT_MESSAGE</span> <span class="p">}</span> <span class="k">from</span> <span class="s1">'../../app/constants'</span><span class="p">;</span>
+</code></pre></div></div>
 
 <p>To begin, please have a look at <a href="https://github.com/psamsotha/angular-docs-webpack">this GitHub repo</a>. It is basically just the project from the <a href="https://github.com/psamsotha/angular-docs-webpack">Angular Webapack docs</a>, with a few modifications.</p>
 
@@ -171,11 +173,10 @@
 
 <p>The only thing we need to configure for TypeScript is to set the <code class="highlighter-rouge">baseUrl</code> property in the <code class="highlighter-rouge">compilerOptions</code></p>
 
-<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="s2">"compilerOptions"</span><span class="err">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-  </span><span class="nt">"baseUrl"</span><span class="p">:</span><span class="w"> </span><span class="s2">"."</span><span class="p">,</span><span class="w">
-</span><span class="err">}</span><span class="w">
-</span></code></pre>
-</div>
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s2">"compilerOptions"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="s2">"baseUrl"</span><span class="p">:</span><span class="w"> </span><span class="s2">"."</span><span class="p">,</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
 
 <p>The <code class="highlighter-rouge">baseUrl</code> property is stated in the <a href="http://www.typescriptlang.org/docs/handbook/compiler-options.html"><code class="highlighter-rouge">compilerOptions</code></a> to be:</p>
 
@@ -185,66 +186,59 @@
 
 <p>So if we don’t use this property, then all of our module imports will be relative. So we can only use the <code class="highlighter-rouge">./</code> syntax. But now we are saying that “aside from relative paths, look at the <code class="highlighter-rouge">.</code> (base) directory. So now if we use</p>
 
-<div class="language-typescript highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">DEFAULT_MESSAGE</span> <span class="p">}</span> <span class="k">from</span> <span class="s1">'src/app/constants'</span><span class="p">;</span>
-</code></pre>
-</div>
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">DEFAULT_MESSAGE</span> <span class="p">}</span> <span class="k">from</span> <span class="s1">'src/app/constants'</span><span class="p">;</span>
+</code></pre></div></div>
 
 <p><code class="highlighter-rouge">src</code> is in the base directory, so TypeScript will be able to resolve the file using this absolute path.</p>
 
 <p>Or if you wanted, you could even do</p>
 
-<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="s2">"compilerOptions"</span><span class="err">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-  </span><span class="nt">"baseUrl"</span><span class="p">:</span><span class="w"> </span><span class="s2">"./src"</span><span class="p">,</span><span class="w">
-</span><span class="err">}</span><span class="w">
-</span></code></pre>
-</div>
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s2">"compilerOptions"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="s2">"baseUrl"</span><span class="p">:</span><span class="w"> </span><span class="s2">"./src"</span><span class="p">,</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
 
 <p>This would allow you to get rid of the <code class="highlighter-rouge">src</code> from the import</p>
 
-<div class="language-typescript highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">DEFAULT_MESSAGE</span> <span class="p">}</span> <span class="k">from</span> <span class="s1">'app/constants'</span><span class="p">;</span>
-</code></pre>
-</div>
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">DEFAULT_MESSAGE</span> <span class="p">}</span> <span class="k">from</span> <span class="s1">'app/constants'</span><span class="p">;</span>
+</code></pre></div></div>
 
 <h2 id="webpackconfigjs"><em>webpack.config.js</em></h2>
 
 <p>The configuration for Webpack is pretty easy also. What we want to do is modify the <code class="highlighter-rouge">resolve.modules</code>. In your project, you might just have</p>
 
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="p">{</span>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="p">{</span>
   <span class="na">resolve</span><span class="p">:</span> <span class="p">{</span>
     <span class="na">extensions</span><span class="p">:</span> <span class="p">[</span><span class="s1">'.js'</span><span class="p">,</span> <span class="s1">'.ts'</span><span class="p">]</span>
   <span class="p">}</span>
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>But there are other properties on the <code class="highlighter-rouge">resolve</code> that we can configure (see link below for more). For this case we just want to configure the <code class="highlighter-rouge">module</code> property to tell Webpack where else to resolve modules from besides just the <code class="highlighter-rouge">node_modules</code></p>
 
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="nx">modules</span><span class="err">:</span> <span class="p">[</span>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">modules</span><span class="p">:</span> <span class="p">[</span>
   <span class="s1">'../'</span><span class="p">,</span>
   <span class="s1">'../node_modules'</span>
 <span class="p">]</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Or if you’re going of the project, you can use the `helpers utility.</p>
 
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="nx">modules</span><span class="err">:</span> <span class="p">[</span>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">modules</span><span class="p">:</span> <span class="p">[</span>
   <span class="nx">helpers</span><span class="p">.</span><span class="nx">root</span><span class="p">(</span><span class="s1">'/'</span><span class="p">),</span>
   <span class="nx">helpers</span><span class="p">.</span><span class="nx">root</span><span class="p">(</span><span class="s1">'node_modules'</span><span class="p">)</span>
 <span class="p">]</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Here we are telling Webpack to use both the root directory and the <code class="highlighter-rouge">node_modules</code>. We need to specify the <code class="highlighter-rouge">node_modules</code> since we are overriding the default.</p>
 
 <p>One thing to note about the project is that is uses a <code class="highlighter-rouge">config</code> directory t store all the configuration files. This is why we need to go a level up <code class="highlighter-rouge">../</code> to resolve, as it’s being resolved from the location of the configuration file. If you are only using one <code class="highlighter-rouge">webpack.config.js</code> file or even multiple that are in the root directory, then we don’t need to go a level up. You can just do</p>
 
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="nx">modules</span><span class="err">:</span> <span class="p">[</span>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">modules</span><span class="p">:</span> <span class="p">[</span>
   <span class="nx">path</span><span class="p">.</span><span class="nx">resolve</span><span class="p">(</span><span class="s1">'.'</span><span class="p">),</span>
   <span class="s1">'node_modules'</span>
 <span class="p">]</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h2 id="resources">Resources</h2>
 

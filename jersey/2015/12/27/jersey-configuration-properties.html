@@ -26,6 +26,13 @@
   <link rel="canonical" href="https://psamsotha.github.io/jersey/2015/12/27/jersey-configuration-properties.html">
   <link rel="alternate" type="application/rss+xml" title="Paul Samsotha Blog" href="https://psamsotha.github.io/feed.xml">
 
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <script>
+    (adsbygoogle = window.adsbygoogle || []).push({
+      google_ad_client: "ca-pub-5723433679253306",
+      enable_page_level_ads: true
+    });
+  </script>
   <!-- Google Analytics -->
   
   <script>
@@ -114,7 +121,7 @@
         by<span class="post-author" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <span itemprop="name"><b>Paul Samsotha</b></span> on
         </span>
-        <time class="post-date" datetime="2015-12-27T00:00:00+07:00" itemprop="datePublished">
+        <time class="post-date" datetime="2015-12-27T00:00:00-08:00" itemprop="datePublished">
           Dec 27, 2015
         </time> 
       </h2>
@@ -138,17 +145,16 @@
 
 <p>JAX-RS contains a class <a href="http://docs.oracle.com/javaee/7/api/javax/ws/rs/core/Configuration.html"><code class="highlighter-rouge">javax.ws.rs.core.Configuration</code></a> from which we can obtain arbitrary properties from, that can be compiled from different locations. With Jersey, these properties can come from either servlet init-params or from explicitly set properties from a <code class="highlighter-rouge">ResourceConfig</code> or <code class="highlighter-rouge">Application</code> subclass. In a <code class="highlighter-rouge">ResourceConfig</code>, we could just call the <code class="highlighter-rouge">property(key, value)</code> method. For example</p>
 
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">AppConfig</span> <span class="kd">extends</span> <span class="n">ResourceConfig</span> <span class="o">{</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">AppConfig</span> <span class="kd">extends</span> <span class="n">ResourceConfig</span> <span class="o">{</span>
     <span class="kd">public</span> <span class="nf">AppConfig</span><span class="o">()</span> <span class="o">{</span>
         <span class="n">property</span><span class="o">(</span><span class="n">PROP_KEY</span><span class="o">,</span> <span class="n">PROP_VALUE</span><span class="o">);</span>
     <span class="o">}</span>
 <span class="o">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Or in an <code class="highlighter-rouge">Application</code> (only JAX-RS 2.0) subclass</p>
 
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kd">public</span> <span class="n">MyApplication</span> <span class="kd">extends</span> <span class="n">Application</span> <span class="o">{</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="n">MyApplication</span> <span class="kd">extends</span> <span class="n">Application</span> <span class="o">{</span>
     <span class="nd">@Override</span>
     <span class="kd">public</span> <span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Object</span><span class="o">&gt;</span> <span class="nf">getProperties</span><span class="o">()</span> <span class="o">{</span>
         <span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Object</span><span class="o">&gt;</span> <span class="n">props</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HashMap</span><span class="o">&lt;&gt;();</span> 
@@ -156,14 +162,13 @@
         <span class="k">return</span> <span class="n">props</span><span class="o">;</span>
     <span class="o">}</span>
 <span class="o">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Either way, there are a countless number of ways you could populate the configuration properties. For instance you can read a <code class="highlighter-rouge">.properties</code> file, and fill the properties with the contents of the <code class="highlighter-rouge">Properties</code> object.</p>
 
 <p>Once you’ve registered your properties, you can inject the above mentioned <code class="highlighter-rouge">Configuration</code> instance into your resource classes or providers. For example</p>
 
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="nd">@Path</span><span class="o">(</span><span class="s">"config"</span><span class="o">)</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Path</span><span class="o">(</span><span class="s">"config"</span><span class="o">)</span>
 <span class="kd">public</span> <span class="kd">class</span> <span class="nc">ConfigResource</span> <span class="o">{</span>
     
     <span class="nd">@Context</span>
@@ -174,8 +179,7 @@
         <span class="k">return</span> <span class="o">(</span><span class="n">String</span><span class="o">)</span><span class="n">configuration</span><span class="o">.</span><span class="na">getProperty</span><span class="o">(</span><span class="n">CONFIG_PROP</span><span class="o">);</span>
     <span class="o">}</span>
 <span class="o">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>You can see a complete test case of the above example in <a href="https://gist.github.com/psamsotha/1edddc6f47785ed4f3b3">this GitHub Gist</a></p>
 
@@ -185,7 +189,7 @@
 
 <p>What if we want to avoid having to repetitively get the property from the <code class="highlighter-rouge">Configuration</code> object? Say we want to just inject the property value, maybe with a custom annotation. That is possible with the use of an (HK2) <a href="https://hk2.java.net/apidocs/org/glassfish/hk2/api/InjectionResolver.html"><code class="highlighter-rouge">InjectionResolver</code></a>. For example you can do something like</p>
 
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="nd">@Target</span><span class="o">(</span><span class="n">ElementType</span><span class="o">.</span><span class="na">FIELD</span><span class="o">)</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Target</span><span class="o">(</span><span class="n">ElementType</span><span class="o">.</span><span class="na">FIELD</span><span class="o">)</span>
 <span class="nd">@Retention</span><span class="o">(</span><span class="n">RetentionPolicy</span><span class="o">.</span><span class="na">RUNTIME</span><span class="o">)</span>
 <span class="kd">public</span> <span class="kd">static</span> <span class="nd">@interface</span> <span class="n">Config</span> <span class="o">{</span>
     <span class="n">String</span> <span class="nf">value</span><span class="o">();</span>
@@ -209,12 +213,11 @@
     <span class="o">}</span>
     <span class="o">...</span>
 <span class="o">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Then register the <code class="highlighter-rouge">InjectionResolver</code> with HK2</p>
 
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="n">ResourceConfig</span> <span class="n">config</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ResourceConfig</span><span class="o">();</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ResourceConfig</span> <span class="n">config</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ResourceConfig</span><span class="o">();</span>
 <span class="n">config</span><span class="o">.</span><span class="na">register</span><span class="o">(</span><span class="k">new</span> <span class="n">AbstractBinder</span><span class="o">(){</span>
     <span class="nd">@Override</span>
     <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">configure</span><span class="o">()</span> <span class="o">{</span>
@@ -223,12 +226,11 @@
                 <span class="o">.</span><span class="na">in</span><span class="o">(</span><span class="n">Singleton</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
     <span class="o">}</span>
 <span class="o">});</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>This will now allow us to inject the property as a String value into our resource class or provider.</p>
 
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="nd">@Path</span><span class="o">(</span><span class="s">"config"</span><span class="o">)</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Path</span><span class="o">(</span><span class="s">"config"</span><span class="o">)</span>
 <span class="kd">public</span> <span class="kd">class</span> <span class="nc">ConfigResource</span> <span class="o">{</span>
     
     <span class="nd">@Config</span><span class="o">(</span><span class="n">PROP_KEY</span><span class="o">)</span>
@@ -239,8 +241,7 @@
         <span class="k">return</span> <span class="n">propValue</span><span class="o">;</span>
     <span class="o">}</span>
 <span class="o">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>You can see a complete runnable test case at <a href="https://gist.github.com/psamsotha/981796428ed736977eed">this GitHub Gist</a>.</p>
 
@@ -257,35 +258,32 @@ constructor injection. To see a complete example that does support this, see thi
 
 <p>I created a small module that helps with working with configuration properties. You can find the project <a href="https://github.com/psamsotha/jersey-properties">at GitHub</a>, where there you can read more about about it. To use it you need to add this Maven artifact</p>
 
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="o">&lt;</span><span class="n">dependency</span><span class="o">&gt;</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&lt;</span><span class="n">dependency</span><span class="o">&gt;</span>
     <span class="o">&lt;</span><span class="n">groupId</span><span class="o">&gt;</span><span class="n">com</span><span class="o">.</span><span class="na">github</span><span class="o">.</span><span class="na">psamsotha</span><span class="o">&lt;/</span><span class="n">groupId</span><span class="o">&gt;</span>
     <span class="o">&lt;</span><span class="n">artifactId</span><span class="o">&gt;</span><span class="n">jersey</span><span class="o">-</span><span class="n">properties</span><span class="o">&lt;/</span><span class="n">artifactId</span><span class="o">&gt;</span>
     <span class="o">&lt;</span><span class="n">version</span><span class="o">&gt;</span><span class="mf">0.1</span><span class="o">.</span><span class="mi">1</span><span class="o">&lt;/</span><span class="n">version</span><span class="o">&gt;</span>
 <span class="o">&lt;</span><span class="n">dependency</span><span class="o">&gt;</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>To use it at it’s most basic form, you should register the <code class="highlighter-rouge">JerseyPropertiesFeature</code>, along with specifying a properties file from where it can obtain the properties.</p>
 
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">AppConfig</span> <span class="kd">extends</span> <span class="n">ResourceConfig</span> <span class="o">{</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">AppConfig</span> <span class="kd">extends</span> <span class="n">ResourceConfig</span> <span class="o">{</span>
 
     <span class="kd">public</span> <span class="nf">AppConfig</span><span class="o">()</span> <span class="o">{</span>
         <span class="n">register</span><span class="o">(</span><span class="n">JerseyPropertiesFeature</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
         <span class="n">property</span><span class="o">(</span><span class="n">JerseyPropertiesFeature</span><span class="o">.</span><span class="na">RESOURCE_PATH</span><span class="o">,</span> <span class="s">"app.properties"</span><span class="o">);</span>
     <span class="o">}</span>
 <span class="o">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>With this basic configuration, if your <code class="highlighter-rouge">app.properties</code> contained the following</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>some.prop=Some value
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>some.prop=Some value
+</code></pre></div></div>
 
 <p>you would be able to do any of the following injections</p>
 
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="nd">@Path</span><span class="o">(</span><span class="s">"test"</span><span class="o">)</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Path</span><span class="o">(</span><span class="s">"test"</span><span class="o">)</span>
 <span class="kd">public</span> <span class="kd">class</span> <span class="nc">SomeResource</span> <span class="o">{</span>
 
     <span class="nd">@Prop</span><span class="o">(</span><span class="s">"some.prop"</span><span class="o">)</span>
@@ -302,12 +300,11 @@ constructor injection. To see a complete example that does support this, see thi
         <span class="k">return</span> <span class="n">someParamProp</span><span class="o">;</span>
     <span class="o">}</span>
 <span class="o">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Aside from this basic set up, you can also implement a <code class="highlighter-rouge">PropertiesProvider</code>, that can be registered, and this where the properties would come from.</p>
 
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">MorePropertiesProvider</span> <span class="kd">implements</span> <span class="n">PropertiesProvider</span> <span class="o">{</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">MorePropertiesProvider</span> <span class="kd">implements</span> <span class="n">PropertiesProvider</span> <span class="o">{</span>
 
     <span class="kd">private</span> <span class="kd">final</span> <span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;</span> <span class="n">moreProps</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HashMap</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;();</span>
 
@@ -320,17 +317,15 @@ constructor injection. To see a complete example that does support this, see thi
         <span class="k">return</span> <span class="n">moreProps</span><span class="o">;</span>
     <span class="o">}</span>
 <span class="o">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Then just register the provider in the <code class="highlighter-rouge">JerseyPropertiesFeature</code></p>
 
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kd">public</span> <span class="nf">AppConfig</span><span class="o">()</span> <span class="o">{</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="nf">AppConfig</span><span class="o">()</span> <span class="o">{</span>
     <span class="n">register</span><span class="o">(</span><span class="n">JerseyPropertiesFeature</span><span class="o">(</span><span class="k">new</span> <span class="n">MorePropertiesProvider</span><span class="o">());</span>
     <span class="n">property</span><span class="o">(</span><span class="n">JerseyPropertiesFeature</span><span class="o">.</span><span class="na">RESOURCE_PATH</span><span class="o">,</span> <span class="s">"app.properties"</span><span class="o">);</span>
 <span class="o">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>With the <code class="highlighter-rouge">PropertiesProvider</code>, you are able to easily extend this feature to get property from some other way, say from a yaml file.</p>
 

@@ -26,6 +26,13 @@
   <link rel="canonical" href="https://psamsotha.github.io/jersey/2015/10/18/http-caching-with-jersey.html">
   <link rel="alternate" type="application/rss+xml" title="Paul Samsotha Blog" href="https://psamsotha.github.io/feed.xml">
 
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <script>
+    (adsbygoogle = window.adsbygoogle || []).push({
+      google_ad_client: "ca-pub-5723433679253306",
+      enable_page_level_ads: true
+    });
+  </script>
   <!-- Google Analytics -->
   
   <script>
@@ -114,7 +121,7 @@
         by<span class="post-author" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <span itemprop="name"><b>Paul Samsotha</b></span> on
         </span>
-        <time class="post-date" datetime="2015-10-18T00:00:00+07:00" itemprop="datePublished">
+        <time class="post-date" datetime="2015-10-18T00:00:00-07:00" itemprop="datePublished">
           Oct 18, 2015
         </time> 
       </h2>
@@ -172,9 +179,8 @@
 
 <p>You download or clone the app from Github</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code>git clone https://github.com/psamsotha/jersey-cache-example.git
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git clone https://github.com/psamsotha/jersey-cache-example.git
+</code></pre></div></div>
 
 <p>Or download it from the <a href="https://github.com/psamsotha/jersey-cache-example">Github project site</a></p>
 
@@ -184,15 +190,14 @@
 
 <p>In HTTP 1.0 the server sends an <code class="highlighter-rouge">Expires: &lt;expiration-data&gt;</code> header with the response. So a response might look something like</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code>HTTP/1.0 200 OK
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>HTTP/1.0 200 OK
 Date: Sun, 18 Oct 2015, 09:15:25 GMT
 Content-Type: text/plain
 Content-Length: 100
 Expires: Sun, 18 Oct 2015, 10:15:25 GMT
 
   &lt;body content&gt;
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Here the expiration data has been set to one hour from the time the response was sent out.</p>
 
@@ -202,24 +207,23 @@ Expires: Sun, 18 Oct 2015, 10:15:25 GMT
 
 <p>In JAX-RS, we would simply to something like</p>
 
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="nd">@GET</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@GET</span>
 <span class="nd">@Produces</span><span class="o">(</span><span class="s">"text/plain"</span><span class="o">)</span>
 <span class="kd">public</span> <span class="n">Response</span> <span class="nf">get</span><span class="o">()</span> <span class="o">{</span>
     <span class="kt">long</span> <span class="n">current</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Date</span><span class="o">().</span><span class="na">getTime</span><span class="o">();</span>
-    <span class="n">Date</span> <span class="n">expires</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Date</span><span class="o">(</span><span class="n">current</span> <span class="o">+</span> <span class="o">(</span><span class="mi">10</span> <span class="o">*</span> <span class="mi">1</span><span class="n">_000</span><span class="o">));</span>
+    <span class="n">Date</span> <span class="n">expires</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Date</span><span class="o">(</span><span class="n">current</span> <span class="o">+</span> <span class="o">(</span><span class="mi">10</span> <span class="o">*</span> <span class="mi">1_000</span><span class="o">));</span>
     <span class="k">return</span> <span class="n">Response</span><span class="o">.</span><span class="na">ok</span><span class="o">(</span><span class="s">"Some Data"</span><span class="o">).</span><span class="na">expires</span><span class="o">(</span><span class="n">expires</span><span class="o">).</span><span class="na">build</span><span class="o">();</span>
 <span class="o">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>There’s nothing really interesting goind on here. We are calling <code class="highlighter-rouge">expires</code> on the <a href="http://docs.oracle.com/javaee/7/api/javax/ws/rs/core/Response.ResponseBuilder.html"><code class="highlighter-rouge">ResponseBuilder</code></a> which sets the <code class="highlighter-rouge">Exires</code> to ten seconds from the time of request. If we make the cURL request, we can see the header.</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code>C:<span class="se">\&gt;</span>curl -v http://localhost:8080/api/expires
-<span class="gp">&gt; </span>GET /api/expires HTTP/1.1
-<span class="gp">&gt; </span>User-Agent: curl/7.40.0
-<span class="gp">&gt; </span>Host: localhost:8080
-<span class="gp">&gt; </span>Accept: <span class="k">*</span>/<span class="k">*</span>
-&gt;
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>C:<span class="se">\&gt;</span>curl <span class="nt">-v</span> http://localhost:8080/api/expires
+<span class="o">&gt;</span> GET /api/expires HTTP/1.1
+<span class="o">&gt;</span> User-Agent: curl/7.40.0
+<span class="o">&gt;</span> Host: localhost:8080
+<span class="o">&gt;</span> Accept: <span class="k">*</span>/<span class="k">*</span>
+<span class="o">&gt;</span>
 &lt; HTTP/1.1 200 OK
 &lt; Date: Sun, 18 Oct 2015 03:34:50 GMT
 &lt; Expires: Sun, 18 Oct 2015 03:35:00 GMT
@@ -228,8 +232,7 @@ Expires: Sun, 18 Oct 2015, 10:15:25 GMT
 &lt; Server: Jetty<span class="o">(</span>9.2.6.v20141205<span class="o">)</span>
 &lt;
 Some Data
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>cURL doesn’t support any caching features, so trying to make another call won’t respect the <code class="highlighter-rouge">Expires</code> header, and another request will be made.</p>
 
@@ -247,7 +250,7 @@ Some Data
 
 <p>When I say “temporal”, I am talking about time. As discussed, the old spec used the <code class="highlighter-rouge">Expires</code> header to set the expiration date on the data. The problem with this is that it is an absolute time that is dependent on system clock being set correctly. To fix this problem, the <code class="highlighter-rouge">Cache-Control</code> header was introduced. Instead of an absolute date, it uses a relative time in the form of <code class="highlighter-rouge">max-age</code>. For example a response might look like</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code>HTTP/1.1 200 OK
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>HTTP/1.1 200 OK
 Date: Sun, 18 Oct 2015 03:47:18 GMT
 Cache-Control: max-age<span class="o">=</span>10
 Content-Type: text/plain
@@ -255,8 +258,7 @@ Content-Length: 9
 Server: Jetty<span class="o">(</span>9.2.6.v20141205<span class="o">)</span>
 
 Some Data
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Here the <code class="highlighter-rouge">Cache-Control</code> header is saying that the data is only good in the cache for 10 second, after which a supporting client should get new data.</p>
 
@@ -266,22 +268,20 @@ Some Data
 
 <p>Here’s how we could code it in JAX-RS</p>
 
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="nd">@GET</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@GET</span>
 <span class="nd">@Produces</span><span class="o">(</span><span class="s">"text/plain"</span><span class="o">)</span>
 <span class="kd">public</span> <span class="n">Response</span> <span class="nf">get</span><span class="o">()</span> <span class="o">{</span>
     <span class="n">CacheControl</span> <span class="n">cc</span> <span class="o">=</span> <span class="k">new</span> <span class="n">CacheControl</span><span class="o">();</span>
     <span class="n">cc</span><span class="o">.</span><span class="na">setMaxAge</span><span class="o">(</span><span class="mi">10</span><span class="o">);</span>
     <span class="k">return</span> <span class="n">Response</span><span class="o">.</span><span class="na">ok</span><span class="o">(</span><span class="s">"Some Data"</span><span class="o">).</span><span class="na">cacheControl</span><span class="o">(</span><span class="n">cc</span><span class="o">).</span><span class="na">build</span><span class="o">();</span>
 <span class="o">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>This example is from <code class="highlighter-rouge">CacheControlResource</code> in the Github project. We are setting the <code class="highlighter-rouge">max-age</code> to 10 seconds. So let’s test it out. From the command line, <code class="highlighter-rouge">cd</code> to the project root, then run the project with the Maven Jetty plugin (You will need to have Maven installed, or you can deploy the project to any servlet container).</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="nb">cd</span> &lt;to&gt; jersey-cache-example
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd</span> &lt;to&gt; jersey-cache-example
 mvn jetty:run
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>You should see the embedded Jetty server start. Wait until you see <code class="highlighter-rouge">[INFO] Started Jetty Server</code>. That’s when you know the server startup is complete.</p>
 
@@ -303,9 +303,8 @@ mvn jetty:run
 
 <p>This time there is no green dot, and no time elapsed for the request. This is because the browser respects the <code class="highlighter-rouge">Cache-Control</code> and knows the data is only good for the <code class="highlighter-rouge">max-age</code> of 10 seconds. At any time you can select the request table row to see all the request and response headers. You should see the header for the cache control.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>Cache-Control: no-transform, max-age=10 
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Cache-Control: no-transform, max-age=10 
+</code></pre></div></div>
 
 <p><a name="revalidation"></a></p>
 
@@ -327,7 +326,7 @@ mvn jetty:run
 
 <p>Let go through an example of using the <code class="highlighter-rouge">If-Modified-Since</code> and <code class="highlighter-rouge">Last-Modified</code> example. The code can be found in the <code class="highlighter-rouge">LastModifiedResource</code> in the Github project.</p>
 
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="nd">@Singleton</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Singleton</span>
 <span class="nd">@Path</span><span class="o">(</span><span class="s">"last-modified"</span><span class="o">)</span>
 <span class="kd">public</span> <span class="kd">class</span> <span class="nc">LastModifiedResource</span> <span class="o">{</span>
     
@@ -352,8 +351,7 @@ mvn jetty:run
         <span class="k">return</span> <span class="n">Response</span><span class="o">.</span><span class="na">noContent</span><span class="o">().</span><span class="na">build</span><span class="o">();</span>
     <span class="o">}</span>
 <span class="o">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Here we are creating a singleton resource (which <em>is not</em> thread safe in this example; bare with me). Here is what we want to accomplish in this example.</p>
 
@@ -370,51 +368,48 @@ mvn jetty:run
 
 <p>Step 1 (initial GET)</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code>C:<span class="se">\&gt;</span>curl -v http://localhost:8080/api/last-modified
-<span class="gp">&gt; </span>GET /api/last-modified HTTP/1.1
-<span class="gp">&gt; </span>...
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>C:<span class="se">\&gt;</span>curl <span class="nt">-v</span> http://localhost:8080/api/last-modified
+<span class="o">&gt;</span> GET /api/last-modified HTTP/1.1
+<span class="o">&gt;</span> ...
 &lt; HTTP/1.1 200 OK
 &lt; Date: Sun, 18 Oct 2015 05:44:48 GMT
 &lt; Last-Modified: Sun, 18 Oct 2015 05:44:48 GMT
 &lt; Content-Type: text/plain
 &lt;
 Some Data
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Step 2 (GET with If-Modified-Since)</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code>C:<span class="se">\&gt;</span>curl -v http://localhost:8080/api/last-modified <span class="se">\</span>
-         -H <span class="s2">"If-Modified-Since: Sun, 18 Oct 2015 05:44:48 GMT"</span>
-<span class="gp">&gt; </span>GET /api/last-modified HTTP/1.1
-<span class="gp">&gt; </span>If-Modified-Since: Sun, 18 Oct 2015 05:44:48 GMT
-<span class="gp">&gt; </span>...
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>C:<span class="se">\&gt;</span>curl <span class="nt">-v</span> http://localhost:8080/api/last-modified <span class="se">\</span>
+         <span class="nt">-H</span> <span class="s2">"If-Modified-Since: Sun, 18 Oct 2015 05:44:48 GMT"</span>
+<span class="o">&gt;</span> GET /api/last-modified HTTP/1.1
+<span class="o">&gt;</span> If-Modified-Since: Sun, 18 Oct 2015 05:44:48 GMT
+<span class="o">&gt;</span> ...
 &lt; HTTP/1.1 304 Not Modified
 &lt; Date: Sun, 18 Oct 2015 05:45:28 GMT
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Step 3 (POST to change data)</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code>C:<span class="se">\&gt;</span>curl -v -X POST -d <span class="s2">"new data"</span> <span class="se">\</span>
-         -H <span class="s2">"Content-Type:text/plain"</span> <span class="se">\</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>C:<span class="se">\&gt;</span>curl <span class="nt">-v</span> <span class="nt">-X</span> POST <span class="nt">-d</span> <span class="s2">"new data"</span> <span class="se">\</span>
+         <span class="nt">-H</span> <span class="s2">"Content-Type:text/plain"</span> <span class="se">\</span>
          http://localhost:8080/api/last-modified
-<span class="gp">&gt; </span>POST /api/last-modified HTTP/1.1
-<span class="gp">&gt; </span>Content-Type:text/plain
-<span class="gp">&gt; </span>Content-Length: 8
-<span class="gp">&gt; </span>...
+<span class="o">&gt;</span> POST /api/last-modified HTTP/1.1
+<span class="o">&gt;</span> Content-Type:text/plain
+<span class="o">&gt;</span> Content-Length: 8
+<span class="o">&gt;</span> ...
 &lt; HTTP/1.1 204 No Content
 &lt; Date: Sun, 18 Oct 2015 05:45:45 GMT
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Step 4 (Same GET as in Step 2)</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code>C:<span class="se">\&gt;</span>curl -v http://localhost:8080/api/last-modified 
-         -H <span class="s2">"If-Modified-Since: Sun, 18 Oct 2015 05:44:48 GMT"</span>
-<span class="gp">&gt; </span>GET /api/last-modified HTTP/1.1
-<span class="gp">&gt; </span>If-Modified-Since: Sun, 18 Oct 2015 05:44:48 GMT
-<span class="gp">&gt; </span>...
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>C:<span class="se">\&gt;</span>curl <span class="nt">-v</span> http://localhost:8080/api/last-modified 
+         <span class="nt">-H</span> <span class="s2">"If-Modified-Since: Sun, 18 Oct 2015 05:44:48 GMT"</span>
+<span class="o">&gt;</span> GET /api/last-modified HTTP/1.1
+<span class="o">&gt;</span> If-Modified-Since: Sun, 18 Oct 2015 05:44:48 GMT
+<span class="o">&gt;</span> ...
 &lt; HTTP/1.1 200 OK
 &lt; Date: Sun, 18 Oct 2015 05:46:01 GMT
 &lt; Last-Modified: Sun, 18 Oct 2015 05:45:45 GMT
@@ -422,8 +417,7 @@ Some Data
 &lt; Content-Length: 8
 &lt;
 new data
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Hope you can easily follow along. The important point to notice is that in step two, we are getting no content back and a 304 as the date is the same as on the server. But in the last request, the date change because of the previous POST, so now we get back new data with a different date.</p>
 
@@ -439,7 +433,7 @@ new data
 
 <p>Below is an example implementation. It is very similar to the one above, except we are not checking the time the resource was last modified, but <em>if</em> is was actually modified</p>
 
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="nd">@Singleton</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Singleton</span>
 <span class="nd">@Path</span><span class="o">(</span><span class="s">"etag"</span><span class="o">)</span>
 <span class="kd">public</span> <span class="kd">class</span> <span class="nc">EtagResource</span> <span class="o">{</span>
     
@@ -468,8 +462,7 @@ new data
         <span class="k">return</span> <span class="n">Response</span><span class="o">.</span><span class="na">noContent</span><span class="o">().</span><span class="na">build</span><span class="o">();</span>
     <span class="o">}</span>
 <span class="o">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>You can see the same use of the <code class="highlighter-rouge">Request</code> context object, and a similar usage of the <code class="highlighter-rouge">evaluatePreconditions</code>. Only this time we are using the overloaded method that accepts and <code class="highlighter-rouge">EntityTag</code>. We construct the <code class="highlighter-rouge">EntityTag</code> from the hash of the <code class="highlighter-rouge">data</code>. In the initial request, the revalidation will not pass as there is no header from the client, so we just return the normal response, setting the <code class="highlighter-rouge">Etag</code> response header, by calling <code class="highlighter-rouge">tag(EntityTag)</code> on the <code class="highlighter-rouge">ResponseBuilder</code>. In subsequent requests, if the <code class="highlighter-rouge">EntityTag</code> matches, the the <code class="highlighter-rouge">ResponseBuilder</code> will not be null, and we create the pre-configured <code class="highlighter-rouge">ResponseBuilder</code> that is set to send a <code class="highlighter-rouge">304 Not Modified</code>.</p>
 
@@ -484,9 +477,9 @@ new data
 
 <p>Step 1 (initial GET)</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code>C:<span class="se">\&gt;</span>curl -v http://localhost:8080/api/etag
-<span class="gp">&gt; </span>GET /api/etag HTTP/1.1
-<span class="gp">&gt; </span>...
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>C:<span class="se">\&gt;</span>curl <span class="nt">-v</span> http://localhost:8080/api/etag
+<span class="o">&gt;</span> GET /api/etag HTTP/1.1
+<span class="o">&gt;</span> ...
 &lt; HTTP/1.1 200 OK
 &lt; Date: Sun, 18 Oct 2015 07:57:29 GMT
 &lt; ETag: <span class="s2">"30057E5031BCF44D47B005A1F1700F7B"</span>
@@ -494,44 +487,41 @@ new data
 &lt; Content-Length: 9
 &lt;
 Some Data
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Step 2 (GET with If-None-Match))</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code>C:<span class="se">\&gt;</span>curl -v http://localhost:8080/api/etag <span class="se">\</span>
-         -H <span class="s2">"If-None-Match: </span><span class="se">\"</span><span class="s2">30057E5031BCF44D47B005A1F1700F7B</span><span class="se">\"</span><span class="s2">"</span>
-<span class="gp">&gt; </span>GET /api/etag HTTP/1.1
-<span class="gp">&gt; </span>If-None-Match: <span class="s2">"30057E5031BCF44D47B005A1F1700F7B"</span>
-<span class="gp">&gt; </span>...
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>C:<span class="se">\&gt;</span>curl <span class="nt">-v</span> http://localhost:8080/api/etag <span class="se">\</span>
+         <span class="nt">-H</span> <span class="s2">"If-None-Match: </span><span class="se">\"</span><span class="s2">30057E5031BCF44D47B005A1F1700F7B</span><span class="se">\"</span><span class="s2">"</span>
+<span class="o">&gt;</span> GET /api/etag HTTP/1.1
+<span class="o">&gt;</span> If-None-Match: <span class="s2">"30057E5031BCF44D47B005A1F1700F7B"</span>
+<span class="o">&gt;</span> ...
 &lt; HTTP/1.1 304 Not Modified
 &lt; Date: Sun, 18 Oct 2015 07:58:22 GMT
 &lt; ETag: <span class="s2">"30057E5031BCF44D47B005A1F1700F7B"</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Step 3 (change data with POST)</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code>C:<span class="se">\&gt;</span>curl -v -X POST -d <span class="s2">"new data"</span> <span class="se">\</span>
-         -H <span class="s2">"Content-Type: text/plain"</span> <span class="se">\</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>C:<span class="se">\&gt;</span>curl <span class="nt">-v</span> <span class="nt">-X</span> POST <span class="nt">-d</span> <span class="s2">"new data"</span> <span class="se">\</span>
+         <span class="nt">-H</span> <span class="s2">"Content-Type: text/plain"</span> <span class="se">\</span>
          http://localhost:8080/api/etag
-<span class="gp">&gt; </span>POST /api/etag HTTP/1.1
-<span class="gp">&gt; </span>Content-Type: text/plain
-<span class="gp">&gt; </span>Content-Length: 8
-<span class="gp">&gt; </span>...
+<span class="o">&gt;</span> POST /api/etag HTTP/1.1
+<span class="o">&gt;</span> Content-Type: text/plain
+<span class="o">&gt;</span> Content-Length: 8
+<span class="o">&gt;</span> ...
 &lt; HTTP/1.1 204 No Content
 &lt; Date: Sun, 18 Oct 2015 07:58:57 GMT
 &lt; Server: Jetty<span class="o">(</span>9.2.6.v20141205<span class="o">)</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Step 4 (set GET from step 2)</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code>C:<span class="se">\&gt;</span>curl -v http://localhost:8080/api/etag 
-         -H <span class="s2">"If-None-Match: </span><span class="se">\"</span><span class="s2">30057E5031BCF44D47B005A1F1700F7B</span><span class="se">\"</span><span class="s2">"</span>
-<span class="gp">&gt; </span>GET /api/etag HTTP/1.1
-<span class="gp">&gt; </span>If-None-Match: <span class="s2">"30057E5031BCF44D47B005A1F1700F7B"</span>
-<span class="gp">&gt; </span>...
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>C:<span class="se">\&gt;</span>curl <span class="nt">-v</span> http://localhost:8080/api/etag 
+         <span class="nt">-H</span> <span class="s2">"If-None-Match: </span><span class="se">\"</span><span class="s2">30057E5031BCF44D47B005A1F1700F7B</span><span class="se">\"</span><span class="s2">"</span>
+<span class="o">&gt;</span> GET /api/etag HTTP/1.1
+<span class="o">&gt;</span> If-None-Match: <span class="s2">"30057E5031BCF44D47B005A1F1700F7B"</span>
+<span class="o">&gt;</span> ...
 &lt; HTTP/1.1 200 OK
 &lt; Date: Sun, 18 Oct 2015 07:59:01 GMT
 &lt; ETag: <span class="s2">"E83CA39A795E57283EC1D12EDA0FECD3"</span>
@@ -539,8 +529,7 @@ Some Data
 &lt; Content-Length: 8
 &lt;
 new data
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>You can see that in the 2nd step, we are not getting content back with a 304, but in the 4th request, we are getting the new data with a 200 and the new etag.</p>
 
@@ -569,11 +558,10 @@ new data
 
 <p><strong><code class="highlighter-rouge">@Cache</code></strong> - Is used as metadata for resource method or resource class. For example</p>
 
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="nd">@GET</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@GET</span>
 <span class="nd">@Cache</span><span class="o">(</span><span class="n">maxAge</span><span class="o">=</span><span class="mi">10</span><span class="o">)</span>
 <span class="kd">public</span> <span class="n">Responge</span> <span class="nf">get</span><span class="o">(){}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>The <code class="highlighter-rouge">CacheControlFilter</code> uses this meta data to send the <code class="highlighter-rouge">Cache-Control</code> header to the client</p>
 

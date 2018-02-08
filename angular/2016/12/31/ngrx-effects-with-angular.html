@@ -26,6 +26,13 @@
   <link rel="canonical" href="https://psamsotha.github.io/angular/2016/12/31/ngrx-effects-with-angular.html">
   <link rel="alternate" type="application/rss+xml" title="Paul Samsotha Blog" href="https://psamsotha.github.io/feed.xml">
 
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <script>
+    (adsbygoogle = window.adsbygoogle || []).push({
+      google_ad_client: "ca-pub-5723433679253306",
+      enable_page_level_ads: true
+    });
+  </script>
   <!-- Google Analytics -->
   
   <script>
@@ -114,7 +121,7 @@
         by<span class="post-author" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <span itemprop="name"><b>Paul Samsotha</b></span> on
         </span>
-        <time class="post-date" datetime="2016-12-31T00:00:00+07:00" itemprop="datePublished">
+        <time class="post-date" datetime="2016-12-31T00:00:00-08:00" itemprop="datePublished">
           Dec 31, 2016
         </time> 
       </h2>
@@ -157,23 +164,22 @@
 
 <p>In our simple login application, we will have only one state, which is the user state. The <code class="highlighter-rouge">UserState</code> will have the following properties</p>
 
-<div class="language-typescript highlighter-rouge"><pre class="highlight"><code><span class="k">export</span> <span class="kr">interface</span> <span class="nx">UserState</span> <span class="p">{</span>
-  <span class="nl">id</span><span class="p">:</span> <span class="kr">number</span><span class="p">;</span>
-  <span class="nl">username</span><span class="p">:</span> <span class="kr">string</span><span class="p">;</span>
-  <span class="nl">imageUrl</span><span class="p">:</span> <span class="kr">string</span><span class="p">;</span>
-  <span class="nl">status</span><span class="p">:</span> <span class="kr">string</span><span class="p">;</span>
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">export</span> <span class="kr">interface</span> <span class="nx">UserState</span> <span class="p">{</span>
+  <span class="nl">id</span><span class="p">:</span> <span class="nx">number</span><span class="p">;</span>
+  <span class="nl">username</span><span class="p">:</span> <span class="nx">string</span><span class="p">;</span>
+  <span class="nl">imageUrl</span><span class="p">:</span> <span class="nx">string</span><span class="p">;</span>
+  <span class="nl">status</span><span class="p">:</span> <span class="nx">string</span><span class="p">;</span>
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>As for the action that “describe[s] state changes” we will (for now) just have two actions, <code class="highlighter-rouge">LOAD_USER_FAILURE</code> and <code class="highlighter-rouge">LOAD_USER_SUCCESS</code>, and here is our action creator class</p>
 
-<div class="language-typescript highlighter-rouge"><pre class="highlight"><code><span class="k">export</span> <span class="kr">class</span> <span class="nx">UserActions</span> <span class="p">{</span>
-  <span class="k">static</span> <span class="k">readonly</span> <span class="nx">LOAD_USER_FAILURE</span> <span class="o">=</span> <span class="s1">'LOAD_USER_FAILURE'</span><span class="p">;</span>
-  <span class="k">static</span> <span class="k">readonly</span> <span class="nx">LOAD_USER_SUCCESS</span> <span class="o">=</span> <span class="s1">'LOAD_USER_SUCCESS'</span><span class="p">;</span>
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">export</span> <span class="kd">class</span> <span class="nx">UserActions</span> <span class="p">{</span>
+  <span class="kr">static</span> <span class="nx">readonly</span> <span class="nx">LOAD_USER_FAILURE</span> <span class="o">=</span> <span class="s1">'LOAD_USER_FAILURE'</span><span class="p">;</span>
+  <span class="kr">static</span> <span class="nx">readonly</span> <span class="nx">LOAD_USER_SUCCESS</span> <span class="o">=</span> <span class="s1">'LOAD_USER_SUCCESS'</span><span class="p">;</span>
 
 
-  <span class="nx">loadUserSuccess</span><span class="p">(</span><span class="nx">user</span><span class="err">:</span> <span class="nx">UserData</span><span class="p">)</span><span class="err">:</span> <span class="nx">Action</span> <span class="p">{</span>
+  <span class="nx">loadUserSuccess</span><span class="p">(</span><span class="nx">user</span><span class="p">:</span> <span class="nx">UserData</span><span class="p">):</span> <span class="nx">Action</span> <span class="p">{</span>
     <span class="k">return</span> <span class="p">{</span>
       <span class="na">type</span><span class="p">:</span> <span class="nx">UserActions</span><span class="p">.</span><span class="nx">LOAD_USER_SUCCESS</span><span class="p">,</span>
       <span class="na">payload</span><span class="p">:</span> <span class="p">{</span>
@@ -182,7 +188,7 @@
     <span class="p">};</span>
   <span class="p">}</span>
 
-  <span class="nx">loadUserFailure</span><span class="p">(</span><span class="na">message</span><span class="p">:</span> <span class="kr">string</span><span class="p">):</span> <span class="nx">Action</span> <span class="p">{</span>
+  <span class="nx">loadUserFailure</span><span class="p">(</span><span class="na">message</span><span class="p">:</span> <span class="nx">string</span><span class="p">):</span> <span class="nx">Action</span> <span class="p">{</span>
     <span class="k">return</span> <span class="p">{</span>
       <span class="na">type</span><span class="p">:</span> <span class="nx">UserActions</span><span class="p">.</span><span class="nx">LOAD_USER_FAILURE</span><span class="p">,</span>
       <span class="na">payload</span><span class="p">:</span> <span class="p">{</span>
@@ -191,24 +197,23 @@
     <span class="p">};</span>
   <span class="p">}</span>
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Now for the reducer</p>
 
-<div class="language-typescript highlighter-rouge"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">initialState</span><span class="err">:</span> <span class="nx">UserState</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">UserRecord</span><span class="p">()</span> <span class="k">as</span> <span class="nx">UserState</span><span class="p">;</span>
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">initialState</span><span class="p">:</span> <span class="nx">UserState</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">UserRecord</span><span class="p">()</span> <span class="k">as</span> <span class="nx">UserState</span><span class="p">;</span>
 
-<span class="k">export</span> <span class="kd">const</span> <span class="nx">userReducer</span><span class="err">:</span> <span class="nx">ActionReducer</span><span class="o">&lt;</span><span class="nx">UserState</span><span class="o">&gt;</span>
-    <span class="o">=</span> <span class="p">(</span><span class="nx">state</span> <span class="o">=</span> <span class="nx">initialState</span><span class="p">,</span> <span class="p">{</span><span class="kd">type</span><span class="p">,</span> <span class="nx">payload</span><span class="p">}</span><span class="err">:</span> <span class="nx">Action</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
-  <span class="k">switch</span> <span class="p">(</span><span class="kd">type</span><span class="p">)</span> <span class="p">{</span>
+<span class="k">export</span> <span class="kd">const</span> <span class="nx">userReducer</span><span class="p">:</span> <span class="nx">ActionReducer</span><span class="o">&lt;</span><span class="nx">UserState</span><span class="o">&gt;</span>
+    <span class="o">=</span> <span class="p">(</span><span class="nx">state</span> <span class="o">=</span> <span class="nx">initialState</span><span class="p">,</span> <span class="p">{</span><span class="nx">type</span><span class="p">,</span> <span class="nx">payload</span><span class="p">}:</span> <span class="nx">Action</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="k">switch</span> <span class="p">(</span><span class="nx">type</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">case</span> <span class="nx">UserActions</span><span class="p">.</span><span class="na">LOAD_USER_SUCCESS</span><span class="p">:</span>
       <span class="kd">const</span> <span class="p">{</span> <span class="nx">user</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">payload</span><span class="p">;</span>
       <span class="k">return</span> <span class="nx">state</span><span class="p">.</span><span class="nx">withMutations</span><span class="p">(</span><span class="nx">currentUser</span> <span class="o">=&gt;</span> <span class="p">{</span>
         <span class="nx">currentUser</span>
-          <span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s1">'id'</span><span class="p">,</span> <span class="nx">user</span><span class="p">.</span><span class="nx">id</span><span class="p">)</span>
-          <span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s1">'username'</span><span class="p">,</span> <span class="nx">user</span><span class="p">.</span><span class="nx">username</span><span class="p">)</span>
-          <span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s1">'imageUrl'</span><span class="p">,</span> <span class="nx">user</span><span class="p">.</span><span class="nx">imageUrl</span><span class="p">)</span>
-          <span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s1">'status'</span><span class="p">,</span> <span class="nx">USER_LOGGED_IN</span><span class="p">);</span>
+          <span class="p">.</span><span class="kd">set</span><span class="p">(</span><span class="s1">'id'</span><span class="p">,</span> <span class="nx">user</span><span class="p">.</span><span class="nx">id</span><span class="p">)</span>
+          <span class="p">.</span><span class="kd">set</span><span class="p">(</span><span class="s1">'username'</span><span class="p">,</span> <span class="nx">user</span><span class="p">.</span><span class="nx">username</span><span class="p">)</span>
+          <span class="p">.</span><span class="kd">set</span><span class="p">(</span><span class="s1">'imageUrl'</span><span class="p">,</span> <span class="nx">user</span><span class="p">.</span><span class="nx">imageUrl</span><span class="p">)</span>
+          <span class="p">.</span><span class="kd">set</span><span class="p">(</span><span class="s1">'status'</span><span class="p">,</span> <span class="nx">USER_LOGGED_IN</span><span class="p">);</span>
       <span class="p">});</span>
     <span class="k">case</span> <span class="nx">UserActions</span><span class="p">.</span><span class="na">LOAD_USER_FAILURE</span><span class="p">:</span>
       <span class="k">return</span> <span class="nx">initialState</span><span class="p">;</span>
@@ -217,8 +222,7 @@
       <span class="k">return</span> <span class="nx">state</span><span class="p">;</span>
   <span class="p">}</span>
 <span class="p">};</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Note that the previous two snippets are not consistent. The previous <code class="highlighter-rouge">UserState</code> interface was just an example to show the <code class="highlighter-rouge">UserState</code> properties. If you are trying to follow along at this point from the <a href="https://github.com/psamsotha/ngrx-effects-example">linked example</a>, you may be a little bit confused.</p>
 
@@ -228,40 +232,39 @@
 
 <p>Now the last point in the quoted documentation is the state access through <code class="highlighter-rouge">Store</code>. For that, we will simply subscribe to the <code class="highlighter-rouge">user</code> state in the <code class="highlighter-rouge">AppComponent</code></p>
 
-<div class="language-typescript highlighter-rouge"><pre class="highlight"><code><span class="err">@</span><span class="nx">Component</span><span class="p">({</span>
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">@</span><span class="nd">Component</span><span class="p">({</span>
   <span class="na">selector</span><span class="p">:</span> <span class="s1">'my-app'</span><span class="p">,</span>
   <span class="na">templateUrl</span><span class="p">:</span> <span class="s1">'./app.component.html'</span>
 <span class="p">})</span>
-<span class="k">export</span> <span class="kr">class</span> <span class="nx">AppComponent</span> <span class="p">{</span>
+<span class="k">export</span> <span class="kd">class</span> <span class="nx">AppComponent</span> <span class="p">{</span>
   <span class="nl">user</span><span class="p">:</span> <span class="nx">Observable</span><span class="o">&lt;</span><span class="nx">User</span><span class="o">&gt;</span><span class="p">;</span>
 
-  <span class="kd">constructor</span><span class="p">(</span><span class="k">private</span> <span class="nx">store$</span><span class="err">:</span> <span class="nx">Store</span><span class="o">&lt;</span><span class="nx">AppState</span><span class="o">&gt;</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">constructor</span><span class="p">(</span><span class="kr">private</span> <span class="nx">store$</span><span class="p">:</span> <span class="nx">Store</span><span class="o">&lt;</span><span class="nx">AppState</span><span class="o">&gt;</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">this</span><span class="p">.</span><span class="nx">user</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">store$</span><span class="p">.</span><span class="kd">let</span><span class="p">(</span><span class="nx">getUser</span><span class="p">());</span>
   <span class="p">}</span>
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>You might be used to seeing <code class="highlighter-rouge">store$.select('user')</code>, but here, I’m using the selector pattern and just using <code class="highlighter-rouge">let</code>. The result is the same. You can find the <code class="highlighter-rouge">getUser</code> in the <code class="highlighter-rouge">user.selectors</code> file (in the example app).</p>
 
 <p>So now, we have our NgRx components in place, let’s implement the login and see how it would normally be implemented without using Effects.</p>
 
-<div class="language-typescript highlighter-rouge"><pre class="highlight"><code><span class="err">@</span><span class="nx">Component</span><span class="p">({</span>
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">@</span><span class="nd">Component</span><span class="p">({</span>
   <span class="na">selector</span><span class="p">:</span> <span class="s1">'login'</span><span class="p">,</span>
   <span class="na">templateUrl</span><span class="p">:</span> <span class="s1">'./login.component.html'</span>
 <span class="p">})</span>
-<span class="k">export</span> <span class="kr">class</span> <span class="nx">LoginComponent</span> <span class="p">{</span>
+<span class="k">export</span> <span class="kd">class</span> <span class="nx">LoginComponent</span> <span class="p">{</span>
 
-  <span class="kd">constructor</span><span class="p">(</span><span class="k">private</span> <span class="nx">store$</span><span class="err">:</span> <span class="nx">Store</span><span class="o">&lt;</span><span class="nx">AppState</span><span class="o">&gt;</span><span class="p">,</span>
-              <span class="k">private</span> <span class="nx">userActions</span><span class="err">:</span> <span class="nx">UserActions</span><span class="p">,</span>
-              <span class="k">private</span> <span class="nx">authService</span><span class="err">:</span> <span class="nx">AuthService</span><span class="p">)</span> <span class="p">{}</span>
+  <span class="kd">constructor</span><span class="p">(</span><span class="kr">private</span> <span class="nx">store$</span><span class="p">:</span> <span class="nx">Store</span><span class="o">&lt;</span><span class="nx">AppState</span><span class="o">&gt;</span><span class="p">,</span>
+              <span class="kr">private</span> <span class="nx">userActions</span><span class="p">:</span> <span class="nx">UserActions</span><span class="p">,</span>
+              <span class="kr">private</span> <span class="nx">authService</span><span class="p">:</span> <span class="nx">AuthService</span><span class="p">)</span> <span class="p">{}</span>
 
-  <span class="nx">login</span><span class="p">(</span><span class="nx">form</span><span class="err">:</span> <span class="kr">any</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">login</span><span class="p">(</span><span class="nx">form</span><span class="p">:</span> <span class="nx">any</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">this</span><span class="p">.</span><span class="nx">authService</span><span class="p">.</span><span class="nx">login</span><span class="p">({</span>
       <span class="na">username</span><span class="p">:</span> <span class="nx">form</span><span class="p">.</span><span class="nx">username</span><span class="p">,</span>
       <span class="na">password</span><span class="p">:</span> <span class="nx">form</span><span class="p">.</span><span class="nx">password</span>
     <span class="p">})</span>
-    <span class="p">.</span><span class="nx">subscribe</span><span class="p">((</span><span class="nx">res</span><span class="err">:</span> <span class="nx">LoginResponse</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="p">.</span><span class="nx">subscribe</span><span class="p">((</span><span class="nx">res</span><span class="p">:</span> <span class="nx">LoginResponse</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
       <span class="k">if</span> <span class="p">(</span><span class="nx">res</span><span class="p">.</span><span class="nx">isError</span><span class="p">)</span> <span class="p">{</span>
         <span class="k">this</span><span class="p">.</span><span class="nx">store$</span><span class="p">.</span><span class="nx">dispatch</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">userActions</span><span class="p">.</span><span class="nx">loadUserFailure</span><span class="p">(</span><span class="nx">res</span><span class="p">.</span><span class="nx">message</span><span class="p">));</span>
       <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
@@ -270,8 +273,7 @@
     <span class="p">});</span>
   <span class="p">}</span>
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>As mentioned previously, this example is not in the example application. But you can see from the example, that we just login with the <code class="highlighter-rouge">AuthService</code>, and when we get the response, we either dispatch the <code class="highlighter-rouge">LOAD_USER_FAILURE</code> action with the error message, or we dispatch the <code class="highlighter-rouge">LOAD_USER_SUCCESS</code> action with the logged in user details.</p>
 
@@ -279,51 +281,49 @@
 
 <p>When we introduce effects, what we would do is introduce a new action, that is not necessarily tied directly to any state, like in the case of the two previous user actions. The reason for this, is that the effect will subscribe to this new action, and in a way transform it. Let’s see how the new <code class="highlighter-rouge">login</code> implementation will look like</p>
 
-<div class="language-typescript highlighter-rouge"><pre class="highlight"><code><span class="k">export</span> <span class="kr">class</span> <span class="nx">LoginComponent</span> <span class="p">{</span>
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">export</span> <span class="kd">class</span> <span class="nx">LoginComponent</span> <span class="p">{</span>
 
-  <span class="kd">constructor</span><span class="p">(</span><span class="k">private</span> <span class="nx">store$</span><span class="err">:</span> <span class="nx">Store</span><span class="o">&lt;</span><span class="nx">AppState</span><span class="o">&gt;</span><span class="p">,</span>
-              <span class="k">private</span> <span class="nx">authActions</span><span class="err">:</span> <span class="nx">AuthActions</span><span class="p">)</span> <span class="p">{}</span>
+  <span class="kd">constructor</span><span class="p">(</span><span class="kr">private</span> <span class="nx">store$</span><span class="p">:</span> <span class="nx">Store</span><span class="o">&lt;</span><span class="nx">AppState</span><span class="o">&gt;</span><span class="p">,</span>
+              <span class="kr">private</span> <span class="nx">authActions</span><span class="p">:</span> <span class="nx">AuthActions</span><span class="p">)</span> <span class="p">{}</span>
 
-  <span class="nx">login</span><span class="p">(</span><span class="nx">form</span><span class="err">:</span> <span class="kr">any</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">login</span><span class="p">(</span><span class="nx">form</span><span class="p">:</span> <span class="nx">any</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">this</span><span class="p">.</span><span class="nx">store$</span><span class="p">.</span><span class="nx">dispatch</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">authActions</span><span class="p">.</span><span class="nx">login</span><span class="p">({</span>
       <span class="na">username</span><span class="p">:</span> <span class="nx">form</span><span class="p">.</span><span class="nx">username</span><span class="p">,</span>
       <span class="na">password</span><span class="p">:</span> <span class="nx">form</span><span class="p">.</span><span class="nx">password</span>
     <span class="p">}));</span>
   <span class="p">}</span>
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Here, we are introducing a new <code class="highlighter-rouge">LOGIN</code> action, that we will put in a new <code class="highlighter-rouge">AuthActions</code> class.</p>
 
-<div class="language-typescript highlighter-rouge"><pre class="highlight"><code><span class="k">export</span> <span class="kr">class</span> <span class="nx">AuthActions</span> <span class="p">{</span>
-  <span class="k">static</span> <span class="k">readonly</span> <span class="nx">LOGIN</span> <span class="o">=</span> <span class="s1">'LOGIN'</span><span class="p">;</span>
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">export</span> <span class="kd">class</span> <span class="nx">AuthActions</span> <span class="p">{</span>
+  <span class="kr">static</span> <span class="nx">readonly</span> <span class="nx">LOGIN</span> <span class="o">=</span> <span class="s1">'LOGIN'</span><span class="p">;</span>
 
-  <span class="nx">login</span><span class="p">(</span><span class="nx">credentials</span><span class="err">:</span> <span class="nx">Credentials</span><span class="p">)</span><span class="err">:</span> <span class="nx">Action</span> <span class="p">{</span>
+  <span class="nx">login</span><span class="p">(</span><span class="nx">credentials</span><span class="p">:</span> <span class="nx">Credentials</span><span class="p">):</span> <span class="nx">Action</span> <span class="p">{</span>
     <span class="k">return</span> <span class="p">{</span>
       <span class="na">type</span><span class="p">:</span> <span class="nx">AuthActions</span><span class="p">.</span><span class="nx">LOGIN</span><span class="p">,</span>
       <span class="na">payload</span><span class="p">:</span> <span class="p">{</span> <span class="nx">credentials</span> <span class="p">}</span>
     <span class="p">};</span>
   <span class="p">}</span>
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>All the <code class="highlighter-rouge">login</code> method does now is dispatch the new <code class="highlighter-rouge">LOGIN</code> action, and the effect will subscribe to it, doing most of the legwork that would normally have been handled in the <code class="highlighter-rouge">login</code> method. And here is our effects class</p>
 
-<div class="language-typescript highlighter-rouge"><pre class="highlight"><code><span class="err">@</span><span class="nx">Injectable</span><span class="p">()</span>
-<span class="k">export</span> <span class="kr">class</span> <span class="nx">AuthEffects</span> <span class="p">{</span>
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">@</span><span class="nd">Injectable</span><span class="p">()</span>
+<span class="k">export</span> <span class="kd">class</span> <span class="nx">AuthEffects</span> <span class="p">{</span>
 
-  <span class="kd">constructor</span><span class="p">(</span><span class="k">private</span> <span class="nx">authService</span><span class="err">:</span> <span class="nx">AuthService</span><span class="p">,</span>
-              <span class="k">private</span> <span class="nx">userActions</span><span class="err">:</span> <span class="nx">UserActions</span><span class="p">,</span>
-              <span class="k">private</span> <span class="nx">actions$</span><span class="err">:</span> <span class="nx">Actions</span><span class="p">)</span> <span class="p">{}</span>
+  <span class="kd">constructor</span><span class="p">(</span><span class="kr">private</span> <span class="nx">authService</span><span class="p">:</span> <span class="nx">AuthService</span><span class="p">,</span>
+              <span class="kr">private</span> <span class="nx">userActions</span><span class="p">:</span> <span class="nx">UserActions</span><span class="p">,</span>
+              <span class="kr">private</span> <span class="nx">actions$</span><span class="p">:</span> <span class="nx">Actions</span><span class="p">)</span> <span class="p">{}</span>
 
   <span class="cm">/**
     * On the LOGIN action, this effect will make a request to authenticate.
     * If not authenticated, it will emit a LOAD_USER_FAILURE action.
     * Otherwise, it will emit a LOAD_USER_SUCCESS action.
     */</span>
-  <span class="err">@</span><span class="nx">Effect</span><span class="p">()</span>
+  <span class="p">@</span><span class="nd">Effect</span><span class="p">()</span>
   <span class="nx">login$</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">actions$</span>
     <span class="p">.</span><span class="nx">ofType</span><span class="p">(</span><span class="nx">AuthActions</span><span class="p">.</span><span class="nx">LOGIN</span><span class="p">)</span>
     <span class="p">.</span><span class="nx">map</span><span class="p">(({</span><span class="nx">payload</span><span class="p">})</span> <span class="o">=&gt;</span> <span class="nx">payload</span><span class="p">.</span><span class="nx">credentials</span> <span class="k">as</span> <span class="nx">Credentials</span><span class="p">)</span>
@@ -337,8 +337,7 @@
         <span class="p">});</span>
     <span class="p">});</span>
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>The <code class="highlighter-rouge">Actions</code> class is an Effects library API. It is a stream of <em>all</em> the actions dispatched in our application. Here, our effect will subscribe to the <code class="highlighter-rouge">LOGIN</code> action. Each <code class="highlighter-rouge">LOGIN</code> action will have the credentials as the payload, and we will use <a href="http://reactivex.io/rxjs/class/es6/Observable.js~Observable.html#instance-method-switchMap"><code class="highlighter-rouge">Observable.switchMap</code></a> to make an authentication request, returning a new Observable that will either be mapped to the <code class="highlighter-rouge">LOAD_USER_SUCCESS</code> action or the <code class="highlighter-rouge">LOAD_USER_FAILED</code> action.</p>
 

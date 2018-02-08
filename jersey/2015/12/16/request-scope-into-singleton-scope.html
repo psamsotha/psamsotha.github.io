@@ -26,6 +26,13 @@
   <link rel="canonical" href="https://psamsotha.github.io/jersey/2015/12/16/request-scope-into-singleton-scope.html">
   <link rel="alternate" type="application/rss+xml" title="Paul Samsotha Blog" href="https://psamsotha.github.io/feed.xml">
 
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <script>
+    (adsbygoogle = window.adsbygoogle || []).push({
+      google_ad_client: "ca-pub-5723433679253306",
+      enable_page_level_ads: true
+    });
+  </script>
   <!-- Google Analytics -->
   
   <script>
@@ -114,7 +121,7 @@
         by<span class="post-author" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <span itemprop="name"><b>Paul Samsotha</b></span> on
         </span>
-        <time class="post-date" datetime="2015-12-16T00:00:00+07:00" itemprop="datePublished">
+        <time class="post-date" datetime="2015-12-16T00:00:00-08:00" itemprop="datePublished">
           Dec 16, 2015
         </time> 
       </h2>
@@ -126,7 +133,7 @@
 
 <p>Say for instance you have something like</p>
 
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="nd">@Provider</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Provider</span>
 <span class="kd">public</span> <span class="kd">class</span> <span class="nc">SomeFilter</span> <span class="kd">implements</span> <span class="n">ContainerRequestFilter</span> <span class="o">{</span>
     
     <span class="nd">@Inject</span>
@@ -141,14 +148,13 @@
                 <span class="o">.</span><span class="na">in</span><span class="o">(</span><span class="n">RequestScoped</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
     <span class="o">}</span>
 <span class="o">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>The problem with this is that <code class="highlighter-rouge">SomeFilter</code> is created on startup, and there is only one single instance for the entire application. So the injection fails, as it should, as there is no request and so no request to bind the request scoped service to. So the application doesn’t start.</p>
 
 <p>My normal fix would have need to inject the service as a <a href="https://docs.oracle.com/javaee/7/api/javax/inject/Provider.html"><code class="highlighter-rouge">javax.inject.Provider&lt;T&gt;</code></a> instead. This allows me to lazily retrieve the service, which will actually be a proxy.</p>
 
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="nd">@Provider</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Provider</span>
 <span class="kd">public</span> <span class="kd">class</span> <span class="nc">SomeFilter</span> <span class="kd">implements</span> <span class="n">ContainerRequestFilter</span> <span class="o">{</span>
     
     <span class="nd">@Inject</span>
@@ -159,14 +165,13 @@
           <span class="n">RequestScopedService</span> <span class="n">serivce</span> <span class="o">=</span> <span class="n">serviceProvider</span><span class="o">.</span><span class="na">get</span><span class="o">();</span>
       <span class="o">}</span>
 <span class="o">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>But I don’t like this. It may be fine for my application, but my problem actually involved creating a framework feature, where I wanted the user to be able to inject the service transparently, without the need to have to worry about scopes, <code class="highlighter-rouge">javax.inject.Provider</code>s, and such.</p>
 
 <p>Now have a look at this</p>
 
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="nd">@Provider</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Provider</span>
 <span class="kd">public</span> <span class="kd">class</span> <span class="nc">SomeFilter</span> <span class="kd">implements</span> <span class="n">ContainerRequestFilter</span> <span class="o">{</span>
     
       <span class="nd">@Context</span>
@@ -178,8 +183,7 @@
       <span class="nd">@Context</span>
       <span class="kd">private</span> <span class="n">SecurityContext</span> <span class="n">securityContext</span><span class="o">;</span>
 <span class="o">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>All three of those injected objects are inherently request scoped, but this doesn’t fail on start up. Everything works fine as expected. So how does it work? It works through the use of Java’s dynamic proxies. If you are unfamiliar with the concept, <a href="/jersey/2015/12/16/dynamic-proxies-dependency-injection.html">this article</a> should help get you up to speed.</p>
 
@@ -187,7 +191,7 @@
 
 <p>In order for the framework to inject a proxy, we need to make sure the type is proxiable. With HK2, this is simple. We do not need to create our own proxy or create an <code class="highlighter-rouge">InvocationHandler</code>s. It is simply a matter of making a one or to chained method calls in our binding of the <code class="highlighter-rouge">RequestScopedService</code></p>
 
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="nd">@Override</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Override</span>
 <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">configure</span><span class="o">()</span> <span class="o">{</span>
     <span class="n">bindFactory</span><span class="o">(</span><span class="n">RequestScopedServiceFactory</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
             <span class="o">.</span><span class="na">proxy</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span>
@@ -195,8 +199,7 @@
             <span class="o">.</span><span class="na">to</span><span class="o">(</span><span class="n">RequestScopedService</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
             <span class="o">.</span><span class="na">in</span><span class="o">(</span><span class="n">RequestScoped</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
 <span class="o">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>The <code class="highlighter-rouge">proxy</code> method makes the object proxiable. That is the least we need to make this work. With just that one method call, we get dynamic proxies for free, and the injection should now work. The second call to <code class="highlighter-rouge">proxyForSameScope</code> is set to false. This means that if an object, say a resource object is in the same request scope, the actual instance should be injected instead of the proxy. This is actually how the three objects injected above works also. You will see that in a request scope, they are the actual objects, but in singletons, they are proxies.</p>
 
@@ -208,27 +211,25 @@
 
 <p>One thing I discovered while testing things out is that when using <code class="highlighter-rouge">@Singleton</code> on a resource class, you would expect the request scoped injection (without proxying) to fail on start up, as it would trying to inject into the filter</p>
 
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="nd">@Singleton</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Singleton</span>
 <span class="nd">@Path</span><span class="o">(</span><span class="s">"resource"</span><span class="o">)</span>
 <span class="kd">public</span> <span class="kd">class</span> <span class="nc">SingletonResource</span> <span class="o">{</span>
 
     <span class="nd">@Inject</span>
     <span class="kd">private</span> <span class="n">RequestScopedService</span> <span class="n">service</span><span class="o">;</span>
 <span class="o">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>But surprisingly, this does not fail. But what’s worse is that it is injected only once. What you were expecting to change per request will stay the same. The reason is that <code class="highlighter-rouge">@Singleton</code> resources are not created until the first request. So there actually is a request scope during injection. So any request sensitive information is injected with the service only once. Now all subsequent request will see all the first request’s context sensitive information.</p>
 
 <p>Yes, I think this is a huge bug. I will probably file JIRA issue. But in the mean time, I strongly suggest staying away from the <code class="highlighter-rouge">@Singleton</code> annotation. If you want a singleton, just register the instance in your <code class="highlighter-rouge">ResourceConfig</code></p>
 
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">AppConfig</span> <span class="kd">extends</span> <span class="n">ResourceConfig</span> <span class="o">{</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">AppConfig</span> <span class="kd">extends</span> <span class="n">ResourceConfig</span> <span class="o">{</span>
     <span class="kd">public</span> <span class="nf">AppConfig</span><span class="o">()</span> <span class="o">{</span>
         <span class="n">register</span><span class="o">(</span><span class="k">new</span> <span class="n">SingletonResource</span><span class="o">());</span>
     <span class="o">}</span>
 <span class="o">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>On start up, Jersey will try to inject the resource, and will fail as expected, as there is not request scope.</p>
 
