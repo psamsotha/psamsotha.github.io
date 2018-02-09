@@ -73,7 +73,7 @@ code {
   font-size: 15px;
   border: 1px solid $gray-lighter;
   border-radius: 3px;
-  background-color: #eef;
+  background-color: lighten($gray-lightest, 5%);
 }
 
 code {

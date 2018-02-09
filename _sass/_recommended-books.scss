@@ -1,0 +1,24 @@
+.recommended-books {
+  .book {
+    margin: 16px;
+    padding-left: 16px;
+    padding-right: 16px;
+    border: 1px solid $gray;
+    display: inline-block;
+  }
+
+  .books {
+    text-align: center;
+  }
+
+  @media only screen and (min-width: $breakpoint-xs) {
+    .books {
+      display: flex;
+      justify-content: center;
+    }
+
+    .book {
+      display: block;
+    }
+  }
+}
