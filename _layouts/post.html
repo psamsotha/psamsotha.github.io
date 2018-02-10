@@ -24,7 +24,6 @@ layout: default
   {% include ads/post-top-banner.html %}
 
   <article class="post-content">
-  
 
     {{ content }}
 
@@ -50,7 +49,10 @@ layout: default
 
     <script id="dsq-count-scr" src="//peeskillet-io.disqus.com/count.js" async></script>
 
-  </article>
+    <div class="post-sidebar">
+      {% include ads/post-sidebar.html %}
+    </div>
 
+  </article>
 
 </section>

@@ -85,6 +85,10 @@
     }
   }
 
+  .post-sidebar {
+    display: none;
+  }
+
   p {
     margin-bottom: 1em;
   }
@@ -190,7 +194,27 @@
 
     h2 {
       font-size: 1.9rem;
-    }
+    } 
   }
+}
+
+/* diplay sidebar with ads */
+@media only screen and (min-width: $breakpoint-xxl) {
+  .post-content {
+    width: 728px;
+    position: relative;
+    padding: 1rem;
+    padding: 1rem;
+  }
+ 
+  .post-sidebar {
+     display: block !important;
+     width: 300px;
+     right: -300px;
+     position: absolute;
+     top: 1rem;
+     z-index: 1;
+     height: 100%;
+   }
 }
 
