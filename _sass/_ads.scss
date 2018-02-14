@@ -13,10 +13,13 @@
 .ad-sidebar {
   display: none;
 
+  .ad {
+    display: none;
+  }
+
   @media only screen and (min-width: $breakpoint-xxl) {
-    .ad-sidebar {
-      display: block;
-    }
+    display: block;
+
     .ad {
       width: 300px;
       height: 250px;
