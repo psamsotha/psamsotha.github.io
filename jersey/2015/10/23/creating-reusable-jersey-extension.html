@@ -146,6 +146,14 @@
 
     <p>When developing in Jersey, you may find yourself reusing some components for different projects, or you would like to share your components with the world to use. In either case, it is likely the components will need to be configured to suit the user’s needs. In this article I will show a pattern of how to create these reusable components and to package them up into easily usable and configurable features.</p>
 
+<div class="in-article-ad">
+  <script async="" src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <ins class="adsbygoogle" style="display:block; text-align:center;" data-ad-layout="in-article" data-ad-format="fluid" data-ad-client="ca-pub-5723433679253306" data-ad-slot="5406098871"></ins>
+  <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+</div>
+
 <p>The pattern I will be describing is the pattern used by most of the features in Jersey. For example, you might find yourself doing this</p>
 
 <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">register</span><span class="o">(</span><span class="n">SomeFeature</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
@@ -299,6 +307,15 @@
 <span class="n">register</span><span class="o">(</span><span class="n">ApiKeyFeature</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
 </code></pre></div></div>
 
+<div class="in-article-banner">
+  <script async="" src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <!-- Post In Article Leaderboard 1 -->
+  <ins class="adsbygoogle" style="display:inline-block;width:728px;height:90px" data-ad-client="ca-pub-5723433679253306" data-ad-slot="7994525776"></ins>
+  <script>
+  (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+</div>
+
 <p>In this example the user is opting to change the default properties by supplying their own. Hopefully you can figure the use of the first two. The latter two are the two components implemented by the user, and provided to the feature, which overrides the default components. Then the user registers the <code class="highlighter-rouge">ApiKeyFeature</code> which we will described shortly. The thing to note is that we will have defaults for all these properties.</p>
 
 <p>Also if the user wanted to test out the feature just using the <code class="highlighter-rouge">DefaultClientStore</code>, then they would not have to configure the <code class="highlighter-rouge">ApiKeyFeature.CLIENT_STORE_CLASS</code> property. Instead they should use <code class="highlighter-rouge">ApiKeyFeature.INIT_CLIENT_DATA</code> to supply a <code class="highlighter-rouge">List&lt;ClientDetails&gt;</code> as the property value. This will be the initial data to put into the store.</p>
@@ -392,6 +409,19 @@
 
 <p>Hope you enjoyed this article and hope you start building and sharing your new features!</p>
 
+
+
+    
+<div class="ad-bottom-banner">
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+        style="display:inline-block;width:728px;height:90px"
+        data-ad-client="ca-pub-5723433679253306"
+        data-ad-slot="1966026244"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+</div>
 
 
     <div class="support-container">
@@ -551,7 +581,7 @@
 
     <div class="post-sidebar">
       <div class="ad-sidebar">
-  <div class="ad">
+  <!-- <div class="ad">
     
     <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
     <ins class="adsbygoogle"
@@ -574,7 +604,7 @@
     (adsbygoogle = window.adsbygoogle || []).push({});
     </script>
     
-  </div>
+  </div> -->
 </div>
     </div>
 

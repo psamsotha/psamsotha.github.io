@@ -6,8 +6,8 @@
 </description>
     <link>https://psamsotha.github.io/</link>
     <atom:link href="https://psamsotha.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Tue, 13 Feb 2018 23:04:57 -0800</pubDate>
-    <lastBuildDate>Tue, 13 Feb 2018 23:04:57 -0800</lastBuildDate>
+    <pubDate>Sat, 17 Feb 2018 16:21:15 -0800</pubDate>
+    <lastBuildDate>Sat, 17 Feb 2018 16:21:15 -0800</lastBuildDate>
     <generator>Jekyll v3.7.2</generator>
     
       <item>
@@ -49,6 +49,14 @@
 &lt;p&gt;To begin, please have a look at &lt;a href=&quot;https://github.com/psamsotha/angular-docs-webpack&quot;&gt;this GitHub repo&lt;/a&gt;. It is basically just the project from the &lt;a href=&quot;https://github.com/psamsotha/angular-docs-webpack&quot;&gt;Angular Webapack docs&lt;/a&gt;, with a few modifications.&lt;/p&gt;
 
 &lt;p&gt;In the project, you will see the previously mentioned file structure. You may not have this same file structure in your application (for instance you may keep all your app folders inside the app directory), but hopefully after reading this article, you will be able to figure out how to adjust configurations accordingly to fit your application structure.&lt;/p&gt;
+
+&lt;div class=&quot;in-article-ad&quot;&gt;
+  &lt;script async=&quot;&quot; src=&quot;//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js&quot;&gt;&lt;/script&gt;
+  &lt;ins class=&quot;adsbygoogle&quot; style=&quot;display:block; text-align:center;&quot; data-ad-layout=&quot;in-article&quot; data-ad-format=&quot;fluid&quot; data-ad-client=&quot;ca-pub-5723433679253306&quot; data-ad-slot=&quot;5406098871&quot;&gt;&lt;/ins&gt;
+  &lt;script&gt;
+        (adsbygoogle = window.adsbygoogle || []).push({});
+  &lt;/script&gt;
+&lt;/div&gt;
 
 &lt;p&gt;So to get this working there are two steps we need to take. First we need to make a simple modification to the TypeScript &lt;code class=&quot;highlighter-rouge&quot;&gt;tsconfig.json&lt;/code&gt; file, and second we beed to make a small modification to the Webpack &lt;code class=&quot;highlighter-rouge&quot;&gt;webpack.config.js&lt;/code&gt; file&lt;/p&gt;
 
@@ -153,6 +161,14 @@ for 1,000 products. On the client side, you want to display the products, but wi
 25 products at a time. There will be links to next pages that will display more products. It would
 be inefficient to grab all 1,000 products, especially if the user never even goes past the first page.
 This is one of the cases where pagination of data would be appropriate.&lt;/p&gt;
+
+&lt;div class=&quot;in-article-ad&quot;&gt;
+  &lt;script async=&quot;&quot; src=&quot;//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js&quot;&gt;&lt;/script&gt;
+  &lt;ins class=&quot;adsbygoogle&quot; style=&quot;display:block; text-align:center;&quot; data-ad-layout=&quot;in-article&quot; data-ad-format=&quot;fluid&quot; data-ad-client=&quot;ca-pub-5723433679253306&quot; data-ad-slot=&quot;5406098871&quot;&gt;&lt;/ins&gt;
+  &lt;script&gt;
+        (adsbygoogle = window.adsbygoogle || []).push({});
+  &lt;/script&gt;
+&lt;/div&gt;
 
 &lt;p&gt;Pagination in the context of data, is basically the process of splitting a dataset into multiple
 pages (or “block” of results), with a set size for each page. To get the next set of results, we would
@@ -283,6 +299,15 @@ order. The following is our first implementation of the resource class:&lt;/p&gt
 a &lt;code class=&quot;highlighter-rouge&quot;&gt;List&amp;lt;Sort.Order&amp;gt;&lt;/code&gt;, as that’s what the &lt;code class=&quot;highlighter-rouge&quot;&gt;Sort&lt;/code&gt; constructor takes. Remember, we are using the 
 third &lt;code class=&quot;highlighter-rouge&quot;&gt;PageRequest&lt;/code&gt; constructor that accepts a &lt;code class=&quot;highlighter-rouge&quot;&gt;Sort&lt;/code&gt; instance. Once we have the list, we create 
 the &lt;code class=&quot;highlighter-rouge&quot;&gt;PageRequest&lt;/code&gt; and pass it to the &lt;code class=&quot;highlighter-rouge&quot;&gt;findAll&lt;/code&gt; method.&lt;/p&gt;
+
+&lt;div class=&quot;in-article-banner&quot;&gt;
+  &lt;script async=&quot;&quot; src=&quot;//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js&quot;&gt;&lt;/script&gt;
+  &lt;!-- Post In Article Leaderboard 1 --&gt;
+  &lt;ins class=&quot;adsbygoogle&quot; style=&quot;display:inline-block;width:728px;height:90px&quot; data-ad-client=&quot;ca-pub-5723433679253306&quot; data-ad-slot=&quot;7994525776&quot;&gt;&lt;/ins&gt;
+  &lt;script&gt;
+  (adsbygoogle = window.adsbygoogle || []).push({});
+  &lt;/script&gt;
+&lt;/div&gt;
 
 &lt;p&gt;The result of the &lt;code class=&quot;highlighter-rouge&quot;&gt;findAll&lt;/code&gt; call, will be a &lt;code class=&quot;highlighter-rouge&quot;&gt;Page&amp;lt;Customer&amp;gt;&lt;/code&gt; instance. Here we are just getting 
 the content of the page, which is the &lt;code class=&quot;highlighter-rouge&quot;&gt;List&amp;lt;Customer&amp;gt;&lt;/code&gt;. If we wanted to create some HATEOAS links, 
@@ -429,6 +454,15 @@ with &lt;code class=&quot;highlighter-rouge&quot;&gt;@Pagination&lt;/code&gt; (w
 &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
+&lt;div class=&quot;in-article-banner&quot;&gt;
+  &lt;script async=&quot;&quot; src=&quot;//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js&quot;&gt;&lt;/script&gt;
+  &lt;!-- Post In Article Leaderboard 2 --&gt;
+  &lt;ins class=&quot;adsbygoogle&quot; style=&quot;display:inline-block;width:728px;height:90px&quot; data-ad-client=&quot;ca-pub-5723433679253306&quot; data-ad-slot=&quot;8976434956&quot;&gt;&lt;/ins&gt;
+  &lt;script&gt;
+  (adsbygoogle = window.adsbygoogle || []).push({});
+  &lt;/script&gt;
+&lt;/div&gt;
+
 &lt;p&gt;One interesting thing about &lt;code class=&quot;highlighter-rouge&quot;&gt;@QueryParam&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;@PathParam&lt;/code&gt; and other &lt;code class=&quot;highlighter-rouge&quot;&gt;@XxxParam&lt;/code&gt;, is that they can 
 also be injected into fields (instead of what you would normally see as method parameters). So here, 
 we are injecting them into this &lt;code class=&quot;highlighter-rouge&quot;&gt;Factory&lt;/code&gt; implementation. A new factory will be created for each request, 
@@ -510,6 +544,14 @@ to see if it’s the right fit for your application.&lt;/p&gt;
 &lt;blockquote&gt;
   &lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; There is a complimentary example project to go along with this article. You can clone it from &lt;a href=&quot;https://github.com/psamsotha/ngrx-effects-example&quot;&gt;GitHub&lt;/a&gt;.&lt;/p&gt;
 &lt;/blockquote&gt;
+
+&lt;div class=&quot;in-article-ad&quot;&gt;
+  &lt;script async=&quot;&quot; src=&quot;//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js&quot;&gt;&lt;/script&gt;
+  &lt;ins class=&quot;adsbygoogle&quot; style=&quot;display:block; text-align:center;&quot; data-ad-layout=&quot;in-article&quot; data-ad-format=&quot;fluid&quot; data-ad-client=&quot;ca-pub-5723433679253306&quot; data-ad-slot=&quot;5406098871&quot;&gt;&lt;/ins&gt;
+  &lt;script&gt;
+        (adsbygoogle = window.adsbygoogle || []).push({});
+  &lt;/script&gt;
+&lt;/div&gt;
 
 &lt;p&gt;Let’s first explain the problem domain. We want to create a simple login and then display the user after they have successfully logged in. The username display will first show the user as anonymous, then after login, show the user name and avatar. The result will look like the following:&lt;/p&gt;
 
@@ -597,6 +639,15 @@ to see if it’s the right fit for your application.&lt;/p&gt;
   &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
 &lt;span class=&quot;p&quot;&gt;};&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;div class=&quot;in-article-banner&quot;&gt;
+  &lt;script async=&quot;&quot; src=&quot;//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js&quot;&gt;&lt;/script&gt;
+  &lt;!-- Post In Article Leaderboard 1 --&gt;
+  &lt;ins class=&quot;adsbygoogle&quot; style=&quot;display:inline-block;width:728px;height:90px&quot; data-ad-client=&quot;ca-pub-5723433679253306&quot; data-ad-slot=&quot;7994525776&quot;&gt;&lt;/ins&gt;
+  &lt;script&gt;
+  (adsbygoogle = window.adsbygoogle || []).push({});
+  &lt;/script&gt;
+&lt;/div&gt;
 
 &lt;p&gt;Note that the previous two snippets are not consistent. The previous &lt;code class=&quot;highlighter-rouge&quot;&gt;UserState&lt;/code&gt; interface was just an example to show the &lt;code class=&quot;highlighter-rouge&quot;&gt;UserState&lt;/code&gt; properties. If you are trying to follow along at this point from the &lt;a href=&quot;https://github.com/psamsotha/ngrx-effects-example&quot;&gt;linked example&lt;/a&gt;, you may be a little bit confused.&lt;/p&gt;
 
@@ -790,6 +841,14 @@ to see if it’s the right fit for your application.&lt;/p&gt;
   &lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;#summary&quot;&gt;Summary&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
+
+&lt;div class=&quot;in-article-ad&quot;&gt;
+  &lt;script async=&quot;&quot; src=&quot;//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js&quot;&gt;&lt;/script&gt;
+  &lt;ins class=&quot;adsbygoogle&quot; style=&quot;display:block; text-align:center;&quot; data-ad-layout=&quot;in-article&quot; data-ad-format=&quot;fluid&quot; data-ad-client=&quot;ca-pub-5723433679253306&quot; data-ad-slot=&quot;5406098871&quot;&gt;&lt;/ins&gt;
+  &lt;script&gt;
+        (adsbygoogle = window.adsbygoogle || []).push({});
+  &lt;/script&gt;
+&lt;/div&gt;
 
 &lt;p&gt;&lt;a name=&quot;karma&quot;&gt;&lt;/a&gt;&lt;/p&gt;
 
@@ -1112,6 +1171,15 @@ to see if it’s the right fit for your application.&lt;/p&gt;
 &lt;p&gt;If you want to view the Jasmine HTML report, click on the &lt;kbd&gt;Debug&lt;/kbd&gt; button in the Chrome Browser. You should see a similar result as the one earlier.&lt;/p&gt;
 
 &lt;p&gt;So that was your introduction to Karma. Next we will explore SystemJS, and then see how we would use it with Karma.&lt;/p&gt;
+
+&lt;div class=&quot;in-article-banner&quot;&gt;
+  &lt;script async=&quot;&quot; src=&quot;//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js&quot;&gt;&lt;/script&gt;
+  &lt;!-- Post In Article Leaderboard 1 --&gt;
+  &lt;ins class=&quot;adsbygoogle&quot; style=&quot;display:inline-block;width:728px;height:90px&quot; data-ad-client=&quot;ca-pub-5723433679253306&quot; data-ad-slot=&quot;7994525776&quot;&gt;&lt;/ins&gt;
+  &lt;script&gt;
+  (adsbygoogle = window.adsbygoogle || []).push({});
+  &lt;/script&gt;
+&lt;/div&gt;
 
 &lt;p&gt;&lt;a name=&quot;systemjs&quot;&gt;&lt;/a&gt;&lt;/p&gt;
 
@@ -1565,6 +1633,15 @@ http://localhost:3000/rxjs/BehaviorSubject(…)
 
 &lt;p&gt;Bet you feel pretty good about yourself right about now. Do you feel like a Guru yet? Not so fast, Grasshopper. We still need to add Angular!&lt;/p&gt;
 
+&lt;div class=&quot;in-article-banner&quot;&gt;
+  &lt;script async=&quot;&quot; src=&quot;//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js&quot;&gt;&lt;/script&gt;
+  &lt;!-- Post In Article Leaderboard 2 --&gt;
+  &lt;ins class=&quot;adsbygoogle&quot; style=&quot;display:inline-block;width:728px;height:90px&quot; data-ad-client=&quot;ca-pub-5723433679253306&quot; data-ad-slot=&quot;8976434956&quot;&gt;&lt;/ins&gt;
+  &lt;script&gt;
+  (adsbygoogle = window.adsbygoogle || []).push({});
+  &lt;/script&gt;
+&lt;/div&gt;
+
 &lt;p&gt;&lt;a name=&quot;angular&quot;&gt;&lt;/a&gt;&lt;/p&gt;
 
 &lt;h2 id=&quot;adding-angular&quot;&gt;Adding Angular&lt;/h2&gt;
@@ -1890,6 +1967,14 @@ http://localhost:3000/rxjs/BehaviorSubject(…)
   &lt;li&gt;&lt;a href=&quot;#jerseyProps&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;jersey-properties&lt;/code&gt; Module&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
+&lt;div class=&quot;in-article-ad&quot;&gt;
+  &lt;script async=&quot;&quot; src=&quot;//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js&quot;&gt;&lt;/script&gt;
+  &lt;ins class=&quot;adsbygoogle&quot; style=&quot;display:block; text-align:center;&quot; data-ad-layout=&quot;in-article&quot; data-ad-format=&quot;fluid&quot; data-ad-client=&quot;ca-pub-5723433679253306&quot; data-ad-slot=&quot;5406098871&quot;&gt;&lt;/ins&gt;
+  &lt;script&gt;
+        (adsbygoogle = window.adsbygoogle || []).push({});
+  &lt;/script&gt;
+&lt;/div&gt;
+
 &lt;p&gt;&lt;a name=&quot;native&quot;&gt;&lt;/a&gt;&lt;/p&gt;
 
 &lt;h2 id=&quot;native-capabilities&quot;&gt;Native Capabilities&lt;/h2&gt;
@@ -1933,6 +2018,15 @@ http://localhost:3000/rxjs/BehaviorSubject(…)
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;You can see a complete test case of the above example in &lt;a href=&quot;https://gist.github.com/psamsotha/1edddc6f47785ed4f3b3&quot;&gt;this GitHub Gist&lt;/a&gt;&lt;/p&gt;
+
+&lt;div class=&quot;in-article-banner&quot;&gt;
+  &lt;script async=&quot;&quot; src=&quot;//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js&quot;&gt;&lt;/script&gt;
+  &lt;!-- Post In Article Leaderboard 1 --&gt;
+  &lt;ins class=&quot;adsbygoogle&quot; style=&quot;display:inline-block;width:728px;height:90px&quot; data-ad-client=&quot;ca-pub-5723433679253306&quot; data-ad-slot=&quot;7994525776&quot;&gt;&lt;/ins&gt;
+  &lt;script&gt;
+  (adsbygoogle = window.adsbygoogle || []).push({});
+  &lt;/script&gt;
+&lt;/div&gt;
 
 &lt;p&gt;&lt;a name=&quot;customInject&quot;&gt;&lt;/a&gt;&lt;/p&gt;
 
@@ -2121,6 +2215,14 @@ constructor injection. To see a complete example that does support this, see thi
 
 &lt;p&gt;The problem with this is that &lt;code class=&quot;highlighter-rouge&quot;&gt;SomeFilter&lt;/code&gt; is created on startup, and there is only one single instance for the entire application. So the injection fails, as it should, as there is no request and so no request to bind the request scoped service to. So the application doesn’t start.&lt;/p&gt;
 
+&lt;div class=&quot;in-article-ad&quot;&gt;
+  &lt;script async=&quot;&quot; src=&quot;//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js&quot;&gt;&lt;/script&gt;
+  &lt;ins class=&quot;adsbygoogle&quot; style=&quot;display:block; text-align:center;&quot; data-ad-layout=&quot;in-article&quot; data-ad-format=&quot;fluid&quot; data-ad-client=&quot;ca-pub-5723433679253306&quot; data-ad-slot=&quot;5406098871&quot;&gt;&lt;/ins&gt;
+  &lt;script&gt;
+        (adsbygoogle = window.adsbygoogle || []).push({});
+  &lt;/script&gt;
+&lt;/div&gt;
+
 &lt;p&gt;My normal fix would have need to inject the service as a &lt;a href=&quot;https://docs.oracle.com/javaee/7/api/javax/inject/Provider.html&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;javax.inject.Provider&amp;lt;T&amp;gt;&lt;/code&gt;&lt;/a&gt; instead. This allows me to lazily retrieve the service, which will actually be a proxy.&lt;/p&gt;
 
 &lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nd&quot;&gt;@Provider&lt;/span&gt;
@@ -2235,6 +2337,14 @@ constructor injection. To see a complete example that does support this, see thi
   &lt;li&gt;&lt;a href=&quot;#summary&quot;&gt;Summary&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
+&lt;div class=&quot;in-article-ad&quot;&gt;
+  &lt;script async=&quot;&quot; src=&quot;//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js&quot;&gt;&lt;/script&gt;
+  &lt;ins class=&quot;adsbygoogle&quot; style=&quot;display:block; text-align:center;&quot; data-ad-layout=&quot;in-article&quot; data-ad-format=&quot;fluid&quot; data-ad-client=&quot;ca-pub-5723433679253306&quot; data-ad-slot=&quot;5406098871&quot;&gt;&lt;/ins&gt;
+  &lt;script&gt;
+        (adsbygoogle = window.adsbygoogle || []).push({});
+  &lt;/script&gt;
+&lt;/div&gt;
+
 &lt;p&gt;&lt;a name=&quot;proxyPattern&quot;&gt;&lt;/a&gt;&lt;/p&gt;
 
 &lt;h2 id=&quot;proxy-pattern&quot;&gt;Proxy Pattern&lt;/h2&gt;
@@ -2322,6 +2432,15 @@ constructor injection. To see a complete example that does support this, see thi
 &lt;p&gt;And that’s it. As you can see, dynamic proxies are fairly simple to implements.&lt;/p&gt;
 
 &lt;p&gt;&lt;a name=&quot;example&quot;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;div class=&quot;in-article-banner&quot;&gt;
+  &lt;script async=&quot;&quot; src=&quot;//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js&quot;&gt;&lt;/script&gt;
+  &lt;!-- Post In Article Leaderboard 1 --&gt;
+  &lt;ins class=&quot;adsbygoogle&quot; style=&quot;display:inline-block;width:728px;height:90px&quot; data-ad-client=&quot;ca-pub-5723433679253306&quot; data-ad-slot=&quot;7994525776&quot;&gt;&lt;/ins&gt;
+  &lt;script&gt;
+  (adsbygoogle = window.adsbygoogle || []).push({});
+  &lt;/script&gt;
+&lt;/div&gt;
 
 &lt;h2 id=&quot;dynamic-proxy-and-custom-injection-example&quot;&gt;Dynamic Proxy and Custom Injection Example&lt;/h2&gt;
 
@@ -2534,6 +2653,14 @@ Message: Hello Lebron
 
 &lt;p&gt;This article assumes you have &lt;em&gt;some&lt;/em&gt; working knowledge of dependency injection with Jersey, which is handle by it’s underlying DI framework &lt;a href=&quot;https://hk2.java.net/2.4.0-b07/&quot;&gt;HK2&lt;/a&gt;. if you don’t have any experience, you can still follow along, but it would probably make more sense to you if you first go through &lt;a href=&quot;https://jersey.java.net/documentation/latest/ioc.html&quot;&gt;Custom Injection and Lifecycle Management&lt;/a&gt; from the Jersey user guide.&lt;/p&gt;
 
+&lt;div class=&quot;in-article-ad&quot;&gt;
+  &lt;script async=&quot;&quot; src=&quot;//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js&quot;&gt;&lt;/script&gt;
+  &lt;ins class=&quot;adsbygoogle&quot; style=&quot;display:block; text-align:center;&quot; data-ad-layout=&quot;in-article&quot; data-ad-format=&quot;fluid&quot; data-ad-client=&quot;ca-pub-5723433679253306&quot; data-ad-slot=&quot;5406098871&quot;&gt;&lt;/ins&gt;
+  &lt;script&gt;
+        (adsbygoogle = window.adsbygoogle || []).push({});
+  &lt;/script&gt;
+&lt;/div&gt;
+
 &lt;p&gt;Let’s start off with an example. I will use the concept of a tenant in the example, but in no way does the example try to implement any multi-tenant features. When I was trying to think of an example, the first thing that came to mind was a Stack Overflow question where the poster was having trouble with method parameter injection, and the domain of the question was about multi-tenancy. So the example kind of stuck in my head.&lt;/p&gt;
 
 &lt;p&gt;The code can be found &lt;a href=&quot;https://gist.github.com/psamsotha/3f7e1a1b31e0611f37ec&quot;&gt;on GitHub as a single Gist file&lt;/a&gt;. I didn’t think it was necessary to create a complete project for this. The class is a JUnit test class using &lt;a href=&quot;https://jersey.java.net/documentation/latest/test-framework.html&quot;&gt;Jersey Test Framework&lt;/a&gt;. So just run it like any other JUnit test. There is only one Maven dependency to make it work, which is listed in the comments.&lt;/p&gt;
@@ -2711,6 +2838,15 @@ Message: Hello Lebron
 &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
+&lt;div class=&quot;in-article-banner&quot;&gt;
+  &lt;script async=&quot;&quot; src=&quot;//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js&quot;&gt;&lt;/script&gt;
+  &lt;!-- Post In Article Leaderboard 1 --&gt;
+  &lt;ins class=&quot;adsbygoogle&quot; style=&quot;display:inline-block;width:728px;height:90px&quot; data-ad-client=&quot;ca-pub-5723433679253306&quot; data-ad-slot=&quot;7994525776&quot;&gt;&lt;/ins&gt;
+  &lt;script&gt;
+  (adsbygoogle = window.adsbygoogle || []).push({});
+  &lt;/script&gt;
+&lt;/div&gt;
+
 &lt;p&gt;When you run the test you will see two things. The first is that the test assertion fails, as it expects a 200 response, but we get a 500. Second, if you look at the log (or console), you will see that we logged a &lt;code class=&quot;highlighter-rouge&quot;&gt;NullPointerException&lt;/code&gt; where we tried to call &lt;code class=&quot;highlighter-rouge&quot;&gt;tenant.name&lt;/code&gt; in the resource method. This is because the injection failed, and the &lt;code class=&quot;highlighter-rouge&quot;&gt;Tenant&lt;/code&gt; never got injected.&lt;/p&gt;
 
 &lt;p&gt;Now before we try to fix this, let’s try out something else to see a different result. First comment back out the previous &lt;code class=&quot;highlighter-rouge&quot;&gt;@Test&lt;/code&gt;. We don’t care for it right now. Also comment out the registration of the &lt;code class=&quot;highlighter-rouge&quot;&gt;WithCustomNoOther.class&lt;/code&gt;. What we will do here is use the &lt;code class=&quot;highlighter-rouge&quot;&gt;WithCustomAndEntity.class&lt;/code&gt;. We will not test it though, we will only register it.&lt;/p&gt;
@@ -2868,6 +3004,14 @@ Message: Hello Lebron
         <title>Creating Reusable Jersey Extensions (Features)</title>
         <description>&lt;p&gt;When developing in Jersey, you may find yourself reusing some components for different projects, or you would like to share your components with the world to use. In either case, it is likely the components will need to be configured to suit the user’s needs. In this article I will show a pattern of how to create these reusable components and to package them up into easily usable and configurable features.&lt;/p&gt;
 
+&lt;div class=&quot;in-article-ad&quot;&gt;
+  &lt;script async=&quot;&quot; src=&quot;//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js&quot;&gt;&lt;/script&gt;
+  &lt;ins class=&quot;adsbygoogle&quot; style=&quot;display:block; text-align:center;&quot; data-ad-layout=&quot;in-article&quot; data-ad-format=&quot;fluid&quot; data-ad-client=&quot;ca-pub-5723433679253306&quot; data-ad-slot=&quot;5406098871&quot;&gt;&lt;/ins&gt;
+  &lt;script&gt;
+        (adsbygoogle = window.adsbygoogle || []).push({});
+  &lt;/script&gt;
+&lt;/div&gt;
+
 &lt;p&gt;The pattern I will be describing is the pattern used by most of the features in Jersey. For example, you might find yourself doing this&lt;/p&gt;
 
 &lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;register&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SomeFeature&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;class&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
@@ -3021,6 +3165,15 @@ Message: Hello Lebron
 &lt;span class=&quot;n&quot;&gt;register&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ApiKeyFeature&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;class&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
+&lt;div class=&quot;in-article-banner&quot;&gt;
+  &lt;script async=&quot;&quot; src=&quot;//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js&quot;&gt;&lt;/script&gt;
+  &lt;!-- Post In Article Leaderboard 1 --&gt;
+  &lt;ins class=&quot;adsbygoogle&quot; style=&quot;display:inline-block;width:728px;height:90px&quot; data-ad-client=&quot;ca-pub-5723433679253306&quot; data-ad-slot=&quot;7994525776&quot;&gt;&lt;/ins&gt;
+  &lt;script&gt;
+  (adsbygoogle = window.adsbygoogle || []).push({});
+  &lt;/script&gt;
+&lt;/div&gt;
+
 &lt;p&gt;In this example the user is opting to change the default properties by supplying their own. Hopefully you can figure the use of the first two. The latter two are the two components implemented by the user, and provided to the feature, which overrides the default components. Then the user registers the &lt;code class=&quot;highlighter-rouge&quot;&gt;ApiKeyFeature&lt;/code&gt; which we will described shortly. The thing to note is that we will have defaults for all these properties.&lt;/p&gt;
 
 &lt;p&gt;Also if the user wanted to test out the feature just using the &lt;code class=&quot;highlighter-rouge&quot;&gt;DefaultClientStore&lt;/code&gt;, then they would not have to configure the &lt;code class=&quot;highlighter-rouge&quot;&gt;ApiKeyFeature.CLIENT_STORE_CLASS&lt;/code&gt; property. Instead they should use &lt;code class=&quot;highlighter-rouge&quot;&gt;ApiKeyFeature.INIT_CLIENT_DATA&lt;/code&gt; to supply a &lt;code class=&quot;highlighter-rouge&quot;&gt;List&amp;lt;ClientDetails&amp;gt;&lt;/code&gt; as the property value. This will be the initial data to put into the store.&lt;/p&gt;
@@ -3145,6 +3298,14 @@ Message: Hello Lebron
     &lt;/ul&gt;
   &lt;/li&gt;
 &lt;/ul&gt;
+
+&lt;div class=&quot;in-article-ad&quot;&gt;
+  &lt;script async=&quot;&quot; src=&quot;//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js&quot;&gt;&lt;/script&gt;
+  &lt;ins class=&quot;adsbygoogle&quot; style=&quot;display:block; text-align:center;&quot; data-ad-layout=&quot;in-article&quot; data-ad-format=&quot;fluid&quot; data-ad-client=&quot;ca-pub-5723433679253306&quot; data-ad-slot=&quot;5406098871&quot;&gt;&lt;/ins&gt;
+  &lt;script&gt;
+        (adsbygoogle = window.adsbygoogle || []).push({});
+  &lt;/script&gt;
+&lt;/div&gt;
 
 &lt;p&gt;&lt;a name=&quot;why&quot;&gt;&lt;/a&gt;&lt;/p&gt;
 
@@ -3277,6 +3438,15 @@ Message: Hello Lebron
   &lt;li&gt;&lt;a href=&quot;#compImpl&quot;&gt;Component Implementation&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;#runTest&quot;&gt;Running and Testing with cURL&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
+
+&lt;div class=&quot;in-article-banner&quot;&gt;
+  &lt;script async=&quot;&quot; src=&quot;//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js&quot;&gt;&lt;/script&gt;
+  &lt;!-- Post In Article Leaderboard 1 --&gt;
+  &lt;ins class=&quot;adsbygoogle&quot; style=&quot;display:inline-block;width:728px;height:90px&quot; data-ad-client=&quot;ca-pub-5723433679253306&quot; data-ad-slot=&quot;7994525776&quot;&gt;&lt;/ins&gt;
+  &lt;script&gt;
+  (adsbygoogle = window.adsbygoogle || []).push({});
+  &lt;/script&gt;
+&lt;/div&gt;
 
 &lt;p&gt;&lt;a name=&quot;mavenDeps&quot;&gt;&lt;/a&gt;&lt;/p&gt;
 
@@ -3524,6 +3694,15 @@ Message: Hello Lebron
 &lt;p&gt;We inject the &lt;code class=&quot;highlighter-rouge&quot;&gt;CustomerService&lt;/code&gt; into our resource class with the &lt;code class=&quot;highlighter-rouge&quot;&gt;@Autowired&lt;/code&gt; annotation. The interesting thing about the &lt;code class=&quot;highlighter-rouge&quot;&gt;getAllCustomers&lt;/code&gt; endpoint is that we include an optional search by first name and last name. If these filter parameters are included, we will call the custom repository’s method. If these parameters are missing, we just return all the customers.&lt;/p&gt;
 
 &lt;p&gt;In the other resource method, we implement a &lt;code class=&quot;highlighter-rouge&quot;&gt;POST&lt;/code&gt; to create a customer resource. When customer is created, it gets an id. From that id, we create the new resource URI, and pass it to the &lt;code class=&quot;highlighter-rouge&quot;&gt;created&lt;/code&gt; method, which will send a &lt;code class=&quot;highlighter-rouge&quot;&gt;201 Created&lt;/code&gt; status along with a &lt;code class=&quot;highlighter-rouge&quot;&gt;Location&lt;/code&gt; header with the new resource URI.&lt;/p&gt;
+
+&lt;div class=&quot;in-article-banner&quot;&gt;
+  &lt;script async=&quot;&quot; src=&quot;//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js&quot;&gt;&lt;/script&gt;
+  &lt;!-- Post In Article Leaderboard 2 --&gt;
+  &lt;ins class=&quot;adsbygoogle&quot; style=&quot;display:inline-block;width:728px;height:90px&quot; data-ad-client=&quot;ca-pub-5723433679253306&quot; data-ad-slot=&quot;8976434956&quot;&gt;&lt;/ins&gt;
+  &lt;script&gt;
+  (adsbygoogle = window.adsbygoogle || []).push({});
+  &lt;/script&gt;
+&lt;/div&gt;
 
 &lt;p&gt;&lt;a name=&quot;runTest&quot;&gt;&lt;/a&gt;&lt;/p&gt;
 

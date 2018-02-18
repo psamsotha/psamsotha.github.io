@@ -167,6 +167,14 @@
 
 <p>The problem with this is that <code class="highlighter-rouge">SomeFilter</code> is created on startup, and there is only one single instance for the entire application. So the injection fails, as it should, as there is no request and so no request to bind the request scoped service to. So the application doesn’t start.</p>
 
+<div class="in-article-ad">
+  <script async="" src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <ins class="adsbygoogle" style="display:block; text-align:center;" data-ad-layout="in-article" data-ad-format="fluid" data-ad-client="ca-pub-5723433679253306" data-ad-slot="5406098871"></ins>
+  <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+</div>
+
 <p>My normal fix would have need to inject the service as a <a href="https://docs.oracle.com/javaee/7/api/javax/inject/Provider.html"><code class="highlighter-rouge">javax.inject.Provider&lt;T&gt;</code></a> instead. This allows me to lazily retrieve the service, which will actually be a proxy.</p>
 
 <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Provider</span>
@@ -248,6 +256,19 @@
 
 <p>On start up, Jersey will try to inject the resource, and will fail as expected, as there is not request scope.</p>
 
+
+
+    
+<div class="ad-bottom-banner">
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+        style="display:inline-block;width:728px;height:90px"
+        data-ad-client="ca-pub-5723433679253306"
+        data-ad-slot="1966026244"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+</div>
 
 
     <div class="support-container">
@@ -407,7 +428,7 @@
 
     <div class="post-sidebar">
       <div class="ad-sidebar">
-  <div class="ad">
+  <!-- <div class="ad">
     
     <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
     <ins class="adsbygoogle"
@@ -430,7 +451,7 @@
     (adsbygoogle = window.adsbygoogle || []).push({});
     </script>
     
-  </div>
+  </div> -->
 </div>
     </div>
 

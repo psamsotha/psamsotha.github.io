@@ -148,6 +148,14 @@
 
 <p>This article assumes you have <em>some</em> working knowledge of dependency injection with Jersey, which is handle by it’s underlying DI framework <a href="https://hk2.java.net/2.4.0-b07/">HK2</a>. if you don’t have any experience, you can still follow along, but it would probably make more sense to you if you first go through <a href="https://jersey.java.net/documentation/latest/ioc.html">Custom Injection and Lifecycle Management</a> from the Jersey user guide.</p>
 
+<div class="in-article-ad">
+  <script async="" src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <ins class="adsbygoogle" style="display:block; text-align:center;" data-ad-layout="in-article" data-ad-format="fluid" data-ad-client="ca-pub-5723433679253306" data-ad-slot="5406098871"></ins>
+  <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+</div>
+
 <p>Let’s start off with an example. I will use the concept of a tenant in the example, but in no way does the example try to implement any multi-tenant features. When I was trying to think of an example, the first thing that came to mind was a Stack Overflow question where the poster was having trouble with method parameter injection, and the domain of the question was about multi-tenancy. So the example kind of stuck in my head.</p>
 
 <p>The code can be found <a href="https://gist.github.com/psamsotha/3f7e1a1b31e0611f37ec">on GitHub as a single Gist file</a>. I didn’t think it was necessary to create a complete project for this. The class is a JUnit test class using <a href="https://jersey.java.net/documentation/latest/test-framework.html">Jersey Test Framework</a>. So just run it like any other JUnit test. There is only one Maven dependency to make it work, which is listed in the comments.</p>
@@ -325,6 +333,15 @@
 <span class="o">}</span>
 </code></pre></div></div>
 
+<div class="in-article-banner">
+  <script async="" src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <!-- Post In Article Leaderboard 1 -->
+  <ins class="adsbygoogle" style="display:inline-block;width:728px;height:90px" data-ad-client="ca-pub-5723433679253306" data-ad-slot="7994525776"></ins>
+  <script>
+  (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+</div>
+
 <p>When you run the test you will see two things. The first is that the test assertion fails, as it expects a 200 response, but we get a 500. Second, if you look at the log (or console), you will see that we logged a <code class="highlighter-rouge">NullPointerException</code> where we tried to call <code class="highlighter-rouge">tenant.name</code> in the resource method. This is because the injection failed, and the <code class="highlighter-rouge">Tenant</code> never got injected.</p>
 
 <p>Now before we try to fix this, let’s try out something else to see a different result. First comment back out the previous <code class="highlighter-rouge">@Test</code>. We don’t care for it right now. Also comment out the registration of the <code class="highlighter-rouge">WithCustomNoOther.class</code>. What we will do here is use the <code class="highlighter-rouge">WithCustomAndEntity.class</code>. We will not test it though, we will only register it.</p>
@@ -464,6 +481,19 @@
 
 <p>And that’s it. Hope you guys found this article informative.</p>
 
+
+
+    
+<div class="ad-bottom-banner">
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+        style="display:inline-block;width:728px;height:90px"
+        data-ad-client="ca-pub-5723433679253306"
+        data-ad-slot="1966026244"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+</div>
 
 
     <div class="support-container">
@@ -623,7 +653,7 @@
 
     <div class="post-sidebar">
       <div class="ad-sidebar">
-  <div class="ad">
+  <!-- <div class="ad">
     
     <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
     <ins class="adsbygoogle"
@@ -646,7 +676,7 @@
     (adsbygoogle = window.adsbygoogle || []).push({});
     </script>
     
-  </div>
+  </div> -->
 </div>
     </div>
 

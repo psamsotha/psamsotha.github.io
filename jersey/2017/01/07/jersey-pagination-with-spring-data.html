@@ -151,6 +151,14 @@ for 1,000 products. On the client side, you want to display the products, but wi
 be inefficient to grab all 1,000 products, especially if the user never even goes past the first page.
 This is one of the cases where pagination of data would be appropriate.</p>
 
+<div class="in-article-ad">
+  <script async="" src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <ins class="adsbygoogle" style="display:block; text-align:center;" data-ad-layout="in-article" data-ad-format="fluid" data-ad-client="ca-pub-5723433679253306" data-ad-slot="5406098871"></ins>
+  <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+</div>
+
 <p>Pagination in the context of data, is basically the process of splitting a dataset into multiple
 pages (or “block” of results), with a set size for each page. To get the next set of results, we would
 just change the “page” query parameter. Assuming you have some experience working with
@@ -280,6 +288,15 @@ order. The following is our first implementation of the resource class:</p>
 a <code class="highlighter-rouge">List&lt;Sort.Order&gt;</code>, as that’s what the <code class="highlighter-rouge">Sort</code> constructor takes. Remember, we are using the 
 third <code class="highlighter-rouge">PageRequest</code> constructor that accepts a <code class="highlighter-rouge">Sort</code> instance. Once we have the list, we create 
 the <code class="highlighter-rouge">PageRequest</code> and pass it to the <code class="highlighter-rouge">findAll</code> method.</p>
+
+<div class="in-article-banner">
+  <script async="" src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <!-- Post In Article Leaderboard 1 -->
+  <ins class="adsbygoogle" style="display:inline-block;width:728px;height:90px" data-ad-client="ca-pub-5723433679253306" data-ad-slot="7994525776"></ins>
+  <script>
+  (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+</div>
 
 <p>The result of the <code class="highlighter-rouge">findAll</code> call, will be a <code class="highlighter-rouge">Page&lt;Customer&gt;</code> instance. Here we are just getting 
 the content of the page, which is the <code class="highlighter-rouge">List&lt;Customer&gt;</code>. If we wanted to create some HATEOAS links, 
@@ -426,6 +443,15 @@ with <code class="highlighter-rouge">@Pagination</code> (which is a custom annot
 <span class="o">}</span>
 </code></pre></div></div>
 
+<div class="in-article-banner">
+  <script async="" src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <!-- Post In Article Leaderboard 2 -->
+  <ins class="adsbygoogle" style="display:inline-block;width:728px;height:90px" data-ad-client="ca-pub-5723433679253306" data-ad-slot="8976434956"></ins>
+  <script>
+  (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+</div>
+
 <p>One interesting thing about <code class="highlighter-rouge">@QueryParam</code>, <code class="highlighter-rouge">@PathParam</code> and other <code class="highlighter-rouge">@XxxParam</code>, is that they can 
 also be injected into fields (instead of what you would normally see as method parameters). So here, 
 we are injecting them into this <code class="highlighter-rouge">Factory</code> implementation. A new factory will be created for each request, 
@@ -484,6 +510,19 @@ For instance</p>
 I am not going to get into the details, but HATEOAS is definitely something to consider, and research 
 to see if it’s the right fit for your application.</p>
 
+
+
+    
+<div class="ad-bottom-banner">
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+        style="display:inline-block;width:728px;height:90px"
+        data-ad-client="ca-pub-5723433679253306"
+        data-ad-slot="1966026244"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+</div>
 
 
     <div class="support-container">
@@ -648,7 +687,7 @@ to see if it’s the right fit for your application.</p>
 
     <div class="post-sidebar">
       <div class="ad-sidebar">
-  <div class="ad">
+  <!-- <div class="ad">
     
     <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
     <ins class="adsbygoogle"
@@ -671,7 +710,7 @@ to see if it’s the right fit for your application.</p>
     (adsbygoogle = window.adsbygoogle || []).push({});
     </script>
     
-  </div>
+  </div> -->
 </div>
     </div>
 
