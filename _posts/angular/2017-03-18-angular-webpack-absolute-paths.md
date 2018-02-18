@@ -51,6 +51,10 @@ To begin, please have a look at [this GitHub repo][github-repo]. It is basically
 
 In the project, you will see the previously mentioned file structure. You may not have this same file structure in your application (for instance you may keep all your app folders inside the app directory), but hopefully after reading this article, you will be able to figure out how to adjust configurations accordingly to fit your application structure.
 
+
+{% include ads/in-article-ad.html %}
+
+
 So to get this working there are two steps we need to take. First we need to make a simple modification to the TypeScript `tsconfig.json` file, and second we beed to make a small modification to the Webpack `webpack.config.js` file
 
 ## _tsconfig.json_

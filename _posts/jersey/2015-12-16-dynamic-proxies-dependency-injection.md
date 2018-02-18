@@ -21,6 +21,9 @@ First, I will go through a quick discussion about the Proxy Pattern, then show h
 * [Summary](#summary)
 
 
+{% include ads/in-article-ad.html %}
+
+
 <a name="proxyPattern"></a>
 
 ## Proxy Pattern
@@ -121,6 +124,8 @@ And that's it. As you can see, dynamic proxies are fairly simple to implements.
 [4]: https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/InvocationHandler.html
 
 <a name="example"></a>
+
+{% include ads/post-in-article-banner-1.html %}
 
 ## Dynamic Proxy and Custom Injection Example
 

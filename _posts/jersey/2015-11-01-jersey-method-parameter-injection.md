@@ -12,6 +12,10 @@ In this article I will explain how to handle custom method parameter injection w
 
 This article assumes you have _some_ working knowledge of dependency injection with Jersey, which is handle by it's underlying DI framework [HK2][1]. if you don't have any experience, you can still follow along, but it would probably make more sense to you if you first go through [Custom Injection and Lifecycle Management][2] from the Jersey user guide.
 
+
+{% include ads/in-article-ad.html %}
+
+
 Let's start off with an example. I will use the concept of a tenant in the example, but in no way does the example try to implement any multi-tenant features. When I was trying to think of an example, the first thing that came to mind was a Stack Overflow question where the poster was having trouble with method parameter injection, and the domain of the question was about multi-tenancy. So the example kind of stuck in my head.
 
 The code can be found [on GitHub as a single Gist file][3]. I didn't think it was necessary to create a complete project for this. The class is a JUnit test class using [Jersey Test Framework][4]. So just run it like any other JUnit test. There is only one Maven dependency to make it work, which is listed in the comments.
@@ -202,6 +206,9 @@ public void should_return_tenant_with_Custom_injection() {
     assertEquals(TENANT_NAME, response.readEntity(String.class));
 }
 ```
+
+{% include ads/post-in-article-banner-1.html %}
+
 
 When you run the test you will see two things. The first is that the test assertion fails, as it expects a 200 response, but we get a 500. Second, if you look at the log (or console), you will see that we logged a `NullPointerException` where we tried to call `tenant.name` in the resource method. This is because the injection failed, and the `Tenant` never got injected.
 

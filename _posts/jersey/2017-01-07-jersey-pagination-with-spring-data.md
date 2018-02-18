@@ -17,6 +17,10 @@ for 1,000 products. On the client side, you want to display the products, but wi
 be inefficient to grab all 1,000 products, especially if the user never even goes past the first page.
 This is one of the cases where pagination of data would be appropriate.
 
+
+{% include ads/in-article-ad.html %}
+
+
 Pagination in the context of data, is basically the process of splitting a dataset into multiple
 pages (or "block" of results), with a set size for each page. To get the next set of results, we would
 just change the "page" query parameter. Assuming you have some experience working with
@@ -150,6 +154,10 @@ so we accept a `List<String>` as the parameter type. We want to turn that `List<
 a `List<Sort.Order>`, as that's what the `Sort` constructor takes. Remember, we are using the 
 third `PageRequest` constructor that accepts a `Sort` instance. Once we have the list, we create 
 the `PageRequest` and pass it to the `findAll` method.
+
+
+{% include ads/post-in-article-banner-1.html %}
+
 
 The result of the `findAll` call, will be a `Page<Customer>` instance. Here we are just getting 
 the content of the page, which is the `List<Customer>`. If we wanted to create some HATEOAS links, 
@@ -300,6 +308,9 @@ private static class PageableValueFactory
     }
 }
 ```
+
+{% include ads/post-in-article-banner-2.html %}
+
 
 One interesting thing about `@QueryParam`, `@PathParam` and other `@XxxParam`, is that they can 
 also be injected into fields (instead of what you would normally see as method parameters). So here, 

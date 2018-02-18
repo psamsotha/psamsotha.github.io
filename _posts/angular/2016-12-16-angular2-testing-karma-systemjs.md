@@ -44,6 +44,9 @@ I will begin by walking through the basics of Karma, then go through the basics 
 * [Summary](#summary)
 
 
+{% include ads/in-article-ad.html %}
+
+
 <a name="karma"></a>
 
 ## Getting Started with Karma
@@ -351,6 +354,9 @@ So that was your introduction to Karma. Next we will explore SystemJS, and then 
 [karma-connected]: https://www.dropbox.com/s/b5cpcf04e4kiwhf/karma-connected.png?dl=1
 [karma-include]: https://www.dropbox.com/s/qp9m5libzvkt67l/karma-include.png?dl=1
 [glob-pattern]: https://github.com/isaacs/node-glob
+
+
+{% include ads/post-in-article-banner-1.html %}
 
 
 <a name="systemjs"></a>
@@ -790,6 +796,9 @@ Bet you feel pretty good about yourself right about now. Do you feel like a Guru
 
 [module-docs]: https://github.com/systemjs/systemjs/blob/master/docs/es6-modules-overview.md
 [quickstart-test-shim]: https://github.com/angular/quickstart/blob/master/karma-test-shim.js
+
+
+{% include ads/post-in-article-banner-2.html %}
 
 <a name="angular"></a>
 

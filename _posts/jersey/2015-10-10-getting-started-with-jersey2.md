@@ -11,7 +11,8 @@ tags: jersey jersey-2.0
 
 This is my first blog. But I truly felt the need to write it after seeing so many people struggling just to get a Jersey application up and running.
 
-Jersey is the reference implementation for the [JAX-RS specification](https://jax-rs-spec.java.net/). Currently there are two major specification versions, 1 and 2. Jersey also currently is at a major level of 2.x. Jersey 1.x works with the JAX-RS 1.0/1.1 spec, while Jersey 2.x works with the JAX-RS 2.0 spec. These two versions are incompatible. On Stackoverflow, I often see people mixing and matching jars/dependencies, not really knowing what is required to get a Jersey app up and running. They seem to be taking different pieces of different tutorials, throwing them together, hoping that it'll stick..
+Jersey is the reference implementation for the [JAX-RS specification](https://jax-rs-spec.java.net/). Currently there are two major specification versions, 1 and 2. Jersey also currently is at a major level of 2.x. Jersey 1.x works with the JAX-RS 1.0/1.1 spec, while Jersey 2.x works with the JAX-RS 2.0 spec. These two versions are incompatible. On Stackoverflow, I often see people mixing and matching jars/dependencies, not really knowing what is required to get a Jersey app up and running. They seem to be taking different pieces of different tutorials, throwing them together, hoping that it'll stick.
+
 
 What I will do here is try and break down the basic requirements to get a Jersey 2.x (I will work with the latest version - as of this writing - 2.16) app up and running, and explain some basics of a Jersey app, as well as get into some tools I use when working with Jersey.
 
@@ -27,6 +28,9 @@ What I will do here is try and break down the basic requirements to get a Jersey
     * [Running the Application](#runApp)
 * [Adding Additional Features](#addFeatures)
     * [Adding JSON Support](#jsonSupport) 
+
+
+{% include ads/in-article-ad.html %}
 
 <a name="requirements"></a>
 
@@ -141,6 +145,10 @@ mvn archetype:generate \
 ```
 
 You should see the archetype being created. If you look at the contents, you should be able to navigate a project structure similar to the ones you see in the above images in the IDE sections.
+
+
+{% include ads/post-in-article-banner-1.html %}
+
 
 <a name="sourceCode"></a>
 
@@ -407,6 +415,10 @@ And you should see something similar to
 ![image 14][14]
 
 [14]: https://www.dropbox.com/s/8az6jqo0wqlmdwb/img14.png?dl=1
+
+
+{% include ads/post-in-article-banner-2.html %}
+
 
 <a name="addFeatures"></a>
 

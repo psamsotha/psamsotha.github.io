@@ -10,6 +10,10 @@ tags: jersey jersey-2.0
 
 When developing in Jersey, you may find yourself reusing some components for different projects, or you would like to share your components with the world to use. In either case, it is likely the components will need to be configured to suit the user's needs. In this article I will show a pattern of how to create these reusable components and to package them up into easily usable and configurable features. 
 
+
+{% include ads/in-article-ad.html %}
+
+
 The pattern I will be describing is the pattern used by most of the features in Jersey. For example, you might find yourself doing this
 
 ```java
@@ -168,6 +172,9 @@ property(ApiKeyFeature.KEY_GEN_CLASS, SomeKeyGenerator.class);
 
 register(ApiKeyFeature.class);
 ```
+
+{% include ads/post-in-article-banner-1.html %}
+
 
 In this example the user is opting to change the default properties by supplying their own. Hopefully you can figure the use of the first two. The latter two are the two components implemented by the user, and provided to the feature, which overrides the default components. Then the user registers the `ApiKeyFeature` which we will described shortly. The thing to note is that we will have defaults for all these properties.
 

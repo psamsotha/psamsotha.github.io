@@ -1,13 +1,15 @@
-.ad-top-banner {
-  display: none;
-
+.ad-top-banner,
+.ad-bottom-banner {
   @media only screen and (min-width: $breakpoint-md) {
-    display: block;
     width: 728px;
     height: 90px;
     margin: 0 auto;
     margin-top: 2em;
   }
+}
+
+.in-article-ad, .in-article-banner {
+  margin: 1.5rem 0;
 }
 
 .ad-sidebar {

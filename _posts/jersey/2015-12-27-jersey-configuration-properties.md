@@ -17,6 +17,10 @@ Often in a Jersey application, you need configuration properties that need to be
 * [Custom Injection of Properties](#customInject)
 * [`jersey-properties` Module](#jerseyProps)
 
+
+{% include ads/in-article-ad.html %}
+
+
 <a name="native"></a>
 
 ## Native Capabilities
@@ -66,6 +70,10 @@ You can see a complete test case of the above example in [this GitHub Gist][2]
 
 [1]: http://docs.oracle.com/javaee/7/api/javax/ws/rs/core/Configuration.html
 [2]: https://gist.github.com/psamsotha/1edddc6f47785ed4f3b3
+
+
+{% include ads/post-in-article-banner-1.html %}
+
 
 <a name="customInject"></a>
 

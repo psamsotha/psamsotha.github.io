@@ -34,6 +34,10 @@ public class AppBinder extends AbstractBinder {
 
 The problem with this is that `SomeFilter` is created on startup, and there is only one single instance for the entire application. So the injection fails, as it should, as there is no request and so no request to bind the request scoped service to. So the application doesn't start.
 
+
+{% include ads/in-article-ad.html %}
+
+
 My normal fix would have need to inject the service as a [`javax.inject.Provider<T>`][1] instead. This allows me to lazily retrieve the service, which will actually be a proxy.
 
 ```java

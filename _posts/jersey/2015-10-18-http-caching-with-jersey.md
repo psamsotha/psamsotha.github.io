@@ -15,7 +15,7 @@ In this article I will be talking about caching in the context of the HTTP specs
 * [Requirements](#requirements)
 * [Caching in HTTP 1.0](#http10)
     * [Expires Example](#http10example)
-* [Caching in HTTP 1.0](#http11)
+* [Caching in HTTP 1.1](#http11)
     * [Temporal Semantics](#temporal)
         * [Cache-Control example](#temporalExample)
     * [Revalidation Semantics](#revalidation)
@@ -24,6 +24,10 @@ In this article I will be talking about caching in the context of the HTTP specs
         * [Etag Revalidation](#etagRevalidation)
             * [Etag Realidation Example](#etagRevalidationExample)
 * [Keeping it DRY (don't repeat yourself)](#dry)
+
+
+{% include ads/in-article-ad.html %}
+
 
 <a name="requirements"></a>
 
@@ -187,6 +191,8 @@ This time there is no green dot, and no time elapsed for the request. This is be
 ```
 Cache-Control: no-transform, max-age=10 
 ```
+
+{% include ads/post-in-article-banner-1.html %}
 
 <a name="revalidation"></a>
 
@@ -423,6 +429,10 @@ new data
 ```
 
 You can see that in the 2nd step, we are not getting content back with a 304, but in the 4th request, we are getting the new data with a 200 and the new etag.
+
+
+{% include ads/post-in-article-banner-2.html %}
+
 
 <a name="dry"></a>
 

@@ -19,6 +19,10 @@ I've seen a few question on Stack Overflow where people are confused about the d
 	* [Component Implementation](#compImpl)
 	* [Running and Testing with cURL](#runTest)
 
+
+{% include ads/in-article-ad.html %}
+
+
 <a name="why"></a>
 
 ## WHY?
@@ -162,6 +166,10 @@ What I will cover will be as follows
 * [Basic Configuration](#config)
 * [Component Implementation](#compImpl)
 * [Running and Testing with cURL](#runTest)
+
+
+{% include ads/post-in-article-banner-1.html %}
+
 
 <a name="mavenDeps"></a>
 
@@ -420,6 +428,9 @@ public class CustomerResource {
 We inject the `CustomerService` into our resource class with the `@Autowired` annotation. The interesting thing about the `getAllCustomers` endpoint is that we include an optional search by first name and last name. If these filter parameters are included, we will call the custom repository's method. If these parameters are missing, we just return all the customers.
 
 In the other resource method, we implement a `POST` to create a customer resource. When customer is created, it gets an id. From that id, we create the new resource URI, and pass it to the `created` method, which will send a `201 Created` status along with a `Location` header with the new resource URI.
+
+
+{% include ads/post-in-article-banner-2.html %}
 
 <a name="runTest"></a>
 

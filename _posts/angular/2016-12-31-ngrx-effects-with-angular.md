@@ -14,6 +14,10 @@ In this article, I will introduce the NgRx [Effects][effects]  library, which is
 
 >**Note:** There is a complimentary example project to go along with this article. You can clone it from [GitHub][example-project].
 
+
+{% include ads/in-article-ad.html %}
+
+
 Let's first explain the problem domain. We want to create a simple login and then display the user after they have successfully logged in. The username display will first show the user as anonymous, then after login, show the user name and avatar. The result will look like the following:
 
 #### Before Login
@@ -100,6 +104,9 @@ export const userReducer: ActionReducer<UserState>
   }
 };
 ```
+
+{% include ads/post-in-article-banner-1.html %}
+
 
 Note that the previous two snippets are not consistent. The previous `UserState` interface was just an example to show the `UserState` properties. If you are trying to follow along at this point from the [linked example][example-project], you may be a little bit confused.
 
