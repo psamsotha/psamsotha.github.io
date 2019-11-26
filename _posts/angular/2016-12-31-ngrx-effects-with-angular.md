@@ -4,7 +4,7 @@ categories: angular
 category: angular
 title: "Using Effects in an Angular 2 NgRx Application"
 description: "An introduction of how to incorporate ngrx/effects into your Angular ngrx applications."
-thumb: need-air
+thumb: paul-samsotha-need-air
 tags: angular2 ngrx ngrx-effects
 ---
 

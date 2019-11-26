@@ -4,7 +4,7 @@ title: "Creating Reusable Jersey Extensions (Features)"
 description: "How we can implement reusable extensions (features) when working with Jersey 2."
 categories: jersey
 category: jersey
-thumb: underground-tunnel
+thumb: paul-samsotha-underground-tunnel
 tags: jersey jersey-2.0
 ---
 

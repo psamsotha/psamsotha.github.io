@@ -5,7 +5,7 @@ description: "How dynamic proxies work in Java and how they can be used with dep
 categories: jersey
 category: jersey
 featured: true
-thumb: "donald-duck"
+thumb: "paul-samsotha-donald-duck"
 tags: java
 ---
 

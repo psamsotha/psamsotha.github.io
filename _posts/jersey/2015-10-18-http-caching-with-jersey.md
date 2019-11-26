@@ -4,7 +4,7 @@ categories: jersey
 category: jersey
 title: "HTTP Caching with Jersey (and JAX-RS)"
 description: "Learn about HTTP caching semantics and how we can implement it in Jersey (and JAX-RS)."
-thumb: chains
+thumb: paul-samsotha-chains
 tags: jersey jersey-2.0 jax-rs
 ---
 

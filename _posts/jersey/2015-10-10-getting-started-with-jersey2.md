@@ -5,7 +5,7 @@ categories: jersey
 category: jersey
 description: "Quickly create a running Jersey 2 application from scratch using a Maven archetype."
 featured: true
-thumb: train-station
+thumb: paul-samsotha-train-station
 tags: jersey jersey-2.0
 ---
 

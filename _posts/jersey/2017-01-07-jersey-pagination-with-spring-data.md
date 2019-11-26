@@ -4,7 +4,7 @@ title: "Jersey Pagination With Spring Data JPA"
 description: "How we can implement pagination and sorting using Jersey along with Spring Data JPA."
 categories: jersey
 category: jersey
-thumb: "bearded-statue"
+thumb: "paul-samsotha-bearded-statue"
 featured: true
 tags: jersey spring-data-jpa
 ---

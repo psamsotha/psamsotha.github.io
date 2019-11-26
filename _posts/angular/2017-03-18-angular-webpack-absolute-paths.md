@@ -4,7 +4,7 @@ categories: angular
 category: angular
 title: "Absolute Paths with Angular and Webpack"
 description: "How to use absolute paths when using imports in Angular and Webpack."
-thumb: snowy-under-bridge
+thumb: paul-samsotha-snowy-under-bridge
 tags: angular2 webpack
 ---
 

@@ -4,7 +4,7 @@ title: "Working with Jersey Configuration Properties"
 description: "A few different ways of how we can use configuration properties in a Jersey application."
 categories: jersey
 category: jersey
-thumb: "abandoned-chair"
+thumb: "paul-samsotha-abandoned-chair"
 featured: true
 tags: jersey jersey-2.0
 ---

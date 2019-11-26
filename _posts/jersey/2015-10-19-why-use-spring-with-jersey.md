@@ -4,7 +4,7 @@ title: "Why and How to Use Spring With Jersey?"
 description: "Some benefits of why we should use Spring with Jersey, along with some examples."
 categories: jersey
 category: jersey
-thumb: walkway-bridge
+thumb: paul-samsotha-walkway-bridge
 tags: spring jersey
 ---
 

@@ -5,7 +5,7 @@ description: "How we can inject request scoped objects into singletons when usin
 categories: jersey
 category: jersey
 featured: true
-thumb: "bus-stop"
+thumb: "paul-samsotha-bus-stop"
 tags: jersey jersey-2.0 dependency-injection hk2
 ---
 
